@@ -1,72 +1,89 @@
-import React from 'react'
-import { Tag, Input, Tooltip } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import React, {createRef} from 'react'
+import {Tag, Input, Tooltip} from 'antd'
+import {PlusOutlined} from '@ant-design/icons'
 
 
-class EditableTagGroup extends React.Component {
+interface EditableTagGroupProps {
+
+}
+
+interface EditableTagGroupState {
+  tags: string[];
+  inputVisible: boolean
+  inputValue: string
+  editInputIndex: number
+  editInputValue: string
+}
+
+
+class EditableTagGroup extends React.Component<EditableTagGroupProps,EditableTagGroupState> {
   state = {
     tags: ['Unremovable', 'Tag 2', 'Tag 3'],
     inputVisible: false,
     inputValue: '',
     editInputIndex: -1,
     editInputValue: '',
-  };
+  }
+
+  input = createRef()
+  editInput = createRef()
+
 
   handleClose = removedTag => {
-    const tags = this.state.tags.filter(tag => tag !== removedTag);
-    console.log(tags);
-    this.setState({ tags });
-  };
+    const tags = this.state.tags.filter(tag => tag !== removedTag)
+    console.log(tags)
+    this.setState({tags})
+  }
 
   showInput = () => {
-    this.setState({ inputVisible: true }, () => this.input.focus());
-  };
+    this.setState({inputVisible: true}, () => (this.input.current as HTMLInputElement).focus())
+  }
 
   handleInputChange = e => {
-    this.setState({ inputValue: e.target.value });
-  };
+    this.setState({inputValue: e.target.value})
+  }
 
   handleInputConfirm = () => {
-    const { inputValue } = this.state;
-    let { tags } = this.state;
+    const {inputValue} = this.state
+    let {tags} = this.state
     if (inputValue && tags.indexOf(inputValue) === -1) {
-      tags = [...tags, inputValue];
+      tags = [...tags, inputValue]
     }
-    console.log(tags);
+    console.log(tags)
     this.setState({
       tags,
       inputVisible: false,
       inputValue: '',
-    });
-  };
+    })
+  }
 
   handleEditInputChange = e => {
-    this.setState({ editInputValue: e.target.value });
-  };
+    this.setState({editInputValue: e.target.value})
+  }
 
   handleEditInputConfirm = () => {
-    this.setState(({ tags, editInputIndex, editInputValue }) => {
-      const newTags = [...tags];
-      newTags[editInputIndex] = editInputValue;
+    this.setState(({tags, editInputIndex, editInputValue}) => {
+      const newTags = [...tags]
+      newTags[editInputIndex] = editInputValue
 
       return {
         tags: newTags,
         editInputIndex: -1,
         editInputValue: '',
-      };
-    });
-  };
+      }
+    })
+  }
 
   saveInputRef = input => {
-    this.input = input;
-  };
+    this.input = input
+  }
 
   saveEditInputRef = input => {
-    this.editInput = input;
-  };
+    this.editInput = input
+  }
 
   render() {
-    const { tags, inputVisible, inputValue, editInputIndex, editInputValue } = this.state;
+    const {tags, inputVisible, inputValue, editInputIndex, editInputValue} = this.state
     return (
       <>
         {tags.map((tag, index) => {
@@ -82,10 +99,10 @@ class EditableTagGroup extends React.Component {
                 onBlur={this.handleEditInputConfirm}
                 onPressEnter={this.handleEditInputConfirm}
               />
-            );
+            )
           }
 
-          const isLongTag = tag.length > 20;
+          const isLongTag = tag.length > 20
 
           const tagElem = (
             <Tag
@@ -97,24 +114,24 @@ class EditableTagGroup extends React.Component {
               <span
                 onDoubleClick={e => {
                   if (index !== 0) {
-                    this.setState({ editInputIndex: index, editInputValue: tag }, () => {
-                      this.editInput.focus();
-                    });
-                    e.preventDefault();
+                    this.setState({editInputIndex: index, editInputValue: tag}, () => {
+                      (this.editInput.current as HTMLInputElement).focus()
+                    })
+                    e.preventDefault()
                   }
                 }}
               >
                 {isLongTag ? `${tag.slice(0, 20)}...` : tag}
               </span>
             </Tag>
-          );
+          )
           return isLongTag ? (
             <Tooltip title={tag} key={tag}>
               {tagElem}
             </Tooltip>
           ) : (
             tagElem
-          );
+          )
         })}
         {inputVisible && (
           <Input
@@ -130,11 +147,11 @@ class EditableTagGroup extends React.Component {
         )}
         {!inputVisible && (
           <Tag className="site-tag-plus" onClick={this.showInput}>
-            <PlusOutlined /> New Tag
+            <PlusOutlined/> New Tag
           </Tag>
         )}
       </>
-    );
+    )
   }
 }
 
