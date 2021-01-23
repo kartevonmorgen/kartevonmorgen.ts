@@ -5,8 +5,8 @@ import 'leaflet/dist/leaflet.css'
 
 
 const icon = new Icon({
-  iconUrl: '/customizations/kvm/icons/initiative-plain.png',
-  iconRetinaUrl: '/customizations/kvm/icons/initiative-plain-2x.png',
+  iconUrl: '/projects/kvm/icons/initiative-plain.png',
+  iconRetinaUrl: '/projects/kvm/icons/initiative-plain-2x.png',
 });
 
 
