@@ -32,7 +32,7 @@ const MapPage = () => {
         collapsible
         collapsed={isSideBarCollapsed}
         onCollapse={toggleIsSideBarCollapsed}
-        width={400}
+        width="68vh"
       >
         <Complete/>
         <TypeChooser/>
