@@ -22,7 +22,6 @@ class TypeChooser extends Component {
     const { selectedTags } = this.state;
     return (
       <>
-        <span style={{ marginRight: 8 }}>Categories:</span>
         {tagsData.map(tag => (
           <CheckableTag
             key={tag}

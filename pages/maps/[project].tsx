@@ -8,9 +8,11 @@ const {Content, Sider} = Layout
 const {Search} = Input
 const {Panel} = Collapse
 
-import {MenuFoldOutlined, PlusCircleOutlined} from '@ant-design/icons'
+import {MenuFoldOutlined, PlusCircleOutlined, FilterOutlined} from '@ant-design/icons'
 
 import ResultList from '../../components/ResultList'
+import TypeChooser from '../../components/TypeChooser'
+import SearchTags from '../../components/SearchTags'
 
 
 const MapPage = () => {
@@ -52,15 +54,15 @@ const MapPage = () => {
               alignItems: 'center'
             }}
           >
-            <Button shape="round" icon={<MenuFoldOutlined/>} size="middle"/>
-            <Button shape="round" icon={<PlusCircleOutlined/>} size="middle"/>
+            <Button shape="round" icon={<MenuFoldOutlined/>} size="small"/>
+            <Button shape="round" icon={<PlusCircleOutlined/>} size="small"/>
           </div>
 
+          {/*todo: make the search component a separate component to prevent unnecessary renders*/}
           <Search
             placeholder="input search text"
             allowClear
             enterButton
-            size="large"
             onSearch={() => {
             }}
           />
@@ -73,13 +75,35 @@ const MapPage = () => {
             ghost
           >
             <Panel
-              header={<span style={{float: 'right'}}>Filters</span>}
+              header={
+                <Button
+                  type="primary"
+                  icon={
+                    <FilterOutlined/>
+                  }
+                  size="small"
+                  style={{
+                    width: "100%",
+                    marginBottom: 8
+                  }}
+                >
+                  Filters
+                </Button>
+              }
               key="1"
             >
-              <p>asdkfjhskjdhfkjshfdiuwer</p>
+              <Space
+                size="small"
+                direction="vertical"
+                style={{width: '100%'}}
+              >
+                <TypeChooser/>
+                <SearchTags/>
+              </Space>
             </Panel>
           </Collapse>
 
+          {/*todo: make the height dynamic*/}
           <div
             style={{
               height: 'calc(100vh - 85px)',
