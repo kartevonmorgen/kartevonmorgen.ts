@@ -2,12 +2,13 @@ import {useMemo} from 'react'
 import dynamic from 'next/dynamic'
 import {useToggle} from 'ahooks'
 
-import {Layout, Space, Button, Input} from 'antd'
+import {Layout, Space, Button, Input, Collapse} from 'antd'
 
 const {Content, Sider} = Layout
 const {Search} = Input
+const {Panel} = Collapse
 
-import {MenuFoldOutlined, PlusCircleOutlined, FilterOutlined} from '@ant-design/icons'
+import {MenuFoldOutlined, PlusCircleOutlined} from '@ant-design/icons'
 
 import ResultList from '../../components/ResultList'
 
@@ -60,15 +61,25 @@ const MapPage = () => {
             allowClear
             enterButton
             size="large"
-            onSearch={() => {}}
+            onSearch={() => {
+            }}
           />
 
-          {/*make the calculation dynamic*/}
-          <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-            <Button shape="round" type="primary" icon={<FilterOutlined />} size="small">
-              Search Filters
-            </Button>
-          </div>
+          <Collapse
+            className="no-pad-collapse"
+            defaultActiveKey={['1']}
+            expandIcon={(_) => null}
+            expandIconPosition="right"
+            ghost
+          >
+            <Panel
+              header={<span style={{float: 'right'}}>Filters</span>}
+              key="1"
+            >
+              <p>asdkfjhskjdhfkjshfdiuwer</p>
+            </Panel>
+          </Collapse>
+
           <div
             style={{
               height: 'calc(100vh - 85px)',
