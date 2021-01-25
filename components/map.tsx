@@ -1,5 +1,5 @@
 import {Icon} from 'leaflet'
-import {MapContainer, Marker, Popup, TileLayer} from 'react-leaflet'
+import {MapContainer, Marker, Popup, TileLayer, ZoomControl} from 'react-leaflet'
 
 import 'leaflet/dist/leaflet.css'
 
@@ -18,11 +18,13 @@ const Map = () => {
         zoom={13}
         scrollWheelZoom={true}
         style={{height: '100%', width: '100%'}}
+        zoomControl={false}
       >
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        <ZoomControl position="bottomright"/>
         <Marker
           position={[51.505, -0.09]}
           icon={icon}

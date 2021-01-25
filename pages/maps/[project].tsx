@@ -2,13 +2,13 @@ import {useMemo} from 'react'
 import dynamic from 'next/dynamic'
 import {useToggle} from 'ahooks'
 
-import {Layout} from 'antd'
+import {Layout, Space, Button, Input} from 'antd'
 
 const {Content, Sider} = Layout
+const {Search} = Input
 
-import Complete from '../../components/AutoComplete'
-import TypeChooser from '../../components/TypeChooser'
-import SearchTags from '../../components/SearchTags'
+import {MenuFoldOutlined, PlusCircleOutlined, FilterOutlined} from '@ant-design/icons'
+
 import ResultList from '../../components/ResultList'
 
 
@@ -33,15 +33,51 @@ const MapPage = () => {
         collapsed={isSideBarCollapsed}
         onCollapse={toggleIsSideBarCollapsed}
         width="68vh"
+        trigger={null}
+        style={{
+          padding: 4
+        }}
       >
-        <Complete/>
-        <TypeChooser/>
-        <SearchTags/>
-        <div
-          style={{height: '60vh'}}
+        <Space
+          size="small"
+          direction="vertical"
+          style={{width: '100%'}}
         >
-          <ResultList/>
-        </div>
+          {/*todo: create a background of dark with bottom shadow*/}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}
+          >
+            <Button shape="round" icon={<MenuFoldOutlined/>} size="middle"/>
+            <Button shape="round" icon={<PlusCircleOutlined/>} size="middle"/>
+          </div>
+
+          <Search
+            placeholder="input search text"
+            allowClear
+            enterButton
+            size="large"
+            onSearch={() => {}}
+          />
+
+          {/*make the calculation dynamic*/}
+          <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+            <Button shape="round" type="primary" icon={<FilterOutlined />} size="small">
+              Search Filters
+            </Button>
+          </div>
+          <div
+            style={{
+              height: 'calc(100vh - 85px)',
+              marginRight: -4
+            }}
+          >
+            <ResultList/>
+          </div>
+        </Space>
       </Sider>
       <Content>
         <Map/>
