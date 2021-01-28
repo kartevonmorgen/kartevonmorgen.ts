@@ -61,7 +61,7 @@
   dependencies:
     cross-fetch "3.0.6"
 
-"@ant-design/colors@^5.0.0":
+"@ant-design/colors@^5.0.0", "@ant-design/colors@^5.0.1":
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/@ant-design/colors/-/colors-5.0.1.tgz#09670f2f44a7473d7bc01be901c48ec10f12c7a4"
   integrity sha512-x1TUaRILaqy3zgFNo+kIqOa3eTYPt81H1/3E4dCjDP4Qvk/xaPEizLDFdRUcIx0cWwyu2LklwfyLHWpbYK8v6A==

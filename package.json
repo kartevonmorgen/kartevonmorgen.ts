@@ -8,6 +8,7 @@
     "start": "next start --hostname 0.0.0.0"
   },
   "dependencies": {
+    "@ant-design/colors": "^5.0.1",
     "@ant-design/icons": "^4.4.0",
     "ahooks": "^2.9.4",
     "antd": "^4.10.2",
