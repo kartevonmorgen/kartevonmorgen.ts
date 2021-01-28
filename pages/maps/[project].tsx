@@ -9,6 +9,7 @@ const {Search} = Input
 const {Panel} = Collapse
 
 import {MenuFoldOutlined, PlusCircleOutlined, FilterOutlined} from '@ant-design/icons'
+import {green} from '@ant-design/colors'
 
 import ResultList from '../../components/ResultList'
 import TypeChooser from '../../components/TypeChooser'
@@ -35,10 +36,11 @@ const MapPage = () => {
         collapsible
         collapsed={isSideBarCollapsed}
         onCollapse={toggleIsSideBarCollapsed}
-        width="68vh"
+        width="64vw"
         trigger={null}
         style={{
-          padding: 4
+          padding: 4,
+          height: "100vh"
         }}
       >
         <Space
@@ -54,8 +56,20 @@ const MapPage = () => {
               alignItems: 'center'
             }}
           >
-            <Button shape="round" icon={<MenuFoldOutlined/>} size="small"/>
-            <Button shape="round" icon={<PlusCircleOutlined/>} size="small"/>
+            <Button
+              shape="round"
+              icon={<MenuFoldOutlined/>}
+              size="small"
+            />
+            <Button
+              shape="round"
+              icon={<PlusCircleOutlined/>}
+              size="small"
+              style={{
+                color: green[5],
+                borderColor: green[5]
+              }}
+            />
           </div>
 
           {/*todo: make the search component a separate component to prevent unnecessary renders*/}
@@ -103,15 +117,7 @@ const MapPage = () => {
             </Panel>
           </Collapse>
 
-          {/*todo: make the height dynamic*/}
-          <div
-            style={{
-              height: 'calc(100vh - 85px)',
-              marginRight: -4
-            }}
-          >
-            <ResultList/>
-          </div>
+          <ResultList/>
         </Space>
       </Sider>
       <Content>
