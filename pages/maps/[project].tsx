@@ -1,5 +1,7 @@
-import {useMemo} from 'react'
+import {FC, useMemo} from 'react'
+// import {GetStaticPaths, GetStaticProps} from 'next'
 import dynamic from 'next/dynamic'
+// import axios from 'axios'
 import {useToggle} from 'ahooks'
 
 import {Layout, Space, Button, Input, Collapse} from 'antd'
@@ -13,10 +15,15 @@ import {green} from '@ant-design/colors'
 
 import ResultList from '../../components/ResultList'
 import TypeChooser from '../../components/TypeChooser'
-import SearchTags from '../../components/SearchTags'
+// import SearchTags from '../../components/SearchTags'
 
 
-const MapPage = () => {
+interface MapPageProps {
+  popularTags: string[]
+}
+
+
+const MapPage: FC<MapPageProps> = (props) => {
   const Map = useMemo(() => dynamic(
     () => import('../../components/map'),
     {
@@ -25,6 +32,7 @@ const MapPage = () => {
     }
   ), [])
 
+  const {popularTags} = props
   const [isSideBarCollapsed, {toggle: toggleIsSideBarCollapsed}] = useToggle()
 
   return (
@@ -40,7 +48,7 @@ const MapPage = () => {
         trigger={null}
         style={{
           padding: 4,
-          height: "100vh"
+          height: '100vh'
         }}
       >
         <Space
@@ -97,7 +105,7 @@ const MapPage = () => {
                   }
                   size="small"
                   style={{
-                    width: "100%",
+                    width: '100%',
                     marginBottom: 8
                   }}
                 >
@@ -112,7 +120,9 @@ const MapPage = () => {
                 style={{width: '100%'}}
               >
                 <TypeChooser/>
-                <SearchTags/>
+                {/*<SearchTags*/}
+                {/*  options={popularTags}*/}
+                {/*/>*/}
               </Space>
             </Panel>
           </Collapse>
@@ -126,6 +136,32 @@ const MapPage = () => {
     </Layout>
   )
 }
+
+
+// export const getStaticProps: GetStaticProps = async (ctx) => {
+//   let popularTags = []
+//   try {
+//     const response = await axios.get(`https://api.ofdb.io/v0/tags`)
+//     popularTags = response.data
+//   } catch (e) {
+//     console.error(e)
+//   }
+//
+//   return {
+//     props: {
+//       popularTags
+//     }
+//   }
+// }
+
+// export const getStaticPaths: GetStaticPaths = async (ctx) => {
+//   return {
+//     paths: [
+//       {params: {project: 'kvm'}}
+//     ],
+//     fallback: false
+//   }
+// }
 
 
 export default MapPage

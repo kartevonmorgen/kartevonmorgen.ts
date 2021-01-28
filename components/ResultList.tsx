@@ -32,7 +32,7 @@ for (let i = 0; i < 23; i++) {
 
 const renderItem = item => (
   <List.Item
-    key={item.title}
+    key={item.id}
   >
     <List.Item.Meta
       description={item.categories[0]}
