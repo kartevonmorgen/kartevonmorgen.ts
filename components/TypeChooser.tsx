@@ -4,7 +4,7 @@ import { Tag } from 'antd';
 
 const { CheckableTag } = Tag;
 
-const tagsData = ['Movies', 'Books', 'Music', 'Sports'];
+const tagsData = ['Movies', 'Books', 'Music'];
 
 class TypeChooser extends Component {
   state = {

@@ -120,9 +120,7 @@ const MapPage: FC<MapPageProps> = (props) => {
                 style={{width: '100%'}}
               >
                 <TypeChooser/>
-                {/*<SearchTags*/}
-                {/*  options={popularTags}*/}
-                {/*/>*/}
+
               </Space>
             </Panel>
           </Collapse>
