@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic'
 // import axios from 'axios'
 import {useToggle} from 'ahooks'
 
-import {Layout, Space, Button, Input, Collapse} from 'antd'
+import {Layout, Space, Button, Input, Collapse, Spin} from 'antd'
 
 const {Content, Sider} = Layout
 const {Search} = Input
@@ -27,7 +27,7 @@ const MapPage: FC<MapPageProps> = (props) => {
   const Map = useMemo(() => dynamic(
     () => import('../../components/map'),
     {
-      loading: () => <p>A map is loading</p>,
+      loading: () => <Spin />,
       ssr: false
     }
   ), [])
