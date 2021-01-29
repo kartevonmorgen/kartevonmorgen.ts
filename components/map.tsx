@@ -12,7 +12,6 @@ const icon = new Icon({
 
 const Map = () => {
   return (
-    <div id="map">
       <MapContainer
         center={[51.505, -0.09]}
         zoom={13}
@@ -36,7 +35,6 @@ const Map = () => {
           </Popup>
         </Marker>
       </MapContainer>
-    </div>
   )
 }
 

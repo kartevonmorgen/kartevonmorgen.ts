@@ -131,7 +131,9 @@ const MapPage: FC<MapPageProps> = (props) => {
         </Space>
       </Sider>
       <Content>
-        <Map/>
+        <div id="map">
+          <Map/>
+        </div>
       </Content>
     </Layout>
   )
