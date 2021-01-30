@@ -4,18 +4,17 @@ import dynamic from 'next/dynamic'
 // import axios from 'axios'
 import {useToggle} from 'ahooks'
 
-import {Layout, Space, Button, Input, Collapse, Spin} from 'antd'
+import {Layout, Space, Spin} from 'antd'
 
 const {Content, Sider} = Layout
-const {Search} = Input
-const {Panel} = Collapse
 
-import {MenuFoldOutlined, PlusCircleOutlined, FilterOutlined} from '@ant-design/icons'
-import {green} from '@ant-design/colors'
 
 import ResultList from '../../components/ResultList'
 import TypeChooser from '../../components/TypeChooser'
 // import SearchTags from '../../components/SearchTags'
+import Filters from '../../components/Filters'
+import NavSidebar from '../../components/NavSidebar'
+import SearchInput from '../../components/SearchInput'
 
 
 interface MapPageProps {
@@ -27,7 +26,7 @@ const MapPage: FC<MapPageProps> = (props) => {
   const Map = useMemo(() => dynamic(
     () => import('../../components/map'),
     {
-      loading: () => <Spin />,
+      loading: () => <Spin/>,
       ssr: false
     }
   ), [])
@@ -48,85 +47,31 @@ const MapPage: FC<MapPageProps> = (props) => {
         trigger={null}
         style={{
           padding: 4,
-          height: '100vh'
+          height: '100vh',
+          display: 'flex',
+          flexDirection: 'column'
         }}
+        className="kvm-sider"
       >
-        <Space
-          size="small"
-          direction="vertical"
-          style={{width: '100%'}}
-        >
+        {/*<Space*/}
+        {/*  size="small"*/}
+        {/*  direction="vertical"*/}
+        {/*  style={{width: '100%'}}*/}
+        {/*>*/}
           {/*todo: create a background of dark with bottom shadow*/}
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center'
-            }}
-          >
-            <Button
-              shape="round"
-              icon={<MenuFoldOutlined/>}
-              size="small"
-            />
-            <Button
-              shape="round"
-              icon={<PlusCircleOutlined/>}
-              size="small"
-              style={{
-                color: green[5],
-                borderColor: green[5]
-              }}
-            />
-          </div>
+          <NavSidebar/>
 
           {/*todo: make the search component a separate component to prevent unnecessary renders*/}
-          <Search
-            placeholder="input search text"
-            allowClear
-            enterButton
-            onSearch={() => {
-            }}
-          />
+          <SearchInput/>
 
-          <Collapse
-            className="no-pad-collapse"
-            defaultActiveKey={['1']}
-            expandIcon={(_) => null}
-            expandIconPosition="right"
-            ghost
-          >
-            <Panel
-              header={
-                <Button
-                  type="primary"
-                  icon={
-                    <FilterOutlined/>
-                  }
-                  size="small"
-                  style={{
-                    width: '100%',
-                    marginBottom: 8
-                  }}
-                >
-                  Filters
-                </Button>
-              }
-              key="1"
-            >
-              <Space
-                size="small"
-                direction="vertical"
-                style={{width: '100%'}}
-              >
-                <TypeChooser/>
+          <Filters/>
 
-              </Space>
-            </Panel>
-          </Collapse>
+          <div style={{flexGrow: 1, border: 'solid', borderColor: 'red'}}>
+            hi
+            {/*<ResultList/>*/}
+          </div>
 
-          <ResultList/>
-        </Space>
+        {/*</Space>*/}
       </Sider>
       <Content>
         <div id="map">

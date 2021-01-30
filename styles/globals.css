@@ -34,3 +34,8 @@ a {
 /*.no-pad-collapse-panel > .ant-collapse-content > .ant-collapse-content-box {*/
 /*  padding: 0;*/
 /*}*/
+
+.kvm-sider > div > div {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
