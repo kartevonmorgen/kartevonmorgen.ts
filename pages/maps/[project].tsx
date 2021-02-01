@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic'
 // import axios from 'axios'
 import {useToggle} from 'ahooks'
 
-import {Layout, Space, Spin} from 'antd'
+import {Layout, Spin} from 'antd'
 
 const {Content, Sider} = Layout
 
@@ -65,8 +65,7 @@ const MapPage: FC<MapPageProps> = (props) => {
           <Filters/>
 
           <div style={{flexGrow: 1, border: 'solid', borderColor: 'red'}}>
-            hi
-            {/*<ResultList/>*/}
+            <ResultList/>
           </div>
 
         {/*</Space>*/}

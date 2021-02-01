@@ -35,6 +35,8 @@ a {
 /*  padding: 0;*/
 /*}*/
 
+/*todo: separate each style to split files*/
+
 .kvm-sider > div > div {
   margin-top: 8px;
   margin-bottom: 8px;
