@@ -60,7 +60,7 @@ const MapPage: FC<MapPageProps> = (props) => {
 
         <Filters/>
 
-        <div style={{flexGrow: 1, border: 'solid', borderColor: 'red'}}>
+        <div style={{flexGrow: 1}}>
           <ResultList/>
         </div>
 
