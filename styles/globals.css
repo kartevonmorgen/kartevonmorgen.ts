@@ -53,3 +53,11 @@ a {
   margin-top: 8px;
   margin-bottom: 8px;
 }
+
+.ant-list > .ant-spin-nested-loading {
+  height: 100%;
+}
+
+.ant-list > .ant-spin-nested-loading > .ant-spin-container{
+  height: 100%;
+}

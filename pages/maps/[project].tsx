@@ -51,24 +51,19 @@ const MapPage: FC<MapPageProps> = (props) => {
           flexDirection: 'column'
         }}
       >
-        {/*<Space*/}
-        {/*  size="small"*/}
-        {/*  direction="vertical"*/}
-        {/*  style={{width: '100%'}}*/}
-        {/*>*/}
-          {/*todo: create a background of dark with bottom shadow*/}
-          <NavSidebar/>
 
-          {/*todo: make the search component a separate component to prevent unnecessary renders*/}
-          <SearchInput/>
+        {/*todo: create a background of dark with bottom shadow*/}
+        <NavSidebar/>
 
-          <Filters/>
+        {/*todo: make the search component a separate component to prevent unnecessary renders*/}
+        <SearchInput/>
 
-          <div style={{flexGrow: 1, border: 'solid', borderColor: 'red'}}>
-            <ResultList/>
-          </div>
+        <Filters/>
 
-        {/*</Space>*/}
+        <div style={{flexGrow: 1, border: 'solid', borderColor: 'red'}}>
+          <ResultList/>
+        </div>
+
       </Sider>
       <Content>
         <div id="map">
