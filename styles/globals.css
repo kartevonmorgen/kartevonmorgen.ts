@@ -39,3 +39,15 @@ a {
   margin-top: 8px;
   margin-bottom: 8px;
 }
+
+.ant-layout-sider-children {
+  padding: 4px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.ant-layout-sider-children > div {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}

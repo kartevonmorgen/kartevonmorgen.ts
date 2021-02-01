@@ -46,12 +46,10 @@ const MapPage: FC<MapPageProps> = (props) => {
         width="64vw"
         trigger={null}
         style={{
-          padding: 4,
           height: '100vh',
           display: 'flex',
           flexDirection: 'column'
         }}
-        className="kvm-sider"
       >
         {/*<Space*/}
         {/*  size="small"*/}
