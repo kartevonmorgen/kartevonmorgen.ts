@@ -10,8 +10,6 @@ const {Content, Sider} = Layout
 
 
 import ResultList from '../../components/ResultList'
-import TypeChooser from '../../components/TypeChooser'
-// import SearchTags from '../../components/SearchTags'
 import Filters from '../../components/Filters'
 import NavSidebar from '../../components/NavSidebar'
 import SearchInput from '../../components/SearchInput'
@@ -43,7 +41,7 @@ const MapPage: FC<MapPageProps> = (props) => {
         collapsible
         collapsed={isSideBarCollapsed}
         onCollapse={toggleIsSideBarCollapsed}
-        width="64vw"
+        width="48vw"
         trigger={null}
         style={{
           height: '100vh',
