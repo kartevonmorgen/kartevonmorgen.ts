@@ -1,5 +1,4 @@
 import {FC} from 'react'
-import PropTypes from 'prop-types'
 import {Select} from 'antd'
 
 const {Option} = Select

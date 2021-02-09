@@ -20,7 +20,7 @@ interface MapPageProps {
 }
 
 
-const MapPage: FC<MapPageProps> = (props) => {
+const MapPage: FC<MapPageProps> = (_props) => {
   const Map = useMemo(() => dynamic(
     () => import('../../components/map'),
     {
@@ -29,7 +29,7 @@ const MapPage: FC<MapPageProps> = (props) => {
     }
   ), [])
 
-  const {popularTags} = props
+  // const {popularTags} = props
   const [isSideBarCollapsed, {toggle: toggleIsSideBarCollapsed}] = useToggle()
 
   return (
