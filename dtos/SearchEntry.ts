@@ -7,8 +7,10 @@ import Tag from './Tag'
 import Ratings from './Ratings'
 
 
+export type SearchEntryID = string
+
 interface SearchEntry {
-  id: string
+  id: SearchEntryID
   status: ReviewStatus
   lat: number
   lng: number
@@ -19,5 +21,8 @@ interface SearchEntry {
   ratings: Ratings
 }
 
+export type SearchEntriesIndexer = SearchEntry & {
+  [index: string]: SearchEntryID
+}
 
 export default SearchEntry
