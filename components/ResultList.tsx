@@ -45,7 +45,11 @@ function rowRenderer({key, index, style}) {
         description={<Tag>{item.categories[0]}</Tag>}
       />
       <div>{item.description}</div>
-      <div style={{marginTop: 4}}><Space>{item.tags.map((tag: string) => <Tag>{tag}</Tag>)}</Space></div>
+      <div style={{marginTop: 4}}>
+        <Space>
+          {item.tags.map((tag: string) => <Tag key={tag}>{tag}</Tag>)}
+        </Space>
+      </div>
     </List.Item>
   )
 }
