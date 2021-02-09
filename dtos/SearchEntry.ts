@@ -22,7 +22,7 @@ interface SearchEntry {
 }
 
 export type SearchEntriesIndexer = SearchEntry & {
-  [index: string]: SearchEntryID
+  [index: string]: SearchEntry
 }
 
 export default SearchEntry

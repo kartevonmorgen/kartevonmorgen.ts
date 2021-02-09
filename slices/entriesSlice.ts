@@ -1,11 +1,22 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {SearchEntriesIndexer} from '../dtos/SearchEntry'
+import SearchEntry, {SearchEntriesIndexer} from '../dtos/SearchEntry'
 
 
 const entriesSlice = createSlice({
   name: 'entries',
   initialState: {} as SearchEntriesIndexer,
-  reducers: {}
+  reducers: {
+    setEntries: (state, action: PayloadAction<SearchEntry[]>) => {
+      state = action.payload.reduce(
+        (searchEntriesIndexer: SearchEntriesIndexer, searchEntry: SearchEntry): SearchEntriesIndexer => {
+          searchEntriesIndexer[searchEntry.id] = searchEntry
+
+          return searchEntriesIndexer
+        },
+        {} as SearchEntriesIndexer
+        ) as SearchEntriesIndexer
+    }
+  }
 })
 
 
