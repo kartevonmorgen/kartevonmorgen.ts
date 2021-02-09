@@ -1,11 +1,22 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {EventsIndexer} from '../dtos/Event'
+import Event, {EventsIndexer} from '../dtos/Event'
 
 
 const eventsSlice = createSlice({
   name: 'events',
   initialState: {} as EventsIndexer,
-  reducers: {}
+  reducers: {
+    setEvents: (state, action: PayloadAction<Event[]>) => {
+      state = action.payload.reduce(
+        (eventsIndexer: EventsIndexer, event: Event): EventsIndexer => {
+          eventsIndexer[event.id] = event
+
+          return eventsIndexer
+        },
+        {} as EventsIndexer
+      )
+    }
+  }
 })
 
 

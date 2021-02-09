@@ -29,8 +29,8 @@ interface Event {
   image_link_url: string
 }
 
-export type EventsIndexer = Event & {
-  [index: string]: EventID
+export interface EventsIndexer {
+  [index: string]: Event
 }
 
 
