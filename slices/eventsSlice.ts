@@ -20,4 +20,11 @@ const eventsSlice = createSlice({
 })
 
 
+export const {
+  setEvents
+} = eventsSlice.actions
+
+
+export const {actions} = eventsSlice
+
 export default eventsSlice.reducer

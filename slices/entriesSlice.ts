@@ -20,4 +20,10 @@ const entriesSlice = createSlice({
 })
 
 
+export const {
+  setEntries
+} = entriesSlice.actions
+
+export const {actions} = entriesSlice
+
 export default entriesSlice.reducer
