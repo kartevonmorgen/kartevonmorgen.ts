@@ -1,24 +1,33 @@
-import { FC, useMemo } from 'react'
-// import {GetStaticPaths, GetStaticProps} from 'next'
+import { FC, useEffect, useMemo } from 'react'
+import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
-// import axios from 'axios'
 import { useToggle } from 'ahooks'
+
+import { convertQueryParamToFloat } from '../../utils/utils'
 
 import { Layout, Spin } from 'antd'
 import ResultList from '../../components/ResultList'
 import Filters from '../../components/Filters'
 import NavSidebar from '../../components/NavSidebar'
 import SearchInput from '../../components/SearchInput'
+import { MapLocationProps } from '../../components/map'
+
+import MAP_CONSTANTS from '../../consts/map'
 
 const { Content, Sider } = Layout
 
 
 interface MapPageProps {
   popularTags: string[]
+  mapLocationProps: MapLocationProps
 }
 
+const MapPage: FC<MapPageProps> = (props) => {
+  const {mapLocationProps} = props
 
-const MapPage: FC<MapPageProps> = (_props) => {
+  const router = useRouter()
+  const {query} = router
+
   const [
     isLoading,
     {
@@ -40,6 +49,21 @@ const MapPage: FC<MapPageProps> = (_props) => {
 
   // const {popularTags} = props
   const [isSideBarCollapsed, { toggle: toggleIsSideBarCollapsed }] = useToggle()
+
+  useEffect(() => {
+    const {lat:latParam, lng:lngParam, zoom:zoomParam} = query
+    const lat:string = latParam ?
+      convertQueryParamToFloat(latParam).toPrecision(MAP_CONSTANTS.precisions.lat) :
+      mapLocationProps.lat.toPrecision(MAP_CONSTANTS.precisions.lat)
+    const lng:string = lngParam ?
+      convertQueryParamToFloat(lngParam).toPrecision(MAP_CONSTANTS.precisions.lng) :
+      mapLocationProps.lng.toPrecision(MAP_CONSTANTS.precisions.lng)
+    const zoom:string = zoomParam ?
+      convertQueryParamToFloat(zoomParam).toPrecision(MAP_CONSTANTS.precisions.zoom) :
+      mapLocationProps.zoom.toPrecision(MAP_CONSTANTS.precisions.zoom)
+
+
+  }, [])
 
   return (
     <Layout
@@ -82,32 +106,6 @@ const MapPage: FC<MapPageProps> = (_props) => {
     </Layout>
   )
 }
-
-
-// export const getStaticProps: GetStaticProps = async (ctx) => {
-//   let popularTags = []
-//   try {
-//     const response = await axios.get(`https://api.ofdb.io/v0/tags`)
-//     popularTags = response.data
-//   } catch (e) {
-//     console.error(e)
-//   }
-//
-//   return {
-//     props: {
-//       popularTags
-//     }
-//   }
-// }
-
-// export const getStaticPaths: GetStaticPaths = async (ctx) => {
-//   return {
-//     paths: [
-//       {params: {project: 'kvm'}}
-//     ],
-//     fallback: false
-//   }
-// }
 
 
 export default MapPage
