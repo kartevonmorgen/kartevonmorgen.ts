@@ -1,18 +1,16 @@
-import {FC, useMemo} from 'react'
+import { FC, useMemo } from 'react'
 // import {GetStaticPaths, GetStaticProps} from 'next'
 import dynamic from 'next/dynamic'
 // import axios from 'axios'
-import {useToggle} from 'ahooks'
+import { useToggle } from 'ahooks'
 
-import {Layout, Spin} from 'antd'
-
-const {Content, Sider} = Layout
-
-
+import { Layout, Spin } from 'antd'
 import ResultList from '../../components/ResultList'
 import Filters from '../../components/Filters'
 import NavSidebar from '../../components/NavSidebar'
 import SearchInput from '../../components/SearchInput'
+
+const { Content, Sider } = Layout
 
 
 interface MapPageProps {
@@ -21,16 +19,27 @@ interface MapPageProps {
 
 
 const MapPage: FC<MapPageProps> = (_props) => {
-  const Map = useMemo(() => dynamic(
-    () => import('../../components/map'),
+  const [
+    isLoading,
     {
-      loading: () => <Spin/>,
-      ssr: false
-    }
+      setRight: setNotLoading,
+    },
+  ] = useToggle(true)
+
+  const Map = useMemo(() => dynamic(
+    () => import('../../components/map').then(
+      (mod) => {
+        setNotLoading()
+        return mod.default
+      },
+    ),
+    {
+      ssr: false,
+    },
   ), [])
 
   // const {popularTags} = props
-  const [isSideBarCollapsed, {toggle: toggleIsSideBarCollapsed}] = useToggle()
+  const [isSideBarCollapsed, { toggle: toggleIsSideBarCollapsed }] = useToggle()
 
   return (
     <Layout
@@ -46,7 +55,7 @@ const MapPage: FC<MapPageProps> = (_props) => {
         style={{
           height: '100vh',
           display: 'flex',
-          flexDirection: 'column'
+          flexDirection: 'column',
         }}
       >
 
@@ -58,15 +67,17 @@ const MapPage: FC<MapPageProps> = (_props) => {
 
         <Filters/>
 
-        <div style={{flexGrow: 1}}>
+        <div style={{ flexGrow: 1 }}>
           <ResultList/>
         </div>
 
       </Sider>
       <Content>
-        <div id="map">
-          <Map/>
-        </div>
+        <Spin spinning={isLoading}>
+          <div id="map">
+            <Map/>
+          </div>
+        </Spin>
       </Content>
     </Layout>
   )
