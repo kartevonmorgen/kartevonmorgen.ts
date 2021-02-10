@@ -46,7 +46,7 @@ const APIInstance = () => {
     },
 
     GetFailureData: <T extends { status: string; message: string }>(error: AxiosError<T>) => {
-      console.log('>>> 111 ERROR:', { error, errorEesponse: error.response?.data })
+      console.log('>>> 111 ERROR:', { error, errorResponse: error.response?.data })
       return {
         errorCode: error.response?.data?.status || '',
         errorMessage: error.response?.data?.message || '',

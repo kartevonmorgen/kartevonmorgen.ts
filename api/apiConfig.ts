@@ -1,8 +1,9 @@
+import {AxiosRequestConfig} from 'axios'
 import * as qs from 'qs'
 import { PathLike } from 'fs'
 
-export const ApiConfig = {
-  returnRejectedPromiseOnError: true,
+
+export const ApiConfig: AxiosRequestConfig = {
   withCredentials: false,
   timeout: 10 * 1000,
   headers: {
@@ -11,5 +12,6 @@ export const ApiConfig = {
       Accept: 'application/json',
     },
   },
+  proxy: false,
   paramsSerializer: (params: PathLike) => qs.stringify(params, { indices: false }),
 }

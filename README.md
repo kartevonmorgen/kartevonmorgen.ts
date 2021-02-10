@@ -36,3 +36,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 ## Caveats
 the hot reloading might need to be considered for redux
 maybe from page to page the redux breaks, a possible break point is [this reference](https://github.com/vercel/next.js/tree/canary/examples/with-redux) for creating stores based on page props
+
+the self service apis are in /pages/api
+
+
+
