@@ -1,6 +1,7 @@
-import getConfig from 'next/config'
-import path from 'path'
+import produce from "immer"
 import isString from 'lodash/isString'
+
+import { RouterQuery } from './types'
 
 
 export const convertQueryParamToString = (stringOrArrayOfStrings: string | string[]): string => {
@@ -29,3 +30,14 @@ export const convertQueryParamToFloat = (param: string | string[]): number => (
     convertQueryParamToString(param),
   )
 )
+
+export const updateRoutingParams = (query: RouterQuery, newParams: RouterQuery): RouterQuery => {
+  return produce(query, draftState => {
+    Object.keys(newParams).forEach(param => {draftState[param] = newParams[param]})
+  })
+}
+
+export const removeDynamicRoutingParams = (query: RouterQuery, dynamicParams: string[]): RouterQuery => {
+  return produce(query, draftState => dynamicParams.forEach(param => {delete draftState[param]}))
+
+}

@@ -7,7 +7,12 @@ import qs from 'qs'
 
 import { AxiosInstance } from '../../api'
 import API_ENDPOINTS from '../../api/endpoints'
-import { convertQueryParamToFloat, convertQueryParamToString } from '../../utils/utils'
+import {
+  convertQueryParamToFloat,
+  convertQueryParamToString,
+  removeDynamicRoutingParams,
+  updateRoutingParams
+} from '../../utils/utils'
 
 import { Layout, Spin } from 'antd'
 import ResultList from '../../components/ResultList'
@@ -70,12 +75,12 @@ const MapPage: FC<MapPageProps> = (props) => {
     const zoom: string = zoomParam ?
       convertQueryParamToFloat(zoomParam).toPrecision(MAP_CONSTANTS.precisions.zoom) :
       mapLocationProps.zoom.toPrecision(MAP_CONSTANTS.precisions.zoom)
+    const paramsToUpdate = {lat, lng, zoom}
 
     // filter query params out of all params including the dynamic ones
-    const newQueryParams = { ...query, lat, lng, zoom }
-    dynamicRouteParams.forEach(p => {
-      delete newQueryParams[p]
-    })
+    let newQueryParams = updateRoutingParams(query, paramsToUpdate)
+    newQueryParams = removeDynamicRoutingParams(newQueryParams, dynamicRouteParams)
+
 
     //todo: how about having other params like fixedTags but not zoom or things like that
     router.replace(
