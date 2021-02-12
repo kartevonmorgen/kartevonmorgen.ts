@@ -14,7 +14,7 @@ import ResultList from '../../components/ResultList'
 import Filters from '../../components/Filters'
 import NavSidebar from '../../components/NavSidebar'
 import SearchInput from '../../components/SearchInput'
-import { MapLocationProps } from '../../components/map'
+import { MapLocationProps } from '../../components/Map'
 
 import MAP_CONSTANTS from '../../consts/map'
 import MapPageConfigs from './types'
@@ -41,7 +41,7 @@ const MapPage: FC<MapPageProps> = (props) => {
   ] = useToggle(true)
 
   const Map = useMemo(() => dynamic(
-    () => import('../../components/map').then(
+    () => import('../../components/Map').then(
       (mod) => {
         setNotLoading()
         return mod.default
