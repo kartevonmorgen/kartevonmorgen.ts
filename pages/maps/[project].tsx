@@ -21,7 +21,7 @@ import NavSidebar from '../../components/NavSidebar'
 import SearchInput from '../../components/SearchInput'
 import { MapLocationProps } from '../../components/Map'
 
-import MAP_CONSTANTS from '../../consts/map'
+import MAP_CONSTANTS, {MAP_ROUTING as MAP_ROUTING_CONSTS} from '../../consts/map'
 import MapPageConfigs from './types'
 
 const { Content, Sider } = Layout
@@ -65,7 +65,6 @@ const MapPage: FC<MapPageProps> = (props) => {
     // todo: make it a function because of readability and more params may come in the future
     const { lat: latParam, lng: lngParam, zoom: zoomParam, project } = query
     // coming from the dynamic routing. we should not add them as the query params
-    const dynamicRouteParams = ['project']
     const lat: string = latParam ?
       convertQueryParamToFloat(latParam).toPrecision(MAP_CONSTANTS.precisions.lat) :
       mapLocationProps.lat.toPrecision(MAP_CONSTANTS.precisions.lat)
@@ -79,7 +78,7 @@ const MapPage: FC<MapPageProps> = (props) => {
 
     // filter query params out of all params including the dynamic ones
     let newQueryParams = updateRoutingParams(query, paramsToUpdate)
-    newQueryParams = removeDynamicRoutingParams(newQueryParams, dynamicRouteParams)
+    newQueryParams = removeDynamicRoutingParams(newQueryParams, MAP_ROUTING_CONSTS.dynamicParams)
 
 
     //todo: how about having other params like fixedTags but not zoom or things like that
@@ -88,6 +87,16 @@ const MapPage: FC<MapPageProps> = (props) => {
       undefined,
       { shallow: true },
     )
+  }, [])
+
+  // todo: on based on what url params we should fetch new entries
+  useEffect(() => {
+
+  }, [])
+
+  // todo: on what criteria we should change the view, like showing an entry or the result list
+  useEffect(() => {
+
   }, [])
 
   return (

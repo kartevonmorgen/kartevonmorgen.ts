@@ -1,7 +1,6 @@
 import produce from "immer"
 import isString from 'lodash/isString'
-
-import { RouterQuery } from './types'
+import {ParsedUrlQuery} from 'querystring'
 
 
 export const convertQueryParamToString = (stringOrArrayOfStrings: string | string[]): string => {
@@ -31,13 +30,13 @@ export const convertQueryParamToFloat = (param: string | string[]): number => (
   )
 )
 
-export const updateRoutingParams = (query: RouterQuery, newParams: RouterQuery): RouterQuery => {
+export const updateRoutingParams = (query: ParsedUrlQuery, newParams: ParsedUrlQuery): ParsedUrlQuery => {
   return produce(query, draftState => {
     Object.keys(newParams).forEach(param => {draftState[param] = newParams[param]})
   })
 }
 
-export const removeDynamicRoutingParams = (query: RouterQuery, dynamicParams: string[]): RouterQuery => {
+export const removeDynamicRoutingParams = (query: ParsedUrlQuery, dynamicParams: string[]): ParsedUrlQuery => {
   return produce(query, draftState => dynamicParams.forEach(param => {delete draftState[param]}))
 
 }
