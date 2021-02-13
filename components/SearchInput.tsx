@@ -4,7 +4,7 @@ import produce from 'immer'
 
 import { Input } from 'antd'
 
-import { removeDynamicRoutingParams, updateRoutingParams } from '../utils/utils'
+import { removeDynamicRoutingParams, updateRoutingQuery } from '../utils/utils'
 
 import { MAP_ROUTING as MAP_ROUTING_CONSTS } from '../consts/map'
 
@@ -17,7 +17,7 @@ const onSearch = (router) => (searchTerm, _event) => {
 
   const searchURLParamKey = 'search'
 
-  let newQueryParams = updateRoutingParams(query, { [searchURLParamKey]: searchTerm })
+  let newQueryParams = updateRoutingQuery(query, { [searchURLParamKey]: searchTerm })
   // it's an empty string so let's remove the param from the URL
   // because we have added that from the update so we are sure the key exists
   if (searchTerm.length === 0) {

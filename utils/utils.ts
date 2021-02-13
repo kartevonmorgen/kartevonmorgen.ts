@@ -30,7 +30,7 @@ export const convertQueryParamToFloat = (param: string | string[]): number => (
   )
 )
 
-export const updateRoutingParams = (query: ParsedUrlQuery, newParams: ParsedUrlQuery): ParsedUrlQuery => {
+export const updateRoutingQuery = (query: ParsedUrlQuery, newParams: ParsedUrlQuery): ParsedUrlQuery => {
   return produce(query, draftState => {
     Object.keys(newParams).forEach(param => {draftState[param] = newParams[param]})
   })
