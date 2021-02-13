@@ -69,7 +69,7 @@ const ResultList = () => {
         <AutoSizer>
           {({height, width}) => (
             <VirtualList
-              defaultHeight='30vh'
+              defaultHeight={120}
               defaultWidth={150}
               height={height}
               rowCount={listData.length}

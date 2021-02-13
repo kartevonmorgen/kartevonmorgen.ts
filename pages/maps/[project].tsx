@@ -64,7 +64,7 @@ const MapPage: FC<MapPageProps> = (props) => {
           collapsible
           collapsed={isSideBarCollapsed}
           onCollapse={toggleIsSideBarCollapsed}
-          width="48vw"
+          width="52vw"
           trigger={null}
           style={{
             height: '100vh',

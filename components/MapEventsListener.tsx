@@ -40,9 +40,6 @@ const MapEventsListener: FC = () => {
         { shallow: true },
       )
     }),
-    loading: (_event) => {
-      console.log('loading')
-    },
   })
 
   return null

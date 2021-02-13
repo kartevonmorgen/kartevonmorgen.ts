@@ -27,8 +27,8 @@ interface MapProps extends MapLocationProps {
 const Map: FC = () => {
   return (
     <MapContainer
-      center={[51.505, -0.09]}
-      zoom={13}
+      center={[50.826, 10.92]}
+      zoom={7}
       scrollWheelZoom={true}
       style={{ height: '100%', width: '100%' }}
       zoomControl={false}
@@ -41,7 +41,7 @@ const Map: FC = () => {
       />
       <ZoomControl position="bottomright"/>
       <Marker
-        position={[51.505, -0.09]}
+        position={[50.826, 10.92]}
         icon={icon}
       >
         <Popup>
