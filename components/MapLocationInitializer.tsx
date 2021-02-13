@@ -1,8 +1,6 @@
 import { FC, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-import MAP_CONSTANTS, { MAP_ROUTING as MAP_ROUTING_CONSTS } from '../consts/map'
-import qs from 'qs'
 import { useMap } from 'react-leaflet'
 import { convertQueryParamToFloat } from '../utils/utils'
 

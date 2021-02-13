@@ -1,7 +1,8 @@
-import { FC, useEffect } from 'react'
-import {useRouter} from 'next/router'
+import { FC } from 'react'
+import { useRouter } from 'next/router'
 
-import {useMapEvents} from 'react-leaflet'
+import { useMapEvents } from 'react-leaflet'
+import toString from 'lodash/toString'
 
 import { updateRoutingQueryWithoutDynamicParams } from '../utils/utils'
 
@@ -13,39 +14,35 @@ import qs from 'qs'
 const MapEventsListener: FC = () => {
   const router = useRouter()
   const { query } = router
-  const {project} = query
+  const { project } = query
 
-  useEffect(() => {
-  //  todo: somehow fly to the that center!
-    console.log(
-      query.lat,
-      query.lng
-    )
-  }, [])
 
   const map = useMapEvents({
     moveend: (_event => {
-      console.log(map.getCenter())
+      const { lat, lng } = map.getCenter()
+      const zoom = map.getZoom()
 
-      // const paramsToUpdate = {
-      //   name: 'navid'
-      // }
-      //
-      // const newQueryParams = updateRoutingQueryWithoutDynamicParams(
-      //   query,
-      //   paramsToUpdate,
-      //   MAP_ROUTING_CONSTS.dynamicParams,
-      // )
-      //
-      // router.replace(
-      //   `/maps/${project}?${qs.stringify(newQueryParams, { arrayFormat: 'repeat' })}`,
-      //   undefined,
-      //   { shallow: true },
-      // )
+      const paramsToUpdate = {
+        lat: toString(lat),
+        lng: toString(lng),
+        zoom: toString(zoom),
+      }
+
+      const newQueryParams = updateRoutingQueryWithoutDynamicParams(
+        query,
+        paramsToUpdate,
+        MAP_ROUTING_CONSTS.dynamicParams,
+      )
+
+      router.replace(
+        `/maps/${project}?${qs.stringify(newQueryParams, { arrayFormat: 'repeat' })}`,
+        undefined,
+        { shallow: true },
+      )
     }),
     loading: (_event) => {
       console.log('loading')
-    }
+    },
   })
 
   return null

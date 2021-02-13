@@ -35,9 +35,6 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
     // all of that is to set the default URL query params
     // todo: make it a function because of readability and more params may come in the future
     const { lat: latParam, lng: lngParam, zoom: zoomParam, project } = query
-    console.log(
-      query
-    )
 
     // coming from the dynamic routing. we should not add them as the query params
     const lat: string = latParam ?
@@ -66,14 +63,6 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
       { shallow: true },
     )
   }, [])
-
-  // todo: on based on what url params we should fetch new entries
-  useEffect(() => {
-    // const searchRequest: SearchEntryRequestDTO = {
-    //
-    // }
-
-  }, searchEffectDependencies)
 
   // todo: on what criteria we should change the view, like showing an entry or the result list
   useEffect(() => {
