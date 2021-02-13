@@ -1,6 +1,6 @@
-import produce from "immer"
+import produce from 'immer'
 import isString from 'lodash/isString'
-import {ParsedUrlQuery} from 'querystring'
+import { ParsedUrlQuery } from 'querystring'
 
 
 export const convertQueryParamToString = (stringOrArrayOfStrings: string | string[]): string => {
@@ -32,11 +32,25 @@ export const convertQueryParamToFloat = (param: string | string[]): number => (
 
 export const updateRoutingQuery = (query: ParsedUrlQuery, newParams: ParsedUrlQuery): ParsedUrlQuery => {
   return produce(query, draftState => {
-    Object.keys(newParams).forEach(param => {draftState[param] = newParams[param]})
+    Object.keys(newParams).forEach(param => {
+      draftState[param] = newParams[param]
+    })
   })
 }
 
 export const removeDynamicRoutingParams = (query: ParsedUrlQuery, dynamicParams: string[]): ParsedUrlQuery => {
-  return produce(query, draftState => dynamicParams.forEach(param => {delete draftState[param]}))
+  return produce(query, draftState => dynamicParams.forEach(param => {
+    delete draftState[param]
+  }))
+}
 
+export const updateRoutingQueryWithoutDynamicParams = (
+  query: ParsedUrlQuery,
+  newParams: ParsedUrlQuery,
+  dynamicParams: string[],
+): ParsedUrlQuery => {
+  return removeDynamicRoutingParams(
+    updateRoutingQuery(query, newParams),
+    dynamicParams,
+  )
 }

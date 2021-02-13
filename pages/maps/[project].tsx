@@ -1,12 +1,12 @@
 import { FC, Fragment, useMemo } from 'react'
-import { GetStaticPaths, GetStaticProps } from 'next'
+import { GetServerSideProps } from 'next'
 import dynamic from 'next/dynamic'
 import { useToggle } from 'ahooks'
 
 import { Layout, Spin } from 'antd'
 
 import { AxiosInstance } from '../../api'
-import MapPageConfigs from './types'
+import MapPageConfigs from '../../dtos/MapPageConfigs'
 import API_ENDPOINTS from '../../api/endpoints'
 import { convertQueryParamToString } from '../../utils/utils'
 
@@ -14,7 +14,7 @@ import ResultList from '../../components/ResultList'
 import Filters from '../../components/Filters'
 import NavSidebar from '../../components/NavSidebar'
 import SearchInput from '../../components/SearchInput'
-import RouterEventsListener from '../../components/RouterEventsListener'
+import RouterQueryInitializer from '../../components/RouterQueryInitializer'
 
 import { MapLocationProps } from '../../components/Map'
 
@@ -48,12 +48,11 @@ const MapPage: FC<MapPageProps> = (props) => {
     },
   ), [])
 
-  // const {popularTags} = props
   const [isSideBarCollapsed, { toggle: toggleIsSideBarCollapsed }] = useToggle()
 
   return (
     <Fragment>
-      <RouterEventsListener
+      <RouterQueryInitializer
         initMapLocationProps={mapLocationProps}
       />
 
@@ -99,18 +98,8 @@ const MapPage: FC<MapPageProps> = (props) => {
   )
 }
 
-export const getStaticPaths: GetStaticPaths = async (_ctx) => {
-  //todo: read the project names from /public/projects dynamically with the re-validate policy
-  return {
-    paths: [
-      { params: { project: 'main' } },
-    ],
-    fallback: false,
-  }
-}
 
-
-export const getStaticProps: GetStaticProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { project } = ctx.params
 
   const pageConfigsReq = await AxiosInstance.GetRequest<MapPageConfigs>(

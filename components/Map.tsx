@@ -2,7 +2,10 @@ import { FC } from 'react'
 import { Icon } from 'leaflet'
 import { MapContainer, Marker, Popup, TileLayer, ZoomControl } from 'react-leaflet'
 
+import MapEventsListener from './MapEventsListener'
+
 import 'leaflet/dist/leaflet.css'
+import MapLocationInitializer from './MapLocationInitializer'
 
 
 const icon = new Icon({
@@ -30,6 +33,8 @@ const Map: FC = () => {
       style={{ height: '100%', width: '100%' }}
       zoomControl={false}
     >
+      <MapLocationInitializer />
+      <MapEventsListener />
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

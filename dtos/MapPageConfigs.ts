@@ -1,4 +1,4 @@
-import {MapLocationProps} from '../../components/map'
+import {MapLocationProps} from '../components/Map'
 
 
 export interface MapConfigs {

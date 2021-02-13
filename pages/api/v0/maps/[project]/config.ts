@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 
-import MapPageConfigs from '../../../../maps/types'
+import MapPageConfigs from '../../../../../dtos/MapPageConfigs'
 
 
 export default (req, res) => {
