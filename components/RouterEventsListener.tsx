@@ -4,13 +4,11 @@ import { useRouter } from 'next/router'
 import qs from 'qs'
 import toString from 'lodash/toString'
 
-import {
-  convertQueryParamToFloat,
-  removeDynamicRoutingParams,
-  updateRoutingQuery,
-} from '../utils/utils'
+import { convertQueryParamToFloat, removeDynamicRoutingParams, updateRoutingQuery } from '../utils/utils'
 
 import MAP_CONSTANTS, { MAP_ROUTING as MAP_ROUTING_CONSTS } from '../consts/map'
+
+import { SearchEntryRequest as  SearchEntryRequestDTO } from '../dtos/SearchEntryRequest'
 
 import { MapLocationProps } from './Map'
 
@@ -27,6 +25,7 @@ const RouterEventsListener: FC<RouterEventsListenerProps> = (props) => {
   const { query } = router
   // changing these variables result in triggering search action
   // params can be array. we should be sure all the dependencies are comparable with `===` operator
+  // these dependency list should be consistent with SearchEntryRequest DTO
   const searchEffectDependencies = [
     toString(query.search),
     toString(query.lat),
@@ -34,6 +33,7 @@ const RouterEventsListener: FC<RouterEventsListenerProps> = (props) => {
     toString(query.zoom),
   ]
 
+  // initialize the routing params
   useEffect(() => {
     // all of that is to set the default URL query params
     // todo: make it a function because of readability and more params may come in the future
@@ -66,6 +66,9 @@ const RouterEventsListener: FC<RouterEventsListenerProps> = (props) => {
 
   // todo: on based on what url params we should fetch new entries
   useEffect(() => {
+    const searchRequest: SearchEntryRequestDTO = {
+      bbox: '48.48748647988415,3.4936523437500004,53.05442186546102,18.336181640625004'
+    }
 
   }, searchEffectDependencies)
 
