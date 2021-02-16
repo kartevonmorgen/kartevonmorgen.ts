@@ -1,29 +1,50 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import SearchEntry, {SearchEntriesIndexer} from '../dtos/SearchEntry'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+
+import { AppThunk } from '../store'
+import { AxiosInstance } from '../api'
+import API_ENDPOINTS from '../api/endpoints'
+import SearchEntry, { SearchEntries } from '../dtos/SearchEntry'
+import SearchEntriesResponseDTO from '../dtos/SearchEntriesResponse'
+import { SearchEntriesRequest as SearchEntriesRequestDTO } from '../dtos/SearchEntriesRequest'
 
 
 const entriesSlice = createSlice({
   name: 'entries',
-  initialState: {} as SearchEntriesIndexer,
+  initialState: [] as SearchEntries,
   reducers: {
-    setEntries: (state, action: PayloadAction<SearchEntry[]>) => {
-      state = action.payload.reduce(
-        (searchEntriesIndexer: SearchEntriesIndexer, searchEntry: SearchEntry): SearchEntriesIndexer => {
-          searchEntriesIndexer[searchEntry.id] = searchEntry
-
-          return searchEntriesIndexer
-        },
-        {} as SearchEntriesIndexer
-        ) as SearchEntriesIndexer
-    }
-  }
+    setEntries: (state, action: PayloadAction<SearchEntries>) => {
+      state.splice(0, state.length)
+      action.payload.forEach((searchEntry: SearchEntry) => {state.push(searchEntry)})
+    },
+  },
 })
 
 
 export const {
-  setEntries
+  setEntries,
 } = entriesSlice.actions
 
-export const {actions} = entriesSlice
+export const { actions } = entriesSlice
+
+///////////////////////////////
+// Thunks
+
+export const fetchEntries = (
+  searchEntriesRequestDTO: SearchEntriesRequestDTO,
+): AppThunk => async dispatch => {
+
+  const searchEntriesReq = await AxiosInstance.GetRequest<SearchEntriesResponseDTO>(
+    API_ENDPOINTS.searchEntries(),
+    {
+      params: searchEntriesRequestDTO,
+    },
+  )
+
+  const searchEntries = AxiosInstance.GetSuccessData(searchEntriesReq)
+
+  dispatch(setEntries(searchEntries.visible))
+}
+
+///////////////////////////////
 
 export default entriesSlice.reducer

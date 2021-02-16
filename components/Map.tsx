@@ -3,9 +3,10 @@ import { Icon } from 'leaflet'
 import { MapContainer, Marker, Popup, TileLayer, ZoomControl } from 'react-leaflet'
 
 import MapEventsListener from './MapEventsListener'
+import MapLocationInitializer from './MapLocationInitializer'
+import SearchEventsListener from './SearchEventsListener'
 
 import 'leaflet/dist/leaflet.css'
-import MapLocationInitializer from './MapLocationInitializer'
 
 
 const icon = new Icon({
@@ -35,6 +36,7 @@ const Map: FC = () => {
     >
       <MapLocationInitializer />
       <MapEventsListener />
+      <SearchEventsListener />
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

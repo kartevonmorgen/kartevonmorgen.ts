@@ -1,16 +1,19 @@
+import { combineReducers } from '@reduxjs/toolkit'
+
 import eventReducer, {actions as eventsActions} from './eventsSlice'
 import entriesReducer, {actions as entriesActions} from './entriesSlice'
 
 
-const reducers = {
+const rootReducer = combineReducers({
   events: eventReducer,
   entries: entriesReducer
-}
-
+})
 
 export const actions = {
   ...eventsActions,
   ...entriesActions
 }
 
-export default reducers
+export type RootState = ReturnType<typeof rootReducer>
+
+export default rootReducer

@@ -22,6 +22,7 @@ const MapEventsListener: FC = () => {
       const { lat, lng } = map.getCenter()
       const zoom = map.getZoom()
 
+      // todo: debounce needed
       const paramsToUpdate = {
         lat: toString(lat),
         lng: toString(lng),

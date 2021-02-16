@@ -6,7 +6,7 @@ import toString from 'lodash/toString'
 
 import { convertQueryParamToFloat, updateRoutingQueryWithoutDynamicParams } from '../utils/utils'
 
-import MAP_CONSTANTS, { MAP_ROUTING as MAP_ROUTING_CONSTS } from '../consts/map'
+import { MAP_ROUTING as MAP_ROUTING_CONSTS } from '../consts/map'
 
 import { MapLocationProps } from './Map'
 
@@ -15,20 +15,12 @@ interface RouterQueryInitializerProps {
   initMapLocationProps: MapLocationProps
 }
 
+// todo: this component should be eliminated and merged into getServerSideProps
 const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
   const { initMapLocationProps } = props
 
   const router = useRouter()
   const { query } = router
-  // changing these variables result in triggering search action
-  // params can be array. we should be sure all the dependencies are comparable with `===` operator
-  // these dependency list should be consistent with SearchEntryRequest DTO
-  const searchEffectDependencies = [
-    toString(query.search),
-    toString(query.lat),
-    toString(query.lng),
-    toString(query.zoom),
-  ]
 
   // initialize the routing params
   useEffect(() => {
@@ -38,14 +30,14 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
 
     // coming from the dynamic routing. we should not add them as the query params
     const lat: string = latParam ?
-      convertQueryParamToFloat(latParam).toPrecision(MAP_CONSTANTS.precisions.lat) :
-      initMapLocationProps.lat.toPrecision(MAP_CONSTANTS.precisions.lat)
+      toString(convertQueryParamToFloat(latParam)) :
+      toString(initMapLocationProps.lat)
     const lng: string = lngParam ?
-      convertQueryParamToFloat(lngParam).toPrecision(MAP_CONSTANTS.precisions.lng) :
-      initMapLocationProps.lng.toPrecision(MAP_CONSTANTS.precisions.lng)
+      toString(convertQueryParamToFloat(lngParam)) :
+      toString(initMapLocationProps.lng)
     const zoom: string = zoomParam ?
-      convertQueryParamToFloat(zoomParam).toPrecision(MAP_CONSTANTS.precisions.zoom) :
-      initMapLocationProps.zoom.toPrecision(MAP_CONSTANTS.precisions.zoom)
+      toString(convertQueryParamToFloat(zoomParam)) :
+      toString(initMapLocationProps.zoom)
     const paramsToUpdate = { lat, lng, zoom }
 
     // filter query params out of all params including the dynamic ones
@@ -62,11 +54,6 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
       undefined,
       { shallow: true },
     )
-  }, [])
-
-  // todo: on what criteria we should change the view, like showing an entry or the result list
-  useEffect(() => {
-
   }, [])
 
   return null

@@ -1,15 +1,18 @@
 import produce from 'immer'
 import isString from 'lodash/isString'
+import isEmpty from 'lodash/isEmpty'
+import toString from 'lodash/toString'
 import { ParsedUrlQuery } from 'querystring'
+import { LatLngBounds } from 'leaflet'
 
 
 export const convertQueryParamToString = (stringOrArrayOfStrings: string | string[]): string => {
-  if (isString(stringOrArrayOfStrings)) {
-    return stringOrArrayOfStrings
+  if (isEmpty(stringOrArrayOfStrings)) {
+    return ''
   }
 
-  if (stringOrArrayOfStrings.length === 0) {
-    return ''
+  if (isString(stringOrArrayOfStrings)) {
+    return stringOrArrayOfStrings
   }
 
   return stringOrArrayOfStrings[0]
@@ -53,4 +56,19 @@ export const updateRoutingQueryWithoutDynamicParams = (
     updateRoutingQuery(query, newParams),
     dynamicParams,
   )
+}
+
+export const convertBBoxToString = (bbox: LatLngBounds): string => {
+  // const bboxCoords = [sw.lat, sw.lng, ne.lat, ne.lng]
+  const sw = bbox.getSouthWest()
+  const ne = bbox.getNorthEast()
+
+  const bboxCoords = [
+    sw.lat,
+    sw.lng,
+    ne.lat,
+    ne.lng
+  ]
+
+  return toString(bboxCoords)
 }

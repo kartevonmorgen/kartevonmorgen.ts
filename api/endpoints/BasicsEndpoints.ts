@@ -1,5 +1,5 @@
-export const BASICS_API_URL: string = process.env.NEXT_BASICS_API
-export const SELF_API_URL: string = process.env.NEXT_SELF_API
+export const BASICS_API_URL: string = process.env.NEXT_PUBLIC_BASICS_API
+export const SELF_API_URL: string = process.env.NEXT_PUBLIC_SELF_API
 
 
 export const BASICS_ENDPOINTS = {

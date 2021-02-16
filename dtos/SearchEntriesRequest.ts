@@ -6,7 +6,7 @@ import { TagList } from './TagList'
 import { PaginationLimit } from './PaginationLimit'
 
 
-export interface SearchEntryRequest {
+export interface SearchEntriesRequest {
   bbox: BoundingBox
   org_tag?: OrgTagFilter
   categories?: string

@@ -21,7 +21,9 @@ interface SearchEntry {
   ratings: Ratings
 }
 
-export type SearchEntriesIndexer = SearchEntry & {
+export type SearchEntries = SearchEntry[]
+
+export type SearchEntriesCollection = SearchEntry & {
   [index: string]: SearchEntry
 }
 

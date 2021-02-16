@@ -29,7 +29,7 @@ interface Event {
   image_link_url: string
 }
 
-export interface EventsIndexer {
+export interface EventsCollection {
   [index: string]: Event
 }
 
