@@ -28,6 +28,7 @@ export const { actions } = entriesSlice
 
 ///////////////////////////////
 // Thunks
+// todo: maybe createAsyncThunk is a better idea
 
 export const fetchEntries = (
   searchEntriesRequestDTO: SearchEntriesRequestDTO,

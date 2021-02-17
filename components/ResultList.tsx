@@ -1,40 +1,17 @@
-import React from 'react'
+import React, {FC} from 'react'
+import {useSelector} from 'react-redux'
 import {AutoSizer, List as VirtualList} from 'react-virtualized'
 import {List, Tag, Space} from 'antd'
+
+import { SearchEntries } from '../dtos/SearchEntry'
+import { RootState } from '../slices'
+
 import 'react-virtualized/styles.css'
 
 
-const listData = []
-for (let i = 0; i < 50; i++) {
-  listData.push({
-    'id': `7cee99c287094a94acbdcf29ffff2e85${i}`,
-    'status': 'created',
-    'lat': 50.91339038261836,
-    'lng': 6.966415646936007,
-    'title': `NeuLand Köln ${i}`,
-    'description': 'Der mobile Gemeinschaftsgarten\n\n[Zusätzlich: Fairteiler von foodsharing]',
-    'categories': [
-      'Initiative'
-    ],
-    'tags': [
-      'gemeinschaftsgarten',
-      'markt'
-    ],
-    'ratings': {
-      'total': 1.8333333333333333,
-      'diversity': 2.0,
-      'fairness': 2.0,
-      'humanity': 2.0,
-      'renewable': 1.0,
-      'solidarity': 2.0,
-      'transparency': 2.0
-    }
-  })
-}
+const rowRenderer = data => ({key, index, style}) => {
+  const item = data[index]
 
-
-function rowRenderer({key, index, style}) {
-  const item = listData[index]
   return (
     <List.Item
       key={key}
@@ -44,10 +21,14 @@ function rowRenderer({key, index, style}) {
         title={item.title}
         description={<Tag>{item.categories[0]}</Tag>}
       />
-      <div>{item.description}</div>
+      <div>{item.description.substr(0, 70)}</div>
       <div style={{marginTop: 4}}>
-        <Space>
-          {item.tags.map((tag: string) => <Tag key={tag}>{tag}</Tag>)}
+        <Space size="small">
+          {
+            item.tags.slice(0, 3).map(
+              (tag: string) => (<Tag key={tag}>{tag}</Tag>)
+            )
+          }
         </Space>
       </div>
     </List.Item>
@@ -55,7 +36,9 @@ function rowRenderer({key, index, style}) {
 }
 
 
-const ResultList = () => {
+const ResultList: FC = () => {
+  const searchEntries: SearchEntries = useSelector((state: RootState) => state.entries)
+
   return (
     <List
       itemLayout="vertical"
@@ -72,9 +55,9 @@ const ResultList = () => {
               defaultHeight={120}
               defaultWidth={150}
               height={height}
-              rowCount={listData.length}
+              rowCount={searchEntries.length}
               rowHeight={160}
-              rowRenderer={rowRenderer}
+              rowRenderer={rowRenderer(searchEntries)}
               width={width}
             />
           )}
