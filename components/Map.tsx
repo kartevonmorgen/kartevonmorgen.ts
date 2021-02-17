@@ -1,12 +1,15 @@
 import { FC } from 'react'
+import {useSelector} from 'react-redux'
 import { Icon } from 'leaflet'
 import { MapContainer, Marker, Popup, TileLayer, ZoomControl } from 'react-leaflet'
 
 import MapEventsListener from './MapEventsListener'
 import MapLocationInitializer from './MapLocationInitializer'
 import SearchEventsListener from './SearchEventsListener'
+import SearchEntry, { SearchEntries } from '../dtos/SearchEntry'
 
 import 'leaflet/dist/leaflet.css'
+import { RootState } from '../slices'
 
 
 const icon = new Icon({
@@ -21,11 +24,9 @@ export interface MapLocationProps {
   zoom: number
 }
 
-interface MapProps extends MapLocationProps {
-
-}
-
 const Map: FC = () => {
+  const searchEntries: SearchEntries = useSelector((state: RootState) => state.entries)
+
   return (
     <MapContainer
       center={[50.826, 10.92]}
@@ -42,16 +43,18 @@ const Map: FC = () => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <ZoomControl position="bottomright"/>
-      <Marker
-        position={[50.826, 10.92]}
-        icon={icon}
-      >
-        <Popup>
-          A pretty CSS3 popup.
-          <br/>
-          Easily customizable.
-        </Popup>
-      </Marker>
+      {
+        searchEntries.map((searchEntry: SearchEntry) => (
+          <Marker
+            position={[searchEntry.lat, searchEntry.lng]}
+            icon={icon}
+          >
+            <Popup>
+              {searchEntry.title}
+            </Popup>
+          </Marker>
+        ))
+      }
     </MapContainer>
   )
 }
