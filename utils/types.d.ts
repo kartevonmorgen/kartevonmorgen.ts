@@ -1,1 +1,1 @@
-export type RouterQueryParam = string | string[]
+export type RouterQueryParam = string | string[] | undefined

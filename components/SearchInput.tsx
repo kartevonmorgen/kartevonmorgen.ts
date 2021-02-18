@@ -1,19 +1,15 @@
-import qs from 'qs'
 import { useRouter } from 'next/router'
 import produce from 'immer'
 
 import { Input } from 'antd'
 
-import { removeDynamicRoutingParams, updateRoutingQuery } from '../utils/utils'
-
-import { MAP_ROUTING as MAP_ROUTING_CONSTS } from '../consts/map'
+import { updateRoutingQuery } from '../utils/utils'
 
 const { Search } = Input
 
 
 const onSearch = (router) => (searchTerm, _event) => {
   const { query } = router
-  const project = query.project ?? 'main'
 
   const searchURLParamKey = 'search'
 
@@ -26,13 +22,14 @@ const onSearch = (router) => (searchTerm, _event) => {
     })
   }
 
-  newQueryParams = removeDynamicRoutingParams(newQueryParams, MAP_ROUTING_CONSTS.dynamicParams)
-
   router.replace(
-    `/maps/${project}?${qs.stringify(newQueryParams, { arrayFormat: 'repeat' })}`,
+    {
+      pathname: '/maps/[project]',
+      query: newQueryParams,
+    },
     undefined,
-    { shallow: true },
-  )
+    { shallow: true }
+    )
 }
 
 

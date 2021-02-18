@@ -4,18 +4,13 @@ import { useRouter } from 'next/router'
 import { useMapEvents } from 'react-leaflet'
 import toString from 'lodash/toString'
 
-import { updateRoutingQueryWithoutDynamicParams } from '../utils/utils'
-
-import { MAP_ROUTING as MAP_ROUTING_CONSTS } from '../consts/map'
-import qs from 'qs'
+import { updateRoutingQuery } from '../utils/utils'
 
 
 // just this component has access to the map attributes, so only this one can make the search
 const MapEventsListener: FC = () => {
   const router = useRouter()
   const { query } = router
-  const { project } = query
-
 
   const map = useMapEvents({
     moveend: (_event => {
@@ -29,16 +24,15 @@ const MapEventsListener: FC = () => {
         zoom: toString(zoom),
       }
 
-      const newQueryParams = updateRoutingQueryWithoutDynamicParams(
-        query,
-        paramsToUpdate,
-        MAP_ROUTING_CONSTS.dynamicParams,
-      )
+      const newQueryParams = updateRoutingQuery(query, paramsToUpdate)
 
       router.replace(
-        `/maps/${project}?${qs.stringify(newQueryParams, { arrayFormat: 'repeat' })}`,
+        {
+          pathname: '/maps/[project]',
+          query: newQueryParams,
+        },
         undefined,
-        { shallow: true },
+        { shallow: true }
       )
     }),
   })

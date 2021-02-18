@@ -4,9 +4,10 @@ import isEmpty from 'lodash/isEmpty'
 import toString from 'lodash/toString'
 import { ParsedUrlQuery } from 'querystring'
 import { LatLngBounds } from 'leaflet'
+import { RouterQueryParam } from './types'
 
 
-export const convertQueryParamToString = (stringOrArrayOfStrings: string | string[]): string => {
+export const convertQueryParamToString = (stringOrArrayOfStrings: RouterQueryParam): string => {
   if (isEmpty(stringOrArrayOfStrings)) {
     return ''
   }
@@ -27,7 +28,7 @@ export const convertStringToFloat = (str: string): number => {
   return result
 }
 
-export const convertQueryParamToFloat = (param: string | string[]): number => (
+export const convertQueryParamToFloat = (param: RouterQueryParam): number => (
   convertStringToFloat(
     convertQueryParamToString(param),
   )
@@ -71,4 +72,16 @@ export const convertBBoxToString = (bbox: LatLngBounds): string => {
   ]
 
   return toString(bboxCoords)
+}
+
+export const convertQueryParamToArray = (param: RouterQueryParam): string[] => {
+  if (isEmpty(param)) {
+    return []
+  }
+
+  if (isString(param)) {
+    return [param]
+  }
+
+  return param
 }
