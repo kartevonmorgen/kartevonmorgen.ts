@@ -2,6 +2,7 @@ import produce from 'immer'
 import isString from 'lodash/isString'
 import isEmpty from 'lodash/isEmpty'
 import toString from 'lodash/toString'
+import toNumber from 'lodash/toNumber'
 import { ParsedUrlQuery } from 'querystring'
 import { LatLngBounds } from 'leaflet'
 import { RouterQueryParam } from './types'
@@ -28,8 +29,23 @@ export const convertStringToFloat = (str: string): number => {
   return result
 }
 
+export const convertStringToInt = (str: string): number => {
+  const result = parseInt(str)
+  if (isNaN(result)) {
+    return 0
+  }
+
+  return result
+}
+
 export const convertQueryParamToFloat = (param: RouterQueryParam): number => (
   convertStringToFloat(
+    convertQueryParamToString(param),
+  )
+)
+
+export const convertQueryParamToInt = (param: RouterQueryParam): number => (
+  convertStringToInt(
     convertQueryParamToString(param),
   )
 )

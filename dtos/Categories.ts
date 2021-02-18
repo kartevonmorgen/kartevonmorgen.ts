@@ -8,7 +8,7 @@ enum Category {
 const EntryCategories = [Category.COMPANY, Category.INITIATIVE]
 const EventCategory = Category.EVENT
 
-export const isEntryCategory = (id: string): boolean => (EntryCategories.includes(id))
+export const isEntryCategory = (id: string): boolean => (EntryCategories.includes(id as Category))
 export const isEventCategory = (id: string): boolean => (id === EventCategory)
 
 export default Category

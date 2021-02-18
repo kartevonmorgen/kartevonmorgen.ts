@@ -6,10 +6,17 @@ import {useMap} from 'react-leaflet'
 import toString from 'lodash/toString'
 
 import {fetchEntries, emptyEntries} from '../slices/entriesSlice'
+import { emptyEvents, fetchEvents } from '../slices/eventsSlice'
 
-import { convertBBoxToString, convertQueryParamToArray, convertQueryParamToString } from '../utils/utils'
+import {
+  convertBBoxToString,
+  convertQueryParamToArray,
+  convertQueryParamToInt,
+  convertQueryParamToString,
+} from '../utils/utils'
 import { SearchEntriesRequest as SearchEntriesRequestDTO } from '../dtos/SearchEntriesRequest'
-import { isEntryCategory } from '../dtos/Categories'
+import Category, { isEntryCategory } from '../dtos/Categories'
+import { SearchEventsRequest as SearchEventsRequestDTO } from '../dtos/SearchEventsRequest'
 
 
 const SearchEventsListener: FC =  () => {
@@ -21,6 +28,7 @@ const SearchEventsListener: FC =  () => {
     lng,
     zoom,
     type: typesParam,
+    limit: limitParam,
   } = query
 
   const dispatch = useDispatch()
@@ -37,22 +45,43 @@ const SearchEventsListener: FC =  () => {
     toString(lng),
     toString(zoom),
     toString(typesParam),
+    toString(limitParam)
   ]
 
   useEffect(() => {
+    const searchTerm: string = convertQueryParamToString(searchParam)
+
+    // should not include limit if it's zero or not convertable to a number
+    let limit: number | undefined = convertQueryParamToInt(limitParam)
+    limit = limit !== 0 ? limit : undefined
+
     const typesArray = convertQueryParamToArray(typesParam)
 
+    // search entries
     // if no entry category is there, we should set the entries state to an empty array
     const entryCategories = typesArray.filter(t => isEntryCategory(t))
     if (entryCategories.length !== 0) {
       const searchEntriesRequestDTO: SearchEntriesRequestDTO = {
         bbox: bbox,
-        text: convertQueryParamToString(searchParam),
-        categories: toString(typesParam)
+        text: searchTerm,
+        categories: toString(typesParam),
+        limit: limit
       }
       dispatch(fetchEntries(searchEntriesRequestDTO))
     } else {
       dispatch(emptyEntries())
+    }
+
+    // search events
+    if (typesArray.includes(Category.EVENT)) {
+      const searchEventsRequestDTO: SearchEventsRequestDTO = {
+        bbox: bbox,
+        text: searchTerm,
+        limit: limit,
+      }
+      dispatch(fetchEvents(searchEventsRequestDTO))
+    } else {
+      dispatch(emptyEvents())
     }
 
   }, searchEffectDependencies)

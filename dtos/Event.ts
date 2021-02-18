@@ -33,5 +33,7 @@ export interface EventsCollection {
   [index: string]: Event
 }
 
+export type Events = Event[]
+
 
 export default Event
