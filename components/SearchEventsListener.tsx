@@ -5,10 +5,11 @@ import { useDispatch } from 'react-redux'
 import {useMap} from 'react-leaflet'
 import toString from 'lodash/toString'
 
-import {fetchEntries} from '../slices/entriesSlice'
+import {fetchEntries, emptyEntries} from '../slices/entriesSlice'
 
-import { convertBBoxToString, convertQueryParamToString } from '../utils/utils'
+import { convertBBoxToString, convertQueryParamToArray, convertQueryParamToString } from '../utils/utils'
 import { SearchEntriesRequest as SearchEntriesRequestDTO } from '../dtos/SearchEntriesRequest'
+import { isEntryCategory } from '../dtos/Categories'
 
 
 const SearchEventsListener: FC =  () => {
@@ -19,7 +20,7 @@ const SearchEventsListener: FC =  () => {
     lat,
     lng,
     zoom,
-    type,
+    type: typesParam,
   } = query
 
   const dispatch = useDispatch()
@@ -35,18 +36,24 @@ const SearchEventsListener: FC =  () => {
     toString(lat),
     toString(lng),
     toString(zoom),
-    toString(type),
+    toString(typesParam),
   ]
 
   useEffect(() => {
+    const typesArray = convertQueryParamToArray(typesParam)
 
-    const searchEntriesRequestDTO: SearchEntriesRequestDTO = {
-      bbox: bbox,
-      text: convertQueryParamToString(searchParam),
-      categories: toString(type)
+    // if no entry category is there, we should set the entries state to an empty array
+    const entryCategories = typesArray.filter(t => isEntryCategory(t))
+    if (entryCategories.length !== 0) {
+      const searchEntriesRequestDTO: SearchEntriesRequestDTO = {
+        bbox: bbox,
+        text: convertQueryParamToString(searchParam),
+        categories: toString(typesParam)
+      }
+      dispatch(fetchEntries(searchEntriesRequestDTO))
+    } else {
+      dispatch(emptyEntries())
     }
-
-    dispatch(fetchEntries(searchEntriesRequestDTO))
 
   }, searchEffectDependencies)
 

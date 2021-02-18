@@ -15,6 +15,8 @@ interface Type {
   color: string
 }
 
+
+// todo: move the colors an style file because of different themes
 export const types: Type[] = [
   {
     id: Category.INITIATIVE,

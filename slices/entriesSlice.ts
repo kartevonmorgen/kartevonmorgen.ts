@@ -16,12 +16,16 @@ const entriesSlice = createSlice({
       state.splice(0, state.length)
       action.payload.forEach((searchEntry: SearchEntry) => {state.push(searchEntry)})
     },
+    emptyEntries: (state, _action: PayloadAction) => {
+      state.splice(0, state.length)
+    }
   },
 })
 
 
 export const {
   setEntries,
+  emptyEntries
 } = entriesSlice.actions
 
 export const { actions } = entriesSlice
