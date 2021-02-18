@@ -4,6 +4,7 @@ import {AutoSizer, List as VirtualList} from 'react-virtualized'
 import {List, Tag, Space} from 'antd'
 
 import { SearchEntries } from '../dtos/SearchEntry'
+import {types as resultType} from './TypeChooser'
 import { RootState } from '../slices'
 
 import 'react-virtualized/styles.css'
@@ -11,6 +12,7 @@ import 'react-virtualized/styles.css'
 
 const rowRenderer = data => ({key, index, style}) => {
   const item = data[index]
+  const type = resultType.find(t => t.id === item.categories[0])
 
   return (
     <List.Item
@@ -19,7 +21,7 @@ const rowRenderer = data => ({key, index, style}) => {
     >
       <List.Item.Meta
         title={item.title}
-        description={<Tag>{item.categories[0]}</Tag>}
+        description={<Tag color={type.color}>{type.name}</Tag>}
       />
       <div>{item.description.substr(0, 70)}</div>
       <div style={{marginTop: 4}}>
