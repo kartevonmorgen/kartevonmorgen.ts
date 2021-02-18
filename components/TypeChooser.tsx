@@ -15,7 +15,7 @@ interface Type {
   color: string
 }
 
-const types: Type[] = [
+export const types: Type[] = [
   {
     id: Category.INITIATIVE,
     name: 'Initiative',
@@ -75,8 +75,8 @@ const handleChange = (
 const TypeChooser: FC = () => {
   const router = useRouter()
   const { query } = router
-  const { type: queryTypes } = query
-  const selectedTypes = convertQueryParamToArray(queryTypes) as Category[]
+  const { type: typesParam } = query
+  let selectedTypes = convertQueryParamToArray(typesParam) as Category[]
 
   return (
     <>

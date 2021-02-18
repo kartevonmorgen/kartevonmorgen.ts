@@ -14,6 +14,13 @@ import { SearchEntriesRequest as SearchEntriesRequestDTO } from '../dtos/SearchE
 const SearchEventsListener: FC =  () => {
   const router = useRouter()
   const {query} = router
+  const {
+    search: searchParam,
+    lat,
+    lng,
+    zoom,
+    type,
+  } = query
 
   const dispatch = useDispatch()
 
@@ -24,19 +31,19 @@ const SearchEventsListener: FC =  () => {
   // params can be array. we should be sure all the dependencies are comparable with `===` operator
   // these dependency list should be consistent with SearchEntryRequest DTO
   const searchEffectDependencies = [
-    toString(query.search),
-    toString(query.lat),
-    toString(query.lng),
-    toString(query.zoom),
-    bbox
+    toString(searchParam),
+    toString(lat),
+    toString(lng),
+    toString(zoom),
+    toString(type),
   ]
 
   useEffect(() => {
-    const {search: searchQuery} = query
 
     const searchEntriesRequestDTO: SearchEntriesRequestDTO = {
       bbox: bbox,
-      text: convertQueryParamToString(searchQuery),
+      text: convertQueryParamToString(searchParam),
+      categories: toString(type)
     }
 
     dispatch(fetchEntries(searchEntriesRequestDTO))

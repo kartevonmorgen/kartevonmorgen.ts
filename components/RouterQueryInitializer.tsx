@@ -3,9 +3,11 @@ import { useRouter } from 'next/router'
 
 import toString from 'lodash/toString'
 
-import { convertQueryParamToFloat, updateRoutingQuery } from '../utils/utils'
-
 import { MapLocationProps } from './Map'
+import Category from '../dtos/Categories'
+import {types as defaultTypes} from './TypeChooser'
+
+import { convertQueryParamToArray, convertQueryParamToFloat, updateRoutingQuery } from '../utils/utils'
 
 
 interface RouterQueryInitializerProps {
@@ -23,7 +25,12 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
   useEffect(() => {
     // all of that is to set the default URL query params
     // todo: make it a function because of readability and more params may come in the future
-    const { lat: latParam, lng: lngParam, zoom: zoomParam } = query
+    const {
+      lat: latParam,
+      lng: lngParam,
+      zoom: zoomParam,
+      type: typesParam
+    } = query
 
     // coming from the dynamic routing. we should not add them as the query params
     const lat: string = latParam ?
@@ -35,7 +42,11 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
     const zoom: string = zoomParam ?
       toString(convertQueryParamToFloat(zoomParam)) :
       toString(initMapLocationProps.zoom)
-    const paramsToUpdate = { lat, lng, zoom }
+
+    let types: Category[] = convertQueryParamToArray(typesParam) as Category[]
+    types = types.length !== 0 ? types : defaultTypes.map(t => t.id)
+
+    const paramsToUpdate = { lat, lng, zoom, type: types }
 
     // filter query params out of all params including the dynamic ones
     const newQueryParams = updateRoutingQuery(query, paramsToUpdate)
