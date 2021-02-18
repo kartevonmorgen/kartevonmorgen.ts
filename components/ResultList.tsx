@@ -4,22 +4,19 @@ import toString from 'lodash/toString'
 import { AutoSizer, List as VirtualList } from 'react-virtualized'
 import { List, Space, Tag } from 'antd'
 
-import { SearchEntries } from '../dtos/SearchEntry'
 import { types as resultType } from './TypeChooser'
 import { RootState } from '../slices'
 
 import 'react-virtualized/styles.css'
-import { CompactEvents } from '../dtos/Event'
-import { compactEventsSelector } from '../slices/eventsSlice'
-import { entriesSelector } from '../slices/entriesSlice'
-import { SearchResult } from '../dtos/SearchResult'
+import { SearchResults } from '../dtos/SearchResult'
+import searchResultSelector from '../selectors/searchResults'
 
 
 const rowRenderer = data => ({ key, index, style }) => {
   const item = data[index]
-  const {title, tags, categories} = item
+  const { title, tags, categories } = item
   // found some events with undefined description so a default value is mandatory
-  let {description} = item
+  let { description } = item
   description = toString(description)
   const type = resultType.find(t => t.id === categories[0])
 
@@ -48,10 +45,9 @@ const rowRenderer = data => ({ key, index, style }) => {
 
 
 const ResultList: FC = () => {
-  const searchEntries: SearchEntries = useSelector((state: RootState) => entriesSelector(state))
-  const searchEvents: CompactEvents = useSelector((state: RootState) => compactEventsSelector(state))
-
-  const searchResults: SearchResult = [...searchEntries, ...searchEvents]
+  const searchResults: SearchResults = useSelector(
+    (state: RootState) => searchResultSelector(state),
+  )
 
   return (
     <List

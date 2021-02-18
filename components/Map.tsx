@@ -6,10 +6,11 @@ import { MapContainer, Marker, Popup, TileLayer, ZoomControl } from 'react-leafl
 import MapEventsListener from './MapEventsListener'
 import MapLocationInitializer from './MapLocationInitializer'
 import SearchEventsListener from './SearchEventsListener'
-import SearchEntry, { SearchEntries } from '../dtos/SearchEntry'
 
 import 'leaflet/dist/leaflet.css'
+import { SearchResult, SearchResults } from '../dtos/SearchResult'
 import { RootState } from '../slices'
+import searchResultSelector from '../selectors/searchResults'
 
 
 const icon = new Icon({
@@ -25,7 +26,9 @@ export interface MapLocationProps {
 }
 
 const Map: FC = () => {
-  const searchEntries: SearchEntries = useSelector((state: RootState) => state.entries)
+  const searchResults: SearchResults = useSelector(
+    (state: RootState) => searchResultSelector(state),
+  )
 
   return (
     <MapContainer
@@ -44,13 +47,13 @@ const Map: FC = () => {
       />
       <ZoomControl position="bottomright"/>
       {
-        searchEntries.map((searchEntry: SearchEntry) => (
+        searchResults.map((searchResult: SearchResult) => (
           <Marker
-            position={[searchEntry.lat, searchEntry.lng]}
+            position={[searchResult.lat, searchResult.lng]}
             icon={icon}
           >
             <Popup>
-              {searchEntry.title}
+              {searchResult.title}
             </Popup>
           </Marker>
         ))
