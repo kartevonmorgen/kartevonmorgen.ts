@@ -1,5 +1,6 @@
 import Registration from './Registration'
 import Tag from './Tag'
+import Category from './Categories'
 
 
 export type EventID = string
@@ -28,6 +29,18 @@ interface Event {
   image_url: string
   image_link_url: string
 }
+
+export interface CompactEvent {
+  id: EventID
+  title: string
+  description: string
+  lat: number
+  lng: number
+  categories: [Category.EVENT]
+  tags: Tag[]
+}
+
+export type CompactEvents = CompactEvent[]
 
 export interface EventsCollection {
   [index: string]: Event

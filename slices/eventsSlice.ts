@@ -1,9 +1,11 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import Event, {Events} from '../dtos/Event'
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import Event, { CompactEvent, Events } from '../dtos/Event'
 import { SearchEventsRequest as SearchEventsRequestDTO } from '../dtos/SearchEventsRequest'
 import { AppThunk } from '../store'
 import { AxiosInstance } from '../api'
 import API_ENDPOINTS from '../api/endpoints'
+import { RootState } from './index'
+import Category from '../dtos/Categories'
 
 
 const eventsSlice = createSlice({
@@ -28,6 +30,32 @@ export const {
 
 
 export const {actions} = eventsSlice
+
+///////////////////////////////
+// selectors
+export const eventsSelector = (state: RootState) => (state.events)
+
+// creates a view of entries to be shown on the map and the result list
+export const compactEventsSelector = createSelector(
+  eventsSelector,
+  events => events.reduce(
+    (compactEvents: CompactEvent[], event: Event) => {
+      const compactEvent: CompactEvent = {
+        id: event.id,
+        title: event.title,
+        description: event.description,
+        lat: event.lat,
+        lng: event.lng,
+        categories: [Category.EVENT],
+        tags: event.tags
+      }
+
+      compactEvents.push(compactEvent)
+
+      return compactEvents
+    }
+  , [] as CompactEvent[])
+)
 
 ///////////////////////////////
 // Thunks

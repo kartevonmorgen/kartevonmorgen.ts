@@ -6,6 +6,7 @@ import API_ENDPOINTS from '../api/endpoints'
 import SearchEntry, { SearchEntries } from '../dtos/SearchEntry'
 import SearchEntriesResponseDTO from '../dtos/SearchEntriesResponse'
 import { SearchEntriesRequest as SearchEntriesRequestDTO } from '../dtos/SearchEntriesRequest'
+import { RootState } from './index'
 
 
 const entriesSlice = createSlice({
@@ -29,6 +30,11 @@ export const {
 } = entriesSlice.actions
 
 export const { actions } = entriesSlice
+
+///////////////////////////////
+// selectors
+export const entriesSelector = (state: RootState) => (state.entries)
+
 
 ///////////////////////////////
 // Thunks

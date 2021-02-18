@@ -1,11 +1,11 @@
-import {FC, useEffect} from 'react'
+import { FC, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 
-import {useMap} from 'react-leaflet'
+import { useMap } from 'react-leaflet'
 import toString from 'lodash/toString'
 
-import {fetchEntries, emptyEntries} from '../slices/entriesSlice'
+import { emptyEntries, fetchEntries } from '../slices/entriesSlice'
 import { emptyEvents, fetchEvents } from '../slices/eventsSlice'
 
 import {
@@ -19,9 +19,9 @@ import Category, { isEntryCategory } from '../dtos/Categories'
 import { SearchEventsRequest as SearchEventsRequestDTO } from '../dtos/SearchEventsRequest'
 
 
-const SearchEventsListener: FC =  () => {
+const SearchEventsListener: FC = () => {
   const router = useRouter()
-  const {query} = router
+  const { query } = router
   const {
     search: searchParam,
     lat,
@@ -45,7 +45,7 @@ const SearchEventsListener: FC =  () => {
     toString(lng),
     toString(zoom),
     toString(typesParam),
-    toString(limitParam)
+    toString(limitParam),
   ]
 
   useEffect(() => {
@@ -65,7 +65,7 @@ const SearchEventsListener: FC =  () => {
         bbox: bbox,
         text: searchTerm,
         categories: toString(typesParam),
-        limit: limit
+        limit: limit,
       }
       dispatch(fetchEntries(searchEntriesRequestDTO))
     } else {
