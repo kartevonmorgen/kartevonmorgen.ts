@@ -13,7 +13,15 @@ function handleChange(value) {
 }
 
 const SearchTags: FC<SearchTagsProps> = (props) => (
-  <Select mode="tags" style={{width: '100%'}} placeholder="Tags Mode" onChange={handleChange}>
+  <Select
+    mode="tags"
+    style={{
+      width: '100%',
+      marginTop: 8
+    }}
+    placeholder="Search for Tags"
+    onChange={handleChange}
+  >
     {
       props.options.map((option, i) => (
         <Option

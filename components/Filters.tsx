@@ -1,9 +1,9 @@
-import {Button, Collapse, Space} from 'antd'
-import {FilterOutlined} from '@ant-design/icons'
-
-const {Panel} = Collapse
-
+import { Button, Collapse, Space } from 'antd'
+import { FilterOutlined } from '@ant-design/icons'
 import TypeChooser from './TypeChooser'
+import SearchTags from './SearchTags'
+
+const { Panel } = Collapse
 
 
 const Filters = () => (
@@ -24,7 +24,7 @@ const Filters = () => (
           size="small"
           style={{
             width: '100%',
-            marginBottom: 8
+            marginBottom: 8,
           }}
         >
           Filters
@@ -35,10 +35,14 @@ const Filters = () => (
       <Space
         size="small"
         direction="vertical"
-        style={{width: '100%'}}
+        style={{ width: '100%' }}
       >
         <TypeChooser/>
       </Space>
+
+      <SearchTags
+        options={['fair', 'coffee']}
+      />
     </Panel>
   </Collapse>
 )

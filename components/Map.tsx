@@ -7,16 +7,23 @@ import MapEventsListener from './MapEventsListener'
 import MapLocationInitializer from './MapLocationInitializer'
 import SearchEventsListener from './SearchEventsListener'
 
-import 'leaflet/dist/leaflet.css'
 import { SearchResult, SearchResults } from '../dtos/SearchResult'
 import { RootState } from '../slices'
 import searchResultSelector from '../selectors/searchResults'
+import Category from '../dtos/Categories'
+
+import 'leaflet/dist/leaflet.css'
+
 
 
 const icon = new Icon({
   iconUrl: '/projects/main/icons/initiative-plain.png',
   iconRetinaUrl: '/projects/main/icons/initiative-plain-2x.png',
 })
+
+const icons = {
+  [Category.EVENT]: null
+}
 
 
 export interface MapLocationProps {
