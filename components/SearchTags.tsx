@@ -1,7 +1,9 @@
 import { FC, Fragment, useEffect, useState } from 'react'
+import {useRouter, NextRouter} from 'next/router'
 
 import { Select } from 'antd'
 import { TagsCount } from '../dtos/TagCount'
+import { removeRoutingQueryParams, updateRoutingQuery } from '../utils/utils'
 
 const { Option } = Select
 
@@ -10,8 +12,36 @@ interface SearchTagsProps {
   optionsCount: TagsCount
 }
 
-function handleChange(value) {
-  console.log(`selected ${value}`)
+const handleChange =  (router: NextRouter) =>  (values: string[]) => {
+  const { query } = router
+
+  const tagParamKey: string = 'tag'
+
+  // if no tags is selected
+  if (values.length === 0) {
+    const newQueryParams = removeRoutingQueryParams(query, [tagParamKey])
+
+    router.replace(
+      {
+        pathname: '/maps/[project]',
+        query: newQueryParams,
+      },
+      undefined,
+      { shallow: true },
+    )
+
+    return
+  }
+
+  const newQueryParams = updateRoutingQuery(query, {tag: values})
+  router.replace(
+    {
+      pathname: '/maps/[project]',
+      query: newQueryParams,
+    },
+    undefined,
+    { shallow: true },
+  )
 }
 
 const SearchTags: FC<SearchTagsProps> = (props) => {
@@ -20,6 +50,8 @@ const SearchTags: FC<SearchTagsProps> = (props) => {
   useEffect(() => {
     setShowSelect(true)
   }, [])
+
+  const router = useRouter()
 
   return (
     <Fragment>
@@ -31,7 +63,7 @@ const SearchTags: FC<SearchTagsProps> = (props) => {
             marginTop: 8,
           }}
           placeholder="Search for Tags"
-          onChange={handleChange}
+          onChange={handleChange(router)}
         >
           {
             props.optionsCount.map((optionCount, i) => (

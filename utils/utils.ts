@@ -2,7 +2,6 @@ import produce from 'immer'
 import isString from 'lodash/isString'
 import isEmpty from 'lodash/isEmpty'
 import toString from 'lodash/toString'
-import toNumber from 'lodash/toNumber'
 import { ParsedUrlQuery } from 'querystring'
 import { LatLngBounds } from 'leaflet'
 import { RouterQueryParam } from './types'
@@ -50,6 +49,14 @@ export const convertQueryParamToInt = (param: RouterQueryParam): number => (
   )
 )
 
+export const removeRoutingQueryParams = (query: ParsedUrlQuery, paramsToRemove: string[]): ParsedUrlQuery => {
+  return produce(query, draftState => {
+    paramsToRemove.forEach(paramsToRemove => {
+      delete draftState[paramsToRemove]
+    })
+  })
+}
+
 export const updateRoutingQuery = (query: ParsedUrlQuery, newParams: ParsedUrlQuery): ParsedUrlQuery => {
   return produce(query, draftState => {
     Object.keys(newParams).forEach(param => {
@@ -76,7 +83,6 @@ export const updateRoutingQueryWithoutDynamicParams = (
 }
 
 export const convertBBoxToString = (bbox: LatLngBounds): string => {
-  // const bboxCoords = [sw.lat, sw.lng, ne.lat, ne.lng]
   const sw = bbox.getSouthWest()
   const ne = bbox.getNorthEast()
 
