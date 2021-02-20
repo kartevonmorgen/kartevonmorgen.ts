@@ -24,11 +24,12 @@ const SearchEventsListener: FC = () => {
   const { query } = router
   const {
     search: searchParam,
-    lat,
-    lng,
-    zoom,
+    lat: latParam,
+    lng: lngParam,
+    zoom: zoomParam,
     type: typesParam,
     limit: limitParam,
+    tag: tagsParam
   } = query
 
   const dispatch = useDispatch()
@@ -41,11 +42,12 @@ const SearchEventsListener: FC = () => {
   // these dependency list should be consistent with SearchEntryRequest DTO
   const searchEffectDependencies = [
     toString(searchParam),
-    toString(lat),
-    toString(lng),
-    toString(zoom),
+    toString(latParam),
+    toString(lngParam),
+    toString(zoomParam),
     toString(typesParam),
     toString(limitParam),
+    toString(tagsParam),
   ]
 
   useEffect(() => {
@@ -66,6 +68,7 @@ const SearchEventsListener: FC = () => {
         text: searchTerm,
         categories: toString(typesParam),
         limit: limit,
+        tags: toString(tagsParam)
       }
       dispatch(fetchEntries(searchEntriesRequestDTO))
     } else {
@@ -78,6 +81,7 @@ const SearchEventsListener: FC = () => {
         bbox: bbox,
         text: searchTerm,
         limit: limit,
+        tag: toString(tagsParam)
       }
       dispatch(fetchEvents(searchEventsRequestDTO))
     } else {
