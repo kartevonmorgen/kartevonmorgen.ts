@@ -1,12 +1,18 @@
+import {FC} from 'react'
 import { Button, Collapse, Space } from 'antd'
 import { FilterOutlined } from '@ant-design/icons'
 import TypeChooser from './TypeChooser'
 import SearchTags from './SearchTags'
+import { TagsCount } from '../dtos/TagCount'
 
 const { Panel } = Collapse
 
 
-const Filters = () => (
+interface FiltersProps {
+  tagsCount: TagsCount
+}
+
+const Filters: FC<FiltersProps> = (props) => (
   <Collapse
     className="no-pad-collapse"
     defaultActiveKey={['1']}
@@ -41,7 +47,7 @@ const Filters = () => (
       </Space>
 
       <SearchTags
-        options={['fair', 'coffee']}
+        optionsCount={props.tagsCount}
       />
     </Panel>
   </Collapse>

@@ -5,5 +5,8 @@
       "lng": 10.92,
       "zoom": 7
     }
+  },
+  "popularTags": {
+    "min_count": 50
   }
 }

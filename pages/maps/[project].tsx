@@ -17,12 +17,14 @@ import SearchInput from '../../components/SearchInput'
 import RouterQueryInitializer from '../../components/RouterQueryInitializer'
 
 import { MapLocationProps } from '../../components/Map'
+import { TagsCount } from '../../dtos/TagCount'
+import PopularTagsRequest from '../../dtos/PopularTagsRequest'
 
 const { Content, Sider } = Layout
 
 
 interface MapPageProps {
-  popularTags: string[]
+  popularTags: TagsCount
   mapLocationProps: MapLocationProps
 }
 
@@ -79,7 +81,9 @@ const MapPage: FC<MapPageProps> = (props) => {
           {/*todo: make the search component a separate component to prevent unnecessary renders*/}
           <SearchInput/>
 
-          <Filters/>
+          <Filters
+            tagsCount={props.popularTags}
+          />
 
           <div style={{ flexGrow: 1 }}>
             <ResultList/>
@@ -102,19 +106,36 @@ const MapPage: FC<MapPageProps> = (props) => {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { project } = ctx.params
 
+  // set configs
   const pageConfigsReq = await AxiosInstance.GetRequest<MapPageConfigs>(
     API_ENDPOINTS.getMapPageConfigs(
       convertQueryParamToString(project),
     ),
   )
 
-  const pageConfigsData = AxiosInstance.GetSuccessData(pageConfigsReq)
-  const mapLocationProps = pageConfigsData.map.location
+  const pageConfigs = AxiosInstance.GetSuccessData(pageConfigsReq)
+  const mapLocationProps = pageConfigs.map.location
+
+  // get popular tags
+  const popularTagsRequestParams: PopularTagsRequest = {
+    min_count: pageConfigs.popularTags.min_count,
+    max_count: pageConfigs.popularTags.max_count,
+    limit: pageConfigs.popularTags.limit,
+    offset: pageConfigs.popularTags.offset,
+  }
+  const popularTagsReq = await AxiosInstance.GetRequest<TagsCount>(
+    API_ENDPOINTS.getPopularTags(),
+    {
+      params: popularTagsRequestParams
+    }
+  )
+  const popularTags = AxiosInstance.GetSuccessData(popularTagsReq)
 
   //todo: move the re-validate value to constants
   return {
     props: {
       mapLocationProps,
+      popularTags
     },
   }
 }

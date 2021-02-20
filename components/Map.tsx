@@ -56,6 +56,7 @@ const Map: FC = () => {
       {
         searchResults.map((searchResult: SearchResult) => (
           <Marker
+            key={searchResult.id}
             position={[searchResult.lat, searchResult.lng]}
             icon={icon}
           >
