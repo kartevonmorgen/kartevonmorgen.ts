@@ -1,28 +1,43 @@
 import { FC } from 'react'
-import {useSelector} from 'react-redux'
+import { useRouter } from 'next/router'
+import { useSelector } from 'react-redux'
 import { Icon } from 'leaflet'
 import { MapContainer, Marker, Popup, TileLayer, ZoomControl } from 'react-leaflet'
 
 import MapEventsListener from './MapEventsListener'
 import MapLocationInitializer from './MapLocationInitializer'
 import SearchEventsListener from './SearchEventsListener'
-
+import { types as resultType } from './TypeChooser'
 import { SearchResult, SearchResults } from '../dtos/SearchResult'
 import { RootState } from '../slices'
 import searchResultSelector from '../selectors/searchResults'
-import Category from '../dtos/Categories'
+import Category, { Categories } from '../dtos/Categories'
 
+import { convertQueryParamToString } from '../utils/utils'
 import 'leaflet/dist/leaflet.css'
 
 
-
-const icon = new Icon({
-  iconUrl: '/projects/main/icons/initiative-plain.png',
-  iconRetinaUrl: '/projects/main/icons/initiative-plain-2x.png',
-})
-
 const icons = {
-  [Category.EVENT]: null
+  [Category.EVENT]: null,
+  [Category.COMPANY]: null,
+  [Category.INITIATIVE]: null,
+}
+
+// memoize icon to prevent object creation on each iteration
+const getIcon = (types: Categories, project: string) => {
+  const typeId = types[0]
+  const icon = icons[typeId]
+  if (!icon) {
+    const type = resultType.find(t => t.id === typeId)
+    icons[typeId] = new Icon({
+      iconUrl: `/projects/${project}/icons/${type.name.toLowerCase()}-plain.png`,
+      iconRetinaUrl: `/projects/${project}/icons/${type.name.toLowerCase()}-plain-2x.png`,
+    })
+
+    return icons[typeId]
+  }
+
+  return icon
 }
 
 
@@ -33,6 +48,11 @@ export interface MapLocationProps {
 }
 
 const Map: FC = () => {
+  const router = useRouter()
+  const { query } = router
+  const { project: projectParam } = query
+  const project = convertQueryParamToString(projectParam)
+
   const searchResults: SearchResults = useSelector(
     (state: RootState) => searchResultSelector(state),
   )
@@ -45,9 +65,9 @@ const Map: FC = () => {
       style={{ height: '100%', width: '100%' }}
       zoomControl={false}
     >
-      <MapLocationInitializer />
-      <MapEventsListener />
-      <SearchEventsListener />
+      <MapLocationInitializer/>
+      <MapEventsListener/>
+      <SearchEventsListener/>
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -58,7 +78,7 @@ const Map: FC = () => {
           <Marker
             key={searchResult.id}
             position={[searchResult.lat, searchResult.lng]}
-            icon={icon}
+            icon={getIcon(searchResult.categories, project)}
           >
             <Popup>
               {searchResult.title}

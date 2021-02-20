@@ -4,6 +4,8 @@ enum Category {
   COMPANY = '77b3c33a92554bcf8e8c2c86cedd6f6f'
 }
 
+export type Categories = Category[]
+
 
 const EntryCategories = [Category.COMPANY, Category.INITIATIVE]
 const EventCategory = Category.EVENT
