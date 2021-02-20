@@ -1,18 +1,21 @@
 import React, { FC } from 'react'
 import { useSelector } from 'react-redux'
 import toString from 'lodash/toString'
-import { AutoSizer, List as VirtualList } from 'react-virtualized'
+
+import { AutoSizer, CellMeasurer, CellMeasurerCache, List as VirtualList } from 'react-virtualized'
 import { List, Space, Tag } from 'antd'
 
 import { types as resultType } from './TypeChooser'
+
+import { SearchResults } from '../dtos/SearchResult'
+import searchResultSelector from '../selectors/searchResults'
 import { RootState } from '../slices'
 
 import 'react-virtualized/styles.css'
-import { SearchResults } from '../dtos/SearchResult'
-import searchResultSelector from '../selectors/searchResults'
 
 
-const rowRenderer = data => ({ key, index, style }) => {
+// todo: create a separate component for showing the result
+const rowRenderer = data => ({ index, key, parent, style }) => {
   const item = data[index]
   const { title, tags, categories } = item
   // found some events with undefined description so a default value is mandatory
@@ -21,28 +24,44 @@ const rowRenderer = data => ({ key, index, style }) => {
   const type = resultType.find(t => t.id === categories[0])
 
   return (
-    <List.Item
+    <CellMeasurer
+      cache={cache}
+      columnIndex={0}
       key={key}
-      style={style}
+      parent={parent}
+      rowIndex={index}
     >
-      <List.Item.Meta
-        title={title}
-        description={<Tag color={type.color}>{type.name}</Tag>}
-      />
-      <div>{description.substr(0, 70)}</div>
-      <div style={{ marginTop: 4 }}>
-        <Space size="small">
-          {
-            tags.slice(0, 3).map(
-              (tag: string) => (<Tag key={tag}>{tag}</Tag>),
-            )
-          }
-        </Space>
-      </div>
-    </List.Item>
+      {({ measure }) => (
+        <List.Item
+          key={key}
+          onLoad={measure}
+          style={style}
+        >
+          <List.Item.Meta
+            title={title}
+            description={<Tag color={type.color}>{type.name}</Tag>}
+          />
+          <div>{description.substr(0, 70)}</div>
+          <div style={{ marginTop: 4 }}>
+            <Space size="small" wrap>
+              {
+                tags.slice(0, 3).map(
+                  (tag: string) => (<Tag key={tag}>{tag}</Tag>),
+                )
+              }
+            </Space>
+          </div>
+        </List.Item>
+      )}
+    </CellMeasurer>
   )
 }
 
+const cache = new CellMeasurerCache({
+  defaultHeight: 50,
+  fixedWidth: true,
+  // keyMapper: () => 1
+})
 
 const ResultList: FC = () => {
   const searchResults: SearchResults = useSelector(
@@ -62,11 +81,12 @@ const ResultList: FC = () => {
       <AutoSizer>
         {({ height, width }) => (
           <VirtualList
+            deferredMeasurementCache={cache}
             defaultHeight={120}
             defaultWidth={150}
             height={height}
             rowCount={searchResults.length}
-            rowHeight={160}
+            rowHeight={cache.rowHeight}
             rowRenderer={rowRenderer(searchResults)}
             width={width}
           />

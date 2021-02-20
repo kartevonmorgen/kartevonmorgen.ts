@@ -23,7 +23,7 @@ const icons = {
   [Category.INITIATIVE]: null,
 }
 
-// memoize icon to prevent object creation on each iteration
+// memoize icons to prevent object creations
 const getIcon = (types: Categories, project: string) => {
   const typeId = types[0]
   const icon = icons[typeId]
