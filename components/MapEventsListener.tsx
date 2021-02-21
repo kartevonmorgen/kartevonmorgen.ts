@@ -28,7 +28,7 @@ const MapEventsListener: FC = () => {
 
       router.replace(
         {
-          pathname: '/maps/[project]',
+          pathname: '/maps/[...slug]',
           query: newQueryParams,
         },
         undefined,

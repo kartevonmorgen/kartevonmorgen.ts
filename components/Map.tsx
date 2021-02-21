@@ -13,7 +13,7 @@ import { RootState } from '../slices'
 import searchResultSelector from '../selectors/searchResults'
 import Category, { Categories } from '../dtos/Categories'
 
-import { convertQueryParamToString } from '../utils/utils'
+import { convertQueryParamToArray } from '../utils/utils'
 import 'leaflet/dist/leaflet.css'
 
 
@@ -50,8 +50,9 @@ export interface MapLocationProps {
 const Map: FC = () => {
   const router = useRouter()
   const { query } = router
-  const { project: projectParam } = query
-  const project = convertQueryParamToString(projectParam)
+  const { slug } = query
+  const path = convertQueryParamToArray(slug)
+  const project = path[0]
 
   const searchResults: SearchResults = useSelector(
     (state: RootState) => searchResultSelector(state),

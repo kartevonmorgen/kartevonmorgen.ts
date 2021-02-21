@@ -24,7 +24,7 @@ const onSearch = (router) => (searchTerm, _event) => {
 
   router.replace(
     {
-      pathname: '/maps/[project]',
+      pathname: '/maps/[...slug]',
       query: newQueryParams,
     },
     undefined,

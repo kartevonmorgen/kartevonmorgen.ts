@@ -8,7 +8,7 @@ import { Layout, Spin } from 'antd'
 import { AxiosInstance } from '../../api'
 import MapPageConfigs from '../../dtos/MapPageConfigs'
 import API_ENDPOINTS from '../../api/endpoints'
-import { convertQueryParamToString } from '../../utils/utils'
+import { convertQueryParamToArray } from '../../utils/utils'
 
 import ResultList from '../../components/ResultList'
 import Filters from '../../components/Filters'
@@ -104,13 +104,15 @@ const MapPage: FC<MapPageProps> = (props) => {
 
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { project } = ctx.params
+  const { slug } = ctx.params
+  const path = convertQueryParamToArray(slug)
+
+  // we expect to have path always not empty with the first element of project name
+  const project = path[0]
 
   // set configs
   const pageConfigsReq = await AxiosInstance.GetRequest<MapPageConfigs>(
-    API_ENDPOINTS.getMapPageConfigs(
-      convertQueryParamToString(project),
-    ),
+    API_ENDPOINTS.getMapPageConfigs(project),
   )
 
   const pageConfigs = AxiosInstance.GetSuccessData(pageConfigsReq)

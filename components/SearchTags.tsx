@@ -23,7 +23,7 @@ const handleChange =  (router: NextRouter) =>  (values: string[]) => {
 
     router.replace(
       {
-        pathname: '/maps/[project]',
+        pathname: '/maps/[...slug]',
         query: newQueryParams,
       },
       undefined,
@@ -36,7 +36,7 @@ const handleChange =  (router: NextRouter) =>  (values: string[]) => {
   const newQueryParams = updateRoutingQuery(query, {tag: values})
   router.replace(
     {
-      pathname: '/maps/[project]',
+      pathname: '/maps/[...slug]',
       query: newQueryParams,
     },
     undefined,
