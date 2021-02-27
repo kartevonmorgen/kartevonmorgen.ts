@@ -1,5 +1,6 @@
 import React, { FC } from 'react'
 import { useSelector } from 'react-redux'
+import { NextRouter, useRouter } from 'next/router'
 import toString from 'lodash/toString'
 
 import { AutoSizer, CellMeasurer, CellMeasurerCache, List as VirtualList } from 'react-virtualized'
@@ -15,9 +16,9 @@ import 'react-virtualized/styles.css'
 
 
 // todo: create a separate component for showing the result
-const rowRenderer = data => ({ index, key, parent, style }) => {
+const rowRenderer = (data: SearchResults, router: NextRouter) => ({ index, key, parent, style }) => {
   const item = data[index]
-  const { title, tags, categories } = item
+  const { id, title, tags, categories } = item
   // found some events with undefined description so a default value is mandatory
   let { description } = item
   description = toString(description)
@@ -36,6 +37,8 @@ const rowRenderer = data => ({ index, key, parent, style }) => {
           key={key}
           onLoad={measure}
           style={style}
+          onClick={() => {
+          }}
         >
           <List.Item.Meta
             title={title}
@@ -68,6 +71,8 @@ const ResultList: FC = () => {
     (state: RootState) => searchResultSelector(state),
   )
 
+  const router = useRouter()
+
   return (
     <List
       itemLayout="vertical"
@@ -87,7 +92,7 @@ const ResultList: FC = () => {
             height={height}
             rowCount={searchResults.length}
             rowHeight={cache.rowHeight}
-            rowRenderer={rowRenderer(searchResults)}
+            rowRenderer={rowRenderer(searchResults, router)}
             width={width}
           />
         )}
