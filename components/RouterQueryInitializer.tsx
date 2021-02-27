@@ -50,9 +50,6 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
 
     // filter query params out of all params including the dynamic ones
     const newQueryParams = updateRoutingQuery(query, paramsToUpdate)
-    console.log(query)
-    console.log(newQueryParams)
-
 
     //todo: how about having other params like fixedTags but not zoom or things like that
     router.replace(

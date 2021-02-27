@@ -1,3 +1,5 @@
+// todo: should eliminate self_api because it causes troubles with the hosting domain
+// todo: use SWR instead
 export const BASICS_API_URL: string = process.env.NEXT_PUBLIC_BASICS_API
 export const SELF_API_URL: string = process.env.NEXT_PUBLIC_SELF_API
 

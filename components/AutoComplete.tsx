@@ -45,7 +45,6 @@ const Complete = () => {
   }
 
   const onSelect = (value) => {
-    console.log('onSelect', value)
   }
 
   return (

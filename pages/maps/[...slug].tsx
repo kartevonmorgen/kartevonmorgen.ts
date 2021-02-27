@@ -19,6 +19,7 @@ import RouterQueryInitializer from '../../components/RouterQueryInitializer'
 import { MapLocationProps } from '../../components/Map'
 import { TagsCount } from '../../dtos/TagCount'
 import PopularTagsRequest from '../../dtos/PopularTagsRequest'
+import Sidebar from '../../components/Sidebar'
 
 const { Content, Sider } = Layout
 
@@ -74,21 +75,9 @@ const MapPage: FC<MapPageProps> = (props) => {
             flexDirection: 'column',
           }}
         >
-
-          {/*todo: create a background of dark with bottom shadow*/}
-          <NavSidebar/>
-
-          {/*todo: make the search component a separate component to prevent unnecessary renders*/}
-          <SearchInput/>
-
-          <Filters
+          <Sidebar
             tagsCount={props.popularTags}
           />
-
-          <div style={{ flexGrow: 1 }}>
-            <ResultList/>
-          </div>
-
         </Sider>
         <Content>
           <Spin spinning={isLoading}>

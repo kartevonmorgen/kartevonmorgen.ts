@@ -8,7 +8,7 @@ import { TagsCount } from '../dtos/TagCount'
 const { Panel } = Collapse
 
 
-interface FiltersProps {
+export interface FiltersProps {
   tagsCount: TagsCount
 }
 
