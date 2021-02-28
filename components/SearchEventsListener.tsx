@@ -29,7 +29,7 @@ const SearchEventsListener: FC = () => {
     zoom: zoomParam,
     type: typesParam,
     limit: limitParam,
-    tag: tagsParam
+    tag: tagsParam,
   } = query
 
   const dispatch = useDispatch()
@@ -68,7 +68,7 @@ const SearchEventsListener: FC = () => {
         text: searchTerm,
         categories: toString(typesParam),
         limit: limit,
-        tags: toString(tagsParam)
+        tags: toString(tagsParam),
       }
       dispatch(fetchEntries(searchEntriesRequestDTO))
     } else {
@@ -81,7 +81,7 @@ const SearchEventsListener: FC = () => {
         bbox: bbox,
         text: searchTerm,
         limit: limit,
-        tag: toString(tagsParam)
+        tag: toString(tagsParam),
       }
       dispatch(fetchEvents(searchEventsRequestDTO))
     } else {

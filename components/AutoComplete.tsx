@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import {Input, AutoComplete} from 'antd'
+import React, { useState } from 'react'
+import { AutoComplete, Input } from 'antd'
 
 function getRandomInt(max, min = 0) {
   return Math.floor(Math.random() * (max - min + 1)) + min // eslint-disable-line no-mixed-operators
@@ -51,7 +51,7 @@ const Complete = () => {
     <AutoComplete
       dropdownMatchSelectWidth={252}
       style={{
-        width: "100%",
+        width: '100%',
       }}
       options={options}
       onSelect={onSelect}

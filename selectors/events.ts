@@ -18,14 +18,14 @@ export const compactEventsSelector = createSelector(
         lat: event.lat,
         lng: event.lng,
         categories: [Category.EVENT],
-        tags: event.tags
+        tags: event.tags,
       }
 
       compactEvents.push(compactEvent)
 
       return compactEvents
     }
-    , [] as CompactEvent[])
+    , [] as CompactEvent[]),
 )
 
 

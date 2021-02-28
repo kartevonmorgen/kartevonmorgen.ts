@@ -1,4 +1,4 @@
-import {createSelector} from '@reduxjs/toolkit'
+import { createSelector } from '@reduxjs/toolkit'
 import entriesSelector from './entries'
 import { compactEventsSelector } from './events'
 import { CompactEvents } from '../dtos/Event'

@@ -43,13 +43,13 @@ const handleChange = (
   router: NextRouter,
 ) => {
 
-  const {query} = router
+  const { query } = router
 
   let nextSelectedTypes = [] as Category[]
   if (selectedTypes.length === types.length) {
     // if all are selected -> disable others
     nextSelectedTypes = [typeId]
-  } else if(selectedTypes.length === 1 && selectedTypes[0] === typeId) {
+  } else if (selectedTypes.length === 1 && selectedTypes[0] === typeId) {
     // if this type is the only active type -> select all types to prevent non-selection
     nextSelectedTypes = types.map(type => type.id)
   } else {
@@ -61,7 +61,7 @@ const handleChange = (
     }
   }
 
-  const newQueryParams = updateRoutingQuery(query, {type: nextSelectedTypes})
+  const newQueryParams = updateRoutingQuery(query, { type: nextSelectedTypes })
 
   router.replace(
     {
@@ -69,7 +69,7 @@ const handleChange = (
       query: newQueryParams,
     },
     undefined,
-    { shallow: true }
+    { shallow: true },
   )
 }
 

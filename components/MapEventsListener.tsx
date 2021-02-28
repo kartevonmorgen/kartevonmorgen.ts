@@ -32,7 +32,7 @@ const MapEventsListener: FC = () => {
           query: newQueryParams,
         },
         undefined,
-        { shallow: true }
+        { shallow: true },
       )
     }),
   })

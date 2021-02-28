@@ -1,4 +1,4 @@
-import {MapLocationProps} from '../components/Map'
+import { MapLocationProps } from '../components/Map'
 import PopularTagsRequest from './PopularTagsRequest'
 
 

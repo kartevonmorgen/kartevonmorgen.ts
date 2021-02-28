@@ -1,6 +1,6 @@
-import {Button} from 'antd'
-import {green} from '@ant-design/colors'
-import {MenuFoldOutlined, PlusCircleOutlined} from '@ant-design/icons'
+import { Button } from 'antd'
+import { green } from '@ant-design/colors'
+import { MenuFoldOutlined, PlusCircleOutlined } from '@ant-design/icons'
 
 
 const NavSidebar = () => (
@@ -8,7 +8,7 @@ const NavSidebar = () => (
     style={{
       display: 'flex',
       justifyContent: 'space-between',
-      alignItems: 'center'
+      alignItems: 'center',
     }}
   >
     <Button
@@ -22,7 +22,7 @@ const NavSidebar = () => (
       size="small"
       style={{
         color: green[5],
-        borderColor: green[5]
+        borderColor: green[5],
       }}
     />
   </div>

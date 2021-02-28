@@ -28,8 +28,8 @@ const onSearch = (router) => (searchTerm, _event) => {
       query: newQueryParams,
     },
     undefined,
-    { shallow: true }
-    )
+    { shallow: true },
+  )
 }
 
 

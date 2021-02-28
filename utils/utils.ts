@@ -90,7 +90,7 @@ export const convertBBoxToString = (bbox: LatLngBounds): string => {
     sw.lat,
     sw.lng,
     ne.lat,
-    ne.lng
+    ne.lng,
   ]
 
   return toString(bboxCoords)

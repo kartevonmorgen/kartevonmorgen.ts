@@ -1,5 +1,5 @@
 import { FC, Fragment, useEffect, useState } from 'react'
-import {useRouter, NextRouter} from 'next/router'
+import { NextRouter, useRouter } from 'next/router'
 
 import { Select } from 'antd'
 import { TagsCount } from '../dtos/TagCount'
@@ -12,7 +12,7 @@ interface SearchTagsProps {
   optionsCount: TagsCount
 }
 
-const handleChange =  (router: NextRouter) =>  (values: string[]) => {
+const handleChange = (router: NextRouter) => (values: string[]) => {
   const { query } = router
 
   const tagParamKey: string = 'tag'
@@ -33,7 +33,7 @@ const handleChange =  (router: NextRouter) =>  (values: string[]) => {
     return
   }
 
-  const newQueryParams = updateRoutingQuery(query, {tag: values})
+  const newQueryParams = updateRoutingQuery(query, { tag: values })
   router.replace(
     {
       pathname: '/maps/[...slug]',

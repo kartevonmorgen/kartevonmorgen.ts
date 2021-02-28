@@ -9,11 +9,6 @@ import { AxiosInstance } from '../../api'
 import MapPageConfigs from '../../dtos/MapPageConfigs'
 import API_ENDPOINTS from '../../api/endpoints'
 import { convertQueryParamToArray } from '../../utils/utils'
-
-import ResultList from '../../components/ResultList'
-import Filters from '../../components/Filters'
-import NavSidebar from '../../components/NavSidebar'
-import SearchInput from '../../components/SearchInput'
 import RouterQueryInitializer from '../../components/RouterQueryInitializer'
 
 import { MapLocationProps } from '../../components/Map'
@@ -117,8 +112,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const popularTagsReq = await AxiosInstance.GetRequest<TagsCount>(
     API_ENDPOINTS.getPopularTags(),
     {
-      params: popularTagsRequestParams
-    }
+      params: popularTagsRequestParams,
+    },
   )
   const popularTags = AxiosInstance.GetSuccessData(popularTagsReq)
 
@@ -126,7 +121,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return {
     props: {
       mapLocationProps,
-      popularTags
+      popularTags,
     },
   }
 }

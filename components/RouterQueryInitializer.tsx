@@ -5,7 +5,7 @@ import toString from 'lodash/toString'
 
 import { MapLocationProps } from './Map'
 import Category from '../dtos/Categories'
-import {types as defaultTypes} from './TypeChooser'
+import { types as defaultTypes } from './TypeChooser'
 
 import { convertQueryParamToArray, convertQueryParamToFloat, updateRoutingQuery } from '../utils/utils'
 
@@ -29,7 +29,7 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
       lat: latParam,
       lng: lngParam,
       zoom: zoomParam,
-      type: typesParam
+      type: typesParam,
     } = query
 
     // coming from the dynamic routing. we should not add them as the query params
@@ -58,7 +58,7 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
         query: newQueryParams,
       },
       undefined,
-      { shallow: true }
+      { shallow: true },
     )
   }, [])
 

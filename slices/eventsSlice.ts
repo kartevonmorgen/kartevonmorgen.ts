@@ -12,22 +12,24 @@ const eventsSlice = createSlice({
   reducers: {
     setEvents: (state, action: PayloadAction<Events>) => {
       state.splice(0, state.length)
-      action.payload.forEach((event: Event) => {state.push(event)})
+      action.payload.forEach((event: Event) => {
+        state.push(event)
+      })
     },
     emptyEvents: (state, _action: PayloadAction) => {
       state.splice(0, state.length)
-    }
-  }
+    },
+  },
 })
 
 
 export const {
   setEvents,
-  emptyEvents
+  emptyEvents,
 } = eventsSlice.actions
 
 
-export const {actions} = eventsSlice
+export const { actions } = eventsSlice
 
 ///////////////////////////////
 // Thunks

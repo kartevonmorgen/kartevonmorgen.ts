@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios'
 
 export enum REQUEST_METHOD_TYPES_ENUM {
   GET = 'get',

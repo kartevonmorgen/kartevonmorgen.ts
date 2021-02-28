@@ -22,7 +22,7 @@ export default (req, res) => {
   // todo: catch the error if the file is not found
   const fileContent = fs.readFileSync(
     path.resolve(`./public/projects/${project}/config.json`),
-    'utf8'
+    'utf8',
   )
   const mapPageConfigs: MapPageConfigs = JSON.parse(fileContent.toString())
 

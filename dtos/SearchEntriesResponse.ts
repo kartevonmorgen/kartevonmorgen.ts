@@ -1,4 +1,4 @@
-import {SearchEntries} from './SearchEntry'
+import { SearchEntries } from './SearchEntry'
 
 
 interface SearchEntriesResponse {

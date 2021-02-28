@@ -1,4 +1,4 @@
-import {AxiosRequestConfig} from 'axios'
+import { AxiosRequestConfig } from 'axios'
 import * as qs from 'qs'
 import { PathLike } from 'fs'
 

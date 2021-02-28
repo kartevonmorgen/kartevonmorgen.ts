@@ -1,8 +1,8 @@
-import {Card} from 'antd'
+import { Card } from 'antd'
 
 
 const ResultCard = (props) => {
-  const {children, cardProps} = props
+  const { children, cardProps } = props
 
   return (
     <Card

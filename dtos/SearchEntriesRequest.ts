@@ -1,7 +1,7 @@
 import ReviewStatus from './ReviewStatus'
 import { BoundingBox } from './BoundingBox'
 import { OrgTagFilter } from './OrgTagFilter'
-import {IdList} from './IdList'
+import { IdList } from './IdList'
 import { TagList } from './TagList'
 import { PaginationLimit } from './PaginationLimit'
 

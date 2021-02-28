@@ -1,8 +1,8 @@
-import {BASICS_ENDPOINTS} from './BasicsEndpoints'
+import { BASICS_ENDPOINTS } from './BasicsEndpoints'
 
 
 export const API_ENDPOINTS = {
-  ...BASICS_ENDPOINTS
+  ...BASICS_ENDPOINTS,
 }
 
 export default API_ENDPOINTS
