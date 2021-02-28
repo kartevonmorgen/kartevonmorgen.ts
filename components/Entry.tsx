@@ -14,7 +14,7 @@ const Entry: FC = () => {
 
   switch (slugAction.verb) {
     case SlugVerb.SHOW:
-      return <EntryDetail/>
+      return <EntryDetail entryId={slugAction.id}/>
     case SlugVerb.CREATE:
       return <EntryForm/>
     case SlugVerb.EDIT:

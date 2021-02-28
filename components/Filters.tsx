@@ -1,4 +1,4 @@
-import {FC} from 'react'
+import { FC } from 'react'
 import { Button, Collapse, Space } from 'antd'
 import { FilterOutlined } from '@ant-design/icons'
 import TypeChooser from './TypeChooser'
@@ -40,8 +40,8 @@ const Filters: FC<FiltersProps> = (props) => (
     >
       <Space
         size="small"
-        direction="vertical"
         style={{ width: '100%' }}
+        wrap
       >
         <TypeChooser/>
       </Space>
