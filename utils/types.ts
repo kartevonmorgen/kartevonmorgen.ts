@@ -11,7 +11,7 @@ export enum SlugVerb {
   EDIT = 'edit',
 }
 
-export enum SingularSlugEntity {
+export enum SlugEntity {
   EVENT = 'event',
   ENTRY = 'entry',
   RESULT = 'result',
@@ -31,7 +31,7 @@ export type SlugId = EventID | SearchEntryID | null
 
 export interface SlugAction {
   verb: SlugVerb
-  entity: SingularSlugEntity
+  entity: SlugEntity
   id: SlugId
 }
 

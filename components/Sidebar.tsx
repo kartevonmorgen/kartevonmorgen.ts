@@ -1,8 +1,10 @@
 import { FC } from 'react'
 import { useRouter } from 'next/router'
-import SearchSidebar, { SearchSidebarProps } from './SearchSidebar'
 import { getSlugActionFromQuery } from '../utils/slug'
-import { SingularSlugEntity } from '../utils/types'
+import { SlugEntity } from '../utils/types'
+import SearchSidebar, { SearchSidebarProps } from './SearchSidebar'
+import Entry from './Entry'
+import Event from './Event'
 
 
 interface SidebarProps extends SearchSidebarProps {
@@ -11,15 +13,15 @@ interface SidebarProps extends SearchSidebarProps {
 
 const Sidebar: FC<SidebarProps> = (props) => {
   const router = useRouter()
-  const {query} = router
+  const { query } = router
 
   const slugAction = getSlugActionFromQuery(query)
 
   switch (slugAction.entity) {
-    case SingularSlugEntity.ENTRY:
-      return null
-    case SingularSlugEntity.EVENT:
-      return null
+    case SlugEntity.ENTRY:
+      return <Entry/>
+    case SlugEntity.EVENT:
+      return <Event/>
     default:
       return <SearchSidebar tagsCount={props.tagsCount}/>
   }

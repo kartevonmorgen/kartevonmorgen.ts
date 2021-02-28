@@ -1,14 +1,13 @@
 import { ParsedUrlQuery } from 'querystring'
 import isEmpty from 'lodash/isEmpty'
 import isString from 'lodash/isString'
-import isArray from 'lodash/isArray'
 
 import {
   mapPluralEntityNameToSingular,
   PluralSlugEntity,
-  SingularSlugEntity,
   SlugAction,
   SlugEntities,
+  SlugEntity,
   SlugId,
   SlugVerb,
 } from './types'
@@ -20,32 +19,41 @@ export const getSlugActionFromQuery = (query: ParsedUrlQuery): SlugAction => {
 
   const defaultAction: SlugAction = {
     verb: SlugVerb.SHOW,
-    entity: SingularSlugEntity.RESULT,
+    entity: SlugEntity.RESULT,
     id: null,
   }
 
-  if (
-    isEmpty(slug) ||
-    isString(slug) ||
-    (isArray(slug) && slug.length < 3)
-  ) {
+  if (isEmpty(slug) || isString(slug)) {
     return defaultAction
   }
 
-  const [_project, pluralEntityName, entityId, verbFromSlug] = slug
+  const [_project, pluralEntityName, entityIdOrVerb, optionalVerb] = slug
 
-  let verb = SlugVerb.SHOW
-  if (!!verbFromSlug && Object.values(SlugVerb).includes(verbFromSlug as SlugVerb)) {
-    verb = verbFromSlug as SlugVerb
-  }
-
+  // check entity is valid
   if (!SlugEntities.includes(pluralEntityName as PluralSlugEntity)) {
     return defaultAction
   }
 
+  // create verb does not contain entity id, so the length would be 3: [project, entityName, verb]
+  if (slug.length === 3 && entityIdOrVerb === SlugVerb.CREATE) {
+    const verb = SlugVerb.CREATE
+
+    return {
+      verb,
+      entity: mapPluralEntityNameToSingular[pluralEntityName] as SlugEntity,
+      id: null,
+    }
+  }
+
+  let verb = SlugVerb.SHOW
+  const entityId = entityIdOrVerb
+  if (!!optionalVerb && Object.values(SlugVerb).includes(optionalVerb as SlugVerb)) {
+    verb = optionalVerb as SlugVerb
+  }
+
   return {
     verb: verb as SlugVerb,
-    entity: mapPluralEntityNameToSingular[pluralEntityName] as SingularSlugEntity,
+    entity: mapPluralEntityNameToSingular[pluralEntityName] as SlugEntity,
     id: entityId as SlugId,
   }
 }
