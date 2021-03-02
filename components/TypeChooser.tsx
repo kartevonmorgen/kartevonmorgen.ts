@@ -9,7 +9,7 @@ import { convertQueryParamToArray, updateRoutingQuery } from '../utils/utils'
 
 const { CheckableTag } = Tag
 
-interface Type {
+export interface Type {
   id: Category
   name: string
   color: string

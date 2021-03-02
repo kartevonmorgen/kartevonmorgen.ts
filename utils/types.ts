@@ -1,5 +1,6 @@
 import { EventID } from '../dtos/Event'
 import { SearchEntryID } from '../dtos/SearchEntry'
+import Category from '../dtos/Categories'
 
 // todo: check if there's already a type from next/router
 export type RouterQueryParam = string | string[] | undefined
@@ -35,10 +36,16 @@ export interface SlugAction {
   id: SlugId
 }
 
+export const mapTypeIdToPluralEntityName = {
+  [Category.INITIATIVE]: PluralSlugEntity.ENTRIES,
+  [Category.COMPANY]: PluralSlugEntity.ENTRIES,
+  [Category.EVENT]: PluralSlugEntity.EVENTS,
+}
+
 export const mapPluralEntityNameToSingular = {
-  'events': 'event',
-  'entries': 'entry',
-  'results': 'result',
+  [PluralSlugEntity.EVENTS]: SlugEntity.EVENT,
+  [PluralSlugEntity.ENTRIES]: SlugEntity.ENTRY,
+  [PluralSlugEntity.RESULTS]: SlugEntity.RESULT,
 }
 
 export const mapSingularEntityNameToPlural = Object
