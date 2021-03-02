@@ -13,6 +13,7 @@ import EntityImage from './EntityImage'
 import { types as resultTypes } from './TypeChooser'
 import EntryContact from './EntryContact'
 import EntryAddress from './EntryAddress'
+import EntryTags from './EntryTags'
 
 const { Title, Paragraph } = Typography
 
@@ -91,6 +92,9 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
         zip={entry.zip}
       />
 
+      <Divider orientation="left">Tags</Divider>
+
+      <EntryTags tags={entry.tags}/>
 
     </div>
   )

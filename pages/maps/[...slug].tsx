@@ -68,6 +68,7 @@ const MapPage: FC<MapPageProps> = (props) => {
             height: '100vh',
             display: 'flex',
             flexDirection: 'column',
+            overflowY: 'auto',
           }}
         >
           <Sidebar
