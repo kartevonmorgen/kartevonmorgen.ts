@@ -1,17 +1,15 @@
 import { TagArray } from './Tag'
 import { Categories } from './Categories'
 import { CustomLinkList } from './CustomLink'
+import { EntryContact } from './EntryContact'
+import { EntryAddress } from './EntryAddress'
 
-export interface Entry {
+
+export interface Entry extends EntryContact, EntryAddress {
   categories?: Categories
-  city?: string
-  contact_name?: string
-  country?: string
   created?: number
   description: string
-  email?: string
   founded_on?: string
-  homepage?: string
   id?: string
   image_link_url?: string
   image_url?: string
@@ -21,13 +19,9 @@ export interface Entry {
   lng: number
   opening_hours?: string
   ratings?: string[]
-  state?: string
-  street?: string
   tags?: TagArray
-  telephone?: string
   title: string
   version?: number
-  zip?: string
 }
 
 export type Entries = Entry[]

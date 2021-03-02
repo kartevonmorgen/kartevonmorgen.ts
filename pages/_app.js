@@ -1,6 +1,7 @@
 import { Provider } from 'react-redux'
 
 import store from '../store'
+import '../utils/icons/font-awesome'
 
 import '../styles/globals.css'
 import 'antd/dist/antd.css'

@@ -1,8 +1,8 @@
-import { FC } from 'react'
+import React, { FC } from 'react'
 import { useRouter } from 'next/router'
 import isString from 'lodash/isString'
 import isArray from 'lodash/isArray'
-import { Space } from 'antd'
+import { Divider, Tag, Typography } from 'antd'
 import useRequest from '../api/useRequest'
 import { EntryRequest } from '../dtos/EntryRequest'
 import { RouterQueryParam } from '../utils/types'
@@ -10,6 +10,11 @@ import { SearchEntryID } from '../dtos/SearchEntry'
 import { Entries as EntriesDTO } from '../dtos/Entry'
 import API_ENDPOINTS from '../api/endpoints'
 import EntityImage from './EntityImage'
+import { types as resultTypes } from './TypeChooser'
+import EntryContact from './EntryContact'
+import EntryAddress from './EntryAddress'
+
+const { Title, Paragraph } = Typography
 
 
 interface EntryDetailProps {
@@ -18,6 +23,9 @@ interface EntryDetailProps {
 
 const EntryDetail: FC<EntryDetailProps> = (props) => {
   const { entryId } = props
+
+  // todo: truncate long details
+  // const [truncateDetail, setTruncateDetail] = useState(true)
 
   const router = useRouter()
   const { query } = router
@@ -49,16 +57,42 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
   }
 
   const entry = entries[0]
+  const type = resultTypes.find(t => t.id === entry.categories[0])
 
   return (
-    <Space
-      direction="vertical"
-    >
+    <div>
+
       <EntityImage
         title={entry.title}
         src={entry.image_url}
       />
-    </Space>
+
+      <Title level={2}>{entry.title}</Title>
+
+      <Tag color={type.color} style={{ marginBottom: 12 }}>{type.name}</Tag>
+
+      <Paragraph>{entry.description}</Paragraph>
+
+      <Divider orientation="left">Contact</Divider>
+
+      <EntryContact
+        homepage={entry.homepage}
+        contact_name={entry.contact_name}
+        email={entry.email}
+        telephone={entry.telephone}
+
+      />
+
+      <EntryAddress
+        city={entry.city}
+        country={entry.country}
+        state={entry.state}
+        street={entry.street}
+        zip={entry.zip}
+      />
+
+
+    </div>
   )
 }
 

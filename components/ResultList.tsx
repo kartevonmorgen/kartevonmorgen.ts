@@ -86,7 +86,6 @@ const rowRenderer = (data: SearchResults, router: NextRouter) => ({ index, key, 
 const cache = new CellMeasurerCache({
   defaultHeight: 50,
   fixedWidth: true,
-  // keyMapper: () => 1
 })
 
 const ResultList: FC = () => {
