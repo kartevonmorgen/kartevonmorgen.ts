@@ -58,6 +58,15 @@ a {
   height: 100%;
 }
 
-.ant-list > .ant-spin-nested-loading > .ant-spin-container{
+.ant-list > .ant-spin-nested-loading > .ant-spin-container {
   height: 100%;
+}
+
+.entity-image-container {
+  width: 100%;
+  height: 32vh;
+  background-color: #d9d9d9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
