@@ -7,13 +7,14 @@ import useRequest from '../api/useRequest'
 import { EntryRequest } from '../dtos/EntryRequest'
 import { RouterQueryParam } from '../utils/types'
 import { SearchEntryID } from '../dtos/SearchEntry'
-import { Entries as EntriesDTO } from '../dtos/Entry'
+import { Entries as EntriesDTO, Entry } from '../dtos/Entry'
 import API_ENDPOINTS from '../api/endpoints'
 import EntityImage from './EntityImage'
 import { types as resultTypes } from './TypeChooser'
 import EntryContact from './EntryContact'
 import EntryAddress from './EntryAddress'
 import EntryTags from './EntryTags'
+import EntityComments from './EntityComments'
 
 const { Title, Paragraph } = Typography
 
@@ -37,12 +38,15 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
     org_tag: orgTag,
   }
 
-  const { data: entries, error } = useRequest<EntriesDTO>({
+  const { data: entries, error: entriesError } = useRequest<EntriesDTO>({
     url: `${API_ENDPOINTS.getEntries()}/${entryId}`,
     params: entryRequest,
   })
 
-  if (error) {
+  const foundEntry: boolean = isArray(entries) && entries.length !== 0
+  const entry: Entry = foundEntry ? entries[0] : null
+
+  if (entriesError) {
     //  todo: show error notification, redirect to the search result view
     return null
   }
@@ -52,12 +56,12 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
     return null
   }
 
-  if (isArray(entries) && entries.length === 0) {
+  if (!foundEntry) {
     //  todo: show not found notification, redirect to the search view
     return null
   }
 
-  const entry = entries[0]
+
   const type = resultTypes.find(t => t.id === entry.categories[0])
 
   return (
@@ -74,7 +78,7 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
 
       <Paragraph>{entry.description}</Paragraph>
 
-      <Divider orientation="left">Contact</Divider>
+      <Divider>Contact</Divider>
 
       <EntryContact
         homepage={entry.homepage}
@@ -92,9 +96,13 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
         zip={entry.zip}
       />
 
-      <Divider orientation="left">Tags</Divider>
+      <Divider>Tags</Divider>
 
       <EntryTags tags={entry.tags}/>
+
+      <Divider>Comments</Divider>
+
+      <EntityComments ratingsIds={entry.ratings}/>
 
     </div>
   )

@@ -70,3 +70,28 @@ a {
   justify-content: center;
   align-items: center;
 }
+
+/*the 5th level of ant pallet*/
+.diversity {
+  color: #bae637 !important;
+}
+
+.renewable {
+  color: #ffec3d !important;
+}
+
+.fairness {
+  color: #f759ab !important;
+}
+
+.humanity {
+  color: #9254de !important;
+}
+
+.solidarity {
+  color: #36cfc9 !important;
+}
+
+.transparency {
+  color: #597ef7 !important;
+}
