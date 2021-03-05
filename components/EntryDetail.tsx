@@ -2,10 +2,10 @@ import React, { FC } from 'react'
 import { useRouter } from 'next/router'
 import isString from 'lodash/isString'
 import isArray from 'lodash/isArray'
-import { Divider, Layout, Tag, Typography } from 'antd'
+import { Divider, Tag, Typography } from 'antd'
 import useRequest from '../api/useRequest'
 import { EntryRequest } from '../dtos/EntryRequest'
-import { RouterQueryParam } from '../utils/types'
+import { RouterQueryParam, SlugEntity } from '../utils/types'
 import { SearchEntryID } from '../dtos/SearchEntry'
 import { Entries as EntriesDTO, Entry } from '../dtos/Entry'
 import API_ENDPOINTS from '../api/endpoints'
@@ -18,7 +18,6 @@ import EntityComments from './EntityComments'
 import EntityFooter from './EntityFooter'
 
 const { Title, Paragraph } = Typography
-const { Footer } = Layout
 
 
 interface EntryDetailProps {
@@ -32,7 +31,7 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
   // const [truncateDetail, setTruncateDetail] = useState(true)
 
   const router = useRouter()
-  const { query } = router
+  const { query, pathname } = router
 
   const optionalOrgTag: RouterQueryParam = query['org-tag']
   const orgTag = optionalOrgTag && isString(optionalOrgTag) ? optionalOrgTag : null
@@ -106,7 +105,14 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
 
       <EntityComments ratingsIds={entry.ratings}/>
 
-      <EntityFooter created_at={entry.created} version={entry.version}/>
+      <EntityFooter
+        entityId={entry.id}
+        type={SlugEntity.ENTRY}
+        title={entry.title}
+        activeLink={pathname}
+        created_at={entry.created}
+        version={entry.version}
+      />
 
     </div>
   )

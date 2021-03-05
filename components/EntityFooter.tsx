@@ -1,7 +1,9 @@
 import React, { FC, Fragment } from 'react'
 import { Col, Divider, Layout, Row, Typography } from 'antd'
 import moment from 'moment'
-// import { API_ENDPOINTS } from '../api/endpoints'
+import { SlugEntity } from '../utils/types'
+import { mapEntityToOFDB } from '../api/endpoints'
+import createMailToHref from '../utils/mailto'
 
 
 const { Footer } = Layout
@@ -9,13 +11,24 @@ const { Link, Text } = Typography
 
 
 interface EntityFooterProps {
-  created_at?: number
+  entityId: string
+  type: SlugEntity.EVENT | SlugEntity.ENTRY
+  title: string
+  activeLink: string
+  created_at: number
   version?: number
 }
 
 
 const EntityFooter: FC<EntityFooterProps> = (props) => {
-  const { created_at, version } = props
+  const {
+    entityId,
+    type,
+    title,
+    activeLink,
+    created_at,
+    version,
+  } = props
 
   return (
     <Footer
@@ -33,6 +46,13 @@ const EntityFooter: FC<EntityFooterProps> = (props) => {
       >
         <Col>
           <Link
+            href={
+              createMailToHref(
+                process.env.NEXT_PUBLIC_KVM_REPORT_EMAIL,
+                `Report for ${title}`,
+                `This entry ${activeLink} is problematic because: `,
+              )
+            }
             style={{
               fontSize: '0.8em',
             }}
@@ -61,7 +81,7 @@ const EntityFooter: FC<EntityFooterProps> = (props) => {
                     fontSize: '0.8em',
                   }}
                 >
-                  {version}
+                  v{version}
                 </Text>
               </Fragment>
             )
@@ -70,6 +90,7 @@ const EntityFooter: FC<EntityFooterProps> = (props) => {
       </Row>
 
       <Link
+        href={`${mapEntityToOFDB[type]()}/${entityId}`}
         style={{
           fontSize: '0.8em',
         }}
