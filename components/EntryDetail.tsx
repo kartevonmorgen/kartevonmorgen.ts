@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { useRouter } from 'next/router'
 import isString from 'lodash/isString'
 import isArray from 'lodash/isArray'
-import { Divider, Tag, Typography } from 'antd'
+import { Divider, Layout, Tag, Typography } from 'antd'
 import useRequest from '../api/useRequest'
 import { EntryRequest } from '../dtos/EntryRequest'
 import { RouterQueryParam } from '../utils/types'
@@ -15,8 +15,10 @@ import EntryContact from './EntryContact'
 import EntryAddress from './EntryAddress'
 import EntryTags from './EntryTags'
 import EntityComments from './EntityComments'
+import EntityFooter from './EntityFooter'
 
 const { Title, Paragraph } = Typography
+const { Footer } = Layout
 
 
 interface EntryDetailProps {
@@ -103,6 +105,8 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
       <Divider>Comments</Divider>
 
       <EntityComments ratingsIds={entry.ratings}/>
+
+      <EntityFooter created_at={entry.created} version={entry.version}/>
 
     </div>
   )
