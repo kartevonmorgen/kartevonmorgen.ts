@@ -1,9 +1,10 @@
 import React, { FC, Fragment } from 'react'
-import { Col, Divider, Layout, Row, Typography } from 'antd'
+import { Col, Divider, Layout, Row, Tooltip, Typography } from 'antd'
 import moment from 'moment'
 import { SlugEntity } from '../utils/types'
 import { mapEntityToOFDB } from '../api/endpoints'
 import createMailToHref from '../utils/mailto'
+import { gold } from '@ant-design/colors'
 
 
 const { Footer } = Layout
@@ -89,14 +90,19 @@ const EntityFooter: FC<EntityFooterProps> = (props) => {
         </Col>
       </Row>
 
-      <Link
-        href={`${mapEntityToOFDB[type]()}/${entityId}`}
-        style={{
-          fontSize: '0.8em',
-        }}
+      <Tooltip
+        title='You will have to login again on openfairdb.org'
+        color={gold.primary}
       >
-        View history or archive this entity
-      </Link>
+        <Link
+          href={`${mapEntityToOFDB[type]()}/${entityId}`}
+          style={{
+            fontSize: '0.8em',
+          }}
+        >
+          View history or archive this entity
+        </Link>
+      </Tooltip>
     </Footer>
   )
 }
