@@ -16,6 +16,7 @@ import EntryAddress from './EntryAddress'
 import EntryTags from './EntryTags'
 import EntityComments from './EntityComments'
 import EntityFooter from './EntityFooter'
+import EntityHeader from './EntityHeader'
 
 const { Title, Paragraph } = Typography
 
@@ -23,6 +24,7 @@ const { Title, Paragraph } = Typography
 interface EntryDetailProps {
   entryId: SearchEntryID
 }
+
 
 const EntryDetail: FC<EntryDetailProps> = (props) => {
   const { entryId } = props
@@ -67,6 +69,8 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
 
   return (
     <div>
+
+      <EntityHeader/>
 
       <EntityImage
         title={entry.title}
