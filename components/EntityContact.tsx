@@ -17,7 +17,7 @@ const propToIcon = [
   ['homepage', 'globe'],
 ]
 
-const EntryContact: FC<EntryContactProps> = (props) => {
+const EntityContact: FC<EntryContactProps> = (props) => {
   return (
     <Fragment>
       {/*general contact*/}
@@ -47,4 +47,4 @@ const EntryContact: FC<EntryContactProps> = (props) => {
 }
 
 
-export default EntryContact
+export default EntityContact

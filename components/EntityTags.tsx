@@ -7,7 +7,7 @@ interface EntryTagsProps {
   tags: TagArray
 }
 
-const EntryTags: FC<EntryTagsProps> = (props) => {
+const EntityTags: FC<EntryTagsProps> = (props) => {
   const { tags } = props
 
   return (
@@ -22,4 +22,4 @@ const EntryTags: FC<EntryTagsProps> = (props) => {
   )
 }
 
-export default EntryTags
+export default EntityTags

@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 interface EntryAddressProps extends EntryAddressDTO {
 }
 
-const EntryAddress: FC<EntryAddressProps> = (props) => {
+const EntityAddress: FC<EntryAddressProps> = (props) => {
 
   return (
     <Row
@@ -26,4 +26,4 @@ const EntryAddress: FC<EntryAddressProps> = (props) => {
 }
 
 
-export default EntryAddress
+export default EntityAddress

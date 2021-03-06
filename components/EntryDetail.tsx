@@ -11,9 +11,9 @@ import { Entries as EntriesDTO, Entry } from '../dtos/Entry'
 import API_ENDPOINTS from '../api/endpoints'
 import EntityImage from './EntityImage'
 import { types as resultTypes } from './TypeChooser'
-import EntryContact from './EntryContact'
-import EntryAddress from './EntryAddress'
-import EntryTags from './EntryTags'
+import EntityContact from './EntityContact'
+import EntityAddress from './EntityAddress'
+import EntityTags from './EntityTags'
 import EntityComments from './EntityComments'
 import EntityFooter from './EntityFooter'
 import EntityHeader from './EntityHeader'
@@ -89,15 +89,14 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
 
       <Divider>Contact</Divider>
 
-      <EntryContact
+      <EntityContact
         homepage={entry.homepage}
         contact_name={entry.contact_name}
         email={entry.email}
         telephone={entry.telephone}
-
       />
 
-      <EntryAddress
+      <EntityAddress
         city={entry.city}
         country={entry.country}
         state={entry.state}
@@ -105,10 +104,12 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
         zip={entry.zip}
       />
 
+      {/*todo: if there's no tag, don't show the divider*/}
       <Divider>Tags</Divider>
 
-      <EntryTags tags={entry.tags}/>
+      <EntityTags tags={entry.tags}/>
 
+      {/*todo: if there's no comment we should not display the divider*/}
       <Divider>Comments</Divider>
 
       <EntityComments ratingsIds={entry.ratings}/>

@@ -13,7 +13,7 @@ const Event = () => {
 
   switch (slugAction.verb) {
     case SlugVerb.SHOW:
-      return <EventDetail/>
+      return <EventDetail eventId={slugAction.id}/>
     case SlugVerb.CREATE:
       return <EventForm/>
     case SlugVerb.EDIT:

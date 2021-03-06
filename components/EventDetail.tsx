@@ -1,23 +1,110 @@
-import { FC, useEffect } from 'react'
+import React, { FC } from 'react'
 import { useRouter } from 'next/router'
-import { getSlugActionFromQuery } from '../utils/slug'
+import moment from 'moment'
+import { Divider, Spin, Tag, Typography } from 'antd'
+import Event, { EventID } from '../dtos/Event'
+import EntityImage from './EntityImage'
+import EntityFooter from './EntityFooter'
+import EntityHeader from './EntityHeader'
+import EntityContact from './EntityContact'
+import EntityAddress from './EntityAddress'
+import EntityTags from './EntityTags'
+import API_ENDPOINTS from '../api/endpoints'
+import useRequest from '../api/useRequest'
+import { SlugEntity } from '../utils/types'
+
+const { Title, Paragraph, Text } = Typography
 
 
-const EventDetail: FC = () => {
+interface EventDetailProps {
+  eventId: EventID
+}
+
+
+const EventDetail: FC<EventDetailProps> = (props) => {
+  const { eventId } = props
+
   const router = useRouter()
-  const { query } = router
-
-  const slugAction = getSlugActionFromQuery(query)
-  const { id: eventId } = slugAction
+  const { pathname } = router
 
 
-  useEffect(() => {
+  const { data: event, error: eventError } = useRequest<Event>({
+    url: `${API_ENDPOINTS.getEvent()}/${eventId}`,
+  })
 
-  }, [eventId])
+
+  if (eventError) {
+    //  todo: show error notification, redirect to the search result view
+    return null
+  }
+
+  // still loading
+  if (!event) {
+    return (
+      <div className='center'>
+        <Spin size="large"/>
+      </div>
+    )
+  }
 
 
   return (
-    <p>Entry Detail</p>
+    <div>
+
+      <EntityHeader/>
+
+      <EntityImage
+        title={event.title}
+        src={event.image_url}
+      />
+
+      <Title
+        level={2}
+        style={{
+          marginBottom: 0,
+        }}
+      >
+        {event.title}
+      </Title>
+
+      <Text type="secondary">{`${moment.unix(event.start)}`} - {`${moment.unix(event.end)}`}</Text>
+
+      <Tag color={SlugEntity.EVENT} style={{ marginBottom: 12 }}>{SlugEntity.EVENT}</Tag>
+
+      <Paragraph>{event.description}</Paragraph>
+
+      <Divider>Contact</Divider>
+
+      <EntityContact
+        homepage={event.homepage}
+        contact_name={event.organizer}
+        email={event.email}
+        telephone={event.telephone}
+      />
+
+      <EntityAddress
+        city={event.city}
+        country={event.country}
+        state={event.state}
+        street={event.street}
+        zip={event.zip}
+      />
+
+      {/*todo: if there's no tag, don't show the divider*/}
+      <Divider>Tags</Divider>
+
+      <EntityTags tags={event.tags}/>
+
+      <EntityFooter
+        entityId={event.id}
+        type={SlugEntity.EVENT}
+        title={event.title}
+        activeLink={pathname}
+        created_at={event.created_at}
+      />
+
+
+    </div>
   )
 }
 
