@@ -63,21 +63,33 @@ a {
 }
 
 .entity-image-container {
-  width: 100%;
-  height: 32vh;
-  background-color: #d9d9d9;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    width: 100%;
+    height: 32vh;
+    background-color: #d9d9d9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.center {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.box-shadow {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /*the 5th level of ant pallet*/
 .diversity {
-  color: #bae637 !important;
+    color: #bae637 !important;
 }
 
 .renewable {
-  color: #ffec3d !important;
+    color: #ffec3d !important;
 }
 
 .fairness {

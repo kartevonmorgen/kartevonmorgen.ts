@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { useRouter } from 'next/router'
 import isString from 'lodash/isString'
 import isArray from 'lodash/isArray'
-import { Divider, Tag, Typography } from 'antd'
+import { Divider, Spin, Tag, Typography } from 'antd'
 import useRequest from '../api/useRequest'
 import { EntryRequest } from '../dtos/EntryRequest'
 import { RouterQueryParam, SlugEntity } from '../utils/types'
@@ -56,7 +56,11 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
 
   // still loading
   if (!entries) {
-    return null
+    return (
+      <div className='center'>
+        <Spin size="large"/>
+      </div>
+    )
   }
 
   if (!foundEntry) {
