@@ -63,7 +63,6 @@ const MapPage: FC<MapPageProps> = (props) => {
           collapsed={isSideBarCollapsed}
           onCollapse={toggleIsSideBarCollapsed}
           width="32vw"
-          trigger={null}
           style={{
             height: '100vh',
             display: 'flex',
@@ -71,10 +70,9 @@ const MapPage: FC<MapPageProps> = (props) => {
             overflowY: 'auto',
           }}
         >
-          <Sidebar
-            tagsCount={props.popularTags}
-          />
+          {!isSideBarCollapsed && <Sidebar tagsCount={props.popularTags}/>}
         </Sider>
+
         <Content>
           <Spin spinning={isLoading}>
             <div id="map">
@@ -82,6 +80,7 @@ const MapPage: FC<MapPageProps> = (props) => {
             </div>
           </Spin>
         </Content>
+
       </Layout>
     </Fragment>
   )
