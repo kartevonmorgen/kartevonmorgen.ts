@@ -3,6 +3,7 @@ import { getSlugActionFromQuery } from '../utils/slug'
 import { SlugVerb } from '../utils/types'
 import EventDetail from './EventDetail'
 import EventForm from './EventForm'
+import EntryForm from './EntryForm'
 
 
 const Event = () => {
@@ -15,7 +16,8 @@ const Event = () => {
     case SlugVerb.SHOW:
       return <EventDetail eventId={slugAction.id}/>
     case SlugVerb.CREATE:
-      return <EventForm/>
+      // return <EventForm/>
+      return <EntryForm/>
     case SlugVerb.EDIT:
       return <EventForm/>
     default:

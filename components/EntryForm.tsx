@@ -46,14 +46,12 @@ const EntryForm: FC = () => {
             <Form.Item
               name={'city'}
               noStyle
-              rules={[{ required: true, message: 'Province is required' }]}
             >
               <Input style={{ width: '50%' }} placeholder="City"/>
             </Form.Item>
             <Form.Item
               name={'zip'}
               noStyle
-              rules={[{ required: true, message: 'City is required' }]}
             >
               <Input style={{ width: '50%' }} placeholder="Zip"/>
             </Form.Item>
@@ -70,14 +68,12 @@ const EntryForm: FC = () => {
             <Form.Item
               name={'lat'}
               noStyle
-              rules={[{ required: true, message: 'Latitude is required' }]}
             >
               <Input style={{ width: '50%' }} placeholder="Latitude"/>
             </Form.Item>
             <Form.Item
               name={'lng'}
               noStyle
-              rules={[{ required: true, message: 'Longitude is required' }]}
             >
               <Input style={{ width: '50%' }} placeholder="Longitude"/>
             </Form.Item>
@@ -117,7 +113,6 @@ const EntryForm: FC = () => {
                     {...field}
                     name={[field.name, 'first']}
                     fieldKey={[field.fieldKey, 'first']}
-                    rules={[{ required: true, message: 'Missing first name' }]}
                   >
                     <Input placeholder="First Name"/>
                   </Form.Item>
@@ -125,7 +120,6 @@ const EntryForm: FC = () => {
                     {...field}
                     name={[field.name, 'last']}
                     fieldKey={[field.fieldKey, 'last']}
-                    rules={[{ required: true, message: 'Missing last name' }]}
                   >
                     <Input placeholder="Last Name"/>
                   </Form.Item>
