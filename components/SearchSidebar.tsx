@@ -1,13 +1,13 @@
 import { FC, Fragment } from 'react'
 
-import NavSidebar from './NavSidebar'
-import SearchInput from './SearchInput'
-import Filters, { FiltersProps } from './Filters'
+import SidebarNav from './SidebarNav'
 import ResultList from './ResultList'
+import SearchControllers from './SearchControllers'
+import { TagsCount } from '../dtos/TagCount'
 
 
-export interface SearchSidebarProps extends FiltersProps {
-
+export interface SearchSidebarProps {
+  tagsCount: TagsCount
 }
 
 
@@ -15,14 +15,9 @@ const SearchSidebar: FC<SearchSidebarProps> = (props) => {
   return (
     <Fragment>
       {/*todo: create a background of dark with bottom shadow*/}
-      <NavSidebar/>
+      <SidebarNav/>
 
-      {/*todo: make the search component a separate component to prevent unnecessary renders*/}
-      <SearchInput/>
-
-      <Filters
-        tagsCount={props.tagsCount}
-      />
+      <SearchControllers tagsCount={props.tagsCount}/>
 
       <div style={{ flexGrow: 1 }}>
         <ResultList/>

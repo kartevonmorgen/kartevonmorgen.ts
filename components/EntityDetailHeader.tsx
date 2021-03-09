@@ -26,7 +26,7 @@ const onBack = (router: NextRouter) => () => {
 }
 
 
-const EntityHeader = () => {
+const EntityDetailHeader = () => {
   const router = useRouter()
 
 
@@ -53,4 +53,4 @@ const EntityHeader = () => {
 }
 
 
-export default EntityHeader
+export default EntityDetailHeader

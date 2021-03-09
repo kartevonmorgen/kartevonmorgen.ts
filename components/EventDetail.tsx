@@ -5,7 +5,7 @@ import { Divider, Spin, Tag, Typography } from 'antd'
 import Event, { EventID } from '../dtos/Event'
 import EntityImage from './EntityImage'
 import EntityFooter from './EntityFooter'
-import EntityHeader from './EntityHeader'
+import EntityDetailHeader from './EntityDetailHeader'
 import EntityContact from './EntityContact'
 import EntityAddress from './EntityAddress'
 import EntityTags from './EntityTags'
@@ -51,7 +51,7 @@ const EventDetail: FC<EventDetailProps> = (props) => {
   return (
     <div>
 
-      <EntityHeader/>
+      <EntityDetailHeader/>
 
       <EntityImage
         title={event.title}
@@ -67,7 +67,12 @@ const EventDetail: FC<EventDetailProps> = (props) => {
         {event.title}
       </Title>
 
-      <Text type="secondary">{`${moment.unix(event.start)}`} - {`${moment.unix(event.end)}`}</Text>
+      {/*todo: allow newline*/}
+      <Text
+        type="secondary"
+      >
+        {`${moment.unix(event.start).format('llll')}`} - {`${moment.unix(event.end).format('llll')}`}
+      </Text>
 
       <Tag color={SlugEntity.EVENT} style={{ marginBottom: 12 }}>{SlugEntity.EVENT}</Tag>
 

@@ -16,7 +16,7 @@ import EntityAddress from './EntityAddress'
 import EntityTags from './EntityTags'
 import EntityComments from './EntityComments'
 import EntityFooter from './EntityFooter'
-import EntityHeader from './EntityHeader'
+import EntityDetailHeader from './EntityDetailHeader'
 
 const { Title, Paragraph } = Typography
 
@@ -74,7 +74,7 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
   return (
     <div>
 
-      <EntityHeader/>
+      <EntityDetailHeader/>
 
       <EntityImage
         title={entry.title}

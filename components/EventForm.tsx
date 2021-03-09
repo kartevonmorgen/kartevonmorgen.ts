@@ -2,7 +2,7 @@ import { FC } from 'react'
 
 
 const EventForm: FC = () => {
-  return null
+  return <p>create event</p>
 }
 
 export default EventForm
