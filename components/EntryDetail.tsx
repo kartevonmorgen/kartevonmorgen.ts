@@ -32,6 +32,7 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
   // todo: truncate long details
   // const [truncateDetail, setTruncateDetail] = useState(true)
 
+  // todo: duplicate code also for editing an entry, make it a higher order hook
   const router = useRouter()
   const { query, pathname } = router
 

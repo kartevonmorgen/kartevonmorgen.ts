@@ -1,8 +1,16 @@
 import React, { FC, Fragment } from 'react'
-import { Button, Checkbox, Divider, Form, Input, Space } from 'antd'
+import { Button, Checkbox, Divider, Form, Input, Space, Spin } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons/lib'
-import Category from '../dtos/Categories'
+import { useRouter } from 'next/router'
+import { getSlugActionFromQuery } from '../utils/slug'
+import useRequest from '../api/useRequest'
+import { Entries as EntriesDTO, Entry } from '../dtos/Entry'
+import { RouterQueryParam } from '../utils/types'
+import isString from 'lodash/isString'
+import { EntryRequest } from '../dtos/EntryRequest'
+import API_ENDPOINTS from '../api/endpoints'
+import isArray from 'lodash/isArray'
 
 const { TextArea } = Input
 
@@ -12,11 +20,45 @@ const onFinish = (value: any) => {
 }
 
 
-interface EntryFormProps {
-  category?: Category
-}
+const EntryForm: FC = (_props) => {
+  const router = useRouter()
+  const { query } = router
+  const slugAction = getSlugActionFromQuery(query)
+  const hasId = !!slugAction.id
 
-const EntryForm: FC<EntryFormProps> = () => {
+  const optionalOrgTag: RouterQueryParam = query['org-tag']
+  const orgTag = optionalOrgTag && isString(optionalOrgTag) ? optionalOrgTag : null
+  const entryRequest: EntryRequest = {
+    org_tag: orgTag,
+  }
+
+  const { data: entries, error: entriesError } = useRequest<EntriesDTO>(hasId && {
+    url: `${API_ENDPOINTS.getEntries()}/${slugAction.id}`,
+    params: entryRequest,
+  })
+
+  const foundEntry: boolean = isArray(entries) && entries.length !== 0
+  const entry: Entry = foundEntry ? entries[0] : {} as Entry
+
+  if (entriesError) {
+    //  todo: show error notification, redirect to the search result view
+    return null
+  }
+
+  // still loading
+  if (!entries && hasId) {
+    return (
+      <div className='center'>
+        <Spin size="large"/>
+      </div>
+    )
+  }
+
+  if (!foundEntry && hasId) {
+    //  todo: show not found notification, redirect to the search view
+    return null
+  }
+
   return (
     <Form
       layout="vertical"
@@ -24,7 +66,7 @@ const EntryForm: FC<EntryFormProps> = () => {
       style={{
         marginTop: 8,
       }}
-      initialValues={{ category: Category.INITIATIVE }}
+      initialValues={entry}
       onFinish={onFinish}
     >
       <Form.Item name="title">
@@ -147,7 +189,7 @@ const EntryForm: FC<EntryFormProps> = () => {
 
       <Divider orientation="left">License</Divider>
 
-      <Form.Item name="License">
+      <Form.Item name="License" valuePropName="checked">
         <Checkbox>license</Checkbox>
       </Form.Item>
 

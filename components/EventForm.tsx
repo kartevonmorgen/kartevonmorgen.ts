@@ -1,17 +1,49 @@
-import React, { FC, Fragment } from 'react'
-import { Button, Checkbox, Divider, Form, Input, Space } from 'antd'
+import React, { FC } from 'react'
+import { Button, Checkbox, Divider, Form, Input, Spin } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons/lib'
-import Category from '../dtos/Categories'
+import EventDTO from '../dtos/Event'
+import { AxiosInstance } from '../api'
+import API_ENDPOINTS from '../api/endpoints'
+import { useRouter } from 'next/router'
+import useRequest from '../api/useRequest'
+import { getSlugActionFromQuery } from '../utils/slug'
 
 const { TextArea } = Input
 
 
-const onFinish = (value: any) => {
-  console.log(value)
+const onFinish = async (value: EventDTO) => {
+  await AxiosInstance.PostRequest<EventDTO>(
+    API_ENDPOINTS.postEvent(),
+    value,
+  )
 }
 
 const EventForm: FC = () => {
+
+  const router = useRouter()
+  const { query } = router
+  const slugAction = getSlugActionFromQuery(query)
+  const hasId = !!slugAction.id
+
+  const { data: event, error: eventError } = useRequest<Event>(slugAction.id && {
+    url: `${API_ENDPOINTS.getEvent()}/${slugAction.id}`,
+  })
+
+
+  if (eventError) {
+    //  todo: show error notification, redirect to the search result view
+    return null
+  }
+
+  // still loading
+  if (!event && hasId) {
+    return (
+      <div className='center'>
+        <Spin size="large"/>
+      </div>
+    )
+  }
+
   return (
     <Form
       layout="vertical"
@@ -19,7 +51,7 @@ const EventForm: FC = () => {
       style={{
         marginTop: 8,
       }}
-      initialValues={{ category: Category.INITIATIVE }}
+      initialValues={event}
       onFinish={onFinish}
     >
       <Form.Item name="title">
@@ -115,39 +147,6 @@ const EventForm: FC = () => {
         <Input placeholder="Opening Hours" prefix={<FontAwesomeIcon icon="clock"/>}/>
       </Form.Item>
 
-      <Divider orientation="left">Links and Social Media</Divider>
-
-      <Form.List name="custom_links">
-        {(fields, { add, remove }) => (
-          <Fragment>
-            {fields.map(field => (
-              <Space key={field.key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
-                <Form.Item
-                  {...field}
-                  name={[field.name, 'first']}
-                  fieldKey={[field.fieldKey, 'first']}
-                >
-                  <Input placeholder="First Name"/>
-                </Form.Item>
-                <Form.Item
-                  {...field}
-                  name={[field.name, 'last']}
-                  fieldKey={[field.fieldKey, 'last']}
-                >
-                  <Input placeholder="Last Name"/>
-                </Form.Item>
-                <MinusCircleOutlined onClick={() => remove(field.name)}/>
-              </Space>
-            ))}
-            <Form.Item>
-              <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined/>}>
-                Add field
-              </Button>
-            </Form.Item>
-          </Fragment>
-        )}
-      </Form.List>
-
       <Divider orientation="left">Image</Divider>
 
       <Form.Item name="image_url">
@@ -160,8 +159,10 @@ const EventForm: FC = () => {
 
       <Divider orientation="left">License</Divider>
 
-      <Form.Item name="License">
-        <Checkbox>license</Checkbox>
+      <Form.Item name="license" valuePropName="checked">
+        <Checkbox>
+          license
+        </Checkbox>
       </Form.Item>
 
 

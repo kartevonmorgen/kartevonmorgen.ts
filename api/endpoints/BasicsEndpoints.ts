@@ -12,4 +12,5 @@ export const BASICS_ENDPOINTS = {
   getEntries: (): string => `${BASICS_API_URL}/entries`,
   getRatings: (): string => `${BASICS_API_URL}/ratings`,
   getEvent: (): string => `${BASICS_API_URL}/events`,
+  postEvent: (): string => `${BASICS_API_URL}/events`,
 }

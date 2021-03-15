@@ -3,6 +3,7 @@ import produce from 'immer'
 import { Button, PageHeader } from 'antd'
 import { EditOutlined } from '@ant-design/icons/lib'
 import { convertQueryParamToArray } from '../utils/utils'
+import { SlugVerb } from '../utils/types'
 
 
 const onBack = (router: NextRouter) => () => {
@@ -12,6 +13,26 @@ const onBack = (router: NextRouter) => () => {
     const slugArray = convertQueryParamToArray(slug)
 
     slugArray.splice(slugArray.length - 2, 2)
+    draftState.slug = slugArray
+  })
+
+  router.replace(
+    {
+      pathname: '/maps/[...slug]',
+      query: newQueryParams,
+    },
+    undefined,
+    { shallow: true },
+  )
+}
+
+const onEdit = (router: NextRouter) => () => {
+  const { query } = router
+  const newQueryParams = produce(query, draftState => {
+    const { slug } = draftState
+    const slugArray = convertQueryParamToArray(slug)
+    slugArray.push(SlugVerb.EDIT)
+
     draftState.slug = slugArray
   })
 
@@ -46,6 +67,7 @@ const EntityDetailHeader = () => {
           type="primary"
           size="small"
           icon={<EditOutlined/>}
+          onClick={onEdit(router)}
         />,
       ]}
     />

@@ -4,6 +4,7 @@ import { getSlugActionFromQuery } from '../utils/slug'
 import { SlugVerb } from '../utils/types'
 import EntryDetail from './EntryDetail'
 import EntityForm from './EntityForm'
+import Category from '../dtos/Categories'
 
 
 const Entry: FC = () => {
@@ -16,9 +17,14 @@ const Entry: FC = () => {
     case SlugVerb.SHOW:
       return <EntryDetail entryId={slugAction.id}/>
     case SlugVerb.CREATE:
-      return <EntityForm/>
+      return <EntityForm
+        action={SlugVerb.CREATE}
+      />
     case SlugVerb.EDIT:
-      return <EntityForm/>
+      return <EntityForm
+        category={Category.INITIATIVE}
+        action={SlugVerb.EDIT}
+      />
     default:
       // redirect to the result page
       return null

@@ -1,16 +1,17 @@
+import { FC } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import produce from 'immer'
 import { PageHeader } from 'antd'
 import { convertQueryParamToArray } from '../utils/utils'
 
 
-const onBack = (router: NextRouter) => () => {
+const onBack = (router: NextRouter, backLevel: number) => () => {
   const { query } = router
   const newQueryParams = produce(query, draftState => {
     const { slug } = draftState
     const slugArray = convertQueryParamToArray(slug)
 
-    slugArray.splice(slugArray.length - 2, 2)
+    slugArray.splice(slugArray.length - backLevel, backLevel)
     draftState.slug = slugArray
   })
 
@@ -25,9 +26,14 @@ const onBack = (router: NextRouter) => () => {
 }
 
 
-const EntityFormHeader = () => {
-  const router = useRouter()
+interface EntityFormHeaderProps {
+  backLevel: number
+}
 
+const EntityFormHeader: FC<EntityFormHeaderProps> = (props) => {
+  const { backLevel } = props
+
+  const router = useRouter()
 
   return (
     <PageHeader
@@ -39,9 +45,13 @@ const EntityFormHeader = () => {
         paddingBottom: 4,
       }}
       ghost={false}
-      onBack={onBack(router)}
+      onBack={onBack(router, backLevel)}
     />
   )
+}
+
+EntityFormHeader.defaultProps = {
+  backLevel: 2,
 }
 
 
