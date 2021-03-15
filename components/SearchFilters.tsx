@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Collapse, Space } from 'antd'
+import { Collapse } from 'antd'
 import TypeChooser from './TypeChooser'
 import SearchTags from './SearchTags'
 import { TagsCount } from '../dtos/TagCount'
@@ -24,13 +24,7 @@ const SearchFilters: FC<FiltersProps> = (props) => (
       header={null}
       key="1"
     >
-      <Space
-        size="small"
-        style={{ width: '100%' }}
-        wrap
-      >
-        <TypeChooser/>
-      </Space>
+      <TypeChooser/>
 
       <SearchTags
         optionsCount={props.tagsCount}
