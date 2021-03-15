@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { getSlugActionFromQuery } from '../utils/slug'
 import { SlugVerb } from '../utils/types'
 import EntryDetail from './EntryDetail'
-import EntryForm from './EntryForm'
+import EntityForm from './EntityForm'
 
 
 const Entry: FC = () => {
@@ -16,9 +16,9 @@ const Entry: FC = () => {
     case SlugVerb.SHOW:
       return <EntryDetail entryId={slugAction.id}/>
     case SlugVerb.CREATE:
-      return <EntryForm/>
+      return <EntityForm/>
     case SlugVerb.EDIT:
-      return <EntryForm/>
+      return <EntityForm/>
     default:
       // redirect to the result page
       return null

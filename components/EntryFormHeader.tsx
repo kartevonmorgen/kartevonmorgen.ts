@@ -1,7 +1,6 @@
 import { NextRouter, useRouter } from 'next/router'
 import produce from 'immer'
-import { Button, PageHeader } from 'antd'
-import { SaveOutlined } from '@ant-design/icons/lib'
+import { PageHeader } from 'antd'
 import { convertQueryParamToArray } from '../utils/utils'
 
 
@@ -41,14 +40,6 @@ const EntityFormHeader = () => {
       }}
       ghost={false}
       onBack={onBack(router)}
-      extra={[
-        <Button
-          key="1"
-          type="primary"
-          size="small"
-          icon={<SaveOutlined/>}
-        />,
-      ]}
     />
   )
 }
