@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { Tag } from 'antd'
+import { Col, Row, Tag } from 'antd'
 import Category from '../dtos/Categories'
 
 import { green, lime, magenta } from '@ant-design/colors'
@@ -81,23 +81,26 @@ const TypeChooser: FC = () => {
   let selectedTypes = convertQueryParamToArray(typesParam) as Category[]
 
   return (
-    <>
+    <Row gutter={8}>
       {types.map(type => {
         const isChecked = selectedTypes.indexOf(type.id) > -1
         return (
-          <CheckableTag
-            key={type.id}
-            checked={isChecked}
-            onChange={checked => handleChange(type.id, checked, selectedTypes, router)}
-            style={{
-              backgroundColor: isChecked && type.color,
-            }}
-          >
-            {type.name}
-          </CheckableTag>
+          <Col key={type.id} span={8}>
+            <CheckableTag
+              checked={isChecked}
+              onChange={checked => handleChange(type.id, checked, selectedTypes, router)}
+              style={{
+                backgroundColor: isChecked && type.color,
+                width: '100%',
+                textAlign: 'center',
+              }}
+            >
+              {type.name}
+            </CheckableTag>
+          </Col>
         )
       })}
-    </>
+    </Row>
   )
 }
 

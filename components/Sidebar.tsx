@@ -16,7 +16,6 @@ const Sidebar: FC<SidebarProps> = (props) => {
   const { query } = router
 
   const slugAction = getSlugActionFromQuery(query)
-  console.log(slugAction)
 
   switch (slugAction.entity) {
     case SlugEntity.ENTRY:
