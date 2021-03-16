@@ -124,7 +124,7 @@ const Map: FC = () => {
           <Marker
             key={searchResult.id}
             position={[searchResult.lat, searchResult.lng]}
-            icon={getIcon(searchResult.categories, project)}
+            icon={getIcon(searchResult.categories)}
             eventHandlers={{
               click: onClickOnPin(router, searchResult),
             }}
