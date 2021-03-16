@@ -21,11 +21,13 @@ const { Content, Sider } = Layout
 
 interface MapPageProps {
   popularTags: TagsCount
-  mapLocationProps: MapLocationProps
+  mapLocationProps: MapLocationProps,
+  project: string
 }
 
 const MapPage: FC<MapPageProps> = (props) => {
   const { mapLocationProps } = props
+
 
   const [
     isLoading,
@@ -123,6 +125,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     props: {
       mapLocationProps,
       popularTags,
+      project,
     },
   }
 }

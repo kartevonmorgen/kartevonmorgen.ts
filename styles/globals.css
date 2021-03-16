@@ -97,13 +97,18 @@ a {
 }
 
 .humanity {
-  color: #9254de !important;
+    color: #9254de !important;
 }
 
 .solidarity {
-  color: #36cfc9 !important;
+    color: #36cfc9 !important;
 }
 
 .transparency {
-  color: #597ef7 !important;
+    color: #597ef7 !important;
+}
+
+.leaflet-div-icon.transparent {
+    background: none;
+    border: none;
 }

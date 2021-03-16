@@ -7,6 +7,7 @@ import {
   faEnvelope,
   faGlobe,
   faLink,
+  faMapMarker,
   faMapMarkerAlt,
   faPhone,
   faRoute,
@@ -28,4 +29,5 @@ library.add(
   faClock,
   faCamera,
   faLink,
+  faMapMarker,
 )

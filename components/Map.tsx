@@ -1,10 +1,11 @@
 import { FC } from 'react'
+import { renderToString } from 'react-dom/server'
 import { NextRouter, useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
-import { Icon } from 'leaflet'
-import { MapContainer, Marker, TileLayer, ZoomControl } from 'react-leaflet'
 import produce from 'immer'
-
+import { DivIcon } from 'leaflet'
+import { MapContainer, Marker, TileLayer, ZoomControl } from 'react-leaflet'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import MapEventsListener from './MapEventsListener'
 import MapLocationInitializer from './MapLocationInitializer'
 import SearchEventsListener from './SearchEventsListener'
@@ -13,11 +14,10 @@ import { SearchResult, SearchResults } from '../dtos/SearchResult'
 import { RootState } from '../slices'
 import searchResultSelector from '../selectors/searchResults'
 import Category, { Categories } from '../dtos/Categories'
-
 import { convertQueryParamToArray } from '../utils/utils'
-import 'leaflet/dist/leaflet.css'
 import { mapTypeIdToPluralEntityName, SlugEntity, SlugVerb } from '../utils/types'
 import { getSlugActionFromQuery } from '../utils/slug'
+import 'leaflet/dist/leaflet.css'
 
 
 const icons = {
@@ -27,14 +27,23 @@ const icons = {
 }
 
 // memoize icons to prevent object creations
-const getIcon = (types: Categories, project: string) => {
+const getIcon = (types: Categories) => {
   const typeId = types[0]
   const icon = icons[typeId]
+
   if (!icon) {
     const type = resultType.find(t => t.id === typeId)
-    icons[typeId] = new Icon({
-      iconUrl: `/projects/${project}/icons/${type.name.toLowerCase()}-plain.png`,
-      iconRetinaUrl: `/projects/${project}/icons/${type.name.toLowerCase()}-plain-2x.png`,
+    icons[typeId] = new DivIcon({
+      html: renderToString(
+        <FontAwesomeIcon
+          className="custom-map-marker"
+          style={{
+            fontSize: 50,
+          }}
+          icon="map-marker"/>)
+      ,
+      iconSize: [50, 50],
+      className: 'transparent map-marker',
     })
 
     return icons[typeId]
@@ -120,9 +129,7 @@ const Map: FC = () => {
               click: onClickOnPin(router, searchResult),
             }}
           >
-            {/*<Popup>*/}
-            {searchResult.title}
-            {/*</Popup>*/}
+
           </Marker>
         ))
       }
