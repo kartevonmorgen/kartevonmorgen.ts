@@ -1,8 +1,9 @@
 import { FC } from 'react'
-import { useRouter } from 'next/router'
+import { NextRouter, useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
 import { Icon } from 'leaflet'
-import { MapContainer, Marker, Popup, TileLayer, ZoomControl } from 'react-leaflet'
+import { MapContainer, Marker, TileLayer, ZoomControl } from 'react-leaflet'
+import produce from 'immer'
 
 import MapEventsListener from './MapEventsListener'
 import MapLocationInitializer from './MapLocationInitializer'
@@ -15,6 +16,8 @@ import Category, { Categories } from '../dtos/Categories'
 
 import { convertQueryParamToArray } from '../utils/utils'
 import 'leaflet/dist/leaflet.css'
+import { mapTypeIdToPluralEntityName, SlugEntity, SlugVerb } from '../utils/types'
+import { getSlugActionFromQuery } from '../utils/slug'
 
 
 const icons = {
@@ -38,6 +41,39 @@ const getIcon = (types: Categories, project: string) => {
   }
 
   return icon
+}
+
+const onClickOnPin = (router: NextRouter, searchResult: SearchResult) => () => {
+  const { query } = router
+  const { verb, entity: slugEntity } = getSlugActionFromQuery(query)
+
+  // if we are in the middle of creating/editing an entity, clicking on pins should do nothing
+  if (verb !== SlugVerb.SHOW) {
+    return
+  }
+
+  const category = searchResult.categories[0]
+  const pluralEntityName = mapTypeIdToPluralEntityName[category]
+
+  const newQueryParams = produce(query, draftState => {
+    const { slug } = draftState
+    const slugArray = convertQueryParamToArray(slug)
+    if (slugEntity !== SlugEntity.RESULT) {
+      slugArray.splice(slugArray.length - 2, 2)
+    }
+
+    slugArray.push(pluralEntityName, searchResult.id)
+    draftState.slug = slugArray
+  })
+
+  router.replace(
+    {
+      pathname: '/maps/[...slug]',
+      query: newQueryParams,
+    },
+    undefined,
+    { shallow: true },
+  )
 }
 
 
@@ -80,10 +116,13 @@ const Map: FC = () => {
             key={searchResult.id}
             position={[searchResult.lat, searchResult.lng]}
             icon={getIcon(searchResult.categories, project)}
+            eventHandlers={{
+              click: onClickOnPin(router, searchResult),
+            }}
           >
-            <Popup>
-              {searchResult.title}
-            </Popup>
+            {/*<Popup>*/}
+            {searchResult.title}
+            {/*</Popup>*/}
           </Marker>
         ))
       }

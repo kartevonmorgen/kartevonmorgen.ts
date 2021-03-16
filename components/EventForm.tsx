@@ -75,7 +75,6 @@ const EventForm: FC = () => {
 
   return (
     <Form
-      layout="vertical"
       size="middle"
       style={{
         marginTop: 8,
