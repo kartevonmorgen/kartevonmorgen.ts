@@ -1,32 +1,61 @@
 import React, { FC } from 'react'
 import { Button, Checkbox, Divider, Form, Input, Spin } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import EventDTO from '../dtos/Event'
+import EventDTO, { EventID } from '../dtos/Event'
 import { AxiosInstance } from '../api'
 import API_ENDPOINTS from '../api/endpoints'
 import { useRouter } from 'next/router'
 import useRequest from '../api/useRequest'
 import { getSlugActionFromQuery } from '../utils/slug'
+import { SlugVerb } from '../utils/types'
 
 const { TextArea } = Input
 
 
-const onFinish = async (value: EventDTO) => {
-  await AxiosInstance.PostRequest<EventDTO>(
+const onCreate = async (event: EventDTO) => {
+  await AxiosInstance.PostRequest<EventID>(
     API_ENDPOINTS.postEvent(),
-    value,
+    event,
+    {
+      headers: {
+        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_FALANSTER_TOKEN}`,
+      },
+    },
   )
+}
+
+
+const onEdit = async (event: EventDTO) => {
+  await AxiosInstance.PutRequest<EventID>(
+    `${API_ENDPOINTS.postEvent()}/${event.id}`,
+    event,
+    {
+      headers: {
+        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_FALANSTER_TOKEN}`,
+      },
+    },
+  )
+}
+
+const onFinish = (isEdit: boolean) => async (event: EventDTO) => {
+  if (isEdit) {
+    await onEdit(event)
+
+    return
+  }
+
+  await onCreate(event)
 }
 
 const EventForm: FC = () => {
 
   const router = useRouter()
   const { query } = router
-  const slugAction = getSlugActionFromQuery(query)
-  const hasId = !!slugAction.id
+  const { verb, id: eventId } = getSlugActionFromQuery(query)
+  const isEdit = verb === SlugVerb.EDIT
 
-  const { data: event, error: eventError } = useRequest<Event>(slugAction.id && {
-    url: `${API_ENDPOINTS.getEvent()}/${slugAction.id}`,
+  const { data: event, error: eventError } = useRequest<Event>(isEdit && {
+    url: `${API_ENDPOINTS.getEvent()}/${eventId}`,
   })
 
 
@@ -36,7 +65,7 @@ const EventForm: FC = () => {
   }
 
   // still loading
-  if (!event && hasId) {
+  if (!event && isEdit) {
     return (
       <div className='center'>
         <Spin size="large"/>
@@ -52,8 +81,13 @@ const EventForm: FC = () => {
         marginTop: 8,
       }}
       initialValues={event}
-      onFinish={onFinish}
+      onFinish={onFinish(isEdit)}
     >
+
+      <Form.Item name="id" hidden>
+        <Input disabled/>
+      </Form.Item>
+
       <Form.Item name="title">
         <Input placeholder="Title"/>
       </Form.Item>
