@@ -6,25 +6,48 @@ import { useRouter } from 'next/router'
 import { getSlugActionFromQuery } from '../utils/slug'
 import useRequest from '../api/useRequest'
 import { Entries as EntriesDTO, Entry } from '../dtos/Entry'
-import { RouterQueryParam } from '../utils/types'
+import { RouterQueryParam, SlugVerb } from '../utils/types'
 import isString from 'lodash/isString'
 import { EntryRequest } from '../dtos/EntryRequest'
 import API_ENDPOINTS from '../api/endpoints'
 import isArray from 'lodash/isArray'
+import { AxiosInstance } from '../api'
+import { SearchEntryID } from '../dtos/SearchEntry'
 
 const { TextArea } = Input
 
 
-const onFinish = (value: any) => {
-  console.log(value)
+const onCreate = async (entry: Entry) => {
+  await AxiosInstance.PostRequest<SearchEntryID>(
+    API_ENDPOINTS.postEvent(),
+    entry,
+  )
+}
+
+const onEdit = async (entry: Entry) => {
+  await AxiosInstance.PutRequest<SearchEntryID>(
+    `${API_ENDPOINTS.postEvent()}/${entry.id}`,
+    entry,
+  )
+}
+
+const onFinish = (isEdit: boolean) => async (entry: Entry) => {
+  if (isEdit) {
+    await onEdit(entry)
+
+    return
+  }
+
+  await onCreate(entry)
 }
 
 
 const EntryForm: FC = (_props) => {
   const router = useRouter()
   const { query } = router
-  const slugAction = getSlugActionFromQuery(query)
-  const hasId = !!slugAction.id
+  const { verb, id: entryId } = getSlugActionFromQuery(query)
+
+  const isEdit = verb === SlugVerb.EDIT
 
   const optionalOrgTag: RouterQueryParam = query['org-tag']
   const orgTag = optionalOrgTag && isString(optionalOrgTag) ? optionalOrgTag : null
@@ -32,8 +55,8 @@ const EntryForm: FC = (_props) => {
     org_tag: orgTag,
   }
 
-  const { data: entries, error: entriesError } = useRequest<EntriesDTO>(hasId && {
-    url: `${API_ENDPOINTS.getEntries()}/${slugAction.id}`,
+  const { data: entries, error: entriesError } = useRequest<EntriesDTO>(isEdit && {
+    url: `${API_ENDPOINTS.getEntries()}/${entryId}`,
     params: entryRequest,
   })
 
@@ -46,7 +69,7 @@ const EntryForm: FC = (_props) => {
   }
 
   // still loading
-  if (!entries && hasId) {
+  if (!entries && isEdit) {
     return (
       <div className='center'>
         <Spin size="large"/>
@@ -54,7 +77,7 @@ const EntryForm: FC = (_props) => {
     )
   }
 
-  if (!foundEntry && hasId) {
+  if (!foundEntry && isEdit) {
     //  todo: show not found notification, redirect to the search view
     return null
   }
@@ -67,8 +90,13 @@ const EntryForm: FC = (_props) => {
         marginTop: 8,
       }}
       initialValues={entry}
-      onFinish={onFinish}
+      onFinish={onFinish(isEdit)}
     >
+
+      <Form.Item name="id" hidden>
+        <Input disabled/>
+      </Form.Item>
+
       <Form.Item name="title">
         <Input placeholder="Title"/>
       </Form.Item>
