@@ -107,3 +107,40 @@ export const convertQueryParamToArray = (param: RouterQueryParam): string[] => {
 
   return param
 }
+
+interface cropTextLimit {
+  sentenceLimit?: number
+  wordLimit?: number
+  charLimit?: number
+}
+
+export const cropText = (
+  text: string,
+  { sentenceLimit, wordLimit, charLimit }: cropTextLimit,
+): string => {
+
+  if (isEmpty(text) || !isString(text)) {
+    return ''
+  }
+
+  if (sentenceLimit) {
+    // https://stackoverflow.com/a/21034081/3744479
+    const sentences = text.match(/\(?[^\.\?\!]+[\.!\?]\)?/g)
+    if (sentences) {
+      const selectedSentences = sentences.slice(0, sentenceLimit)
+
+      text = selectedSentences.join('')
+    }
+  }
+
+  if (wordLimit) {
+    const words = text.split(' ').slice(0, wordLimit)
+    text = words.join(' ')
+  }
+
+  if (charLimit) {
+    text = text.substr(0, charLimit)
+  }
+
+  return text
+}

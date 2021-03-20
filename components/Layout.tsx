@@ -1,4 +1,6 @@
 import { FC } from 'react'
+import PropTypes from 'prop-types'
+import has from 'lodash/has'
 import mainStyle from '../styles/main'
 
 
@@ -7,11 +9,11 @@ const projectToStyleMapper = {
 }
 
 interface LayoutProps {
-  project: string
+  project?: string
 }
 
 const Layout: FC<LayoutProps> = (props) => {
-  const { project } = props
+  const project = props.project && has(projectToStyleMapper, props.project) ? props.project : 'main'
   const globalStyle = projectToStyleMapper[project]
 
   return (
@@ -23,6 +25,15 @@ const Layout: FC<LayoutProps> = (props) => {
       </style>
     </div>
   )
+}
+
+
+Layout.propTypes = {
+  project: PropTypes.string,
+}
+
+Layout.defaultProps = {
+  project: 'main',
 }
 
 

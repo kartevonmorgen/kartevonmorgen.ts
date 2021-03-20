@@ -1,58 +1,48 @@
-import useSWR from 'swr'
-import axios from 'axios'
+import { useRouter } from 'next/router'
+import { Alert } from 'antd'
+import useRequest from '../../api/useRequest'
+import API_ENDPOINTS from '../../api/endpoints'
+import Table from './components/Table'
+import { SearchEventsRequest as SearchEventsRequestDTO } from '../../dtos/SearchEventsRequest'
+import { Events } from '../../dtos/Event'
+import { GetServerSideProps } from 'next'
+import { convertQueryToEventRequest } from '../../adaptors'
 
-import { Rate, Space, Table, Tag } from 'antd'
-
-
-const columns = [
-  {
-    title: 'Title',
-    dataIndex: 'title',
-    key: 'title',
-  },
-  {
-    title: 'Description',
-    dataIndex: 'description',
-    key: 'description',
-    render: (text) => text.slice(0, 150),
-  },
-  {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: tags => (
-      <>
-        {tags.slice(0, 5).map(tag => {
-          return (
-            <Tag color="green" key={tag}>
-              {tag}
-            </Tag>
-          )
-        })}
-      </>
-    ),
-  },
-  {
-    title: 'Rating',
-    dataIndex: 'ratings',
-    key: 'rating',
-    render: ratings => <Space size="small"><Rate allowHalf disabled defaultValue={ratings.total}/></Space>,
-  },
-]
-
-
-const fetcher = url => axios.get(url).then(res => res.data.visible.map(entry => ({ key: entry.id, ...entry })))
-
-const url = 'https://api.ofdb.io/v0/search?text=&categories=c2dc278a2d6a4b9b8a50cb606fc017ed&bbox=48.552978164400734,6.437988281250001,53.001562274591464,15.391845703125002'
 
 const IFrameTable = () => {
-  const { data, error } = useSWR(url, fetcher)
+  const router = useRouter()
+  const { query } = router
 
-  if (error) return <div>failed to load</div>
-  if (!data) return <Table loading columns={columns}/>
+  const searchEventsRequestDTO: SearchEventsRequestDTO = convertQueryToEventRequest(query)
 
-  return <Table dataSource={data} columns={columns}/>
+  const { data, error } = useRequest<Events>({
+    url: API_ENDPOINTS.searchEvents(),
+    params: searchEventsRequestDTO,
+  })
+
+  if (error) {
+    return (
+      <Alert
+        message="Error"
+        description="Sorry, there seems to be a problem"
+        type="error"
+        showIcon
+      />
+    )
+  }
+
+  return <Table dataSource={data}/>
 }
 
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const project = ctx.params
+
+  return {
+    props: {
+      project,
+    },
+  }
+}
 
 export default IFrameTable
