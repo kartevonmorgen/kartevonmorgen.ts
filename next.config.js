@@ -15,12 +15,15 @@ module.exports = {
     {
       source: '/maps',
       destination: '/maps/main',
-      permanent: true
+      permanent: true,
     },
     {
       source: '/tables',
       destination: '/tables/kvm',
-      permanent: true
-    }
-  ])
+      permanent: true,
+    },
+  ]),
+  env: {
+    PORT: 8000,
+  },
 }

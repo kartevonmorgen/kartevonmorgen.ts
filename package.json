@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start --hostname 0.0.0.0"
+    "dev": "node server.dev.js",
+    "build": "node server.build.js",
+    "start": "node server.start.js"
   },
   "dependencies": {
     "@ant-design/colors": "^5.0.1",
