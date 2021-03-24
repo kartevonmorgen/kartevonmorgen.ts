@@ -3,6 +3,10 @@ import css from 'styled-jsx/css'
 
 export default css.global`
 .custom-map-marker {
-    color: blue;
+    font-size: 50px;
+}
+
+.custom-map-marker * {
+    fill: url(#lgrad);
 }
  `

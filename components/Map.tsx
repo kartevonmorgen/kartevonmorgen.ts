@@ -18,6 +18,7 @@ import { convertQueryParamToArray } from '../utils/utils'
 import { mapTypeIdToPluralEntityName, SlugEntity, SlugVerb } from '../utils/types'
 import { getSlugActionFromQuery } from '../utils/slug'
 import 'leaflet/dist/leaflet.css'
+import MapMarkerGradient from './MapMarkerGradient'
 
 
 const icons = {
@@ -37,11 +38,9 @@ const getIcon = (types: Categories) => {
       html: renderToString(
         <FontAwesomeIcon
           className="custom-map-marker"
-          style={{
-            fontSize: 50,
-          }}
-          icon="map-marker"/>)
-      ,
+          icon="map-marker"
+        />,
+      ),
       iconSize: [50, 50],
       className: 'transparent map-marker',
     })
@@ -97,7 +96,6 @@ const Map: FC = () => {
   const { query } = router
   const { slug } = query
   const path = convertQueryParamToArray(slug)
-  const project = path[0]
 
   const searchResults: SearchResults = useSelector(
     (state: RootState) => searchResultSelector(state),
@@ -114,6 +112,7 @@ const Map: FC = () => {
       <MapLocationInitializer/>
       <MapEventsListener/>
       <SearchEventsListener/>
+      <MapMarkerGradient/>
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
