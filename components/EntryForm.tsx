@@ -1,7 +1,7 @@
-import React, { FC, Fragment } from 'react'
+import React, { FC, Fragment, useEffect } from 'react'
 import { Button, Checkbox, Divider, Form, Input, Space, Spin } from 'antd'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons/lib'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useRouter } from 'next/router'
 import { getSlugActionFromQuery } from '../utils/slug'
 import useRequest from '../api/useRequest'
@@ -13,8 +13,12 @@ import API_ENDPOINTS from '../api/endpoints'
 import isArray from 'lodash/isArray'
 import { AxiosInstance } from '../api'
 import { SearchEntryID } from '../dtos/SearchEntry'
+import { convertQueryParamToFloat } from '../utils/utils'
+import { reverseGeocode } from '../utils/geolocation'
+
 
 const { TextArea } = Input
+const { useForm } = Form
 
 
 const onCreate = async (entry: Entry) => {
@@ -32,6 +36,15 @@ const onEdit = async (entry: Entry) => {
 }
 
 const onFinish = (isEdit: boolean) => async (entry: Entry) => {
+  // todo: if failed then show a notification
+  // todo: if succeed then go to the detail page and remove pinLat and pinLng
+
+  Object.keys(entry).forEach(k => {
+    if (!entry[k]) {
+      entry[k] = null
+    }
+  })
+
   if (isEdit) {
     await onEdit(entry)
 
@@ -43,9 +56,40 @@ const onFinish = (isEdit: boolean) => async (entry: Entry) => {
 
 
 const EntryForm: FC = (_props) => {
+  // todo: for a better experience show spinner with the corresponding message when the form is loading
+  // for example: fetching the address
+
   const router = useRouter()
   const { query } = router
   const { verb, id: entryId } = getSlugActionFromQuery(query)
+
+  const [form] = useForm<Entry>()
+
+  useEffect(() => {
+    async function setAddressDetails() {
+      const pinLanLng = {
+        lat: convertQueryParamToFloat(query.pinLat),
+        lng: convertQueryParamToFloat(query.pinLng),
+      }
+
+      const place = await reverseGeocode(pinLanLng)
+      const { address } = place
+
+      // it's not an error, town and road are optional fields than are not included in the interface
+      // but can exist in the response from nominatim
+      form.setFieldsValue({
+        country: address.country,
+        city: address.city || address.town,
+        state: address.state,
+        street: address.road,
+        zip: address.postcode,
+      })
+
+    }
+
+    setAddressDetails()
+
+  }, [query.pinLat, query.pinLng])
 
   const isEdit = verb === SlugVerb.EDIT
 
@@ -91,6 +135,7 @@ const EntryForm: FC = (_props) => {
       }}
       initialValues={entry}
       onFinish={onFinish(isEdit)}
+      form={form}
     >
 
       <Form.Item name="id" hidden>
@@ -128,8 +173,11 @@ const EntryForm: FC = (_props) => {
         </Input.Group>
       </Form.Item>
 
+      <Form.Item name="country" hidden/>
 
-      <Form.Item name="address">
+      <Form.Item name="state" hidden/>
+
+      <Form.Item name="street">
         <Input placeholder="Address"/>
       </Form.Item>
 
