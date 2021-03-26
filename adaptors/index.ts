@@ -1,5 +1,5 @@
-import { SearchEventsRequest as SearchEventsRequestDTO } from '../dtos/SearchEventsRequest'
 import { ParsedUrlQuery } from 'querystring'
+import { SearchEventsRequest as SearchEventsRequestDTO } from '../dtos/SearchEventsRequest'
 import { convertQueryParamToInt, convertQueryParamToString } from '../utils/utils'
 
 
