@@ -1,10 +1,11 @@
 import { FC } from 'react'
 import { useRouter } from 'next/router'
-
+import { LeafletEvent, LeafletMouseEvent } from 'leaflet'
 import { useMapEvents } from 'react-leaflet'
 import toString from 'lodash/toString'
-
 import { updateRoutingQuery } from '../utils/utils'
+import { getSlugActionFromQuery } from '../utils/slug'
+import { SlugVerb } from '../utils/types'
 
 
 // just this component has access to the map attributes, so only this one can make the search
@@ -13,7 +14,7 @@ const MapEventsListener: FC = () => {
   const { query } = router
 
   const map = useMapEvents({
-    moveend: (_event => {
+    moveend: ((_event: LeafletEvent) => {
       const { lat, lng } = map.getCenter()
       const zoom = map.getZoom()
 
@@ -35,6 +36,31 @@ const MapEventsListener: FC = () => {
         { shallow: true },
       )
     }),
+
+    click: ((event: LeafletMouseEvent) => {
+      const { latlng } = event
+      const { lat, lng } = latlng
+
+      const { verb } = getSlugActionFromQuery(query)
+      if (verb === SlugVerb.CREATE || verb === SlugVerb.EDIT) {
+        const paramsToUpdate = {
+          pinLat: toString(lat),
+          pinLng: toString(lng),
+        }
+
+        const newQueryParams = updateRoutingQuery(query, paramsToUpdate)
+
+        router.replace(
+          {
+            pathname: '/maps/[...slug]',
+            query: newQueryParams,
+          },
+          undefined,
+          { shallow: true },
+        )
+      }
+    }),
+
   })
 
   return null

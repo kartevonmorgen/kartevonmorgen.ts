@@ -4,6 +4,8 @@ import { convertQueryParamToInt, convertQueryParamToString } from '../utils/util
 
 
 export const convertQueryToEventRequest = (query: ParsedUrlQuery): SearchEventsRequestDTO => {
+  // todo: can be used for searching for the result list
+
   return {
     tag: query.tag ? convertQueryParamToString(query.tag) : undefined,
     limit: query.limit ? convertQueryParamToInt(query.limit) : undefined,

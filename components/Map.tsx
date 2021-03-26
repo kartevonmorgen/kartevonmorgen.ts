@@ -3,37 +3,40 @@ import { renderToString } from 'react-dom/server'
 import { NextRouter, useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
 import produce from 'immer'
-import { DivIcon } from 'leaflet'
+import { DivIcon, LatLng, latLng } from 'leaflet'
 import { MapContainer, Marker, TileLayer, ZoomControl } from 'react-leaflet'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { RootState } from '../slices'
+import searchResultSelector from '../selectors/searchResults'
+import Category, { Categories } from '../dtos/Categories'
+import { SearchResult, SearchResults } from '../dtos/SearchResult'
+import { convertQueryParamToArray, convertQueryParamToFloat } from '../utils/utils'
+import { mapTypeIdToPluralEntityName, SlugEntity, SlugVerb } from '../utils/types'
+import { getSlugActionFromQuery } from '../utils/slug'
 import MapEventsListener from './MapEventsListener'
 import MapLocationInitializer from './MapLocationInitializer'
 import SearchEventsListener from './SearchEventsListener'
 import { types as resultType } from './TypeChooser'
-import { SearchResult, SearchResults } from '../dtos/SearchResult'
-import { RootState } from '../slices'
-import searchResultSelector from '../selectors/searchResults'
-import Category, { Categories } from '../dtos/Categories'
-import { convertQueryParamToArray } from '../utils/utils'
-import { mapTypeIdToPluralEntityName, SlugEntity, SlugVerb } from '../utils/types'
-import { getSlugActionFromQuery } from '../utils/slug'
-import 'leaflet/dist/leaflet.css'
 import MapMarkerGradient from './MapMarkerGradient'
+import 'leaflet/dist/leaflet.css'
 
 
 const icons = {
   [Category.EVENT]: null,
   [Category.COMPANY]: null,
   [Category.INITIATIVE]: null,
+  [Category.UNKNOWN]: null,
 }
 
 // memoize icons to prevent object creations
 const getIcon = (types: Categories) => {
+  // the reason we define types as array is because backend sends us an array of categories
+  // and we won't ever know if in the feature we'll need to use the whole array or not
   const typeId = types[0]
   const icon = icons[typeId]
 
   if (!icon) {
-    const type = resultType.find(t => t.id === typeId)
+    const type = resultType.find(t => t.id === typeId) || Category.UNKNOWN
     icons[typeId] = new DivIcon({
       html: renderToString(
         <FontAwesomeIcon
@@ -94,8 +97,9 @@ export interface MapLocationProps {
 const Map: FC = () => {
   const router = useRouter()
   const { query } = router
-  const { slug } = query
-  const path = convertQueryParamToArray(slug)
+
+  const markedPinLatLng: LatLng = latLng(convertQueryParamToFloat(query.pinLat), convertQueryParamToFloat(query.pinLng))
+  const showMarkedPin = !!markedPinLatLng.lat && !!markedPinLatLng.lng
 
   const searchResults: SearchResults = useSelector(
     (state: RootState) => searchResultSelector(state),
@@ -109,19 +113,37 @@ const Map: FC = () => {
       style={{ height: '100%', width: '100%' }}
       zoomControl={false}
     >
+
       <MapLocationInitializer/>
+
       <MapEventsListener/>
+
       <SearchEventsListener/>
+
       <MapMarkerGradient/>
+
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+
       <ZoomControl position="bottomright"/>
+
+      {
+        showMarkedPin && (
+          <Marker
+            position={markedPinLatLng}
+            icon={getIcon([Category.UNKNOWN])}
+          >
+
+          </Marker>
+        )
+      }
+
       {
         searchResults.map((searchResult: SearchResult) => (
           <Marker
-            key={searchResult.id}
+            key={`map-marker-${searchResult.id}`}
             position={[searchResult.lat, searchResult.lng]}
             icon={getIcon(searchResult.categories)}
             eventHandlers={{
@@ -132,6 +154,7 @@ const Map: FC = () => {
           </Marker>
         ))
       }
+
     </MapContainer>
   )
 }
