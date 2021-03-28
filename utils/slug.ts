@@ -1,7 +1,6 @@
 import { ParsedUrlQuery } from 'querystring'
 import isEmpty from 'lodash/isEmpty'
 import isString from 'lodash/isString'
-
 import {
   mapPluralEntityNameToSingular,
   PluralSlugEntity,

@@ -1,41 +1,99 @@
 import React, { FC, Fragment, useEffect } from 'react'
+import { NextRouter, useRouter } from 'next/router'
 import { Button, Checkbox, Divider, Form, Input, Space, Spin } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons/lib'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useRouter } from 'next/router'
-import { getSlugActionFromQuery } from '../utils/slug'
-import useRequest from '../api/useRequest'
-import { Entries as EntriesDTO, Entry } from '../dtos/Entry'
-import { RouterQueryParam, SlugVerb } from '../utils/types'
 import isString from 'lodash/isString'
-import { EntryRequest } from '../dtos/EntryRequest'
-import API_ENDPOINTS from '../api/endpoints'
 import isArray from 'lodash/isArray'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { getSlugActionFromQuery } from '../utils/slug'
 import { AxiosInstance } from '../api'
+import useRequest from '../api/useRequest'
+import API_ENDPOINTS from '../api/endpoints'
+import { EntryRequest } from '../dtos/EntryRequest'
+import { NewEntryWithLicense } from '../dtos/NewEntryWithLicense'
+import { NewEntryWithVersion } from '../dtos/NewEntryWithVersion'
+import { Entries as EntriesDTO, Entry } from '../dtos/Entry'
 import { SearchEntryID } from '../dtos/SearchEntry'
-import { convertQueryParamToFloat } from '../utils/utils'
+import { PluralSlugEntity, RouterQueryParam, SlugVerb } from '../utils/types'
+import {
+  convertQueryParamToArray,
+  convertQueryParamToFloat,
+  removeRoutingQueryParams,
+  updateRoutingQuery,
+} from '../utils/utils'
 import { reverseGeocode } from '../utils/geolocation'
+import { ParsedUrlQuery } from 'querystring'
 
 
 const { TextArea } = Input
 const { useForm } = Form
 
 
-const onCreate = async (entry: Entry) => {
-  await AxiosInstance.PostRequest<SearchEntryID>(
+// we declare both types NewEntryWithLicense for create, and NewEntryWithVersion for update
+type EntryFormType = NewEntryWithLicense | NewEntryWithVersion
+
+
+const redirectToEntry = (router: NextRouter, entryId: SearchEntryID) => {
+  // delete pinLat and pinLng
+  // shallow redirect to the entry detail
+  const { query } = router
+  const { slug } = query
+  const slugArray = convertQueryParamToArray(slug)
+  slugArray.splice(slugArray.length - 2, 2)
+
+
+  let newQueryParams: ParsedUrlQuery = removeRoutingQueryParams(
+    query,
+    ['pinLat', 'pinLng'],
+  )
+
+  newQueryParams = updateRoutingQuery(
+    newQueryParams,
+    {
+      slug: [...slugArray, PluralSlugEntity.ENTRIES, entryId],
+    },
+  )
+
+
+  router.replace(
+    {
+      pathname: '/maps/[...slug]',
+      query: newQueryParams,
+    },
+    undefined,
+    { shallow: true },
+  )
+}
+
+const onCreate = async (router: NextRouter, entry: NewEntryWithLicense) => {
+  // todo: catch errors and show notifications if an error happened
+
+  const response = await AxiosInstance.PostRequest<SearchEntryID>(
     API_ENDPOINTS.postEvent(),
     entry,
   )
+
+  const entryId = response.data as SearchEntryID
+
+  redirectToEntry(router, entryId)
 }
 
-const onEdit = async (entry: Entry) => {
+const onEdit = async (router: NextRouter, entry: NewEntryWithVersion, entryId: SearchEntryID) => {
+  // todo: catch errors and show notifications if an error happened
+
   await AxiosInstance.PutRequest<SearchEntryID>(
-    `${API_ENDPOINTS.postEvent()}/${entry.id}`,
+    `${API_ENDPOINTS.postEvent()}/${entryId}`,
     entry,
   )
+
+  redirectToEntry(router, entryId)
 }
 
-const onFinish = (isEdit: boolean) => async (entry: Entry) => {
+const onFinish = (
+  router: NextRouter,
+  isEdit: boolean,
+  entryId: SearchEntryID,
+) => async (entry: EntryFormType) => {
   // todo: if failed then show a notification
   // todo: if succeed then go to the detail page and remove pinLat and pinLng
 
@@ -46,14 +104,13 @@ const onFinish = (isEdit: boolean) => async (entry: Entry) => {
   })
 
   if (isEdit) {
-    await onEdit(entry)
+    await onEdit(router, entry as NewEntryWithVersion, entryId)
 
     return
   }
 
-  await onCreate(entry)
+  await onCreate(router, entry as NewEntryWithLicense)
 }
-
 
 const EntryForm: FC = (_props) => {
   // todo: for a better experience show spinner with the corresponding message when the form is loading
@@ -63,8 +120,9 @@ const EntryForm: FC = (_props) => {
   const { query } = router
   const { verb, id: entryId } = getSlugActionFromQuery(query)
 
-  const [form] = useForm<Entry>()
+  const [form] = useForm<EntryFormType>()
 
+  // set address information if the map marker/pin moves
   useEffect(() => {
     async function setAddressDetails() {
       const pinLanLng = {
@@ -78,8 +136,10 @@ const EntryForm: FC = (_props) => {
       // it's not an error, town and road are optional fields than are not included in the interface
       // but can exist in the response from nominatim
       form.setFieldsValue({
+        lat: pinLanLng.lat,
+        lng: pinLanLng.lng,
         country: address.country,
-        city: address.city || address.town,
+        city: address.city || address.town || address.municipality || address.village || address.hamlet,
         state: address.state,
         street: address.road,
         zip: address.postcode,
@@ -87,7 +147,7 @@ const EntryForm: FC = (_props) => {
 
     }
 
-    setAddressDetails()
+    setAddressDetails().then()
 
   }, [query.pinLat, query.pinLng])
 
@@ -104,8 +164,10 @@ const EntryForm: FC = (_props) => {
     params: entryRequest,
   })
 
+
   const foundEntry: boolean = isArray(entries) && entries.length !== 0
   const entry: Entry = foundEntry ? entries[0] : {} as Entry
+
 
   if (entriesError) {
     //  todo: show error notification, redirect to the search result view
@@ -134,7 +196,7 @@ const EntryForm: FC = (_props) => {
         marginTop: 8,
       }}
       initialValues={entry}
-      onFinish={onFinish(isEdit)}
+      onFinish={onFinish(router, isEdit, entryId)}
       form={form}
     >
 
@@ -187,13 +249,13 @@ const EntryForm: FC = (_props) => {
             name={'lat'}
             noStyle
           >
-            <Input style={{ width: '50%' }} placeholder="Latitude"/>
+            <Input style={{ width: '50%' }} placeholder="Latitude" disabled/>
           </Form.Item>
           <Form.Item
             name={'lng'}
             noStyle
           >
-            <Input style={{ width: '50%' }} placeholder="Longitude"/>
+            <Input style={{ width: '50%' }} placeholder="Longitude" disabled/>
           </Form.Item>
         </Input.Group>
       </Form.Item>
@@ -265,8 +327,8 @@ const EntryForm: FC = (_props) => {
 
       <Divider orientation="left">License</Divider>
 
-      <Form.Item name="License" valuePropName="checked">
-        <Checkbox>license</Checkbox>
+      <Form.Item name="license" valuePropName="checked">
+        <Checkbox value="CC0-1.0">license</Checkbox>
       </Form.Item>
 
       <Button
