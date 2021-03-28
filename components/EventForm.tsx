@@ -4,16 +4,27 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import EventDTO, { EventID } from '../dtos/Event'
 import { AxiosInstance } from '../api'
 import API_ENDPOINTS from '../api/endpoints'
-import { useRouter } from 'next/router'
+import { NextRouter, useRouter } from 'next/router'
 import useRequest from '../api/useRequest'
-import { getSlugActionFromQuery } from '../utils/slug'
+import { getSlugActionFromQuery, redirectToEntityDetail } from '../utils/slug'
 import { SlugVerb } from '../utils/types'
+import Category from '../dtos/Categories'
 
 const { TextArea } = Input
 
 
-const onCreate = async (event: EventDTO) => {
-  await AxiosInstance.PostRequest<EventID>(
+const redirectToEvent = (router: NextRouter, eventId: EventID) => {
+  redirectToEntityDetail(
+    router,
+    eventId,
+    Category.EVENT,
+    2,
+    ['pinLat', 'pinLng'],
+  )
+}
+
+const onCreate = async (router: NextRouter, event: EventDTO) => {
+  const response = await AxiosInstance.PostRequest<EventID>(
     API_ENDPOINTS.postEvent(),
     event,
     {
@@ -22,10 +33,14 @@ const onCreate = async (event: EventDTO) => {
       },
     },
   )
+
+  const eventId = response.data as EventID
+
+  redirectToEvent(router, eventId)
 }
 
 
-const onEdit = async (event: EventDTO) => {
+const onEdit = async (router: NextRouter, event: EventDTO) => {
   await AxiosInstance.PutRequest<EventID>(
     `${API_ENDPOINTS.postEvent()}/${event.id}`,
     event,
@@ -35,16 +50,18 @@ const onEdit = async (event: EventDTO) => {
       },
     },
   )
+
+  redirectToEvent(router, event.id)
 }
 
-const onFinish = (isEdit: boolean) => async (event: EventDTO) => {
+const onFinish = (router: NextRouter, isEdit: boolean) => async (event: EventDTO) => {
   if (isEdit) {
-    await onEdit(event)
+    await onEdit(router, event)
 
     return
   }
 
-  await onCreate(event)
+  await onCreate(router, event)
 }
 
 const EventForm: FC = () => {
@@ -80,7 +97,7 @@ const EventForm: FC = () => {
         marginTop: 8,
       }}
       initialValues={event}
-      onFinish={onFinish(isEdit)}
+      onFinish={onFinish(router, isEdit)}
     >
 
       <Form.Item name="id" hidden>

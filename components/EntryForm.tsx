@@ -5,7 +5,7 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons/lib'
 import isString from 'lodash/isString'
 import isArray from 'lodash/isArray'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { getSlugActionFromQuery } from '../utils/slug'
+import { getSlugActionFromQuery, redirectToEntityDetail } from '../utils/slug'
 import { AxiosInstance } from '../api'
 import useRequest from '../api/useRequest'
 import API_ENDPOINTS from '../api/endpoints'
@@ -14,15 +14,10 @@ import { NewEntryWithLicense } from '../dtos/NewEntryWithLicense'
 import { NewEntryWithVersion } from '../dtos/NewEntryWithVersion'
 import { Entries as EntriesDTO, Entry } from '../dtos/Entry'
 import { SearchEntryID } from '../dtos/SearchEntry'
-import { PluralSlugEntity, RouterQueryParam, SlugVerb } from '../utils/types'
-import {
-  convertQueryParamToArray,
-  convertQueryParamToFloat,
-  removeRoutingQueryParams,
-  updateRoutingQuery,
-} from '../utils/utils'
+import { RouterQueryParam, SlugVerb } from '../utils/types'
+import { convertQueryParamToFloat } from '../utils/utils'
 import { reverseGeocode } from '../utils/geolocation'
-import { ParsedUrlQuery } from 'querystring'
+import Category from '../dtos/Categories'
 
 
 const { TextArea } = Input
@@ -34,34 +29,15 @@ type EntryFormType = NewEntryWithLicense | NewEntryWithVersion
 
 
 const redirectToEntry = (router: NextRouter, entryId: SearchEntryID) => {
-  // delete pinLat and pinLng
-  // shallow redirect to the entry detail
-  const { query } = router
-  const { slug } = query
-  const slugArray = convertQueryParamToArray(slug)
-  slugArray.splice(slugArray.length - 2, 2)
-
-
-  let newQueryParams: ParsedUrlQuery = removeRoutingQueryParams(
-    query,
+  // gotcha: the categories of initiative and company both are mapped to entity so it does not matter
+  // what we pass as the category
+  // if at any time we decided to make them separate here is the point to touch
+  redirectToEntityDetail(
+    router,
+    entryId,
+    Category.INITIATIVE,
+    2,
     ['pinLat', 'pinLng'],
-  )
-
-  newQueryParams = updateRoutingQuery(
-    newQueryParams,
-    {
-      slug: [...slugArray, PluralSlugEntity.ENTRIES, entryId],
-    },
-  )
-
-
-  router.replace(
-    {
-      pathname: '/maps/[...slug]',
-      query: newQueryParams,
-    },
-    undefined,
-    { shallow: true },
   )
 }
 

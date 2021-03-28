@@ -3,6 +3,7 @@ import isEmpty from 'lodash/isEmpty'
 import isString from 'lodash/isString'
 import {
   mapPluralEntityNameToSingular,
+  mapTypeIdToPluralEntityName,
   PluralSlugEntity,
   SlugAction,
   SlugEntities,
@@ -10,6 +11,11 @@ import {
   SlugId,
   SlugVerb,
 } from './types'
+import { SearchEntryID } from '../dtos/SearchEntry'
+import { EventID } from '../dtos/Event'
+import { NextRouter } from 'next/router'
+import { convertQueryParamToArray, removeRoutingQueryParams, updateRoutingQuery } from './utils'
+import Category from '../dtos/Categories'
 
 
 // is responsible for creating {action, entity, id} from query: (e.g {'show', 'event', '322'} )
@@ -55,4 +61,42 @@ export const getSlugActionFromQuery = (query: ParsedUrlQuery): SlugAction => {
     entity: mapPluralEntityNameToSingular[pluralEntityName] as SlugEntity,
     id: entityId as SlugId,
   }
+}
+
+
+export const redirectToEntityDetail = (
+  router: NextRouter,
+  id: SearchEntryID | EventID,
+  category: Category,
+  slugLevelsToIgnore: number = 0,
+  paramsToRemove: string[] = [],
+) => {
+  const { query } = router
+  const { slug } = query
+  const slugArray = convertQueryParamToArray(slug)
+  slugArray.splice(slugArray.length - slugLevelsToIgnore, slugLevelsToIgnore)
+
+  const pluralTypeName = mapTypeIdToPluralEntityName[category]
+
+  let newQueryParams: ParsedUrlQuery = removeRoutingQueryParams(
+    query,
+    paramsToRemove,
+  )
+
+  newQueryParams = updateRoutingQuery(
+    newQueryParams,
+    {
+      slug: [...slugArray, pluralTypeName, id],
+    },
+  )
+
+
+  router.replace(
+    {
+      pathname: '/maps/[...slug]',
+      query: newQueryParams,
+    },
+    undefined,
+    { shallow: true },
+  )
 }

@@ -2,40 +2,30 @@ import React, { FC } from 'react'
 import { useSelector } from 'react-redux'
 import { NextRouter, useRouter } from 'next/router'
 import toString from 'lodash/toString'
-import { AutoSizer, CellMeasurer, CellMeasurerCache, List as VirtualList } from 'react-virtualized'
 import { List, Space, Tag } from 'antd'
-import { Type as ResultType, types as resultTypes } from './TypeChooser'
-import { SearchResults } from '../dtos/SearchResult'
-import searchResultSelector from '../selectors/searchResults'
+import { AutoSizer, CellMeasurer, CellMeasurerCache, List as VirtualList } from 'react-virtualized'
 import { RootState } from '../slices'
-import { mapTypeIdToPluralEntityName } from '../utils/types'
+import searchResultSelector from '../selectors/searchResults'
+import { SearchResults } from '../dtos/SearchResult'
 import { SearchEntryID } from '../dtos/SearchEntry'
 import { EventID } from '../dtos/Event'
-import { convertQueryParamToArray, updateRoutingQuery } from '../utils/utils'
+import { Type as ResultType, types as resultTypes } from './TypeChooser'
+import { redirectToEntityDetail } from '../utils/slug'
 import 'react-virtualized/styles.css'
 
 
-const onResultClick = (id: SearchEntryID | EventID, type: ResultType, router: NextRouter) => () => {
-  const pluralTypeName = mapTypeIdToPluralEntityName[type.id]
-  const { query } = router
-  const { slug } = query
-  const slugArray = convertQueryParamToArray(slug)
-  const newQueryParams = updateRoutingQuery(
-    query,
-    {
-      slug: [...slugArray, pluralTypeName, id],
-    },
+const onResultClick = (
+  router: NextRouter,
+  type: ResultType,
+  id: SearchEntryID | EventID,
+) => () => {
+  redirectToEntityDetail(
+    router,
+    id,
+    type.id,
+    0,
+    [],
   )
-
-  router.replace(
-    {
-      pathname: '/maps/[...slug]',
-      query: newQueryParams,
-    },
-    undefined,
-    { shallow: true },
-  )
-
 }
 
 
@@ -61,7 +51,7 @@ const rowRenderer = (data: SearchResults, router: NextRouter) => ({ index, key, 
           key={key}
           onLoad={measure}
           style={style}
-          onClick={onResultClick(id, type, router)}
+          onClick={onResultClick(router, type, id)}
         >
           <List.Item.Meta
             title={title}
