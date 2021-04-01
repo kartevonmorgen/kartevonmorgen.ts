@@ -6,16 +6,24 @@ import { cropText } from '../../../utils/utils'
 import Event, { Events } from '../../../dtos/Event'
 
 
-const { Text, Paragraph } = Typography
+const { Text, Paragraph, Link } = Typography
 
 
+// todo: the domain embedded in the title should come from env
 const columns = [
   {
     title: 'Event and Description',
     key: 'event',
     render: (_, record: Event) => (
       <Fragment>
-        <Text strong>{record.title}</Text>
+        <Link
+          strong
+          href={`https://kartevonmorgen.org/#/?entry=${record.id}`}
+          target="_blank"
+        >
+          {record.title}
+        </Link>
+
         <Paragraph>
           {cropText(record.description, { sentenceLimit: 1, wordLimit: 50 })}
         </Paragraph>
