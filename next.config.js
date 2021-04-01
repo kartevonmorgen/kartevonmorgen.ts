@@ -2,15 +2,24 @@ const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
 
 
 module.exports = {
+
   webpack: (config, _) => {
     config.plugins.push(
       new MomentLocalesPlugin({
-        localesToKeep: ['es-us', 'ru', 'de', 'es', 'fa'],
+        localesToKeep: [
+          'en',
+          'de',
+          'fr',
+          'nl',
+          'es',
+          'ru',
+        ],
       }),
     )
 
     return config
   },
+
   redirects: async () => ([
     {
       source: '/maps',
@@ -23,7 +32,18 @@ module.exports = {
       permanent: true,
     },
   ]),
-  env: {
-    PORT: 8000,
+
+  i18n: {
+    locales: [
+      'en',
+      'de',
+      'fr',
+      'nl',
+      'es',
+      'ru',
+    ],
+
+    defaultLocale: 'de',
   },
+
 }

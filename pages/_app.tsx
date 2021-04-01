@@ -6,6 +6,7 @@ import '../utils/icons/font-awesome'
 import '../styles/globals.css'
 import 'antd/dist/antd.css'
 import Layout from '../components/Layout'
+import GlobalLocale from '../components/GlobalLocale'
 
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
@@ -14,6 +15,8 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
       <Provider store={store}>
         <Component {...pageProps} />
       </Provider>
+
+      <GlobalLocale/>
     </Layout>
   )
 }
