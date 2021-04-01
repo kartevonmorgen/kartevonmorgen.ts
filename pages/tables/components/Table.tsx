@@ -11,7 +11,7 @@ const { Text, Paragraph } = Typography
 
 const columns = [
   {
-    title: 'Event',
+    title: 'Event and Description',
     key: 'event',
     render: (_, record: Event) => (
       <Fragment>
@@ -23,30 +23,40 @@ const columns = [
     ),
   },
   {
-    title: 'Description',
+    title: 'Time and Place',
     key: 'description',
-    render: (_, record: Event) => (
-      <Fragment>
-        <Text>
-          {`${moment.unix(record.start).format('llll')}`} - {`${moment.unix(record.end).format('llll')}`}
-        </Text>
+    render: (_, record: Event) => {
+      const startTime = moment.unix(record.start)
+      const endTime = moment.unix(record.end)
+      const areStartAndEndInTheSameDay = endTime.isSame(startTime, 'day')
 
-        <br/>
-        <br/>
+      return (
+        <Fragment>
+          <Text>
+            {`${startTime.format('llll')}`}
+            {` - `}
+            {
+              areStartAndEndInTheSameDay ? endTime.format('LT') : endTime.format('llll')
+            }
+          </Text>
 
-        <Paragraph>
-          {
-            addressFormatter.format({
-              street: record.street,
-              zip: record.zip,
-              city: record.city,
-              state: record.state,
-              country: record.country,
-            })
-          }
-        </Paragraph>
-      </Fragment>
-    ),
+          <br/>
+          <br/>
+
+          <Paragraph>
+            {
+              addressFormatter.format({
+                street: record.street,
+                zip: record.zip,
+                city: record.city,
+                state: record.state,
+                country: record.country,
+              })
+            }
+          </Paragraph>
+        </Fragment>
+      )
+    },
   },
 ]
 
