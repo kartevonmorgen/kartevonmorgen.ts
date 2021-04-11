@@ -1,9 +1,14 @@
+const withAntdLess = require('next-plugin-antd-less')
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
 
 
-module.exports = {
+module.exports = withAntdLess({
 
-  webpack: (config, _) => {
+  future: {
+    webpack5: true,
+  },
+
+  webpack: (config, _options) => {
     config.plugins.push(
       new MomentLocalesPlugin({
         localesToKeep: [
@@ -46,4 +51,6 @@ module.exports = {
     defaultLocale: 'de',
   },
 
-}
+  cssModules: true,
+
+})
