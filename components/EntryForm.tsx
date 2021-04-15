@@ -18,6 +18,7 @@ import { RouterQueryParam, SlugVerb } from '../utils/types'
 import { convertQueryParamToFloat } from '../utils/utils'
 import { reverseGeocode } from '../utils/geolocation'
 import Category from '../dtos/Categories'
+import { GeocodeAddress } from 'nominatim-browser'
 
 
 const { TextArea } = Input
@@ -88,6 +89,14 @@ const onFinish = (
   await onCreate(router, entry as NewEntryWithLicense)
 }
 
+interface ExtentedGeocodeAddress extends GeocodeAddress {
+  town?: string
+  municipality?: string
+  village?: string
+  hamlet?: string
+  road?: string
+}
+
 const EntryForm: FC = (_props) => {
   // todo: for a better experience show spinner with the corresponding message when the form is loading
   // for example: fetching the address
@@ -107,7 +116,7 @@ const EntryForm: FC = (_props) => {
       }
 
       const place = await reverseGeocode(pinLanLng)
-      const { address } = place
+      const address = place.address as ExtentedGeocodeAddress
 
       // it's not an error, town and road are optional fields than are not included in the interface
       // but can exist in the response from nominatim
