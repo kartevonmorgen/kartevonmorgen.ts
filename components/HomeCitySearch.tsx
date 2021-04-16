@@ -1,6 +1,7 @@
 import { FC, useState } from 'react'
-import { AutoComplete, Input, SelectProps } from 'antd'
-import { GlobalOutlined } from '@ant-design/icons'
+import { NextRouter, useRouter } from 'next/router'
+import { AutoComplete, Button, SelectProps } from 'antd'
+import { LocateOutline } from 'react-ionicons'
 
 
 function getRandomInt(max: number, min: number = 0) {
@@ -40,6 +41,7 @@ const searchResult = (query: string) =>
 
 
 const HomeCitySearch: FC = () => {
+  const router = useRouter()
   const [options, setOptions] = useState<SelectProps<object>['options']>([])
 
   const handleSearch = (value: string) => {
@@ -50,21 +52,53 @@ const HomeCitySearch: FC = () => {
     console.log('onSelect', value)
   }
 
-  return (
-    <AutoComplete
-      dropdownMatchSelectWidth={252}
-      style={{ width: 360 }}
-      options={options}
-      onSelect={onSelect}
-      onSearch={handleSearch}
-    >
-      <Input.Search
-        size="large"
-        placeholder="Which place would you like to discover?"
-        enterButton={<GlobalOutlined/>}
+  const locateUser = (router: NextRouter) => () => {
+    navigator.geolocation.getCurrentPosition(position => {
+      const { latitude: lat, longitude: lng } = position.coords
 
+      router.push(
+        {
+          pathname: '/maps/main',
+          query: { lat, lng, zoom: 10 },
+        },
+        undefined,
+        { shallow: false },
+      )
+    })
+  }
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignContent: 'center',
+      }}
+    >
+      <AutoComplete
+        dropdownMatchSelectWidth={252}
+        style={{ width: 360 }}
+        options={options}
+        onSelect={onSelect}
+        onSearch={handleSearch}
+        placeholder="Which place would you like to discover?"
+        size="large"
       />
-    </AutoComplete>
+
+      <Button
+        onClick={locateUser(router)}
+        type="primary"
+        size="large"
+        icon={
+          <LocateOutline
+            color={'#fff'}
+            title="locate me"
+            height="25px"
+            width="25px"
+          />
+        }
+      />
+    </div>
   )
 }
 

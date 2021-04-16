@@ -31,7 +31,9 @@ const HomeBanner: FC = () => {
               Mapping for Good
             </Title>
           </Col>
-          <Col xs={24} style={{ textAlign: 'center' }}><HomeCitySearch/></Col>
+          <Col xs={24} style={{ textAlign: 'center' }}>
+            <HomeCitySearch/>
+          </Col>
         </Row>
       </div>
     </Content>
