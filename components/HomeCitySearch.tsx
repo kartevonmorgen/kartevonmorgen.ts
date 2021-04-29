@@ -77,7 +77,7 @@ const HomeCitySearch: FC = () => {
     >
       <AutoComplete
         dropdownMatchSelectWidth={252}
-        style={{ width: 360 }}
+        style={{ width: 250 }}
         options={options}
         onSelect={onSelect}
         onSearch={handleSearch}

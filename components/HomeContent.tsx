@@ -8,13 +8,7 @@ const { Title, Text, Paragraph } = Typography
 
 const HomeContent: FC = () => {
   return (
-    <Content
-      style={{
-        backgroundColor: 'white',
-        padding: 124,
-        paddingTop: 24,
-      }}
-    >
+    <div>
       <Title
         level={1}
         style={{
@@ -132,8 +126,7 @@ const HomeContent: FC = () => {
 
         </Col>
       </Row>
-
-    </Content>
+    </div>
   )
 }
 
