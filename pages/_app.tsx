@@ -3,9 +3,10 @@ import { AppProps } from 'next/app'
 import { Provider } from 'react-redux'
 import store from '../store'
 import '../utils/icons/font-awesome'
-import '../styles/globals.less'
 import Layout from '../components/Layout'
 import GlobalLocale from '../components/GlobalLocale'
+
+require('../styles/globals.less')
 
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
