@@ -6,6 +6,8 @@ import '../utils/icons/font-awesome'
 import Layout from '../components/Layout'
 import GlobalLocale from '../components/GlobalLocale'
 
+// it's not a mistake. because we benefit from the next-plugin-antd-less
+// the less files should be imported with require
 require('../styles/globals.less')
 
 

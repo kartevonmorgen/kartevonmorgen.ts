@@ -1,11 +1,17 @@
 import { FC } from 'react'
 import { Layout } from 'antd'
 import HomeHeader from '../components/HomeHeader'
-import HomeBanner from '../components/HomeBanner'
+import Banner from '../components/Banner'
 import HomeContent from '../components/HomeContent'
 import HomeDivider from '../components/HomeDivider'
 import Team from '../components/Team'
 import HomeEntityRedirector from '../components/HomeEntityRedirector'
+import Tutorial from '../components/Tutorial'
+import Vision from '../components/Vision'
+import Creators from '../components/Creators'
+import Partners from '../components/Partners'
+import Footer from '../components/HomeFooter'
+
 
 const { Content } = Layout
 
@@ -18,12 +24,12 @@ const Home: FC = () => {
 
         <HomeHeader/>
 
-        <HomeBanner/>
+        <Banner/>
 
         <Content
           style={{
             backgroundColor: 'white',
-            padding: 124,
+            padding: 60,
             paddingTop: 24,
           }}
         >
@@ -31,9 +37,25 @@ const Home: FC = () => {
 
           <HomeDivider/>
 
+          <Tutorial/>
+
+          <Vision/>
+
+          <HomeDivider/>
+
           <Team/>
 
+          <HomeDivider/>
+
+          <Creators/>
+
+          <HomeDivider/>
+
+          <Partners/>
+
         </Content>
+
+        <Footer/>
 
       </Layout>
     </div>

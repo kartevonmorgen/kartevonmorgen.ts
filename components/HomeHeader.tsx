@@ -34,7 +34,7 @@ const HomeHeader: FC = () => {
             <Image
               src="/assets/img/logo.png"
               alt="logo"
-              layout="fixed"
+              layout="intrinsic"
               width={97}
               height={40}
             />

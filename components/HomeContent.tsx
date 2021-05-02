@@ -1,9 +1,8 @@
 import { FC } from 'react'
 import Image from 'next/image'
-import { Col, Layout, Row, Typography } from 'antd'
+import { Col, Row, Typography } from 'antd'
 
-const { Content } = Layout
-const { Title, Text, Paragraph } = Typography
+const { Title, Paragraph } = Typography
 
 
 const HomeContent: FC = () => {
@@ -22,17 +21,7 @@ const HomeContent: FC = () => {
         justify="center"
         align="middle"
       >
-        <Col>
-          <Image
-            src="/assets/img/lp_illu1.webp"
-            layout="fixed"
-            width={370}
-            height={400}
-            alt="discover the map"
-          />
-        </Col>
-
-        <Col md={8}>
+        <Col sm={24} md={8}>
           <Title
             level={2}
             style={{
@@ -52,23 +41,23 @@ const HomeContent: FC = () => {
           </Paragraph>
 
         </Col>
+
+        <Col>
+          <Image
+            src="/assets/img/lp_illu1.webp"
+            layout="intrinsic"
+            width={370}
+            height={400}
+            alt="discover the map"
+          />
+        </Col>
       </Row>
 
       <Row
         justify="center"
         align="middle"
       >
-        <Col>
-          <Image
-            src="/assets/img/lp_illu2.webp"
-            layout="fixed"
-            width={606}
-            height={400}
-            alt="be part of that"
-          />
-        </Col>
-
-        <Col md={8}>
+        <Col sm={24} md={8}>
           <Title
             level={2}
             style={{
@@ -87,7 +76,16 @@ const HomeContent: FC = () => {
             Find all the information you need to get in touch with projects you want to engage with. Stop by to say
             Hello!
           </Paragraph>
+        </Col>
 
+        <Col>
+          <Image
+            src="/assets/img/lp_illu2.webp"
+            layout="intrinsic"
+            width={606}
+            height={400}
+            alt="be part of that"
+          />
         </Col>
       </Row>
 
@@ -95,17 +93,7 @@ const HomeContent: FC = () => {
         justify="center"
         align="middle"
       >
-        <Col>
-          <Image
-            src="/assets/img/lp_illu3.webp"
-            layout="fixed"
-            width={586}
-            height={400}
-            alt="Let’s create a world"
-          />
-        </Col>
-
-        <Col md={8}>
+        <Col sm={24} md={8}>
           <Title
             level={2}
             style={{
@@ -123,7 +111,16 @@ const HomeContent: FC = () => {
           >
             Together, we want to show and embrace the positive change in our society.
           </Paragraph>
+        </Col>
 
+        <Col>
+          <Image
+            src="/assets/img/lp_illu3.webp"
+            layout="intrinsic"
+            width={586}
+            height={400}
+            alt="Let’s create a world"
+          />
         </Col>
       </Row>
     </div>

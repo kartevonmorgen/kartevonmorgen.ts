@@ -6,7 +6,7 @@ const { Content } = Layout
 const { Title } = Typography
 
 
-const HomeBanner: FC = () => {
+const Banner: FC = () => {
   return (
     <Content>
       <div
@@ -40,4 +40,4 @@ const HomeBanner: FC = () => {
   )
 }
 
-export default HomeBanner
+export default Banner

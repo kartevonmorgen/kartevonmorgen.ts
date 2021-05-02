@@ -2,7 +2,7 @@ import { FC } from 'react'
 import Image from 'next/image'
 import { Space, Typography } from 'antd'
 
-const { Paragraph, Text } = Typography
+const { Text } = Typography
 
 interface Member {
   name: string
@@ -18,52 +18,62 @@ const members: Members = [
   {
     name: 'Helmut Wolman',
     description: 'Co-Founder, Geschäftsführung',
-    src: '/assets/img/team/Helmut.webp',
+    src: 'Helmut.webp',
   },
   {
     name: 'Anna Rogun',
-    src: '/assets/img/team/Anna.webp',
+    src: 'Anna.webp',
     description: 'Instagram',
   },
   {
     name: 'Laura Leichtle',
-    src: '/assets/img/team/Laura.webp',
+    src: 'Laura.webp',
     description: 'Graphic and Design',
   },
   {
     name: 'Navid Kalaei',
-    src: '/assets/img/team/Navid.webp',
+    src: 'Navid.webp',
     description: 'Software Development',
   },
   {
     name: 'David Ziegler',
-    src: '/assets/img/team/David.webp',
+    src: 'David.webp',
     description: 'Software Development',
   },
   {
     name: 'Markus Kohlhase',
-    src: '/assets/img/team/Markus.webp',
+    src: 'Markus.webp',
     description: 'Software Development',
   },
   {
     name: 'Uwe Klotz',
-    src: '/assets/img/team/Uwe.webp',
+    src: 'Uwe.webp',
     description: 'Backend-Developer',
   },
   {
+    name: 'Florian Jostock',
+    src: 'placeholder_1.webp',
+    description: 'Frontend-Developer',
+  },
+  {
     name: 'Manuel Molt',
-    src: '/assets/img/team/Manuel.webp',
+    src: 'Manuel.webp',
     description: 'Marketing Strategies',
   },
   {
     name: 'Alex Reiner',
-    src: '/assets/img/team/Alex.webp',
+    src: 'Alex.webp',
     description: 'Frontend-Developer',
   },
   {
     name: 'Heiko Hoffmann',
-    src: '/assets/img/team/Heiko.webp',
+    src: 'Heiko.webp',
     description: 'Glossar Developper',
+  },
+  {
+    name: 'Be One of Us',
+    src: 'placeholder_4.webp',
+    description: 'We are always looking for new members!',
   },
 ]
 
@@ -71,7 +81,11 @@ const members: Members = [
 const Team: FC = () => {
   return (
     <div>
-      <Space wrap>
+      <Space
+        wrap
+        align="center"
+        style={{ justifyContent: 'center' }}
+      >
         {
           members.map(({ name, src, description, link }) => (
             <a
@@ -98,8 +112,8 @@ const Team: FC = () => {
                   }}
                 >
                   <Image
-                    src={src}
-                    layout="fixed"
+                    src={`/assets/img/team/${src}`}
+                    layout="intrinsic"
                     width={100}
                     height={100}
                   />
