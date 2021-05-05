@@ -14,7 +14,7 @@ import { types as resultTypes } from './TypeChooser'
 import EntityContact from './EntityContact'
 import EntityAddress from './EntityAddress'
 import EntityTags from './EntityTags'
-import EntityComments from './EntityComments'
+import EntityRatings from './EntityRatings'
 import EntityFooter from './EntityFooter'
 import EntityDetailHeader from './EntityDetailHeader'
 
@@ -111,9 +111,9 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
       <EntityTags tags={entry.tags}/>
 
       {/*todo: if there's no comment we should not display the divider*/}
-      <Divider>Comments</Divider>
+      <Divider>Ratings</Divider>
 
-      <EntityComments ratingsIds={entry.ratings}/>
+      <EntityRatings ratingsIds={entry.ratings}/>
 
       <EntityFooter
         entityId={entry.id}
