@@ -16,9 +16,9 @@ import { getSlugActionFromQuery } from '../utils/slug'
 import MapEventsListener from './MapEventsListener'
 import MapLocationInitializer from './MapLocationInitializer'
 import SearchEventsListener from './SearchEventsListener'
-import { types as resultType } from './TypeChooser'
 import MapMarkerGradient from './MapMarkerGradient'
 import 'leaflet/dist/leaflet.css'
+import AddEntryButton from './AddEntryButton'
 
 
 const icons = {
@@ -36,7 +36,7 @@ const getIcon = (types: Categories) => {
   const icon = icons[typeId]
 
   if (!icon) {
-    const type = resultType.find(t => t.id === typeId) || Category.UNKNOWN
+    // const type = resultType.find(t => t.id === typeId) || Category.UNKNOWN
     icons[typeId] = new DivIcon({
       html: renderToString(
         <FontAwesomeIcon
@@ -122,12 +122,17 @@ const Map: FC = () => {
 
       <MapMarkerGradient/>
 
+      <div id="map-bottom-right">
+        <AddEntryButton/>
+      </div>
+
+
+      <ZoomControl position="bottomright"/>
+
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-
-      <ZoomControl position="bottomright"/>
 
       {
         showMarkedPin && (

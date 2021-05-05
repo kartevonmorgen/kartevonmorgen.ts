@@ -1,13 +1,21 @@
-import { Button } from 'antd'
+import { FC } from 'react'
 import { NextRouter, useRouter } from 'next/router'
-import produce from 'immer'
+import { Button } from 'antd'
 import { PlusCircleOutlined } from '@ant-design/icons'
+import produce from 'immer'
 import { convertQueryParamToArray } from '../utils/utils'
-import { PluralSlugEntity, SlugVerb } from '../utils/types'
+import { getSlugActionFromQuery } from '../utils/slug'
+import { PluralSlugEntity, SlugEntity, SlugVerb } from '../utils/types'
 
 
 const onAddEntity = (router: NextRouter) => () => {
   const { query } = router
+
+  // be sure the state is not in the edit or create mode
+  const slugAction = getSlugActionFromQuery(query)
+  if (slugAction.verb !== SlugVerb.SHOW && slugAction.entity !== SlugEntity.RESULT) {
+    return
+  }
 
   const newQueryParams = produce(query, draftState => {
     const { slug } = query
@@ -27,25 +35,18 @@ const onAddEntity = (router: NextRouter) => () => {
   )
 }
 
-const SidebarNav = () => {
+const AddEntryButton: FC = () => {
   const router = useRouter()
 
   return (
-    <div>
-      <Button
-        shape="round"
-        icon={<PlusCircleOutlined/>}
-        size="small"
-        style={{
-          width: '100%',
-        }}
-        type="primary"
-        onClick={onAddEntity(router)}
-      >
-        Add An Entry
-      </Button>
-    </div>
+    <Button
+      type="primary"
+      size="large"
+      shape="circle"
+      icon={<PlusCircleOutlined/>}
+      onClick={onAddEntity(router)}
+    />
   )
 }
 
-export default SidebarNav
+export default AddEntryButton

@@ -124,8 +124,6 @@ const HomeEntityRedirector: FC = () => {
   }
 
   useEffect(() => {
-    console.log(path)
-    console.log(entry)
     const entryPath = `/${entry}#/?`
     // check if it's coming from the old domain
     if (path.startsWith(entryPath)) {
