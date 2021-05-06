@@ -1,4 +1,5 @@
-// TODO: this actor should be eliminated totally with the nginx rules
+// it's not possible to handle the old addresses by nginx
+// https://serverfault.com/questions/714232/nginx-discards-data-after-number-sign/714245
 import { FC, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import queryString, { ParsedUrlQuery } from 'querystring'
