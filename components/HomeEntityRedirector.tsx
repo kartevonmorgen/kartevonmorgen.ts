@@ -94,7 +94,6 @@ const adaptParams = async (_entry: string, query: ParsedUrlQuery): Promise<Parse
     newParams['slug'].push(entry)
   }
 
-  debugger
   return newParams
 }
 
@@ -120,7 +119,7 @@ const HomeEntityRedirector: FC = () => {
   const slug = convertQueryParamToArray(query.slug)
 
   let entry = ''
-  if (slug.length !== 0) {
+  if (slug.length !== 0 && slug[0] !== '[[...slug]]') {
     entry = slug[0]
   }
 
