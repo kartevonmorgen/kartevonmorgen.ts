@@ -13,7 +13,7 @@ const onAddEntity = (router: NextRouter) => () => {
 
   // be sure the state is not in the edit or create mode
   const slugAction = getSlugActionFromQuery(query)
-  if (slugAction.verb !== SlugVerb.SHOW && slugAction.entity !== SlugEntity.RESULT) {
+  if (slugAction.entity !== SlugEntity.RESULT) {
     return
   }
 
