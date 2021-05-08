@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Col, Layout, Menu, Row } from 'antd'
@@ -9,6 +10,9 @@ const { Header } = Layout
 
 
 const HomeHeader: FC = () => {
+  const router = useRouter()
+  const { locales } = router
+
   return (
     <Header
       style={{
@@ -54,9 +58,13 @@ const HomeHeader: FC = () => {
               icon={<GlobalOutlined/>}
               title="Language"
             >
-              <Menu.Item><Link href={'/'} locale="en">en</Link></Menu.Item>
-              <Menu.Item><Link href={'/'} locale="de">de</Link></Menu.Item>
-              <Menu.Item><Link href={'/'} locale="es">es</Link></Menu.Item>
+              {
+                locales.map(locale => (
+                  <Menu.Item key={`locale-${locale}`}>
+                    <Link href={'/'} locale={locale}>{locale}</Link>
+                  </Menu.Item>
+                ))
+              }
             </Menu.SubMenu>
           </Menu>
         </Col>
