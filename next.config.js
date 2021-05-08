@@ -1,3 +1,4 @@
+const nextTranslate = require('next-translate')
 const withAntdLess = require('next-plugin-antd-less')
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
@@ -5,57 +6,57 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 })
 
 
-module.exports = withBundleAnalyzer(
-  withAntdLess({
+module.exports = nextTranslate(
+  withBundleAnalyzer(
+    withAntdLess({
 
-    future: {
-      webpack5: true,
-    },
-
-    webpack: (config, _options) => {
-      config.plugins.push(
-        new MomentLocalesPlugin({
-          localesToKeep: [
-            'en',
-            'de',
-            'fr',
-            'nl',
-            'es',
-            'ru',
-          ],
-        }),
-      )
-
-      return config
-    },
-
-    redirects: async () => ([
-      {
-        source: '/maps',
-        destination: '/maps/main',
-        permanent: true,
+      future: {
+        webpack5: true,
       },
-      {
-        source: '/tables',
-        destination: '/tables/kvm',
-        permanent: true,
+
+      webpack: (config, _options) => {
+        config.plugins.push(
+          new MomentLocalesPlugin({
+            localesToKeep: [
+              'en',
+              'de',
+              'es',
+              'pt',
+            ],
+          }),
+        )
+
+        return config
       },
-    ]),
 
-    i18n: {
-      locales: [
-        'en',
-        'de',
-        'fr',
-        'nl',
-        'es',
-        'ru',
-      ],
+      redirects: async () => ([
+        {
+          source: '/maps',
+          destination: '/maps/main',
+          permanent: true,
+        },
+        {
+          source: '/tables',
+          destination: '/tables/kvm',
+          permanent: true,
+        },
+      ]),
 
-      defaultLocale: 'de',
-    },
+      i18n: {
+        locales: [
+          'en',
+          'de',
+          'fr',
+          'nl',
+          'es',
+          'ru',
+        ],
 
-    cssModules: true,
+        defaultLocale: 'de',
+      },
 
-  }),
+      cssModules: true,
+
+    }),
+  ),
 )

@@ -1,0 +1,17 @@
+{
+  "locales": [
+    "en",
+    "de",
+    "es",
+    "pt"
+  ],
+  "defaultLocale": "de",
+  "pages": {
+    "*": [
+      "common"
+    ],
+    "/tables/[project]": [
+      "tables"
+    ]
+  }
+}
