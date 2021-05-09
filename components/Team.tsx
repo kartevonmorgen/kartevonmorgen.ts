@@ -78,6 +78,8 @@ const members: Members = [
 ]
 
 
+// todo: add header for team
+// todo: translate the team description from locales/home.json->chapter5
 const Team: FC = () => {
   return (
     <div>

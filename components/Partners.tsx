@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import Image from 'next/image'
+import useTranslation from 'next-translate/useTranslation'
 import { Space, Typography } from 'antd'
 
 
@@ -38,62 +39,66 @@ const partners: Partner[] = [
   },
 ]
 
-const Partners: FC = () => (
-  <div
-    style={{
-      display: 'flex',
-      justifyContent: 'center',
-    }}
-  >
-    <Space
-      align="center"
-      direction="vertical"
+const Partners: FC = () => {
+
+  const { t } = useTranslation('home')
+
+  return (
+    <div
       style={{
+        display: 'flex',
         justifyContent: 'center',
       }}
-      size="large"
     >
-      <Title style={{ textAlign: 'center' }}>Our Partners</Title>
-
       <Space
         align="center"
-        wrap
+        direction="vertical"
         style={{
           justifyContent: 'center',
         }}
         size="large"
       >
-        {
-          partners.map(({ src, width, height, alt, link }, i) => (
-            <a
-              href={link}
-              target="_blank"
-              rel="noopener noreferrer"
-              key={`creator-${i}`}
-            >
-              <Image
-                src={`/assets/img/partners/${src}`}
-                layout="intrinsic"
-                width={width}
-                height={height}
-              />
-            </a>
-          ))
-        }
+        <Title style={{ textAlign: 'center' }}>{t('landingExplain.chapter7.heading')}</Title>
+
+        <Space
+          align="center"
+          wrap
+          style={{
+            justifyContent: 'center',
+          }}
+          size="large"
+        >
+          {
+            partners.map(({ src, width, height, alt, link }, i) => (
+              <a
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+                key={`creator-${i}`}
+              >
+                <Image
+                  src={`/assets/img/partners/${src}`}
+                  layout="intrinsic"
+                  width={width}
+                  height={height}
+                />
+              </a>
+            ))
+          }
+        </Space>
+
+        <Paragraph
+          style={{
+            textAlign: 'center',
+          }}
+          strong
+        >
+          {t('landingExplain.chapter7.boell-foundation')}
+        </Paragraph>
+
       </Space>
-
-      <Paragraph
-        style={{
-          textAlign: 'center',
-        }}
-        strong
-      >
-        In its pilot phase this project has been supported by the Heinrich-Böll-Foundation.
-      </Paragraph>
-
-    </Space>
-  </div>
-)
-
+    </div>
+  )
+}
 
 export default Partners

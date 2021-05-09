@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import useTranslation from 'next-translate/useTranslation'
 import { Col, Layout, Row, Typography } from 'antd'
 import HomeCitySearch from './HomeCitySearch'
 
@@ -7,6 +8,9 @@ const { Title } = Typography
 
 
 const Banner: FC = () => {
+
+  const { t } = useTranslation('home')
+
   return (
     <Content>
       <div
@@ -28,7 +32,7 @@ const Banner: FC = () => {
                 color: 'white',
               }}
             >
-              Mapping for Good
+              {t('landingPage.slogan')}
             </Title>
           </Col>
           <Col xs={24} style={{ textAlign: 'center' }}>

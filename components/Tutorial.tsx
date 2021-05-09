@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import useTranslation from 'next-translate/useTranslation'
 import { Space, Typography } from 'antd'
 import Image from 'next/image'
 
@@ -52,33 +53,38 @@ const tutorials: Tutorial[] = [
   },
 ]
 
-const HomeTutorial: FC = () => (
-  <div>
-    <Space direction="vertical" style={{ justifyContent: 'center' }}>
-      <Title
-        level={1}
-        style={{
-          textAlign: 'center',
-        }}
-      >
-        How to use the von morgen map
-      </Title>
+const HomeTutorial: FC = () => {
 
-      {
-        tutorials.map(({ src, width, height, alt }, i) => (
-          <Image
-            key={`tutorial-image-${i}`}
-            src={`/assets/img/tutorial/${src}`}
-            layout="intrinsic"
-            width={width}
-            height={height}
-            alt={alt}
-          />
-        ))
-      }
-    </Space>
-  </div>
-)
+  const { t } = useTranslation('home')
+
+  return (
+    <div>
+      <Space direction="vertical" style={{ justifyContent: 'center' }}>
+        <Title
+          level={1}
+          style={{
+            textAlign: 'center',
+          }}
+        >
+          {t('landingExplain.chapter2.heading')}
+        </Title>
+
+        {
+          tutorials.map(({ src, width, height, alt }, i) => (
+            <Image
+              key={`tutorial-image-${i}`}
+              src={`/assets/img/tutorial/${src}`}
+              layout="intrinsic"
+              width={width}
+              height={height}
+              alt={alt}
+            />
+          ))
+        }
+      </Space>
+    </div>
+  )
+}
 
 
 export default HomeTutorial

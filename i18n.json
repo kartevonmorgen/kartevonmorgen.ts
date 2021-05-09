@@ -7,7 +7,10 @@
   ],
   "defaultLocale": "de",
   "pages": {
-    "*": [
+    "/[[...slug]]": [
+      "home"
+    ],
+    "/maps/[...slug]": [
       "common"
     ],
     "/tables/[project]": [

@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import Image from 'next/image'
+import useTranslation from 'next-translate/useTranslation'
 import { Space, Typography } from 'antd'
 
 
@@ -31,51 +32,55 @@ const creators: Creator[] = [
   },
 ]
 
-const Creators: FC = () => (
-  <div
-    style={{
-      display: 'flex',
-      justifyContent: 'center',
-    }}
-  >
-    <Space
-      align="center"
-      direction="vertical"
+const Creators: FC = () => {
+
+  const { t } = useTranslation('home')
+
+  return (
+    <div
       style={{
+        display: 'flex',
         justifyContent: 'center',
       }}
     >
-      <Title style={{ textAlign: 'center' }}>A project by</Title>
-
       <Space
         align="center"
-        wrap
+        direction="vertical"
         style={{
           justifyContent: 'center',
         }}
-        size="large"
       >
-        {
-          creators.map(({ src, width, height, alt, link }, i) => (
-            <a
-              href={link}
-              target="_blank"
-              rel="noopener noreferrer"
-              key={`creator-${i}`}
-            >
-              <Image
-                src={`/assets/img/creators/${src}`}
-                layout="intrinsic"
-                width={width}
-                height={height}
-              />
-            </a>
-          ))
-        }
-      </Space>
-    </Space>
-  </div>
-)
+        <Title style={{ textAlign: 'center' }}>{t('landingExplain.chapter6.heading')}</Title>
 
+        <Space
+          align="center"
+          wrap
+          style={{
+            justifyContent: 'center',
+          }}
+          size="large"
+        >
+          {
+            creators.map(({ src, width, height, alt, link }, i) => (
+              <a
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+                key={`creator-${i}`}
+              >
+                <Image
+                  src={`/assets/img/creators/${src}`}
+                  layout="intrinsic"
+                  width={width}
+                  height={height}
+                />
+              </a>
+            ))
+          }
+        </Space>
+      </Space>
+    </div>
+  )
+}
 
 export default Creators

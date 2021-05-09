@@ -1,0 +1,145 @@
+{
+  "landingPage": {
+    "menu": {
+      "map": "Mapa",
+      "infos": "Sobre nosotros",
+      "contact": "Contacto",
+      "donate": "Donar",
+      "login": "Iniciar sesión",
+      "logout": "Cerrar sesión"
+    },
+    "slogan": "El mapa del buen vivir",
+    "city-search": {
+      "placeholder": "¿Qué lugar te gustaría descubrir?",
+      "error": "Error al buscar ciudades.",
+      "no-results": "No se pudo encontrar ninguna ciudad con ese nombre.",
+      "show-map": "Mostrar mapa..."
+    },
+    "subscribeToBbox": {
+      "message": "Has iniciado sesión. Si lo deseas puedes",
+      "new-link": "mantenerte al día sobre los cambios en tu región",
+      "edit-link": "cambiar o anular tu subscripción a una sección del mapa"
+    },
+    "donate": {
+      "heading": "Haz algo bueno por el mañana.",
+      "paragraph1": "El mapa del mañana debe permanecer a disposición de nuestra comunidad siempre de forma gratuita. Para ello lo estamos desarrollando en Código Abierto. Su mantenimiento y desarrollo técnico continuado se hacen posibles a través de las donaciones solidarias de los/las usuarios/as de las iniciativas y empresas cartografiadas. Por eso recomendamos una contribución mensual de 15 a 25 euros mensuales para las empresas y hasta 3 euros para las iniciativas y los/las usuarios/as, para garantizar un crecimiento orgánico y permanecer independentes.",
+      "betterplace-link": "Dona ahora para \"del mañana - El mapa del buen vivir\" a través de nuestro socio betterplace.org",
+      "paragraph2": {
+        "heading": "Cuenta de donaciones:",
+        "bank-details1": "Ideen hoch drei e.V. ",
+        "bank-details2": "IBAN: DE05 4306 0967 4031 0759 00",
+        "bank-details3": "BIC: GENODEM1GLS en el banco GLS",
+        "bank-details4": "Concepto: Mapa del mañana",
+        "text": "La plataforma del mañana también se financia mediante subvenciones de diversos programas y concursos de ideas. Nosotros/as, el equipo del mañana, seguimos haciendo trabajo voluntario, pero queremos profesionalizar el desarrollo y el asesoramiento a largo plazo y tener salarios justos."
+      },
+      "paragraph3": {
+        "heading": "Las regiones piloto del mañana",
+        "text1": "Nos vemos a nosotros/as mismos/as como una iniciativa visionaria y diversa de integración en red que desea hacer visible el cambio positivo en nuestra sociedad. Para conseguirlo de la mejor manera posible, actualmente estamos desarrollando las regiones piloto del mañana, que serán moderadas localmente por un/a piloto regional*. ¿Conoces muy bien tu entorno y te gustaría formar parte de una región piloto del mañana? Entonces siéntete libre de contactarnos por correo o a través de este",
+        "form-link": "formulario",
+        "text2": ". Juntos hacemos que el mundo del mañana ya sea visible hoy.",
+        "text3": "En nuestra página de donaciones de Betterplace encontrarás un resumen actualizado de todas las funciones a desarrollar en el mapa del mañana:",
+        "text4": "Pero incluso la corrección de pequeños errores, las optimizaciones y las actualizaciones necesitan recursos.",
+        "text5": "Por eso nos alegra cada pequeña o gran contribución.",
+        "text6": "¡Muchísimas gracias!",
+        "text7": "el equipo del mañana"
+      }
+    },
+    "user": {
+      "register-success": {
+        "text1": "Te has registrado correctamente. Por favor, confirma tu dirección de correo electrónico, entonces podrás ",
+        "text2": "iniciar sesión. Para ello acabamos de enviar un mensaje a ",
+        "text3": "."
+      },
+      "confirming-email-address": {
+        "text": "Tu dirección de correo electrónico está siendo confirmada."
+      },
+      "confirm-email-error": {
+        "message": "¡Oh! Se ha producido un error al confirmar tu dirección de correo electrónico. Por favor, inténtalo de nuevo con un nuevo nombre de usuario/a al ",
+        "link": "registrarte."
+      },
+      "email-confirmed": {
+        "text1": "Tu dirección de correo electrónico ha sido confirmada.",
+        "text2": "Ahora puedes ",
+        "link": "iniciar sesión."
+      },
+      "logged-out": "Se ha cerrado la sesión."
+    },
+    "join": {
+      "heading": "Forma parte de nuestro equipo",
+      "paragraph1": "Somos un equipo repartido por Alemania ¡y siempre estamos buscando nuevos miembros! Aquí encontrarás nuestras convocatorias actuales:",
+      "paragraph2": "Buscamos pilotos regionales y temáticos: como contacto local directo aseguras la calidad de las entradas del mapa, organizas actividades y talleres ¡y muestras lo mejor de tu ciudad!",
+      "paragraph3": "¿Tienes preguntas o estás interesado/a? Nos alegrará saber de ti:"
+    },
+    "footer": {
+      "heading": "Mostramos dónde hay bien a la gente que quiere hacer el bien.",
+      "contact": "Contacto: ",
+      "social-media": "Redes sociales: ",
+      "open-source": "Código Abierto: ",
+      "imprint": "Aviso Legal",
+      "privacyStatement": "Declaración de privacidad"
+    }
+  },
+  "landingExplain": {
+    "chapter1": {
+      "heading": "El mundo está lleno de exploradores/as. Y lleno de lugares que esperan ser descubiertos.",
+      "paragraph1": {
+        "heading": "Descubre lo mejor de cada sitio.",
+        "text": "Nuestro mapa te muestra iniciativas y empresas orientadas hacia el futuro y pronto también eventos directamente en tu zona."
+      },
+      "paragraph2": {
+        "heading": "¡Participa!",
+        "text": "¿Estás particularmente interesado/a en una iniciativa? Con nosotros/as encontrarás toda la información que necesitas para tomar contacto y pasarte por ahí."
+      },
+      "paragraph3": {
+        "heading": "Crea el mundo del mañana.",
+        "text": "Junto contigo queremos hacer visible y vivible el cambio positivo de nuestra sociedad."
+      }
+    },
+    "chapter2": {
+      "heading": "¿Cómo funciona el mapa del mañana?"
+    },
+    "chapter3": {
+      "heading": "La visión del mañana",
+      "text": {
+        "1": "del mañana promueve la creatividad, el respeto al medio ambiente y la acción conjunta en el colorido campo del cambio social.",
+        "2": "del mañana tiene la visión de un mundo intacto, en el que las personas viven juntas una vida autodeterminada, feliz y amigable con el medio ambiente. El objetivo: un futuro humano."
+      }
+    },
+    "chapter4": {
+      "heading": "¿Te gustaría participar?",
+      "text": {
+        "1": "Apoya nuestro proyecto",
+        "2": "Buscamos pilotos regionales y temáticos",
+        "3": "Forme parte de nuestro equipo"
+      },
+      "learnMore": "saber más"
+    },
+    "chapter5": {
+      "heading": "El equipo del mañana",
+      "new-members": "¡Estamos deseando que lleguen nuevos/as miembros al equipo!",
+      "graphic-design": "Diseño gráfico",
+      "software-development": "Desarrollo de software",
+      "business-finance": "Elaboración de proyectos",
+      "pr-marketing": "Relaciones Públicas y Marketing",
+      "communication-marketing": "Comunicación y Marketing",
+      "thao": "Contenidos y Comunicación",
+      "project-development": "Elaboración de proyectos",
+      "chair": "Junta Directiva de la asociación Ideen³ e.V.",
+      "lisa1": "Científica política",
+      "lisa2": "Estrategia e Impacto",
+      "marten": "Cuidados y psicología del cambio",
+      "florian": "Consultoría de Desarrollo de Software",
+      "louisa": "Trabajo Social",
+      "anja": "Diseñadora",
+      "xueqian": "Consultora de gestión",
+      "linus": "Sociología Global"
+    },
+    "chapter6": {
+      "heading": "Un proyecto de"
+    },
+    "chapter7": {
+      "heading": "Nuestros socios",
+      "boell-foundation": "El proyecto fue patrocinado en la fase piloto por la Fundación Heinrich Böll."
+    }
+  }
+}

@@ -2,6 +2,7 @@ import { FC } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
+import useTranslation from 'next-translate/useTranslation'
 import { Col, Layout, Menu, Row } from 'antd'
 import { GlobalOutlined } from '@ant-design/icons/lib'
 
@@ -12,6 +13,7 @@ const { Header } = Layout
 const HomeHeader: FC = () => {
   const router = useRouter()
   const { locales } = router
+  const { t } = useTranslation('home')
 
   return (
     <Header
@@ -49,11 +51,11 @@ const HomeHeader: FC = () => {
           <Menu
             mode="horizontal"
           >
-            <Menu.Item><Link href={'/maps/main'}>Map</Link></Menu.Item>
-            <Menu.Item><Link href="https://blog.vonmorgen.org/">About</Link></Menu.Item>
-            <Menu.Item><Link href={'/contact'}>Contact</Link></Menu.Item>
-            <Menu.Item><Link href="https://blog.vonmorgen.org/spenden">Donate</Link></Menu.Item>
-            <Menu.Item><Link href={'/login'}>Login</Link></Menu.Item>
+            <Menu.Item><Link href={'/maps/main'}>{t('landingPage.menu.map')}</Link></Menu.Item>
+            <Menu.Item><Link href="https://blog.vonmorgen.org/">{t('landingPage.menu.infos')}</Link></Menu.Item>
+            <Menu.Item><Link href={'/contact'}>{t('landingPage.menu.contact')}</Link></Menu.Item>
+            <Menu.Item><Link href="https://blog.vonmorgen.org/spenden">{t('landingPage.menu.donate')}</Link></Menu.Item>
+            <Menu.Item><Link href={'/login'}>{t('landingPage.menu.login')}</Link></Menu.Item>
             <Menu.SubMenu
               icon={<GlobalOutlined/>}
               title="Language"

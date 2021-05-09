@@ -1,5 +1,6 @@
 import { FC, useState } from 'react'
 import { NextRouter, useRouter } from 'next/router'
+import useTranslation from 'next-translate/useTranslation'
 import { AutoComplete, Button, SelectProps } from 'antd'
 import { LocateOutline } from 'react-ionicons'
 
@@ -42,6 +43,7 @@ const searchResult = (query: string) =>
 
 const HomeCitySearch: FC = () => {
   const router = useRouter()
+  const { t } = useTranslation('home')
   const [options, setOptions] = useState<SelectProps<object>['options']>([])
 
   const handleSearch = (value: string) => {
@@ -81,7 +83,7 @@ const HomeCitySearch: FC = () => {
         options={options}
         onSelect={onSelect}
         onSearch={handleSearch}
-        placeholder="Which place would you like to discover?"
+        placeholder={t('landingPage.city-search.placeholder')}
         size="large"
       />
 

@@ -1,11 +1,15 @@
 import { FC } from 'react'
 import Image from 'next/image'
+import useTranslation from 'next-translate/useTranslation'
 import { Col, Row, Typography } from 'antd'
 
 const { Title, Paragraph } = Typography
 
 
 const HomeContent: FC = () => {
+
+  const { t } = useTranslation('home')
+
   return (
     <div>
       <Title
@@ -14,7 +18,7 @@ const HomeContent: FC = () => {
           textAlign: 'center',
         }}
       >
-        The world is full of explorers, and full of things to be explored.
+        {t('landingExplain.chapter1.heading')}
       </Title>
 
       <Row
@@ -28,7 +32,7 @@ const HomeContent: FC = () => {
               textAlign: 'center',
             }}
           >
-            Discover places from an inspiring point of view.
+            {t('landingExplain.chapter1.paragraph1.heading')}
           </Title>
 
           <Paragraph
@@ -37,7 +41,7 @@ const HomeContent: FC = () => {
               textAlign: 'center',
             }}
           >
-            Our map invites you to explore forward-thinking projects, companies and soon to come events in your area.
+            {t('landingExplain.chapter1.paragraph1.text')}
           </Paragraph>
 
         </Col>
@@ -64,7 +68,7 @@ const HomeContent: FC = () => {
               textAlign: 'center',
             }}
           >
-            Be a part of it!
+            {t('landingExplain.chapter1.paragraph2.heading')}
           </Title>
 
           <Paragraph
@@ -73,8 +77,7 @@ const HomeContent: FC = () => {
               textAlign: 'center',
             }}
           >
-            Find all the information you need to get in touch with projects you want to engage with. Stop by to say
-            Hello!
+            {t('landingExplain.chapter1.paragraph2.text')}
           </Paragraph>
         </Col>
 
@@ -100,7 +103,7 @@ const HomeContent: FC = () => {
               textAlign: 'center',
             }}
           >
-            Let’s create a world for tomorrow
+            {t('landingExplain.chapter1.paragraph3.heading')}
           </Title>
 
           <Paragraph
@@ -109,7 +112,7 @@ const HomeContent: FC = () => {
               textAlign: 'center',
             }}
           >
-            Together, we want to show and embrace the positive change in our society.
+            {t('landingExplain.chapter1.paragraph3.text')}
           </Paragraph>
         </Col>
 
