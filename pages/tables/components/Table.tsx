@@ -37,10 +37,12 @@ const columns = [
       return (
         <Fragment key={`column-description-${record.id}`}>
           <Text>
-            {`${startTime.format('llll')}`}
+            {`${startTime.utc().format('llll')}`}
             {` - `}
             {
-              areStartAndEndInTheSameDay ? endTime.format('LT') : endTime.format('llll')
+              areStartAndEndInTheSameDay ?
+                endTime.utc().format('LT') :
+                endTime.utc().format('llll')
             }
           </Text>
         </Fragment>
