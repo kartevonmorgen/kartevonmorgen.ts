@@ -1,14 +1,12 @@
 import { FC } from 'react'
-import { renderToString } from 'react-dom/server'
 import { NextRouter, useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
 import produce from 'immer'
-import { DivIcon, LatLng, latLng } from 'leaflet'
+import { Icon, LatLng, latLng, Point } from 'leaflet'
 import { MapContainer, Marker, TileLayer, ZoomControl } from 'react-leaflet'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { RootState } from '../slices'
 import searchResultSelector from '../selectors/searchResults'
-import Category, { Categories } from '../dtos/Categories'
+import Category, { Categories, CategoryToNameMapper } from '../dtos/Categories'
 import { SearchResult, SearchResults } from '../dtos/SearchResult'
 import { convertQueryParamToArray, convertQueryParamToFloat } from '../utils/utils'
 import { mapTypeIdToPluralEntityName, SlugEntity, SlugVerb } from '../utils/types'
@@ -37,15 +35,10 @@ const getIcon = (types: Categories) => {
 
   if (!icon) {
     // const type = resultType.find(t => t.id === typeId) || Category.UNKNOWN
-    icons[typeId] = new DivIcon({
-      html: renderToString(
-        <FontAwesomeIcon
-          className="custom-map-marker"
-          icon="map-marker"
-        />,
-      ),
-      iconSize: [50, 50],
-      className: 'transparent map-marker',
+    const typeName = CategoryToNameMapper[typeId]
+    icons[typeId] = new Icon({
+      iconUrl: `/projects/main/pins/balloon_${typeName}.svg`,
+      iconSize: new Point(50, 50),
     })
 
     return icons[typeId]

@@ -5,6 +5,13 @@ enum Category {
   UNKNOWN = 'UNKNOWN'
 }
 
+export const CategoryToNameMapper = {
+  [Category.INITIATIVE]: 'initiative',
+  [Category.EVENT]: 'event',
+  [Category.COMPANY]: 'company',
+  [Category.UNKNOWN]: 'unknown',
+}
+
 export type Categories = Category[]
 
 
