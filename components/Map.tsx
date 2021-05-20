@@ -14,7 +14,6 @@ import { getSlugActionFromQuery } from '../utils/slug'
 import MapEventsListener from './MapEventsListener'
 import MapLocationInitializer from './MapLocationInitializer'
 import SearchEventsListener from './SearchEventsListener'
-import MapMarkerGradient from './MapMarkerGradient'
 import 'leaflet/dist/leaflet.css'
 import AddEntryButton from './AddEntryButton'
 
@@ -112,8 +111,6 @@ const Map: FC = () => {
       <MapEventsListener/>
 
       <SearchEventsListener/>
-
-      <MapMarkerGradient/>
 
       <div id="map-bottom-right">
         <AddEntryButton/>
