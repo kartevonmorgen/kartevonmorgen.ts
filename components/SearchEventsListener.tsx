@@ -1,3 +1,4 @@
+// TODO: use debounce to prevent extra queries
 import { FC, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
@@ -24,8 +25,6 @@ const SearchEventsListener: FC = () => {
   const { query } = router
   const {
     search: searchParam,
-    lat: latParam,
-    lng: lngParam,
     zoom: zoomParam,
     type: typesParam,
     limit: limitParam,
@@ -33,17 +32,17 @@ const SearchEventsListener: FC = () => {
   } = query
 
   const dispatch = useDispatch()
-
   const map = useMap()
+
   const bbox = convertBBoxToString(map.getBounds())
+
 
   // changing these variables result in triggering search action
   // params can be array. we should be sure all the dependencies are comparable with `===` operator
   // these dependency list should be consistent with SearchEntryRequest DTO
   const searchEffectDependencies = [
     toString(searchParam),
-    toString(latParam),
-    toString(lngParam),
+    bbox,
     toString(zoomParam),
     toString(typesParam),
     toString(limitParam),
