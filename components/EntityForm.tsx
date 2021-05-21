@@ -33,7 +33,7 @@ const calculateLevelsToBack = (action: SlugVerb.EDIT | SlugVerb.CREATE): number 
     case SlugVerb.CREATE:
       return 2
     case SlugVerb.EDIT:
-      return 3
+      return 1
     default:
       return 2
   }
