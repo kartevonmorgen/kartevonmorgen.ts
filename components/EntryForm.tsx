@@ -1,6 +1,6 @@
 import React, { FC, Fragment, useEffect } from 'react'
 import { NextRouter, useRouter } from 'next/router'
-import { Button, Checkbox, Divider, Form, Input, Space, Spin } from 'antd'
+import { Button, Checkbox, Divider, Form, FormInstance, Input, Space, Spin } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons/lib'
 import isString from 'lodash/isString'
 import isArray from 'lodash/isArray'
@@ -14,8 +14,8 @@ import { NewEntryWithLicense } from '../dtos/NewEntryWithLicense'
 import { NewEntryWithVersion } from '../dtos/NewEntryWithVersion'
 import { Entries as EntriesDTO, Entry } from '../dtos/Entry'
 import { SearchEntryID } from '../dtos/SearchEntry'
+import Point from '../dtos/Point'
 import { RouterQueryParam, SlugVerb } from '../utils/types'
-import { convertQueryParamToFloat } from '../utils/utils'
 import { reverseGeocode } from '../utils/geolocation'
 import Category from '../dtos/Categories'
 import { GeocodeAddress } from 'nominatim-browser'
@@ -27,6 +27,25 @@ const { useForm } = Form
 
 // we declare both types NewEntryWithLicense for create, and NewEntryWithVersion for update
 type EntryFormType = NewEntryWithLicense | NewEntryWithVersion
+
+
+const setAddressDetails = async (form: FormInstance, newPoint: Point) => {
+  const place = await reverseGeocode(newPoint.toJson())
+  const address = place.address as ExtentedGeocodeAddress
+
+  // it's not an error, town and road are optional fields than are not included in the interface
+  // but can exist in the response from nominatim
+  form.setFieldsValue({
+    lat: newPoint.lat,
+    lng: newPoint.lng,
+    country: address.country,
+    city: address.city || address.town || address.municipality || address.village || address.hamlet,
+    state: address.state,
+    street: address.road,
+    zip: address.postcode,
+  })
+
+}
 
 
 const redirectToEntry = (router: NextRouter, entryId: SearchEntryID) => {
@@ -107,34 +126,17 @@ const EntryForm: FC = (_props) => {
 
   const [form] = useForm<EntryFormType>()
 
+  const newPoint = new Point().fromQuery(query)
+
+  const effectDeps = [...newPoint.toArray()]
+
   // set address information if the map marker/pin moves
   useEffect(() => {
-    async function setAddressDetails() {
-      const pinLanLng = {
-        lat: convertQueryParamToFloat(query.pinLat),
-        lng: convertQueryParamToFloat(query.pinLng),
-      }
-
-      const place = await reverseGeocode(pinLanLng)
-      const address = place.address as ExtentedGeocodeAddress
-
-      // it's not an error, town and road are optional fields than are not included in the interface
-      // but can exist in the response from nominatim
-      form.setFieldsValue({
-        lat: pinLanLng.lat,
-        lng: pinLanLng.lng,
-        country: address.country,
-        city: address.city || address.town || address.municipality || address.village || address.hamlet,
-        state: address.state,
-        street: address.road,
-        zip: address.postcode,
-      })
-
+    if (!newPoint.isEmpty()) {
+      setAddressDetails(form, newPoint).then()
     }
 
-    setAddressDetails().then()
-
-  }, [query.pinLat, query.pinLng])
+  }, effectDeps)
 
   const isEdit = verb === SlugVerb.EDIT
 

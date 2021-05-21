@@ -17,6 +17,9 @@ const calculateLevelsToBack = (isEdit: boolean): number => {
 
 const onBack = (router: NextRouter, isEdit: boolean) => () => {
   const { query } = router
+
+  const paramsToRemove = ['pinLat', 'pinLng']
+
   const newQueryParams = produce(query, draftState => {
     const { slug } = draftState
     const slugArray = convertQueryParamToArray(slug)
@@ -25,6 +28,10 @@ const onBack = (router: NextRouter, isEdit: boolean) => () => {
 
     slugArray.splice(slugArray.length - backLevel, backLevel)
     draftState.slug = slugArray
+
+    paramsToRemove.forEach(p => {
+      delete draftState[p]
+    })
   })
 
   router.replace(
