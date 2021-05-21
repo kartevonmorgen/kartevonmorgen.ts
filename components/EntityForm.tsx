@@ -28,16 +28,6 @@ const changeCategory = (setCategory: Dispatch<Category>) => (category: Category)
   setCategory(category)
 }
 
-const calculateLevelsToBack = (action: SlugVerb.EDIT | SlugVerb.CREATE): number => {
-  switch (action) {
-    case SlugVerb.CREATE:
-      return 2
-    case SlugVerb.EDIT:
-      return 1
-    default:
-      return 2
-  }
-}
 
 interface EntityFormProps {
   category?: Category
@@ -55,7 +45,7 @@ const EntityForm: FC<EntityFormProps> = (props) => {
   return (
     <div style={{ paddingBottom: 60 }}>
       <EntityFormHeader
-        backLevel={calculateLevelsToBack(props.action)}
+        isEdit={props.action === SlugVerb.EDIT}
       />
 
       {
