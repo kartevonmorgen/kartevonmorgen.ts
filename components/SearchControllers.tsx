@@ -20,15 +20,16 @@ const SearchControllers: FC<SearchControllersProps> = (props) => {
     <Fragment>
       {/*todo: make the search component a separate component to prevent unnecessary renders*/}
       <Row
+        align="middle"
         justify="space-between"
         wrap={false}
-        gutter={4}
+        gutter={2}
       >
-        <Col span={20}>
+        <Col>
           <SearchInput/>
         </Col>
 
-        <Col>
+        <Col span={4}>
           <Button
             type="text"
             icon={
@@ -36,6 +37,7 @@ const SearchControllers: FC<SearchControllersProps> = (props) => {
             }
             shape="round"
             onClick={onShowFilters(toggleShowFilters)}
+            size="small"
           />
         </Col>
       </Row>
