@@ -99,7 +99,7 @@ const ResultList: FC = () => {
         {({ height, width }) => (
           <VirtualList
             deferredMeasurementCache={cache}
-            defaultHeight={120}
+            defaultHeight={70}
             defaultWidth={150}
             height={height}
             rowCount={searchResults.length}

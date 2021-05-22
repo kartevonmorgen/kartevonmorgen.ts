@@ -42,6 +42,7 @@ const SearchInput = () => {
       allowClear
       enterButton
       onSearch={onSearch(router)}
+      className="primary-btn"
     />
   )
 }

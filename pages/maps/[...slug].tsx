@@ -44,7 +44,7 @@ const MapPage: FC<MapPageProps> = (props) => {
     },
   ] = useToggle(true)
 
-  const [sidebarWidth, setSidebarWidth] = useState<string>('32vh')
+  const [sidebarWidth, setSidebarWidth] = useState<string>('32vw')
 
   const Map = useMemo(() => dynamic(
     () => import('../../components/Map').then(
