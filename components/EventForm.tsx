@@ -64,7 +64,15 @@ const onFinish = (router: NextRouter, isEdit: boolean) => async (event: EventDTO
   await onCreate(router, event)
 }
 
-const EventForm: FC = () => {
+
+// just to keep the doors open for OCP, not the best way but lets try
+interface EventFormProps {
+  category: Category.EVENT
+}
+
+const EventForm: FC<EventFormProps> = (props) => {
+
+  const { category } = props
 
   const router = useRouter()
   const { query } = router

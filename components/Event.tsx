@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { getSlugActionFromQuery } from '../utils/slug'
 import { SlugVerb } from '../utils/types'
 import EventDetail from './EventDetail'
-import EntityForm from './EntityForm'
+import EntityChooserForm from './EntityChooserForm'
 import Category from '../dtos/Categories'
 
 
@@ -16,11 +16,11 @@ const Event = () => {
     case SlugVerb.SHOW:
       return <EventDetail eventId={slugAction.id}/>
     case SlugVerb.CREATE:
-      return <EntityForm
+      return <EntityChooserForm
         action={SlugVerb.CREATE}
       />
     case SlugVerb.EDIT:
-      return <EntityForm
+      return <EntityChooserForm
         category={Category.EVENT}
         action={SlugVerb.EDIT}
       />

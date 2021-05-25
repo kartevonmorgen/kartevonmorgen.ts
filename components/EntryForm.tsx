@@ -1,9 +1,13 @@
 import React, { FC, Fragment, useEffect } from 'react'
 import { NextRouter, useRouter } from 'next/router'
-import { Button, Checkbox, Divider, Form, FormInstance, Input, Space, Spin } from 'antd'
+import { Button, Checkbox, Divider, Form, FormInstance, Input, Select, Space, Spin, Typography } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons/lib'
+import update from 'immer'
 import isString from 'lodash/isString'
 import isArray from 'lodash/isArray'
+import isUndefined from 'lodash/isUndefined'
+import clone from 'lodash/clone'
+import has from 'lodash/has'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getSlugActionFromQuery, redirectToEntityDetail } from '../utils/slug'
 import { AxiosInstance } from '../api'
@@ -21,8 +25,9 @@ import Category from '../dtos/Categories'
 import { GeocodeAddress } from 'nominatim-browser'
 
 
-const { TextArea } = Input
 const { useForm } = Form
+const { TextArea } = Input
+const { Link } = Typography
 
 
 // we declare both types NewEntryWithLicense for create, and NewEntryWithVersion for update
@@ -31,7 +36,7 @@ type EntryFormType = NewEntryWithLicense | NewEntryWithVersion
 
 const setAddressDetails = async (form: FormInstance, newPoint: Point) => {
   const place = await reverseGeocode(newPoint.toJson())
-  const address = place.address as ExtentedGeocodeAddress
+  const address = place.address as ExtendedGeocodeAddress
 
   // it's not an error, town and road are optional fields than are not included in the interface
   // but can exist in the response from nominatim
@@ -45,6 +50,72 @@ const setAddressDetails = async (form: FormInstance, newPoint: Point) => {
     zip: address.postcode,
   })
 
+}
+
+
+// todo: not a good practice, use return argument instead
+const setDefaultValues = (entry: EntryFormType): EntryFormType => {
+  const fields = {
+    tags: [],
+    custom_links: [],
+    version: 0,
+  }
+
+  const entryFormWithDefaultValues = update(entry, draft => {
+    Object.keys(draft).forEach(k => {
+      if (isUndefined(draft[k])) {
+        if (has(fields, k)) {
+          draft[k] = clone(fields[k])
+
+          return
+        }
+
+        draft[k] = null
+      }
+    })
+  })
+
+  return entryFormWithDefaultValues
+}
+
+
+const adaptEntry = (entry: EntryFormType): EntryFormType => {
+  // the licence should get fetched from the array
+  // the version should raise by 1
+  const rules = {
+    version: (version: number): number => version + 1,
+    license: (licenseArray: string[]): string => {
+      if (licenseArray.length === 0) {
+        return ''
+      }
+
+      return licenseArray[0]
+    },
+  }
+
+  const fieldsToRename = {
+    custom_links: 'links',
+  }
+
+  const adaptedEntry = update(entry, draft => {
+    Object.keys(rules).forEach(fieldName => {
+      const originalFieldValue = draft[fieldName]
+      const fieldAdapter = rules[fieldName]
+      const adaptedValue = fieldAdapter(originalFieldValue)
+      draft[fieldName] = adaptedValue
+    })
+  })
+
+  const adapedEntryWithRenameFieldNames = update(adaptedEntry, (draft) => {
+    Object.keys(fieldsToRename).forEach(originalFieldName => {
+      const value = draft[originalFieldName]
+      const newFieldName = fieldsToRename[originalFieldName]
+      draft[newFieldName] = value
+      delete draft[originalFieldName]
+    })
+  })
+
+  return adapedEntryWithRenameFieldNames
 }
 
 
@@ -65,7 +136,7 @@ const onCreate = async (router: NextRouter, entry: NewEntryWithLicense) => {
   // todo: catch errors and show notifications if an error happened
 
   const response = await AxiosInstance.PostRequest<SearchEntryID>(
-    API_ENDPOINTS.postEvent(),
+    API_ENDPOINTS.postEntries(),
     entry,
   )
 
@@ -78,7 +149,7 @@ const onEdit = async (router: NextRouter, entry: NewEntryWithVersion, entryId: S
   // todo: catch errors and show notifications if an error happened
 
   await AxiosInstance.PutRequest<SearchEntryID>(
-    `${API_ENDPOINTS.postEvent()}/${entryId}`,
+    `${API_ENDPOINTS.postEntries()}/${entryId}`,
     entry,
   )
 
@@ -93,22 +164,19 @@ const onFinish = (
   // todo: if failed then show a notification
   // todo: if succeed then go to the detail page and remove pinLat and pinLng
 
-  Object.keys(entry).forEach(k => {
-    if (!entry[k]) {
-      entry[k] = null
-    }
-  })
+  const entryWithDefaultValues = setDefaultValues(entry)
+  const adaptedEntry = adaptEntry(entryWithDefaultValues)
 
   if (isEdit) {
-    await onEdit(router, entry as NewEntryWithVersion, entryId)
+    await onEdit(router, adaptedEntry as NewEntryWithVersion, entryId)
 
     return
   }
 
-  await onCreate(router, entry as NewEntryWithLicense)
+  await onCreate(router, adaptedEntry as NewEntryWithLicense)
 }
 
-interface ExtentedGeocodeAddress extends GeocodeAddress {
+interface ExtendedGeocodeAddress extends GeocodeAddress {
   town?: string
   municipality?: string
   village?: string
@@ -116,9 +184,17 @@ interface ExtentedGeocodeAddress extends GeocodeAddress {
   road?: string
 }
 
-const EntryForm: FC = (_props) => {
+type EntryCategories = Category.COMPANY | Category.INITIATIVE
+
+interface EntryFormProps {
+  category: EntryCategories
+}
+
+const EntryForm: FC<EntryFormProps> = (props) => {
   // todo: for a better experience show spinner with the corresponding message when the form is loading
   // for example: fetching the address
+
+  const { category } = props
 
   const router = useRouter()
   const { query } = router
@@ -154,6 +230,8 @@ const EntryForm: FC = (_props) => {
 
   const foundEntry: boolean = isArray(entries) && entries.length !== 0
   const entry: Entry = foundEntry ? entries[0] : {} as Entry
+  //it's an overwrite to be sure it's not empty for the new entries
+  entry.categories = [category]
 
 
   if (entriesError) {
@@ -191,16 +269,40 @@ const EntryForm: FC = (_props) => {
         <Input disabled/>
       </Form.Item>
 
-      <Form.Item name="title">
+      {/*the backend accepts an array that's because it's named plural*/}
+      {/* but in reality it contains only one category*/}
+      {/*and the value is initialized by the parent not the api in the edit mode*/}
+      <Form.Item name="categories" hidden>
+        <Select
+          mode="multiple"
+          disabled
+        />
+      </Form.Item>
+
+      <Form.Item
+        name="title"
+        rules={[{ required: true, min: 3 }]}
+      >
         <Input placeholder="Title"/>
       </Form.Item>
 
-      <Form.Item name="description">
+      <Form.Item
+        name="description"
+        rules={[{ required: true }, { min: 10 }, { max: 250 }]}
+      >
         <TextArea placeholder="Description"/>
       </Form.Item>
 
+      {/*add validation for the three tags*/}
       <Form.Item name="tags">
-        <Input placeholder="Tags"/>
+        <Select
+          mode="tags"
+          allowClear
+          style={{ width: '100%' }}
+          placeholder="Tags"
+        >
+          {/*  rendering options should go here*/}
+        </Select>
       </Form.Item>
 
       <Divider orientation="left">Location</Divider>
@@ -230,21 +332,24 @@ const EntryForm: FC = (_props) => {
         <Input placeholder="Address"/>
       </Form.Item>
 
-      <Form.Item>
-        <Input.Group compact>
-          <Form.Item
-            name={'lat'}
-            noStyle
-          >
-            <Input style={{ width: '50%' }} placeholder="Latitude" disabled/>
-          </Form.Item>
-          <Form.Item
-            name={'lng'}
-            noStyle
-          >
-            <Input style={{ width: '50%' }} placeholder="Longitude" disabled/>
-          </Form.Item>
-        </Input.Group>
+      <Form.Item
+        name="lat"
+        style={{
+          display: 'inline-block',
+          width: '50%',
+        }}
+      >
+        <Input placeholder="Latitude" disabled/>
+      </Form.Item>
+
+      <Form.Item
+        name="lng"
+        style={{
+          display: 'inline-block',
+          width: '50%',
+        }}
+      >
+        <Input placeholder="Longitude" disabled/>
       </Form.Item>
 
       <Divider orientation="left">Contact</Divider>
@@ -268,6 +373,15 @@ const EntryForm: FC = (_props) => {
       <Form.Item name="opening_hours">
         <Input placeholder="Opening Hours" prefix={<FontAwesomeIcon icon="clock"/>}/>
       </Form.Item>
+
+      <div style={{ width: '100%', textAlign: 'center' }}>
+        <Link
+          href={process.env.NEXT_PUBLIC_OPENING_HOURS}
+          target="_blank"
+        >
+          Find out the right format for your time
+        </Link>
+      </div>
 
       <Divider orientation="left">Links and Social Media</Divider>
 
@@ -314,8 +428,33 @@ const EntryForm: FC = (_props) => {
 
       <Divider orientation="left">License</Divider>
 
-      <Form.Item name="license" valuePropName="checked">
-        <Checkbox value="CC0-1.0">license</Checkbox>
+      <Form.Item
+        name="license"
+        rules={[{ required: true }]}
+        valuePropName="value"
+      >
+        {/*it's necessary to catch the value of the checkbox, but the out come will be a list*/}
+        {/*so we should grab the first element*/}
+        <Checkbox.Group
+          options={[
+            {
+              label: <Fragment>
+                {`I have read and accept the Terms of the `}
+                <Link
+                  href={process.env.NEXT_PUBLIC_CC_LINK}
+                  target="_blank"
+                >
+                  Creative-Commons License CC0
+                </Link>
+              </Fragment>,
+              value: 'CC0-1.0',
+            },
+          ]}
+        />
+      </Form.Item>
+
+      <Form.Item name="version" hidden>
+        <Input disabled/>
       </Form.Item>
 
       <Button
