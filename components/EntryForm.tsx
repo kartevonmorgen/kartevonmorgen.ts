@@ -1,5 +1,7 @@
 import React, { FC, Fragment, useEffect } from 'react'
 import { NextRouter, useRouter } from 'next/router'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from '../store'
 import { Button, Checkbox, Divider, Form, FormInstance, Input, Select, Space, Spin, Typography } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons/lib'
 import update from 'immer'
@@ -17,12 +19,13 @@ import { EntryRequest } from '../dtos/EntryRequest'
 import { NewEntryWithLicense } from '../dtos/NewEntryWithLicense'
 import { NewEntryWithVersion } from '../dtos/NewEntryWithVersion'
 import { Entries as EntriesDTO, Entry } from '../dtos/Entry'
-import { SearchEntryID } from '../dtos/SearchEntry'
+import { convertNewEntryToSearchEntry, SearchEntryID } from '../dtos/SearchEntry'
 import Point from '../dtos/Point'
 import { RouterQueryParam, SlugVerb } from '../utils/types'
 import { reverseGeocode } from '../utils/geolocation'
 import Category from '../dtos/Categories'
 import { GeocodeAddress } from 'nominatim-browser'
+import { actions } from '../slices'
 
 
 const { useForm } = Form
@@ -53,7 +56,6 @@ const setAddressDetails = async (form: FormInstance, newPoint: Point) => {
 }
 
 
-// todo: not a good practice, use return argument instead
 const setDefaultValues = (entry: EntryFormType): EntryFormType => {
   const fields = {
     tags: [],
@@ -118,7 +120,9 @@ const adaptEntry = (entry: EntryFormType): EntryFormType => {
   return adapedEntryWithRenameFieldNames
 }
 
-
+// todo: it's an awful ani-pattern to shake the map to retrieve the entry
+// todo: create a class for the changing the router
+// todo: create a thunk for prepending the entry to the collection
 const redirectToEntry = (router: NextRouter, entryId: SearchEntryID) => {
   // gotcha: the categories of initiative and company both are mapped to entity so it does not matter
   // what we pass as the category
@@ -132,7 +136,17 @@ const redirectToEntry = (router: NextRouter, entryId: SearchEntryID) => {
   )
 }
 
-const onCreate = async (router: NextRouter, entry: NewEntryWithLicense) => {
+
+const addEntryToState = (
+  id: SearchEntryID,
+  entry: EntryFormType,
+  dispatch: AppDispatch,
+) => {
+  const searchEntry = convertNewEntryToSearchEntry(id, entry)
+  dispatch(actions.prependEntry(searchEntry))
+}
+
+const onCreate = async (entry: NewEntryWithLicense): Promise<SearchEntryID> => {
   // todo: catch errors and show notifications if an error happened
 
   const response = await AxiosInstance.PostRequest<SearchEntryID>(
@@ -140,24 +154,50 @@ const onCreate = async (router: NextRouter, entry: NewEntryWithLicense) => {
     entry,
   )
 
-  const entryId = response.data as SearchEntryID
-
-  redirectToEntry(router, entryId)
+  return response.data
 }
 
-const onEdit = async (router: NextRouter, entry: NewEntryWithVersion, entryId: SearchEntryID) => {
+const onEdit = async (
+  entry: NewEntryWithVersion,
+  entryId: SearchEntryID,
+) => {
   // todo: catch errors and show notifications if an error happened
-
   await AxiosInstance.PutRequest<SearchEntryID>(
     `${API_ENDPOINTS.postEntries()}/${entryId}`,
     entry,
   )
+}
 
-  redirectToEntry(router, entryId)
+const createOrEditEntry = async (
+  entry: EntryFormType,
+  entryId: SearchEntryID,
+  isEdit: boolean,
+): Promise<SearchEntryID> => {
+  if (isEdit) {
+    await onEdit(entry as NewEntryWithVersion, entryId)
+  } else {
+    entryId = await onCreate(entry as NewEntryWithLicense)
+  }
+
+  return entryId
+}
+
+const addEntryToStateOnCreate = (
+  isEdit: boolean,
+  id: SearchEntryID,
+  entry: EntryFormType,
+  dispatch: AppDispatch,
+) => {
+  if (isEdit) {
+    return
+  }
+
+  addEntryToState(id, entry, dispatch)
 }
 
 const onFinish = (
   router: NextRouter,
+  dispatch: AppDispatch,
   isEdit: boolean,
   entryId: SearchEntryID,
 ) => async (entry: EntryFormType) => {
@@ -167,13 +207,10 @@ const onFinish = (
   const entryWithDefaultValues = setDefaultValues(entry)
   const adaptedEntry = adaptEntry(entryWithDefaultValues)
 
-  if (isEdit) {
-    await onEdit(router, adaptedEntry as NewEntryWithVersion, entryId)
+  entryId = await createOrEditEntry(adaptedEntry, entryId, isEdit)
 
-    return
-  }
-
-  await onCreate(router, adaptedEntry as NewEntryWithLicense)
+  addEntryToStateOnCreate(isEdit, entryId, adaptedEntry, dispatch)
+  redirectToEntry(router, entryId)
 }
 
 interface ExtendedGeocodeAddress extends GeocodeAddress {
@@ -195,6 +232,8 @@ const EntryForm: FC<EntryFormProps> = (props) => {
   // for example: fetching the address
 
   const { category } = props
+
+  const dispatch = useDispatch()
 
   const router = useRouter()
   const { query } = router
@@ -261,7 +300,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
         marginTop: 8,
       }}
       initialValues={entry}
-      onFinish={onFinish(router, isEdit, entryId)}
+      onFinish={onFinish(router, dispatch, isEdit, entryId)}
       form={form}
     >
 

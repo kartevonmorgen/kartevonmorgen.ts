@@ -13,14 +13,21 @@ const entriesSlice = createSlice({
   initialState: [] as SearchEntries,
   reducers: {
     setEntries: (state, action: PayloadAction<SearchEntries>) => {
+      // clear the store
       state.splice(0, state.length)
       action.payload.forEach((searchEntry: SearchEntry) => {
         state.push(searchEntry)
       })
     },
+
     emptyEntries: (state, _action: PayloadAction) => {
       state.splice(0, state.length)
     },
+
+    prependEntry: (state, action: PayloadAction<SearchEntry>) => {
+      state.splice(0, 0, action.payload)
+    },
+
   },
 })
 
@@ -28,6 +35,7 @@ const entriesSlice = createSlice({
 export const {
   setEntries,
   emptyEntries,
+  prependEntry,
 } = entriesSlice.actions
 
 export const { actions } = entriesSlice

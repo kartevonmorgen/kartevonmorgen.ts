@@ -49,6 +49,8 @@ const SearchEventsListener: FC = () => {
     toString(tagsParam),
   ]
 
+
+  // todo: separate the searching functionalities to a class for reusability
   useEffect(() => {
     const searchTerm: string = convertQueryParamToString(searchParam)
 

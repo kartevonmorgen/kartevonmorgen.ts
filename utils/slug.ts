@@ -1,6 +1,7 @@
 import { ParsedUrlQuery } from 'querystring'
 import isEmpty from 'lodash/isEmpty'
 import isString from 'lodash/isString'
+import dropRight from 'lodash/dropRight'
 import {
   mapPluralEntityNameToSingular,
   mapTypeIdToPluralEntityName,
@@ -73,28 +74,28 @@ export const redirectToEntityDetail = (
 ) => {
   const { query } = router
   const { slug } = query
+
   const slugArray = convertQueryParamToArray(slug)
-  slugArray.splice(slugArray.length - slugLevelsToIgnore, slugLevelsToIgnore)
+  const skippedSlugArray = dropRight(slugArray, slugLevelsToIgnore)
 
-  const pluralTypeName = mapTypeIdToPluralEntityName[category]
-
-  let newQueryParams: ParsedUrlQuery = removeRoutingQueryParams(
+  let prunedQueryParams: ParsedUrlQuery = removeRoutingQueryParams(
     query,
     paramsToRemove,
   )
 
-  newQueryParams = updateRoutingQuery(
-    newQueryParams,
+  const pluralTypeName = mapTypeIdToPluralEntityName[category]
+
+  const updatedQueryParams = updateRoutingQuery(
+    prunedQueryParams,
     {
-      slug: [...slugArray, pluralTypeName, id],
+      slug: [...skippedSlugArray, pluralTypeName, id],
     },
   )
-
 
   router.replace(
     {
       pathname: '/maps/[...slug]',
-      query: newQueryParams,
+      query: updatedQueryParams,
     },
     undefined,
     { shallow: true },

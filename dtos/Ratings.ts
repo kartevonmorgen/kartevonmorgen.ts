@@ -8,5 +8,17 @@ interface Ratings {
   transparency: number
 }
 
+export const newRatings = (): Ratings => (
+  {
+    total: 0,
+    diversity: 0,
+    fairness: 0,
+    humanity: 0,
+    renewable: 0,
+    solidarity: 0,
+    transparency: 0,
+  }
+)
+
 
 export default Ratings
