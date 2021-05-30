@@ -4,12 +4,8 @@ import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../store'
 import { Button, Checkbox, Divider, Form, FormInstance, Input, Select, Space, Spin, Typography } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons/lib'
-import update from 'immer'
 import isString from 'lodash/isString'
 import isArray from 'lodash/isArray'
-import isUndefined from 'lodash/isUndefined'
-import clone from 'lodash/clone'
-import has from 'lodash/has'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getSlugActionFromQuery, redirectToEntityDetail } from '../utils/slug'
 import { AxiosInstance } from '../api'
@@ -22,10 +18,10 @@ import { Entries as EntriesDTO, Entry } from '../dtos/Entry'
 import { convertNewEntryToSearchEntry, SearchEntryID } from '../dtos/SearchEntry'
 import Point from '../dtos/Point'
 import { RouterQueryParam, SlugVerb } from '../utils/types'
-import { reverseGeocode } from '../utils/geolocation'
+import { ExtendedGeocodeAddress, getCityFromAddress, reverseGeocode } from '../utils/geolocation'
 import Category from '../dtos/Categories'
-import { GeocodeAddress } from 'nominatim-browser'
 import { actions } from '../slices'
+import { setFormFieldsToDefaultOrNull, transformFormValuesWithRules } from '../utils/forms'
 
 
 const { useForm } = Form
@@ -47,7 +43,7 @@ const setAddressDetails = async (form: FormInstance, newPoint: Point) => {
     lat: newPoint.lat,
     lng: newPoint.lng,
     country: address.country,
-    city: address.city || address.town || address.municipality || address.village || address.hamlet,
+    city: getCityFromAddress(address),
     state: address.state,
     street: address.road,
     zip: address.postcode,
@@ -55,33 +51,20 @@ const setAddressDetails = async (form: FormInstance, newPoint: Point) => {
 
 }
 
-
-const setDefaultValues = (entry: EntryFormType): EntryFormType => {
-  const fields = {
+const setFieldsToDefaultOrNull = (entry: EntryFormType): EntryFormType => {
+  const defaultFieldValues = {
     tags: [],
     custom_links: [],
     version: 0,
   }
 
-  const entryFormWithDefaultValues = update(entry, draft => {
-    Object.keys(draft).forEach(k => {
-      if (isUndefined(draft[k])) {
-        if (has(fields, k)) {
-          draft[k] = clone(fields[k])
-
-          return
-        }
-
-        draft[k] = null
-      }
-    })
-  })
+  const entryFormWithDefaultValues = setFormFieldsToDefaultOrNull(entry, defaultFieldValues)
 
   return entryFormWithDefaultValues
 }
 
 
-const adaptEntry = (entry: EntryFormType): EntryFormType => {
+const transformFormFields = (entry: EntryFormType): EntryFormType => {
   // the licence should get fetched from the array
   // the version should raise by 1
   const rules = {
@@ -99,26 +82,12 @@ const adaptEntry = (entry: EntryFormType): EntryFormType => {
     custom_links: 'links',
   }
 
-  const adaptedEntry = update(entry, draft => {
-    Object.keys(rules).forEach(fieldName => {
-      const originalFieldValue = draft[fieldName]
-      const fieldAdapter = rules[fieldName]
-      const adaptedValue = fieldAdapter(originalFieldValue)
-      draft[fieldName] = adaptedValue
-    })
-  })
 
-  const adapedEntryWithRenameFieldNames = update(adaptedEntry, (draft) => {
-    Object.keys(fieldsToRename).forEach(originalFieldName => {
-      const value = draft[originalFieldName]
-      const newFieldName = fieldsToRename[originalFieldName]
-      draft[newFieldName] = value
-      delete draft[originalFieldName]
-    })
-  })
+  const adapedEntryWithRenameFieldNames = transformFormValuesWithRules(entry, rules, fieldsToRename)
 
   return adapedEntryWithRenameFieldNames
 }
+
 
 // todo: it's an awful ani-pattern to shake the map to retrieve the entry
 // todo: create a class for the changing the router
@@ -204,8 +173,8 @@ const onFinish = (
   // todo: if failed then show a notification
   // todo: if succeed then go to the detail page and remove pinLat and pinLng
 
-  const entryWithDefaultValues = setDefaultValues(entry)
-  const adaptedEntry = adaptEntry(entryWithDefaultValues)
+  const entryWithDefaultValues = setFieldsToDefaultOrNull(entry)
+  const adaptedEntry = transformFormFields(entryWithDefaultValues)
 
   entryId = await createOrEditEntry(adaptedEntry, entryId, isEdit)
 
@@ -213,13 +182,6 @@ const onFinish = (
   redirectToEntry(router, entryId)
 }
 
-interface ExtendedGeocodeAddress extends GeocodeAddress {
-  town?: string
-  municipality?: string
-  village?: string
-  hamlet?: string
-  road?: string
-}
 
 type EntryCategories = Category.COMPANY | Category.INITIATIVE
 
@@ -397,7 +359,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
         <Input placeholder="Contact Person" prefix={<FontAwesomeIcon icon="user"/>}/>
       </Form.Item>
 
-      <Form.Item name="phone">
+      <Form.Item name="telephone">
         <Input placeholder="Phone" prefix={<FontAwesomeIcon icon="phone"/>}/>
       </Form.Item>
 

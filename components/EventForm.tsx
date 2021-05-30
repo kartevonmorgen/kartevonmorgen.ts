@@ -1,5 +1,5 @@
-import React, { FC } from 'react'
-import { Button, Checkbox, Divider, Form, Input, Spin } from 'antd'
+import React, { FC, Fragment } from 'react'
+import { Button, Checkbox, DatePicker, Divider, Form, Input, Spin, Typography } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import EventDTO, { EventID } from '../dtos/Event'
 import { AxiosInstance } from '../api'
@@ -10,7 +10,10 @@ import { getSlugActionFromQuery, redirectToEntityDetail } from '../utils/slug'
 import { SlugVerb } from '../utils/types'
 import Category from '../dtos/Categories'
 
+
 const { TextArea } = Input
+const { RangePicker } = DatePicker
+const { Link } = Typography
 
 
 const redirectToEvent = (router: NextRouter, eventId: EventID) => {
@@ -70,9 +73,7 @@ interface EventFormProps {
   category: Category.EVENT
 }
 
-const EventForm: FC<EventFormProps> = (props) => {
-
-  const { category } = props
+const EventForm: FC<EventFormProps> = (_props) => {
 
   const router = useRouter()
   const { query } = router
@@ -116,22 +117,10 @@ const EventForm: FC<EventFormProps> = (props) => {
         <Input placeholder="Title"/>
       </Form.Item>
 
-      <Form.Item>
-        <Input.Group compact>
-          <Form.Item
-            name={'start'}
-            noStyle
-          >
-            <Input style={{ width: '50%' }} placeholder="Start"/>
-          </Form.Item>
-
-          <Form.Item
-            name={'end'}
-            noStyle
-          >
-            <Input style={{ width: '50%' }} placeholder="End"/>
-          </Form.Item>
-        </Input.Group>
+      <Form.Item name="duration">
+        <RangePicker
+          showTime={{ format: 'HH:mm' }}
+        />
       </Form.Item>
 
       <Form.Item name="description">
@@ -161,26 +150,32 @@ const EventForm: FC<EventFormProps> = (props) => {
         </Input.Group>
       </Form.Item>
 
+      <Form.Item name="country" hidden/>
 
-      <Form.Item name="address">
+      <Form.Item name="state" hidden/>
+
+      <Form.Item name="street">
         <Input placeholder="Address"/>
       </Form.Item>
 
-      <Form.Item>
-        <Input.Group compact>
-          <Form.Item
-            name={'lat'}
-            noStyle
-          >
-            <Input style={{ width: '50%' }} placeholder="Latitude"/>
-          </Form.Item>
-          <Form.Item
-            name={'lng'}
-            noStyle
-          >
-            <Input style={{ width: '50%' }} placeholder="Longitude"/>
-          </Form.Item>
-        </Input.Group>
+      <Form.Item
+        name="lat"
+        style={{
+          display: 'inline-block',
+          width: '50%',
+        }}
+      >
+        <Input placeholder="Latitude" disabled/>
+      </Form.Item>
+
+      <Form.Item
+        name="lng"
+        style={{
+          display: 'inline-block',
+          width: '50%',
+        }}
+      >
+        <Input placeholder="Longitude" disabled/>
       </Form.Item>
 
       <Divider orientation="left">Contact</Divider>
@@ -189,7 +184,7 @@ const EventForm: FC<EventFormProps> = (props) => {
         <Input placeholder="Contact Person" prefix={<FontAwesomeIcon icon="user"/>}/>
       </Form.Item>
 
-      <Form.Item name="phone">
+      <Form.Item name="telephone">
         <Input placeholder="Phone" prefix={<FontAwesomeIcon icon="phone"/>}/>
       </Form.Item>
 
@@ -201,8 +196,17 @@ const EventForm: FC<EventFormProps> = (props) => {
         <Input placeholder="homepage" prefix={<FontAwesomeIcon icon="globe"/>}/>
       </Form.Item>
 
-      <Form.Item name="opening_hours">
-        <Input placeholder="Opening Hours" prefix={<FontAwesomeIcon icon="clock"/>}/>
+      {/*todo: duplicate it with the email contact for now*/}
+      <Form.Item name="created_by" hidden>
+        <Input disabled/>
+      </Form.Item>
+
+      <Form.Item name="organizer">
+        <Input placeholder="organizer" prefix={<FontAwesomeIcon icon="user"/>}/>
+      </Form.Item>
+
+      <Form.Item name="registration" hidden>
+        <Input disabled/>
       </Form.Item>
 
       <Divider orientation="left">Image</Divider>
@@ -217,10 +221,29 @@ const EventForm: FC<EventFormProps> = (props) => {
 
       <Divider orientation="left">License</Divider>
 
-      <Form.Item name="license" valuePropName="checked">
-        <Checkbox>
-          license
-        </Checkbox>
+      <Form.Item
+        name="license"
+        rules={[{ required: true }]}
+        valuePropName="value"
+      >
+        {/*it's necessary to catch the value of the checkbox, but the out come will be a list*/}
+        {/*so we should grab the first element*/}
+        <Checkbox.Group
+          options={[
+            {
+              label: <Fragment>
+                {`I have read and accept the Terms of the `}
+                <Link
+                  href={process.env.NEXT_PUBLIC_CC_LINK}
+                  target="_blank"
+                >
+                  Creative-Commons License CC0
+                </Link>
+              </Fragment>,
+              value: 'CC0-1.0',
+            },
+          ]}
+        />
       </Form.Item>
 
 

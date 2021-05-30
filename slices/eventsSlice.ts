@@ -19,6 +19,11 @@ const eventsSlice = createSlice({
     emptyEvents: (state, _action: PayloadAction) => {
       state.splice(0, state.length)
     },
+
+    prependEvent: (state, action: PayloadAction<Event>) => {
+      state.splice(0, 0, action.payload)
+    },
+
   },
 })
 
@@ -26,6 +31,7 @@ const eventsSlice = createSlice({
 export const {
   setEvents,
   emptyEvents,
+  prependEvent,
 } = eventsSlice.actions
 
 

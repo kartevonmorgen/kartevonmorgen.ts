@@ -1,6 +1,15 @@
 import toString from 'lodash/toString'
-import { NominatimResponse, reverseGeocode as nominatimReverseGeocode } from 'nominatim-browser'
+import isUndefined from 'lodash/isUndefined'
+import { GeocodeAddress, NominatimResponse, reverseGeocode as nominatimReverseGeocode } from 'nominatim-browser'
 
+
+export interface ExtendedGeocodeAddress extends GeocodeAddress {
+  town?: string
+  municipality?: string
+  village?: string
+  hamlet?: string
+  road?: string
+}
 
 export const reverseGeocode = async (latLng): Promise<NominatimResponse> => {
   return nominatimReverseGeocode({
@@ -8,4 +17,22 @@ export const reverseGeocode = async (latLng): Promise<NominatimResponse> => {
     lon: toString(latLng.lng),
     addressdetails: true,
   })
+}
+
+export const getCityFromAddress = (extendedAddress: ExtendedGeocodeAddress): string => {
+  const regionPriorities = [
+    'city',
+    'town',
+    'municipality',
+    'village',
+    'hamlet',
+  ]
+
+  for (const possibleRegion of regionPriorities) {
+    if (!isUndefined(extendedAddress[possibleRegion])) {
+      return possibleRegion
+    }
+  }
+
+  return ''
 }
