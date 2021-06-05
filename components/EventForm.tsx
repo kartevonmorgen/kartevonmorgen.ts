@@ -1,5 +1,6 @@
 import React, { FC, Fragment } from 'react'
-import { Button, Checkbox, DatePicker, Divider, Form, Input, Spin, Typography } from 'antd'
+import { Button, Checkbox, DatePicker, Divider, Form, Input, Select, Spin, Typography } from 'antd'
+import moment from 'moment'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import EventDTO, { EventID } from '../dtos/Event'
 import { AxiosInstance } from '../api'
@@ -9,6 +10,12 @@ import useRequest from '../api/useRequest'
 import { getSlugActionFromQuery, redirectToEntityDetail } from '../utils/slug'
 import { SlugVerb } from '../utils/types'
 import Category from '../dtos/Categories'
+import {
+  addPropertiesWithNewName,
+  propertyArray,
+  removeProperties,
+  TransformerWithNewNameRuleSet,
+} from '../utils/objects'
 
 
 const { TextArea } = Input
@@ -67,6 +74,28 @@ const onFinish = (router: NextRouter, isEdit: boolean) => async (event: EventDTO
   await onCreate(router, event)
 }
 
+// todo: should move the function to the adaptors directory
+// todo: should create a type for the form initialValue, any is not the best option
+const onReceiveAdapter = (event: EventDTO): object => {
+  // the start and end should get converted
+  const ruleSetsToAddNewProperties: TransformerWithNewNameRuleSet = {
+    duration: {
+      transformer: (originalValue, originalObject: EventDTO) => ([
+        moment.unix(originalObject.start),
+        moment.unix(originalObject.end),
+      ]),
+      originalPropertyName: null,
+    },
+  }
+
+  const eventWithNewProperties = addPropertiesWithNewName(event, ruleSetsToAddNewProperties)
+
+  const propertiesToRemove: propertyArray = ['start', 'end']
+  const eventWithPrunedProperties = removeProperties(eventWithNewProperties, propertiesToRemove)
+
+  return eventWithPrunedProperties
+}
+
 
 // just to keep the doors open for OCP, not the best way but lets try
 interface EventFormProps {
@@ -80,24 +109,30 @@ const EventForm: FC<EventFormProps> = (_props) => {
   const { verb, id: eventId } = getSlugActionFromQuery(query)
   const isEdit = verb === SlugVerb.EDIT
 
-  const { data: event, error: eventError } = useRequest<Event>(isEdit && {
+  const { data: event, error: eventError } = useRequest<EventDTO>(isEdit && {
     url: `${API_ENDPOINTS.getEvent()}/${eventId}`,
   })
-
 
   if (eventError) {
     //  todo: show error notification, redirect to the search result view
     return null
   }
 
+
   // still loading
-  if (!event && isEdit) {
-    return (
-      <div className='center'>
-        <Spin size="large"/>
-      </div>
-    )
+  let formInitialValues = {}
+  if (isEdit) {
+    if (!event) {
+      return (
+        <div className='center'>
+          <Spin size="large"/>
+        </div>
+      )
+    }
+
+    formInitialValues = onReceiveAdapter(event)
   }
+
 
   return (
     <Form
@@ -105,7 +140,7 @@ const EventForm: FC<EventFormProps> = (_props) => {
       style={{
         marginTop: 8,
       }}
-      initialValues={event}
+      initialValues={formInitialValues}
       onFinish={onFinish(router, isEdit)}
     >
 
@@ -120,6 +155,7 @@ const EventForm: FC<EventFormProps> = (_props) => {
       <Form.Item name="duration">
         <RangePicker
           showTime={{ format: 'HH:mm' }}
+          style={{ width: '100%' }}
         />
       </Form.Item>
 
@@ -128,7 +164,14 @@ const EventForm: FC<EventFormProps> = (_props) => {
       </Form.Item>
 
       <Form.Item name="tags">
-        <Input placeholder="Tags"/>
+        <Select
+          mode="tags"
+          allowClear
+          style={{ width: '100%' }}
+          placeholder="Tags"
+        >
+          {/*  rendering options should go here*/}
+        </Select>
       </Form.Item>
 
       <Divider orientation="left">Location</Divider>

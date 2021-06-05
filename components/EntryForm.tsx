@@ -21,7 +21,7 @@ import { RouterQueryParam, SlugVerb } from '../utils/types'
 import { ExtendedGeocodeAddress, getCityFromAddress, reverseGeocode } from '../utils/geolocation'
 import Category from '../dtos/Categories'
 import { actions } from '../slices'
-import { setFormFieldsToDefaultOrNull, transformFormValuesWithRules } from '../utils/forms'
+import { renameProperties, setValuesToDefaultOrNull, transformObject } from '../utils/objects'
 
 
 const { useForm } = Form
@@ -58,7 +58,7 @@ const setFieldsToDefaultOrNull = (entry: EntryFormType): EntryFormType => {
     version: 0,
   }
 
-  const entryFormWithDefaultValues = setFormFieldsToDefaultOrNull(entry, defaultFieldValues)
+  const entryFormWithDefaultValues = setValuesToDefaultOrNull(entry, defaultFieldValues)
 
   return entryFormWithDefaultValues
 }
@@ -82,10 +82,10 @@ const transformFormFields = (entry: EntryFormType): EntryFormType => {
     custom_links: 'links',
   }
 
+  const transformedEntry = transformObject(entry, rules)
+  const transformedEntryWithRenamedFields = renameProperties(transformedEntry, fieldsToRename)
 
-  const adapedEntryWithRenameFieldNames = transformFormValuesWithRules(entry, rules, fieldsToRename)
-
-  return adapedEntryWithRenameFieldNames
+  return transformedEntryWithRenamedFields
 }
 
 
