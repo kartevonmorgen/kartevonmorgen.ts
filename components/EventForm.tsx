@@ -1,7 +1,8 @@
-import React, { FC, Fragment } from 'react'
-import { Button, Checkbox, DatePicker, Divider, Form, Input, Select, Spin, Typography } from 'antd'
-import moment from 'moment'
+import React, { FC, Fragment, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { Button, Checkbox, DatePicker, Divider, Form, FormInstance, Input, Select, Spin, Typography } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { isValidPhoneNumber } from 'libphonenumber-js'
 import EventDTO, { EventID } from '../dtos/Event'
 import { AxiosInstance } from '../api'
 import API_ENDPOINTS from '../api/endpoints'
@@ -10,18 +11,49 @@ import useRequest from '../api/useRequest'
 import { getSlugActionFromQuery, redirectToEntityDetail } from '../utils/slug'
 import { SlugVerb } from '../utils/types'
 import Category from '../dtos/Categories'
-import {
-  addPropertiesWithNewName,
-  propertyArray,
-  removeProperties,
-  TransformerWithNewNameRuleSet,
-} from '../utils/objects'
+import { onReceiveAdapter, onSendAdapter } from '../adaptors/EventForm'
+import { AppDispatch } from '../store'
+import { eventsActions } from '../slices'
+import Point from '../dtos/Point'
+import { ExtendedGeocodeAddress, getCityFromAddress, reverseGeocode } from '../utils/geolocation'
+import { validate as isValidEmail } from 'isemail'
 
 
+const { useForm } = Form
 const { TextArea } = Input
 const { RangePicker } = DatePicker
 const { Link } = Typography
 
+
+const setAddressDetails = async (form: FormInstance, newPoint: Point) => {
+  const place = await reverseGeocode(newPoint.toJson())
+  const address = place.address as ExtendedGeocodeAddress
+
+  // it's not an error, town and road are optional fields than are not included in the interface
+  // but can exist in the response from nominatim
+  form.setFieldsValue({
+    lat: newPoint.lat,
+    lng: newPoint.lng,
+    country: address.country,
+    city: getCityFromAddress(address),
+    state: address.state,
+    street: address.road,
+    zip: address.postcode,
+  })
+
+}
+
+const addEventToState = (dispatch: AppDispatch, event: EventDTO) => {
+  dispatch(eventsActions.prependEvent(event))
+}
+
+const addEventToStateOnCreate = (dispatch: AppDispatch, event: EventDTO, isEdit: boolean) => {
+  if (isEdit) {
+    return
+  }
+
+  addEventToState(dispatch, event)
+}
 
 const redirectToEvent = (router: NextRouter, eventId: EventID) => {
   redirectToEntityDetail(
@@ -33,7 +65,7 @@ const redirectToEvent = (router: NextRouter, eventId: EventID) => {
   )
 }
 
-const onCreate = async (router: NextRouter, event: EventDTO) => {
+const onCreate = async (event: EventDTO) => {
   const response = await AxiosInstance.PostRequest<EventID>(
     API_ENDPOINTS.postEvent(),
     event,
@@ -46,11 +78,11 @@ const onCreate = async (router: NextRouter, event: EventDTO) => {
 
   const eventId = response.data as EventID
 
-  redirectToEvent(router, eventId)
+  return eventId
 }
 
 
-const onEdit = async (router: NextRouter, event: EventDTO) => {
+const onEdit = async (event: EventDTO) => {
   await AxiosInstance.PutRequest<EventID>(
     `${API_ENDPOINTS.postEvent()}/${event.id}`,
     event,
@@ -60,40 +92,36 @@ const onEdit = async (router: NextRouter, event: EventDTO) => {
       },
     },
   )
-
-  redirectToEvent(router, event.id)
 }
 
-const onFinish = (router: NextRouter, isEdit: boolean) => async (event: EventDTO) => {
+
+const createOrEditEvent = async (
+  event: EventDTO,
+  isEdit: boolean,
+): Promise<EventID> => {
+  let eventId: EventID = event.id
   if (isEdit) {
-    await onEdit(router, event)
-
-    return
+    await onEdit(event)
+  } else {
+    eventId = await onCreate(event)
   }
 
-  await onCreate(router, event)
+  return eventId
 }
 
-// todo: should move the function to the adaptors directory
-// todo: should create a type for the form initialValue, any is not the best option
-const onReceiveAdapter = (event: EventDTO): object => {
-  // the start and end should get converted
-  const ruleSetsToAddNewProperties: TransformerWithNewNameRuleSet = {
-    duration: {
-      transformer: (originalValue, originalObject: EventDTO) => ([
-        moment.unix(originalObject.start),
-        moment.unix(originalObject.end),
-      ]),
-      originalPropertyName: null,
-    },
-  }
 
-  const eventWithNewProperties = addPropertiesWithNewName(event, ruleSetsToAddNewProperties)
+const onFinish = (
+  router: NextRouter,
+  dispatch: AppDispatch,
+  isEdit: boolean,
+) => async (eventFormValues: any) => {
+  // todo: if failed shoe a notification
 
-  const propertiesToRemove: propertyArray = ['start', 'end']
-  const eventWithPrunedProperties = removeProperties(eventWithNewProperties, propertiesToRemove)
+  const adaptedFormValues = onSendAdapter(eventFormValues)
+  const eventId = await createOrEditEvent(adaptedFormValues, isEdit)
 
-  return eventWithPrunedProperties
+  addEventToStateOnCreate(dispatch, adaptedFormValues, isEdit)
+  redirectToEvent(router, eventId)
 }
 
 
@@ -103,11 +131,26 @@ interface EventFormProps {
 }
 
 const EventForm: FC<EventFormProps> = (_props) => {
+  const dispatch = useDispatch()
 
   const router = useRouter()
   const { query } = router
   const { verb, id: eventId } = getSlugActionFromQuery(query)
   const isEdit = verb === SlugVerb.EDIT
+
+  const [form] = useForm<object>()
+
+  const newPoint = new Point().fromQuery(query)
+
+  const effectDeps = [...newPoint.toArray()]
+
+  // set address information if the map marker/pin moves
+  useEffect(() => {
+    if (!newPoint.isEmpty()) {
+      setAddressDetails(form, newPoint).then()
+    }
+
+  }, effectDeps)
 
   const { data: event, error: eventError } = useRequest<EventDTO>(isEdit && {
     url: `${API_ENDPOINTS.getEvent()}/${eventId}`,
@@ -117,7 +160,6 @@ const EventForm: FC<EventFormProps> = (_props) => {
     //  todo: show error notification, redirect to the search result view
     return null
   }
-
 
   // still loading
   let formInitialValues = {}
@@ -141,25 +183,39 @@ const EventForm: FC<EventFormProps> = (_props) => {
         marginTop: 8,
       }}
       initialValues={formInitialValues}
-      onFinish={onFinish(router, isEdit)}
+      onFinish={onFinish(
+        router,
+        dispatch,
+        isEdit,
+      )}
+      form={form}
     >
 
       <Form.Item name="id" hidden>
         <Input disabled/>
       </Form.Item>
 
-      <Form.Item name="title">
+      <Form.Item
+        name="title"
+        rules={[{ required: true, min: 3 }]}
+      >
         <Input placeholder="Title"/>
       </Form.Item>
 
-      <Form.Item name="duration">
+      <Form.Item
+        name="duration"
+        rules={[{ required: true }]}
+      >
         <RangePicker
           showTime={{ format: 'HH:mm' }}
           style={{ width: '100%' }}
         />
       </Form.Item>
 
-      <Form.Item name="description">
+      <Form.Item
+        name="description"
+        rules={[{ required: true }, { min: 10 }, { max: 250 }]}
+      >
         <TextArea placeholder="Description"/>
       </Form.Item>
 
@@ -227,11 +283,33 @@ const EventForm: FC<EventFormProps> = (_props) => {
         <Input placeholder="Contact Person" prefix={<FontAwesomeIcon icon="user"/>}/>
       </Form.Item>
 
-      <Form.Item name="telephone">
+      <Form.Item
+        name="telephone"
+        rules={[
+          {
+            validator: (_, value) => (
+              isValidPhoneNumber(value) ?
+                Promise.resolve() :
+                Promise.reject('not a valid phone number')
+            ),
+          },
+        ]}
+      >
         <Input placeholder="Phone" prefix={<FontAwesomeIcon icon="phone"/>}/>
       </Form.Item>
 
-      <Form.Item name="email">
+      <Form.Item
+        name="email"
+        rules={[
+          {
+            validator: (_, value) => (
+              isValidEmail(value) ?
+                Promise.resolve() :
+                Promise.reject('not a valid email')
+            ),
+          },
+        ]}
+      >
         <Input placeholder="Email" prefix={<FontAwesomeIcon icon="envelope"/>}/>
       </Form.Item>
 
@@ -239,7 +317,6 @@ const EventForm: FC<EventFormProps> = (_props) => {
         <Input placeholder="homepage" prefix={<FontAwesomeIcon icon="globe"/>}/>
       </Form.Item>
 
-      {/*todo: duplicate it with the email contact for now*/}
       <Form.Item name="created_by" hidden>
         <Input disabled/>
       </Form.Item>

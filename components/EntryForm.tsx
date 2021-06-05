@@ -20,8 +20,10 @@ import Point from '../dtos/Point'
 import { RouterQueryParam, SlugVerb } from '../utils/types'
 import { ExtendedGeocodeAddress, getCityFromAddress, reverseGeocode } from '../utils/geolocation'
 import Category from '../dtos/Categories'
-import { actions } from '../slices'
+import { entriesActions } from '../slices'
 import { renameProperties, setValuesToDefaultOrNull, transformObject } from '../utils/objects'
+import { isValidPhoneNumber } from 'libphonenumber-js'
+import { validate as isValidEmail } from 'isemail'
 
 
 const { useForm } = Form
@@ -112,7 +114,7 @@ const addEntryToState = (
   dispatch: AppDispatch,
 ) => {
   const searchEntry = convertNewEntryToSearchEntry(id, entry)
-  dispatch(actions.prependEntry(searchEntry))
+  dispatch(entriesActions.prependEntry(searchEntry))
 }
 
 const onCreate = async (entry: NewEntryWithLicense): Promise<SearchEntryID> => {
@@ -171,8 +173,6 @@ const onFinish = (
   entryId: SearchEntryID,
 ) => async (entry: EntryFormType) => {
   // todo: if failed then show a notification
-  // todo: if succeed then go to the detail page and remove pinLat and pinLng
-
   const entryWithDefaultValues = setFieldsToDefaultOrNull(entry)
   const adaptedEntry = transformFormFields(entryWithDefaultValues)
 
@@ -359,11 +359,33 @@ const EntryForm: FC<EntryFormProps> = (props) => {
         <Input placeholder="Contact Person" prefix={<FontAwesomeIcon icon="user"/>}/>
       </Form.Item>
 
-      <Form.Item name="telephone">
+      <Form.Item
+        name="telephone"
+        rules={[
+          {
+            validator: (_, value) => (
+              isValidPhoneNumber(value) ?
+                Promise.resolve() :
+                Promise.reject('not a valid telephone number')
+            ),
+          },
+        ]}
+      >
         <Input placeholder="Phone" prefix={<FontAwesomeIcon icon="phone"/>}/>
       </Form.Item>
 
-      <Form.Item name="email">
+      <Form.Item
+        name="email"
+        rules={[
+          {
+            validator: (_, value) => (
+              isValidEmail(value) ?
+                Promise.resolve() :
+                Promise.reject('not a valid email')
+            ),
+          },
+        ]}
+      >
         <Input placeholder="Email" prefix={<FontAwesomeIcon icon="envelope"/>}/>
       </Form.Item>
 

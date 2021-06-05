@@ -3,11 +3,15 @@ import { combineReducers } from '@reduxjs/toolkit'
 import eventReducer, { actions as eventsActions } from './eventsSlice'
 import entriesReducer, { actions as entriesActions } from './entriesSlice'
 
+export { actions as eventsActions } from './eventsSlice'
+export { actions as entriesActions } from './entriesSlice'
+
 
 const rootReducer = combineReducers({
   events: eventReducer,
   entries: entriesReducer,
 })
+
 
 export const actions = {
   ...eventsActions,
