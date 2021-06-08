@@ -21,15 +21,19 @@ const SearchControllers: FC<SearchControllersProps> = (props) => {
       {/*todo: make the search component a separate component to prevent unnecessary renders*/}
       <Row
         align="middle"
-        justify="space-between"
+        justify="space-around"
         wrap={false}
         gutter={2}
       >
-        <Col>
+        <Col
+          md={21}
+        >
           <SearchInput/>
         </Col>
 
-        <Col span={4}>
+        <Col
+          md={2}
+        >
           <Button
             type="text"
             icon={
