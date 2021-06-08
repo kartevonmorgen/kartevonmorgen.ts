@@ -74,7 +74,6 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
 
   return (
     <div>
-
       <EntityDetailHeader/>
 
       <EntityImage
