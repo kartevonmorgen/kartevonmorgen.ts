@@ -36,6 +36,7 @@
     "next-plugin-antd-less": "^1.0.6",
     "next-translate": "^1.0.6",
     "nominatim-browser": "^2.1.0",
+    "opening_hours": "^3.6.0",
     "qs": "^6.9.6",
     "react": "17.0.1",
     "react-dom": "17.0.1",

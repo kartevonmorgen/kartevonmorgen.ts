@@ -17,6 +17,8 @@ import EntityTags from './EntityTags'
 import EntityRatings from './EntityRatings'
 import EntityFooter from './EntityFooter'
 import EntityDetailHeader from './EntityDetailHeader'
+import OpeningHours from './OpeningHours'
+
 
 const { Title, Paragraph } = Typography
 
@@ -108,6 +110,8 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
       <Divider>Tags</Divider>
 
       <EntityTags tags={entry.tags}/>
+
+      <OpeningHours openingHours={entry.opening_hours}/>
 
       {/*todo: if there's no comment we should not display the divider*/}
       <Divider>Ratings</Divider>
