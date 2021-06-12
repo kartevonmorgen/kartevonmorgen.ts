@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 
 import { useMap } from 'react-leaflet'
 import toString from 'lodash/toString'
+import toNumber from 'lodash/toNumber'
 
 import { emptyEntries, fetchEntries } from '../slices/entriesSlice'
 import { emptyEvents, fetchEvents } from '../slices/eventsSlice'
@@ -29,6 +30,8 @@ const SearchEventsListener: FC = () => {
     type: typesParam,
     limit: limitParam,
     tag: tagsParam,
+    start_min: startMin,
+    start_max: startMax,
   } = query
 
   const dispatch = useDispatch()
@@ -43,10 +46,12 @@ const SearchEventsListener: FC = () => {
   const searchEffectDependencies = [
     toString(searchParam),
     bbox,
-    toString(zoomParam),
+    toNumber(zoomParam),
     toString(typesParam),
-    toString(limitParam),
+    toNumber(limitParam),
     toString(tagsParam),
+    toNumber(startMin),
+    toNumber(startMax),
   ]
 
 
@@ -83,6 +88,8 @@ const SearchEventsListener: FC = () => {
         text: searchTerm,
         limit: limit,
         tag: toString(tagsParam),
+        start_min: toNumber(startMin),
+        start_max: toNumber(startMax),
       }
       dispatch(fetchEvents(searchEventsRequestDTO))
     } else {

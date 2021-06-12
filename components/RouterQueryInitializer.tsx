@@ -1,13 +1,11 @@
 import { FC, useEffect } from 'react'
 import { useRouter } from 'next/router'
-
+import moment from 'moment'
 import toString from 'lodash/toString'
-
-import { MapLocationProps } from './Map'
 import Category from '../dtos/Categories'
 import { types as defaultTypes } from './TypeChooser'
-
 import { convertQueryParamToArray, convertQueryParamToFloat, updateRoutingQuery } from '../utils/utils'
+import { MapLocationProps } from './Map'
 
 
 interface RouterQueryInitializerProps {
@@ -30,6 +28,8 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
       lng: lngParam,
       zoom: zoomParam,
       type: typesParam,
+      start_min: startMinParam,
+      start_max: startMaxParam,
     } = query
 
     // coming from the dynamic routing. we should not add them as the query params
@@ -46,7 +46,23 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
     let types: Category[] = convertQueryParamToArray(typesParam) as Category[]
     types = types.length !== 0 ? types : defaultTypes.map(t => t.id)
 
-    const paramsToUpdate = { lat, lng, zoom, type: types }
+    const startMin = startMinParam ?
+      toString(convertQueryParamToFloat(startMinParam)) :
+      toString(moment().startOf('day').subtract(1, 'days').unix())
+
+    const startMax = startMaxParam ?
+      toString(convertQueryParamToFloat(startMaxParam)) :
+      toString(moment().startOf('day').add(7, 'days').unix())
+
+
+    const paramsToUpdate = {
+      lat,
+      lng,
+      zoom,
+      type: types,
+      start_min: startMin,
+      start_max: startMax,
+    }
 
     // filter query params out of all params including the dynamic ones
     const newQueryParams = updateRoutingQuery(query, paramsToUpdate)
