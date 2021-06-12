@@ -16,5 +16,5 @@ export interface NewEntry extends EntryContact, EntryAddress {
   tags?: TagArray
   image_url?: string
   image_link_url?: string
-  links?: CustomLinkList
+  custom?: CustomLinkList
 }

@@ -1,4 +1,4 @@
-import { FC, Fragment } from 'react'
+import React, { FC, Fragment } from 'react'
 import toString from 'lodash/toString'
 import groupBy from 'lodash/groupBy'
 import isEmpty from 'lodash/isEmpty'
@@ -59,6 +59,8 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
 
   return (
     <div>
+      <Divider>Ratings</Divider>
+
       {
         sortedContexts.map((context: string, i: number) => {
           const contextRatings: Rating[] = groupedRatings[context]

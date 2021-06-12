@@ -95,9 +95,6 @@ const EventDetail: FC<EventDetailProps> = (props) => {
         zip={event.zip}
       />
 
-      {/*todo: if there's no tag, don't show the divider*/}
-      <Divider>Tags</Divider>
-
       <EntityTags tags={event.tags}/>
 
       <EntityFooter
