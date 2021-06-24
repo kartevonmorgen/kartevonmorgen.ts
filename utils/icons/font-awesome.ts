@@ -4,14 +4,20 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 import {
   faCamera,
   faClock,
+  faColumns,
   faEnvelope,
   faGlobe,
+  faHeadset,
+  faHome,
   faLink,
   faMapMarker,
   faMapMarkerAlt,
   faPhone,
   faRoute,
   faUser,
+  faUserFriends,
+  faUsers,
+  faUserShield,
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -42,6 +48,12 @@ library.add(
   faCamera,
   faLink,
   faMapMarker,
+  faHome,
+  faUserFriends,
+  faColumns,
+  faHeadset,
+  faUsers,
+  faUserShield,
 )
 
 // free-brands-svg-icons

@@ -1,10 +1,11 @@
 import fs from 'fs'
 import path from 'path'
+import { NextApiRequest, NextApiResponse } from 'next'
 
-import MapPageConfigs from '../../../../../dtos/MapPageConfigs'
+import MapPageConfigs from '../../../../../../dtos/MapPageConfigs'
 
 
-export default (req, res) => {
+export default (req: NextApiRequest, res: NextApiResponse) => {
   const {
     query: { project },
     method,
@@ -26,6 +27,7 @@ export default (req, res) => {
   )
   const mapPageConfigs: MapPageConfigs = JSON.parse(fileContent.toString())
 
-  res.statusCode = 200
-  res.json(mapPageConfigs)
+  res
+    .status(200)
+    .json(mapPageConfigs)
 }

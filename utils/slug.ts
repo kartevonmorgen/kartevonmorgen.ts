@@ -15,9 +15,20 @@ import {
 import { SearchEntryID } from '../dtos/SearchEntry'
 import { EventID } from '../dtos/Event'
 import { NextRouter } from 'next/router'
-import { convertQueryParamToArray, removeRoutingQueryParams, updateRoutingQuery } from './utils'
+import {
+  convertQueryParamToArray,
+  convertQueryParamToString,
+  removeRoutingQueryParams,
+  updateRoutingQuery,
+} from './utils'
 import Category from '../dtos/Categories'
 
+
+export const getProjectNameFromQuery = (query: ParsedUrlQuery): string => {
+  const { slug } = query
+
+  return convertQueryParamToString(slug)
+}
 
 // is responsible for creating {action, entity, id} from query: (e.g {'show', 'event', '322'} )
 export const getSlugActionFromQuery = (query: ParsedUrlQuery): SlugAction => {
