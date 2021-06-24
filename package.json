@@ -25,6 +25,7 @@
     "antd": "^4.10.2",
     "axios": "^0.21.1",
     "babel-plugin-import": "^1.13.3",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "http-status-codes": "^2.1.4",
     "immer": "^8.0.1",
