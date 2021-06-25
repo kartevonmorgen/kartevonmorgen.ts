@@ -139,7 +139,7 @@ async def update_or_insert_tags_frequencies(tag_frequencies: List[TagFrequencyDT
     try:
         async with async_session() as session:
 
-            chunk_seq_number: int = 0
+            chunk_seq_number: int = 1
             for chunk_to_upsert in chunk_tags_frequencies(tag_frequencies):
                 logger.debug(f"upserting chunk: #{chunk_seq_number}")
                 logger.trace(f"chunk #{chunk_seq_number}: {chunk_to_upsert}")
