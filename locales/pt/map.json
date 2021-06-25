@@ -286,5 +286,13 @@
       "close": "schließen",
       "donate": "spenden"
     }
+  },
+  "burgerMenu": {
+    "home": "Home",
+    "join": "Join",
+    "loginForPilots": "Login",
+    "contact": "Contact",
+    "aboutUs": "About",
+    "privacy": "Privacy"
   }
 }

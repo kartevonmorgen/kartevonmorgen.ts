@@ -344,5 +344,13 @@
   },
   "share": "Share",
   "copy": "Copy",
-  "embed": "Embed"
+  "embed": "Embed",
+  "burgerMenu": {
+    "home": "Home",
+    "join": "Join",
+    "loginForPilots": "Login",
+    "contact": "Contact",
+    "aboutUs": "About",
+    "privacy": "Privacy"
+  }
 }

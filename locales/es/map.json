@@ -344,5 +344,13 @@
   },
   "share": "Compartir",
   "copy": "Copiar",
-  "embed": "Embed"
+  "embed": "Embed",
+  "burgerMenu": {
+    "home": "Inicio",
+    "join": "Unirse",
+    "loginForPilots": "Iniciar sesión para pilotos",
+    "contact": "Contacto",
+    "aboutUs": "Sobre nosotros",
+    "privacy": "Declaración de privacidad"
+  }
 }

@@ -1,37 +1,37 @@
 [
   {
     "link": "https://kartevonmorgen.org/",
-    "title": "Home",
+    "title": "home",
     "icon": "home",
     "policy": "self"
   },
   {
     "link": "https://blog.vonmorgen.org/piloten/",
-    "title": "Join",
+    "title": "join",
     "icon": "user-friends",
     "policy": "newTab"
   },
   {
     "link": "https://openfairdb.org/",
-    "title": "Login for Pilots",
+    "title": "loginForPilots",
     "icon": "columns",
     "policy": "newTab"
   },
   {
     "link": "https://blog.vonmorgen.org/kontakt/",
-    "title": "Contact",
+    "title": "contact",
     "icon": "headset",
     "policy": "newTab"
   },
   {
     "link": "https://blog.vonmorgen.org/",
-    "title": "About us",
+    "title": "aboutUs",
     "icon": "users",
     "policy": "newTab"
   },
   {
     "link": "https://blog.vonmorgen.org/datenschutzerklarung/",
-    "title": "Privacy",
+    "title": "privacy",
     "icon": "user-shield",
     "policy": "newTab"
   }

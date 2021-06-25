@@ -344,5 +344,13 @@
   },
   "share": "Teilen",
   "copy": "Kopieren",
-  "embed": "Als Iframe einbetten"
+  "embed": "Als Iframe einbetten",
+  "burgerMenu": {
+    "home": "Startseite",
+    "join": "Mitmachen",
+    "loginForPilots": "Login für Piloten",
+    "contact": "Kontakt",
+    "aboutUs": "Über uns",
+    "privacy": "Datenschutzerklärung"
+  }
 }
