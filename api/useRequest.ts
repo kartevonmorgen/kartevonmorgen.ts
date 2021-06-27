@@ -3,7 +3,7 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
 
 export type GetRequest = AxiosRequestConfig | null
 
-interface Return<Data, Error>
+export interface Return<Data, Error>
   extends Pick<responseInterface<AxiosResponse<Data>, AxiosError<Error>>,
     'isValidating' | 'revalidate' | 'error' | 'mutate'> {
   data: Data | undefined

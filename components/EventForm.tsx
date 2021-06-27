@@ -1,6 +1,6 @@
 import React, { FC, Fragment, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { Button, Checkbox, DatePicker, Divider, Form, FormInstance, Input, Select, Spin, Typography } from 'antd'
+import { Button, Checkbox, DatePicker, Divider, Form, FormInstance, Input, Spin, Typography } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { isValidPhoneNumber } from 'libphonenumber-js'
 import EventDTO, { EventID } from '../dtos/Event'
@@ -17,6 +17,7 @@ import { eventsActions } from '../slices'
 import Point from '../dtos/Point'
 import { ExtendedGeocodeAddress, getCityFromAddress, reverseGeocode } from '../utils/geolocation'
 import { validate as isValidEmail } from 'isemail'
+import TagsSelect from './TagsSelect'
 
 
 const { useForm } = Form
@@ -220,14 +221,7 @@ const EventForm: FC<EventFormProps> = (_props) => {
       </Form.Item>
 
       <Form.Item name="tags">
-        <Select
-          mode="tags"
-          allowClear
-          style={{ width: '100%' }}
-          placeholder="Tags"
-        >
-          {/*  rendering options should go here*/}
-        </Select>
+        <TagsSelect/>
       </Form.Item>
 
       <Divider orientation="left">Location</Divider>
