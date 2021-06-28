@@ -4,7 +4,12 @@ import moment from 'moment'
 import toString from 'lodash/toString'
 import Category from '../dtos/Categories'
 import { types as defaultTypes } from './TypeChooser'
-import { convertQueryParamToArray, convertQueryParamToFloat, updateRoutingQuery } from '../utils/utils'
+import {
+  convertQueryParamToArray,
+  convertQueryParamToBoolean,
+  convertQueryParamToFloat,
+  updateRoutingQuery,
+} from '../utils/utils'
 import { MapLocationProps } from './Map'
 
 
@@ -30,6 +35,7 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
       type: typesParam,
       start_min: startMinParam,
       start_max: startMaxParam,
+      isSidebarOpen: isSidebarOpenParam,
     } = query
 
     // coming from the dynamic routing. we should not add them as the query params
@@ -46,13 +52,17 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
     let types: Category[] = convertQueryParamToArray(typesParam) as Category[]
     types = types.length !== 0 ? types : defaultTypes.map(t => t.id)
 
-    const startMin = startMinParam ?
+    const startMin: string = startMinParam ?
       toString(convertQueryParamToFloat(startMinParam)) :
       toString(moment().startOf('day').subtract(1, 'days').unix())
 
-    const startMax = startMaxParam ?
+    const startMax: string = startMaxParam ?
       toString(convertQueryParamToFloat(startMaxParam)) :
       toString(moment().startOf('day').add(7, 'days').unix())
+
+    const isSidebarOpen: string = isSidebarOpenParam ?
+      toString(convertQueryParamToBoolean(isSidebarOpenParam)) :
+      toString(true)
 
 
     const paramsToUpdate = {
@@ -62,6 +72,7 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
       type: types,
       start_min: startMin,
       start_max: startMax,
+      isSidebarOpen,
     }
 
     // filter query params out of all params including the dynamic ones

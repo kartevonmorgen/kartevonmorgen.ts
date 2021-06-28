@@ -7,6 +7,16 @@ import { LatLngBounds } from 'leaflet'
 import { RouterQueryParam } from './types'
 
 
+export const convertStringToBoolean = (str: string): boolean => {
+  return str === 'true'
+}
+
+export const convertQueryParamToBoolean = (param: RouterQueryParam): boolean => {
+  return convertStringToBoolean(
+    convertQueryParamToString(param),
+  )
+}
+
 export const convertQueryParamToString = (stringOrArrayOfStrings: RouterQueryParam): string => {
   if (isEmpty(stringOrArrayOfStrings)) {
     return ''

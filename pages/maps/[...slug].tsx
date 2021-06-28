@@ -1,4 +1,4 @@
-import { Dispatch, FC, Fragment, useMemo, useState } from 'react'
+import { FC, Fragment, useMemo } from 'react'
 import { GetServerSideProps } from 'next'
 import dynamic from 'next/dynamic'
 import { useToggle } from 'ahooks'
@@ -12,18 +12,7 @@ import { MapLocationProps } from '../../components/Map'
 import { TagsCount } from '../../dtos/TagCount'
 import Sidebar from '../../components/Sidebar'
 
-const { Content, Sider } = Layout
-
-
-const toggleSidebarWidth = (setSidebarWidth: Dispatch<string>) => (broken: boolean): void => {
-  if (broken) {
-    setSidebarWidth('60vw')
-
-    return
-  }
-
-  setSidebarWidth('32vw')
-}
+const { Content } = Layout
 
 
 interface MapPageProps {
@@ -43,7 +32,6 @@ const MapPage: FC<MapPageProps> = (props) => {
     },
   ] = useToggle(true)
 
-  const [sidebarWidth, setSidebarWidth] = useState<string>('32vw')
 
   const Map = useMemo(() => dynamic(
     () => import('../../components/Map').then(
@@ -57,7 +45,6 @@ const MapPage: FC<MapPageProps> = (props) => {
     },
   ), [])
 
-  const [isSideBarCollapsed, { toggle: toggleIsSideBarCollapsed }] = useToggle()
 
   return (
     <Fragment>
@@ -68,24 +55,8 @@ const MapPage: FC<MapPageProps> = (props) => {
       <Layout
         hasSider
       >
-        <Sider
-          breakpoint="lg"
-          onBreakpoint={toggleSidebarWidth(setSidebarWidth)}
-          theme="light"
-          collapsible
-          collapsed={isSideBarCollapsed}
-          onCollapse={toggleIsSideBarCollapsed}
-          width={sidebarWidth}
-          collapsedWidth={32}
-          style={{
-            height: '100vh',
-            display: 'flex',
-            flexDirection: 'column',
-            overflowY: 'auto',
-          }}
-        >
-          {!isSideBarCollapsed && <Sidebar/>}
-        </Sider>
+
+        <Sidebar/>
 
         <Content>
           <Spin spinning={isLoading}>
