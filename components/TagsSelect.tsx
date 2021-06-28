@@ -11,10 +11,11 @@ const { Option } = Select
 const TagsSelect: FC<SelectProps<any>> = (props) => {
 
   const {
-    onSearch: onSearchHookFunction,
-    onSelect: onSelectHookFunction,
-    onDeselect: onDeselectHookFunction,
-    onClear: onClearHookFunction,
+    onSearch: onSearchCallback,
+    onSelect: onSelectCallback,
+    onDeselect: onDeselectCallback,
+    onClear: onClearCallback,
+    placeholder,
   } = props
 
   const [tokenToMatchTagsWith, setTokenToMatchTagsWith] = useState<string>('')
@@ -31,22 +32,22 @@ const TagsSelect: FC<SelectProps<any>> = (props) => {
       mode="tags"
       allowClear
       style={{ width: '100%' }}
-      placeholder="Tags"
+      placeholder={placeholder}
       onSearch={(input) => {
         setTokenToMatchTagsWith(input)
-        onSearchHookFunction(input)
+        onSearchCallback(input)
       }}
       onSelect={(value, option) => {
         setTokenToMatchTagsWith('')
-        onSelectHookFunction(value, option)
+        onSelectCallback(value, option)
       }}
       onDeselect={(value, option) => {
         setTokenToMatchTagsWith('')
-        onDeselectHookFunction(value, option)
+        onDeselectCallback(value, option)
       }}
       onClear={() => {
         setTokenToMatchTagsWith('')
-        onClearHookFunction()
+        onClearCallback()
       }}
     >
       {
@@ -75,6 +76,7 @@ TagsSelect.defaultProps = {
   },
   onClear: () => {
   },
+  placeholder: 'Tags',
 }
 
 

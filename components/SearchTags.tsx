@@ -1,39 +1,16 @@
-import { FC, Fragment, useEffect, useState } from 'react'
+import React, { FC, Fragment, useEffect, useState } from 'react'
 import { NextRouter, useRouter } from 'next/router'
-
-import { Select } from 'antd'
-import { TagsCount } from '../dtos/TagCount'
-import { removeRoutingQueryParams, updateRoutingQuery } from '../utils/utils'
-
-const { Option } = Select
+import produce from 'immer'
+import { convertQueryParamToArray, removeRoutingQueryParams, updateRoutingQuery } from '../utils/utils'
+import TagsSelect from './TagsSelect'
 
 
-interface SearchTagsProps {
-  optionsCount: TagsCount
-}
-
-const handleChange = (router: NextRouter) => (values: string[]) => {
+const searchTag = (router: NextRouter) => (tag: string) => {
   const { query } = router
+  const { tag: optionalTagsFromQuery } = query
+  const optionalTags = convertQueryParamToArray(optionalTagsFromQuery)
 
-  const tagParamKey: string = 'tag'
-
-  // if no tags is selected
-  if (values.length === 0) {
-    const newQueryParams = removeRoutingQueryParams(query, [tagParamKey])
-
-    router.replace(
-      {
-        pathname: '/maps/[...slug]',
-        query: newQueryParams,
-      },
-      undefined,
-      { shallow: true },
-    )
-
-    return
-  }
-
-  const newQueryParams = updateRoutingQuery(query, { tag: values })
+  const newQueryParams = updateRoutingQuery(query, { tag: [...optionalTags, tag] })
   router.replace(
     {
       pathname: '/maps/[...slug]',
@@ -44,7 +21,49 @@ const handleChange = (router: NextRouter) => (values: string[]) => {
   )
 }
 
-const SearchTags: FC<SearchTagsProps> = (props) => {
+
+const removeAllTagsFromRouter = (router: NextRouter) => () => {
+  const { query } = router
+  const newQueryParams = removeRoutingQueryParams(query, ['tag'])
+
+  console.log(newQueryParams)
+
+  router.replace(
+    {
+      pathname: '/maps/[...slug]',
+      query: newQueryParams,
+    },
+    undefined,
+    { shallow: true },
+  )
+}
+
+
+const removeTagFromRouter = (router: NextRouter) => (tagToRemove: string) => {
+  const { query } = router
+  const { tag: optoinalTagsFromQuery } = query
+  const optionalTags = convertQueryParamToArray(optoinalTagsFromQuery)
+
+  const newTagsParameter = produce(optionalTags, draft => {
+    const indexOfTagToRemove = draft.indexOf(tagToRemove)
+    if (indexOfTagToRemove !== -1) {
+      draft.splice(indexOfTagToRemove, 1)
+    }
+  })
+
+  const newQueryParams = updateRoutingQuery(query, { tag: newTagsParameter })
+  router.replace(
+    {
+      pathname: '/maps/[...slug]',
+      query: newQueryParams,
+    },
+    undefined,
+    { shallow: true },
+  )
+}
+
+
+const SearchTags: FC = (_props) => {
   // the ant select uses useLayout internally and we need to be sure it's mounted on the browser
   const [showSelect, setShowSelect] = useState<boolean>(false)
   useEffect(() => {
@@ -56,26 +75,18 @@ const SearchTags: FC<SearchTagsProps> = (props) => {
   return (
     <Fragment>
       {showSelect && (
-        <Select
-          mode="tags"
+        <div
           style={{
-            width: '100%',
             marginTop: 8,
           }}
-          placeholder="Search for Tags"
-          onChange={handleChange(router)}
         >
-          {
-            props.optionsCount.map((optionCount, i) => (
-              <Option
-                key={`${optionCount[0]}-${i}`}
-                value={optionCount[0]}
-              >
-                {optionCount[0]}
-              </Option>
-            ))
-          }
-        </Select>
+          <TagsSelect
+            placeholder="Search for tags"
+            onSelect={searchTag(router)}
+            onDeselect={removeTagFromRouter(router)}
+            onClear={removeAllTagsFromRouter(router)}
+          />
+        </div>
       )}
     </Fragment>
   )

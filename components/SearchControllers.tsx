@@ -4,16 +4,11 @@ import { Button, Col, Row } from 'antd'
 import SearchFilters from './SearchFilters'
 import SearchInput from './SearchInput'
 import { FilterOutlined } from '@ant-design/icons/lib'
-import { TagsCount } from '../dtos/TagCount'
 
-
-export interface SearchControllersProps {
-  tagsCount: TagsCount
-}
 
 const onShowFilters = (toggleShowFilters) => () => (toggleShowFilters())
 
-const SearchControllers: FC<SearchControllersProps> = (props) => {
+const SearchControllers: FC = (_props) => {
   const [showFilters, { toggle: toggleShowFilters }] = useToggle('0', '1')
 
   return (
@@ -49,7 +44,6 @@ const SearchControllers: FC<SearchControllersProps> = (props) => {
 
       <SearchFilters
         showFilters={showFilters}
-        tagsCount={props.tagsCount}
       />
     </Fragment>
   )

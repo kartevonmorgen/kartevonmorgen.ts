@@ -10,7 +10,6 @@ import { convertQueryParamToArray } from '../../utils/utils'
 import RouterQueryInitializer from '../../components/RouterQueryInitializer'
 import { MapLocationProps } from '../../components/Map'
 import { TagsCount } from '../../dtos/TagCount'
-import PopularTagsRequest from '../../dtos/PopularTagsRequest'
 import Sidebar from '../../components/Sidebar'
 
 const { Content, Sider } = Layout
@@ -85,7 +84,7 @@ const MapPage: FC<MapPageProps> = (props) => {
             overflowY: 'auto',
           }}
         >
-          {!isSideBarCollapsed && <Sidebar tagsCount={props.popularTags}/>}
+          {!isSideBarCollapsed && <Sidebar/>}
         </Sider>
 
         <Content>
@@ -117,26 +116,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const pageConfigs = AxiosInstance.GetSuccessData(pageConfigsReq)
   const mapLocationProps = pageConfigs.map.location
 
-  // get popular tags
-  const popularTagsRequestParams: PopularTagsRequest = {
-    min_count: pageConfigs.popularTags.min_count,
-    max_count: pageConfigs.popularTags.max_count,
-    limit: pageConfigs.popularTags.limit,
-    offset: pageConfigs.popularTags.offset,
-  }
-  const popularTagsReq = await AxiosInstance.GetRequest<TagsCount>(
-    API_ENDPOINTS.getPopularTags(),
-    {
-      params: popularTagsRequestParams,
-    },
-  )
-  const popularTags = AxiosInstance.GetSuccessData(popularTagsReq)
 
   //todo: move the re-validate value to constants
   return {
     props: {
       mapLocationProps,
-      popularTags,
       project,
     },
   }

@@ -24,6 +24,7 @@ import { entriesActions } from '../slices'
 import { renameProperties, setValuesToDefaultOrNull, transformObject } from '../utils/objects'
 import { isValidPhoneNumber } from 'libphonenumber-js'
 import { validate as isValidEmail } from 'isemail'
+import TagsSelect from './TagsSelect'
 
 
 const { useForm } = Form
@@ -296,14 +297,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
 
       {/*add validation for the three tags*/}
       <Form.Item name="tags">
-        <Select
-          mode="tags"
-          allowClear
-          style={{ width: '100%' }}
-          placeholder="Tags"
-        >
-          {/*  rendering options should go here*/}
-        </Select>
+        <TagsSelect/>
       </Form.Item>
 
       <Divider orientation="left">Location</Divider>

@@ -2,13 +2,11 @@ import { FC } from 'react'
 import { Collapse } from 'antd'
 import TypeChooser from './TypeChooser'
 import SearchTags from './SearchTags'
-import { TagsCount } from '../dtos/TagCount'
 
 const { Panel } = Collapse
 
 
 export interface FiltersProps {
-  tagsCount: TagsCount
   showFilters: string
 }
 
@@ -26,9 +24,7 @@ const SearchFilters: FC<FiltersProps> = (props) => (
     >
       <TypeChooser/>
 
-      <SearchTags
-        optionsCount={props.tagsCount}
-      />
+      <SearchTags/>
     </Panel>
   </Collapse>
 )
