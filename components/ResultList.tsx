@@ -1,43 +1,16 @@
 import React, { FC } from 'react'
 import { useSelector } from 'react-redux'
-import { NextRouter, useRouter } from 'next/router'
-import toString from 'lodash/toString'
-import { List, Space, Tag } from 'antd'
+import { List } from 'antd'
 import { AutoSizer, CellMeasurer, CellMeasurerCache, List as VirtualList } from 'react-virtualized'
 import { RootState } from '../slices'
 import searchResultSelector from '../selectors/searchResults'
 import { SearchResults } from '../dtos/SearchResult'
-import { SearchEntryID } from '../dtos/SearchEntry'
-import { EventID } from '../dtos/Event'
-import { Type as ResultType, types as resultTypes } from './TypeChooser'
-import { redirectToEntityDetail } from '../utils/slug'
 import 'react-virtualized/styles.css'
-import TypeTag from './TypeTag'
+import ResultCard from './ResultCard'
 
 
-const onResultClick = (
-  router: NextRouter,
-  type: ResultType,
-  id: SearchEntryID | EventID,
-) => () => {
-  redirectToEntityDetail(
-    router,
-    id,
-    type.id,
-    0,
-    [],
-  )
-}
-
-
-// todo: create a separate component for showing the result
-const rowRenderer = (data: SearchResults, router: NextRouter) => ({ index, key, parent, style }) => {
+const rowRenderer = (data: SearchResults) => ({ index, key, parent, style }) => {
   const item = data[index]
-  const { id, title, tags, categories } = item
-  // found some events with undefined description so a default value is mandatory
-  let { description } = item
-  description = toString(description)
-  const type = resultTypes.find(t => t.id === categories[0])
 
   return (
     <CellMeasurer
@@ -48,29 +21,11 @@ const rowRenderer = (data: SearchResults, router: NextRouter) => ({ index, key, 
       rowIndex={index}
     >
       {({ measure }) => (
-        <List.Item
-          key={key}
-          onLoad={measure}
+        <ResultCard
+          searchResult={item}
+          measure={measure}
           style={style}
-          onClick={onResultClick(router, type, id)}
-        >
-          <List.Item.Meta
-            title={title}
-            description={
-              <TypeTag type={type.name}/>
-            }
-          />
-          <div>{description.substr(0, 70)}</div>
-          <div style={{ marginTop: 4 }}>
-            <Space size="small" wrap>
-              {
-                tags.slice(0, 3).map(
-                  (tag: string) => (<Tag key={tag}>{tag}</Tag>),
-                )
-              }
-            </Space>
-          </div>
-        </List.Item>
+        />
       )}
     </CellMeasurer>
   )
@@ -86,7 +41,6 @@ const ResultList: FC = () => {
     (state: RootState) => searchResultSelector(state),
   )
 
-  const router = useRouter()
 
   return (
     <List
@@ -107,7 +61,7 @@ const ResultList: FC = () => {
             height={height}
             rowCount={searchResults.length}
             rowHeight={cache.rowHeight}
-            rowRenderer={rowRenderer(searchResults, router)}
+            rowRenderer={rowRenderer(searchResults)}
             width={width}
           />
         )}
