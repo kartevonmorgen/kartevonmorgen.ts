@@ -2,6 +2,7 @@ import { FC } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
 import produce from 'immer'
+import toString from 'lodash/toString'
 import { Icon, LatLng, latLng, Point } from 'leaflet'
 import { MapContainer, Marker, TileLayer, ZoomControl } from 'react-leaflet'
 import { RootState } from '../slices'
@@ -68,6 +69,9 @@ const onClickOnPin = (router: NextRouter, searchResult: SearchResult) => () => {
 
     slugArray.push(pluralEntityName, searchResult.id)
     draftState.slug = slugArray
+
+    // open the sidebar
+    draftState.isSidebarOpen = toString(true)
   })
 
   router.replace(

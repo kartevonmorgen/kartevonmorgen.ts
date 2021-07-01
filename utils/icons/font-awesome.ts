@@ -2,6 +2,7 @@ import { config, library } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 
 import {
+  faBars,
   faCamera,
   faClock,
   faColumns,
@@ -54,6 +55,7 @@ library.add(
   faHeadset,
   faUsers,
   faUserShield,
+  faBars,
 )
 
 // free-brands-svg-icons

@@ -8,6 +8,7 @@ import { LinkPolicyToTargetAttributeMapper, LinkWithIcon } from '../dtos/LinkWit
 import API_ENDPOINTS from '../api/endpoints'
 import { getProjectNameFromQuery } from '../utils/slug'
 import { changeLocale } from '../utils/locale'
+import BurgerMenuIcon from './BurgerMenuIcon'
 
 
 const { Link } = Typography
@@ -38,10 +39,16 @@ const Menu: FC = () => {
           linkWithIcon => (
             <AntMenu.Item
               key={`burger-menu-item-${linkWithIcon.title}`}
+              style={{
+                marginTop: 0,
+                marginBottom: 0,
+                paddingLeft: 8,
+                paddingRight: 8,
+              }}
             >
               <Row
                 justify="space-between"
-                gutter={32}
+                // gutter={[32, 4]}
               >
                 <Col>
                   <Link
@@ -80,29 +87,20 @@ const Menu: FC = () => {
   )
 }
 
-
 const BurgerMenu: FC = () => {
-  const router = useRouter()
-  const { query } = router
-  const projectName = getProjectNameFromQuery(query)
 
   return (
     <Dropdown
       overlay={<Menu/>}
       placement="bottomRight"
+      visible
     >
       <Button
         block
-        icon={
-          <img
-            alt="burger menu icon"
-            src={`/projects/${projectName}/icons/burger-menu-icon.webp`}
-            height="100%"
-            width="auto"
-          />
-        }
+        icon={<BurgerMenuIcon/>}
         style={{
           boxShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 3px 0.2px',
+          height: 37,
         }}
       />
 

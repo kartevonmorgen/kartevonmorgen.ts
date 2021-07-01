@@ -33,7 +33,6 @@ const setSidebarState = (router: NextRouter, sidebarOpenState: SidebarState) => 
     isSidebarOpen: toString(Boolean(sidebarOpenState)),
   })
 
-  console.log('new params should be: ', newQueryParams)
 
   router.replace(
     {
