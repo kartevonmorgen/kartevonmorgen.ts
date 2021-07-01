@@ -31,4 +31,17 @@ export default css.global`
  background-color: ${EVENT_COLOR};
  color: white;
 }
- `
+
+.initiative-result-card {
+  border-left: solid 5px ${INITIATIVE_COLOR};
+}
+
+.company-result-card {
+  border-left: solid 5px ${COMPANY_COLOR};
+}
+
+.event-result-card {
+  border-left: solid 5px ${EVENT_COLOR};
+}
+
+`

@@ -3,6 +3,7 @@ import useTranslation from 'next-translate/useTranslation'
 import { Table as AntTable, Typography } from 'antd'
 import moment from 'moment'
 import Event, { Events } from '../../../dtos/Event'
+import { formatDuration } from '../../../utils/time'
 
 
 const { Text, Link } = Typography
@@ -30,20 +31,13 @@ const columns = [
     title: 'time',
     key: 'time',
     render: (_, record: Event) => {
-      const startTime = moment.unix(record.start)
-      const endTime = moment.unix(record.end)
-      const areStartAndEndInTheSameDay = endTime.isSame(startTime, 'day')
+      const start = moment.unix(record.start)
+      const end = moment.unix(record.end)
 
       return (
         <Fragment key={`column-description-${record.id}`}>
           <Text>
-            {`${startTime.utc().format('llll')}`}
-            {` - `}
-            {
-              areStartAndEndInTheSameDay ?
-                endTime.utc().format('LT') :
-                endTime.utc().format('llll')
-            }
+            {formatDuration(start, end)}
           </Text>
         </Fragment>
       )

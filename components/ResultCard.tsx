@@ -1,14 +1,16 @@
 import React, { CSSProperties, FC } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import { List, Space, Tag } from 'antd'
-import TypeTag from './TypeTag'
 import { SearchResult } from '../dtos/SearchResult'
 import { Type as ResultType, types as resultTypes } from './TypeChooser'
 import { SearchEntryID } from '../dtos/SearchEntry'
-import { EventID } from '../dtos/Event'
+import { CompactEvent, EventID } from '../dtos/Event'
 import { redirectToEntityDetail } from '../utils/slug'
 import toString from 'lodash/toString'
 import { CellMeasurerChildProps } from 'react-virtualized/dist/es/CellMeasurer'
+import Category from '../dtos/Categories'
+import { formatDuration } from '../utils/time'
+import moment from 'moment'
 
 
 const { Item } = List
@@ -33,6 +35,19 @@ const onResultClick = (
   )
 }
 
+const getTimeDescriptionForEvent = (entity: SearchResult, type: ResultType): string | null => {
+  if (type.id !== Category.EVENT) {
+    return null
+  }
+
+  const event = entity as CompactEvent
+
+  const start = moment.unix(event.start)
+  const end = moment.unix(event.end)
+
+  return formatDuration(start, end)
+}
+
 const ResultCard: FC<ResultCardProps> = (props) => {
 
   const { searchResult, style, measure } = props
@@ -52,13 +67,12 @@ const ResultCard: FC<ResultCardProps> = (props) => {
     <Item
       onLoad={measure}
       style={style}
+      className={`${type.name}-result-card`}
       onClick={onResultClick(router, type, id)}
     >
       <Item.Meta
         title={title}
-        description={
-          <TypeTag type={type.name}/>
-        }
+        description={getTimeDescriptionForEvent(searchResult, type)}
       />
       <div>{description.substr(0, 70)}</div>
       <div style={{ marginTop: 4 }}>
