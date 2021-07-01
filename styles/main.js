@@ -1,6 +1,11 @@
 import css from 'styled-jsx/css'
 
 
+const INITIATIVE_COLOR = '#a4c93e'
+const COMPANY_COLOR = '#31a1b6'
+const EVENT_COLOR = '#eb80a9'
+
+
 export default css.global`
 .ant-btn-primary {
  background-color: #666;
@@ -10,5 +15,20 @@ export default css.global`
 .ant-btn-primary:hover {
  background-color: #777;
  border-color: #666;
+}
+
+.initiative-tag {
+ background-color: ${INITIATIVE_COLOR};
+ color: white;
+}
+
+.company-tag {
+ background-color: ${COMPANY_COLOR};
+ color: white;
+}
+
+.event-tag {
+ background-color: ${EVENT_COLOR};
+ color: white;
 }
  `

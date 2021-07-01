@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { useRouter } from 'next/router'
 import isString from 'lodash/isString'
 import isArray from 'lodash/isArray'
-import { Divider, Spin, Tag, Typography } from 'antd'
+import { Divider, Spin, Typography } from 'antd'
 import useRequest from '../api/useRequest'
 import { EntryRequest } from '../dtos/EntryRequest'
 import { RouterQueryParam, SlugEntity } from '../utils/types'
@@ -19,6 +19,7 @@ import EntityFooter from './EntityFooter'
 import EntityDetailHeader from './EntityDetailHeader'
 import OpeningHours from './OpeningHours'
 import EntryLinks from './EntryLinks'
+import TypeTag from './TypeTag'
 
 
 const { Title, Paragraph } = Typography
@@ -86,7 +87,10 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
 
       <Title level={2}>{entry.title}</Title>
 
-      <Tag color={type.color} style={{ marginBottom: 12 }}>{type.name}</Tag>
+      <TypeTag
+        type={type.name}
+        style={{ marginBottom: 12 }}
+      />
 
       <Paragraph>{entry.description}</Paragraph>
 

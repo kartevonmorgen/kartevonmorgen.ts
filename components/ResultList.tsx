@@ -12,6 +12,7 @@ import { EventID } from '../dtos/Event'
 import { Type as ResultType, types as resultTypes } from './TypeChooser'
 import { redirectToEntityDetail } from '../utils/slug'
 import 'react-virtualized/styles.css'
+import TypeTag from './TypeTag'
 
 
 const onResultClick = (
@@ -55,7 +56,9 @@ const rowRenderer = (data: SearchResults, router: NextRouter) => ({ index, key, 
         >
           <List.Item.Meta
             title={title}
-            description={<Tag color={type.color}>{type.name}</Tag>}
+            description={
+              <TypeTag type={type.name}/>
+            }
           />
           <div>{description.substr(0, 70)}</div>
           <div style={{ marginTop: 4 }}>

@@ -2,8 +2,6 @@ import { FC } from 'react'
 
 import { Col, Row, Tag } from 'antd'
 import Category from '../dtos/Categories'
-
-import { green, lime, magenta } from '@ant-design/colors'
 import { NextRouter, useRouter } from 'next/router'
 import { convertQueryParamToArray, updateRoutingQuery } from '../utils/utils'
 
@@ -12,7 +10,6 @@ const { CheckableTag } = Tag
 export interface Type {
   id: Category
   name: string
-  color: string
 }
 
 
@@ -20,18 +17,15 @@ export interface Type {
 export const types: Type[] = [
   {
     id: Category.INITIATIVE,
-    name: 'Initiative',
-    color: lime.primary,
+    name: 'initiative',
   },
   {
     id: Category.COMPANY,
-    name: 'Company',
-    color: green.primary,
+    name: 'company',
   },
   {
     id: Category.EVENT,
-    name: 'Event',
-    color: magenta.primary,
+    name: 'event',
   },
 ]
 
@@ -87,10 +81,10 @@ const TypeChooser: FC = () => {
         return (
           <Col key={type.id} span={8}>
             <CheckableTag
+              className={isChecked && `${type.name}-tag`}
               checked={isChecked}
               onChange={checked => handleChange(type.id, checked, selectedTypes, router)}
               style={{
-                backgroundColor: isChecked && type.color,
                 width: '100%',
                 textAlign: 'center',
               }}
