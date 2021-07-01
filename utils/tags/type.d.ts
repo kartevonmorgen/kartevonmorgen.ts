@@ -2,8 +2,9 @@ type TagIconType = 'icon' | 'image'
 
 interface TagDetail {
   type: TagIconType
-  name: string
   color: string
+  name: string
+  solidStyle?: string
 }
 
 interface DomainToTagDetailMapper {

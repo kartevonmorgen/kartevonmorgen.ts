@@ -7,7 +7,7 @@ import { getDomainFromLink } from '../utils/domain'
 import domainToTagDetailMapper, { hasTagDetailIcon } from '../utils/tags/domainToTagDetailMapper'
 import { titleCase } from 'title-case'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { IconName } from '@fortawesome/fontawesome-svg-core'
+import { IconName, IconPrefix } from '@fortawesome/fontawesome-svg-core'
 import { getIconDir } from '../utils/tags'
 
 
@@ -112,7 +112,7 @@ const getIcon = (enrichedLink: EnrichedLinkDetail): ReactElement => {
   // TODO: upgrade the dependency: https://github.com/FortAwesome/react-fontawesome/issues/366
   return (
     <FontAwesomeIcon
-      icon={['fab', enrichedLink.name as IconName]}
+      icon={[enrichedLink.solidStyle as IconPrefix, enrichedLink.name as IconName]}
     />
   )
 }
