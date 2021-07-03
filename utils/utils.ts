@@ -11,6 +11,14 @@ export const convertStringToBoolean = (str: string): boolean => {
   return str === 'true'
 }
 
+export const convertUnknownToBoolean = (value: unknown): boolean => {
+  return value === 'true'
+}
+
+export const convertUnknownToInt = (value: unknown): number => {
+  return convertStringToInt(toString(value))
+}
+
 export const convertQueryParamToBoolean = (param: RouterQueryParam): boolean => {
   return convertStringToBoolean(
     convertQueryParamToString(param),
