@@ -2,21 +2,31 @@ import fs from 'fs'
 import path from 'path'
 import { NextApiRequest, NextApiResponse } from 'next'
 import parseCSV from 'csv-parse/lib/sync'
-import { CategorySelectOption, CategorySelectOptions } from '../../../../../dtos/CategorySelectOption'
+import {
+  CategorySelectOption,
+  CategorySelectOptions,
+  GroupedCategorySelectOptions,
+} from '../../../../../dtos/CategorySelectOption'
 import { convertUnknownToBoolean, convertUnknownToInt } from '../../../../../utils/utils'
 
 
 interface Response {
-  data: CategorySelectOptions
+  data: GroupedCategorySelectOptions
   hasData: boolean
 }
 
+type Record = any
+type Records = Record[]
 
-const convertCSVRecordToCategorySelectOption = (record: any): CategorySelectOption => {
+// headline, records
+type BucketOfSelectOptions = [string, CategorySelectOptions]
+type BucketsOfSelectOptions = BucketOfSelectOptions[]
+
+
+const convertCSVRecordToCategorySelectOption = (record: Record): CategorySelectOption => {
   return ({
     label: record.label,
     value: record.value,
-    headline: convertUnknownToBoolean(record.headline),
     icon: record.icon,
     fontSize: convertUnknownToInt(record.fontSize),
     bold: convertUnknownToBoolean(record.bold),
@@ -26,16 +36,42 @@ const convertCSVRecordToCategorySelectOption = (record: any): CategorySelectOpti
 }
 
 
-const convertParsedCategoriesCSVToCategorySelectOptions = (records: any[]): CategorySelectOptions => {
-  const categorySelectOptions: CategorySelectOptions = []
+const groupRecordsByHeadlinesAndConvertToSelectOption = (records: Records): BucketsOfSelectOptions => {
+  const bucketsOfRecords: BucketsOfSelectOptions = [
+    ['', []],
+  ]
 
-  records.forEach(record => {
-    const newCategorySelectOption = convertCSVRecordToCategorySelectOption(record)
-    categorySelectOptions.push(newCategorySelectOption)
-  })
+  for (let i = 0; i < records.length; i++) {
+    const record = records[i]
+    const isHeadline = convertUnknownToBoolean(record.headline)
 
-  return categorySelectOptions
+    if (isHeadline) {
+      const options: CategorySelectOptions = []
+      const headline: string = record.label
+      i++
+
+      for (; i !== records.length; i++) {
+        const possibleSubRecord = records[i]
+        const isPossibleSubRecordHeadline = convertUnknownToBoolean(possibleSubRecord.headline)
+        if (isPossibleSubRecordHeadline) {
+          // bucketsOfRecords.push([headline, options])
+          i--
+          break
+        }
+
+        options.push(convertCSVRecordToCategorySelectOption(possibleSubRecord))
+      }
+
+      bucketsOfRecords.push([headline, options])
+      continue
+    }
+
+    bucketsOfRecords[0][1].push(convertCSVRecordToCategorySelectOption(record))
+  }
+
+  return bucketsOfRecords
 }
+
 
 export default (req: NextApiRequest, res: NextApiResponse) => {
   const {
@@ -75,8 +111,10 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
       },
     )
 
-    const categorySelectOptions: CategorySelectOptions = convertParsedCategoriesCSVToCategorySelectOptions(records)
-    response.data = categorySelectOptions
+    const filteredRecords: Records = records.filter(record => record.label !== '')
+    const groupedCategorySelectOptions: BucketsOfSelectOptions = groupRecordsByHeadlinesAndConvertToSelectOption(filteredRecords)
+
+    response.data = groupedCategorySelectOptions
     response.hasData = true
 
   } catch (e) {

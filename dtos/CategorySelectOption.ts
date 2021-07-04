@@ -1,7 +1,6 @@
 export interface CategorySelectOption {
   label: string
   value: string
-  headline: boolean
   bold: boolean
   underline: boolean
   italic: boolean
@@ -10,3 +9,5 @@ export interface CategorySelectOption {
 }
 
 export type CategorySelectOptions = CategorySelectOption[]
+export type SingleGroupOfCategorySelectOptions = [string, CategorySelectOptions]
+export type GroupedCategorySelectOptions = SingleGroupOfCategorySelectOptions[]
