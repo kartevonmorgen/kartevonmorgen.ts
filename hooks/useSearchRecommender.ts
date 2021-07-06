@@ -4,7 +4,7 @@ import { MostPopularTagsParams } from '../pages/api/v0/entries/most-popular-tags
 import { TagFrequency } from '../dtos/TagFrequency'
 import useRequest from '../api/useRequest'
 import API_ENDPOINTS from '../api/endpoints'
-import { Response as CategoryAPIResponse } from '../pages/api/v0/dropdowns/[group]/categories'
+import { CSVToOptionDataResponse as CategoryAPIResponse } from '../pages/api/v0/dropdowns/[group]/categories'
 
 
 type ResultOptions = (OptionData | OptionGroupData)[]

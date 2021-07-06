@@ -1,16 +1,9 @@
-export interface CategorySelectOption {
-  label: string
-  value: string
-  bold: boolean
-  underline: boolean
-  italic: boolean
-  fontSize: number
+import { SelectOption } from './SelectOption'
+
+
+export interface CategorySelectOption extends SelectOption {
   icon: string
 }
 
+
 export type CategorySelectOptions = CategorySelectOption[]
-export type SingleGroupOfCategorySelectOptions = [string, CategorySelectOptions]
-export type GroupedCategorySelectOptions = SingleGroupOfCategorySelectOptions[]
-// headline, records
-export type BucketOfSelectOptions = [string, CategorySelectOptions]
-export type BucketsOfSelectOptions = BucketOfSelectOptions[]
