@@ -3,24 +3,22 @@ import path from 'path'
 import { NextApiRequest, NextApiResponse } from 'next'
 import parseCSV from 'csv-parse/lib/sync'
 import {
+  BucketsOfSelectOptions,
   CategorySelectOption,
   CategorySelectOptions,
-  GroupedCategorySelectOptions,
 } from '../../../../../dtos/CategorySelectOption'
 import { convertUnknownToBoolean, convertUnknownToInt } from '../../../../../utils/utils'
+import { OptionData, OptionGroupData } from 'rc-select/lib/interface'
 
 
-interface Response {
-  data: GroupedCategorySelectOptions
+export interface Response {
+  data: (OptionData | OptionGroupData)[]
   hasData: boolean
 }
 
 type Record = any
 type Records = Record[]
 
-// headline, records
-type BucketOfSelectOptions = [string, CategorySelectOptions]
-type BucketsOfSelectOptions = BucketOfSelectOptions[]
 
 
 const convertCSVRecordToCategorySelectOption = (record: Record): CategorySelectOption => {
@@ -72,6 +70,38 @@ const groupRecordsByHeadlinesAndConvertToSelectOption = (records: Records): Buck
   return bucketsOfRecords
 }
 
+const convertSelectOptionToOptionData = (selectOption: CategorySelectOption): OptionData => {
+  const optionData: OptionData = {
+    label: selectOption.label,
+    value: selectOption.value,
+    style: {
+      fontWeight: selectOption.bold ? 'bold' : 'normal',
+      fontStyle: selectOption.italic ? 'italic' : 'normal',
+      textDecoration: selectOption.underline ? 'underline' : 'none',
+    },
+  }
+
+  return optionData
+}
+
+const convertBucketsOfSelectOptionsToOptionDataOrOptionGroupData = (bucketsOfSelectOptions: BucketsOfSelectOptions): (OptionData | OptionGroupData)[] => {
+  let optionData: (OptionData | OptionGroupData)[] = []
+
+  if (bucketsOfSelectOptions.length !== 0 && bucketsOfSelectOptions[0][0] === '') {
+    optionData = bucketsOfSelectOptions[0][1].map(selectOption => convertSelectOptionToOptionData(selectOption))
+  }
+
+  for (let i = 1; i < bucketsOfSelectOptions.length; i++) {
+    const [header, subSelectOptions] = bucketsOfSelectOptions[i]
+    optionData.push({
+      label: header,
+      options: subSelectOptions.map(selectOption => convertSelectOptionToOptionData(selectOption)),
+    })
+  }
+
+  return optionData
+}
+
 
 export default (req: NextApiRequest, res: NextApiResponse) => {
   const {
@@ -113,8 +143,9 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
 
     const filteredRecords: Records = records.filter(record => record.label !== '')
     const groupedCategorySelectOptions: BucketsOfSelectOptions = groupRecordsByHeadlinesAndConvertToSelectOption(filteredRecords)
+    const optionData = convertBucketsOfSelectOptionsToOptionDataOrOptionGroupData(groupedCategorySelectOptions)
 
-    response.data = groupedCategorySelectOptions
+    response.data = optionData
     response.hasData = true
 
   } catch (e) {

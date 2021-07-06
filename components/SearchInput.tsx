@@ -1,9 +1,10 @@
+import { FC, useState } from 'react'
 import { useRouter } from 'next/router'
 import produce from 'immer'
-
-import { Input } from 'antd'
-
-import { updateRoutingQuery } from '../utils/utils'
+import { AutoComplete, Input } from 'antd'
+import { useDebounce } from 'ahooks'
+import { convertQueryParamToString, updateRoutingQuery } from '../utils/utils'
+import useSearchRecommender from '../hooks/useSearchRecommender'
 
 const { Search } = Input
 
@@ -33,17 +34,37 @@ const onSearch = (router) => (searchTerm, _event) => {
 }
 
 
-const SearchInput = () => {
+const SearchInput: FC = () => {
   const router = useRouter()
+  const { query } = router
+
+  const { dropdowns } = query
+
+  const categoryGroup = convertQueryParamToString(dropdowns, 'main')
+
+  const [searchTerm, setSearchTerm] = useState<string>('')
+  const debouncedTokenToSearch = useDebounce(searchTerm, { wait: 100 })
+
+  const searchOptions = useSearchRecommender(debouncedTokenToSearch, categoryGroup)
 
   return (
-    <Search
-      placeholder="input search text"
-      allowClear
-      enterButton
-      onSearch={onSearch(router)}
-      className="primary-btn"
-    />
+    <AutoComplete
+      value={searchTerm}
+      options={searchOptions}
+      style={{
+        width: '100%',
+      }}
+      onSearch={(term: string) => setSearchTerm(term)}
+      onSelect={(value) => setSearchTerm(prevTerm => `${prevTerm} ${value}`)}
+    >
+      <Search
+        placeholder="input search text"
+        allowClear
+        enterButton
+        onSearch={onSearch(router)}
+        className="primary-btn"
+      />
+    </AutoComplete>
   )
 }
 

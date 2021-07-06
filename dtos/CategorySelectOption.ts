@@ -11,3 +11,6 @@ export interface CategorySelectOption {
 export type CategorySelectOptions = CategorySelectOption[]
 export type SingleGroupOfCategorySelectOptions = [string, CategorySelectOptions]
 export type GroupedCategorySelectOptions = SingleGroupOfCategorySelectOptions[]
+// headline, records
+export type BucketOfSelectOptions = [string, CategorySelectOptions]
+export type BucketsOfSelectOptions = BucketOfSelectOptions[]

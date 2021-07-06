@@ -25,9 +25,12 @@ export const convertQueryParamToBoolean = (param: RouterQueryParam): boolean => 
   )
 }
 
-export const convertQueryParamToString = (stringOrArrayOfStrings: RouterQueryParam): string => {
+export const convertQueryParamToString = (
+  stringOrArrayOfStrings: RouterQueryParam,
+  defaultValue: string = '',
+): string => {
   if (isEmpty(stringOrArrayOfStrings)) {
-    return ''
+    return defaultValue
   }
 
   if (isString(stringOrArrayOfStrings)) {
