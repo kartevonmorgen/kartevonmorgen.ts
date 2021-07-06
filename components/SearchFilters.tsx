@@ -2,6 +2,7 @@ import { FC } from 'react'
 import { Collapse } from 'antd'
 import TypeChooser from './TypeChooser'
 import SearchTags from './SearchTags'
+import SearchRegion from './SearchRegion'
 
 const { Panel } = Collapse
 
@@ -22,9 +23,13 @@ const SearchFilters: FC<FiltersProps> = (props) => (
       header={null}
       key="1"
     >
+
       <TypeChooser/>
 
       <SearchTags/>
+
+      <SearchRegion/>
+
     </Panel>
   </Collapse>
 )

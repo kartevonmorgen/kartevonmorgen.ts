@@ -4,7 +4,7 @@ import { MostPopularTagsParams } from '../pages/api/v0/entries/most-popular-tags
 import { TagFrequency } from '../dtos/TagFrequency'
 import useRequest from '../api/useRequest'
 import API_ENDPOINTS from '../api/endpoints'
-import { CSVToOptionDataResponse as CategoryAPIResponse } from '../pages/api/v0/dropdowns/[group]/categories'
+import { CSVToOptionDataResponse } from '../utils/csv'
 
 
 type ResultOptions = (OptionData | OptionGroupData)[]
@@ -16,6 +16,8 @@ const convertTagFrequenciesToResultOptions = (tagFrequencies: TagFrequency[]): R
   }))
 }
 
+
+// todo: handle errors, what will happen if none of the apis response properly?
 const useSearchRecommender = (
   term: string,
   categoryGroupName: string = 'main',
@@ -24,7 +26,7 @@ const useSearchRecommender = (
   const tokens = term.split(' ')
   const lastToken = tokens[tokens.length - 1]
 
-  const { data: categoryResponse, error: categoryResponseError } = useRequest<CategoryAPIResponse>({
+  const { data: categoryResponse, error: categoryResponseError } = useRequest<CSVToOptionDataResponse>({
     url: API_ENDPOINTS.getCategories(categoryGroupName),
   })
 

@@ -16,4 +16,5 @@ export const BASICS_ENDPOINTS = {
   postEvent: (): string => `${BASICS_API_URL}/events`,
   postEntries: (): string => `${BASICS_API_URL}/entries`,
   getCategories: (group: string): string => `${SELF_API_URL}/dropdowns/${group}/categories`,
+  getRegions: (group: string): string => `${SELF_API_URL}/dropdowns/${group}/regions`,
 }
