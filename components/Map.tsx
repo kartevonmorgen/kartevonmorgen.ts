@@ -18,6 +18,7 @@ import SearchEventsListener from './SearchEventsListener'
 import 'leaflet/dist/leaflet.css'
 import AddEntryButton from './AddEntryButton'
 import BurgerMenu from './BurgerMenu'
+import MapQueryParamsListener from './MapQueryParamsListener'
 
 
 const icons = {
@@ -114,6 +115,8 @@ const Map: FC = () => {
       <MapLocationInitializer/>
 
       <MapEventsListener/>
+
+      <MapQueryParamsListener/>
 
       <SearchEventsListener/>
 

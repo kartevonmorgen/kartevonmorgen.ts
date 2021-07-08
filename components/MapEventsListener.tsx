@@ -15,14 +15,16 @@ const MapEventsListener: FC = () => {
 
   const map = useMapEvents({
     moveend: ((_event: LeafletEvent) => {
+
       const { lat, lng } = map.getCenter()
+
       const zoom = map.getZoom()
 
       // todo: debounce needed
       const paramsToUpdate = {
-        lat: toString(lat),
-        lng: toString(lng),
-        zoom: toString(zoom),
+        lat: lat.toFixed(4),
+        lng: lng.toFixed(4),
+        zoom: zoom.toFixed(2),
       }
 
       const newQueryParams = updateRoutingQuery(query, paramsToUpdate)

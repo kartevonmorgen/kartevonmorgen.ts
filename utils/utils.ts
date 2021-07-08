@@ -40,10 +40,15 @@ export const convertQueryParamToString = (
   return stringOrArrayOfStrings[0]
 }
 
-export const convertStringToFloat = (str: string): number => {
+export const convertStringToFloat = (str: string, digits: number | null = null): number => {
+  // todo: it's not the best function ever
   const result = parseFloat(str)
   if (isNaN(result)) {
     return 0.0
+  }
+
+  if (digits !== null) {
+    return parseFloat(result.toFixed(digits))
   }
 
   return result

@@ -2,9 +2,72 @@ import { FC, useState } from 'react'
 import { useDebounce } from 'ahooks'
 import { Select } from 'antd'
 import useRegionRecommender from '../hooks/useRegionRecommender'
-import { useRouter } from 'next/router'
-import { convertQueryParamToString } from '../utils/utils'
+import { NextRouter, useRouter } from 'next/router'
+import { convertQueryParamToString, convertStringToFloat, updateRoutingQuery } from '../utils/utils'
+import { GeoLocations } from '../dtos/GeoLocatoinResponse'
+import { AxiosInstance } from '../api'
+import API_ENDPOINTS from '../api/endpoints'
+import toString from 'lodash/toString'
 
+
+interface Center {
+  lat: number
+  lng: number
+}
+
+const fetchLocationFromRegionName = async (regionName: string): Promise<Center> => {
+  // todo: catch error if the region api did not responded successfully
+  const regionLookupResponse =
+    await AxiosInstance.GetRequest<GeoLocations>(
+      API_ENDPOINTS.queryGeoLocations(),
+      {
+        params: {
+          limit: 1,
+          q: regionName,
+          format: 'json',
+        },
+      },
+    )
+
+  const regionLookup = AxiosInstance.GetSuccessData(regionLookupResponse)
+
+  // could find a region with that name
+  if (regionLookup.length === 0) {
+    return Promise.reject('no matching region found')
+  }
+
+  const region = regionLookup[0]
+  return {
+    lat: convertStringToFloat(region.lat, 4),
+    lng: convertStringToFloat(region.lon, 4),
+  }
+}
+
+const changeLatAndLngFromRegionName = (router: NextRouter) => async (regionName: string) => {
+  try {
+    const regionCenter = await fetchLocationFromRegionName(regionName)
+
+    const paramsToUpdate = {
+      lat: toString(regionCenter.lat),
+      lng: toString(regionCenter.lng),
+    }
+
+    const { query } = router
+    const newQueryParams = updateRoutingQuery(query, paramsToUpdate)
+
+    router.replace(
+      {
+        pathname: '/maps/[...slug]',
+        query: newQueryParams,
+      },
+      undefined,
+      { shallow: true },
+    )
+
+  } catch (e) {
+
+  }
+}
 
 const SearchRegion: FC = () => {
   const router = useRouter()
@@ -14,7 +77,7 @@ const SearchRegion: FC = () => {
   const regionsGroup = convertQueryParamToString(dropdowns, 'main')
 
   const [regionNameToSearch, setRegionNameToSearch] = useState<string>('')
-  const debouncedNameRegionToSearch = useDebounce(regionNameToSearch, { wait: 100 })
+  const debouncedNameRegionToSearch = useDebounce(regionNameToSearch, { wait: 50 })
 
   const regionsOptions = useRegionRecommender(debouncedNameRegionToSearch, regionsGroup)
 
@@ -27,11 +90,11 @@ const SearchRegion: FC = () => {
       showSearch
       options={regionsOptions}
       onSearch={(term: string) => {
-        console.log(term)
         setRegionNameToSearch(term)
       }}
-      onSelect={(region) => {
-        console.log(`selected: `, region)
+      onSelect={changeLatAndLngFromRegionName(router)}
+      onClear={() => {
+        setRegionNameToSearch('')
       }}
       placeholder="Search for a region"
       style={{
