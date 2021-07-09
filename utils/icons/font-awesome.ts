@@ -6,6 +6,7 @@ import {
   faCamera,
   faClock,
   faColumns,
+  faCompass,
   faEnvelope,
   faGlobe,
   faHeadset,
@@ -56,6 +57,7 @@ library.add(
   faUsers,
   faUserShield,
   faBars,
+  faCompass,
 )
 
 // free-brands-svg-icons

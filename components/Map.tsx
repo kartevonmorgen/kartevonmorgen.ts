@@ -19,6 +19,7 @@ import 'leaflet/dist/leaflet.css'
 import AddEntryButton from './AddEntryButton'
 import BurgerMenu from './BurgerMenu'
 import MapQueryParamsListener from './MapQueryParamsListener'
+import LocateMe from './LocateMe'
 
 
 const icons = {
@@ -122,6 +123,8 @@ const Map: FC = () => {
 
       <div id="map-bottom-right">
         <AddEntryButton/>
+
+        <LocateMe/>
       </div>
 
       <div id="map-top-right">
