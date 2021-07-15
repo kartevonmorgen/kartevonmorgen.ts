@@ -1,5 +1,10 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+# System-Architecture 
+This graph shows you, how the whole Map of tomorrow system interacts with each other
+![grafik](https://user-images.githubusercontent.com/15019030/125709247-47128e6a-6a23-43cc-839e-33a0f2715def.png)
+
+
 ## Getting Started
 
 First, run the development server:
