@@ -70,6 +70,7 @@ const Table: FC<TableProps> = (props) => {
       scroll={{
         scrollToFirstRowOnChange: true,
         y: 500,
+        x: true,
       }}
     />
   )

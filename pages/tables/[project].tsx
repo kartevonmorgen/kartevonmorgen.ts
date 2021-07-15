@@ -31,7 +31,9 @@ const IFrameTable = () => {
     )
   }
 
-  return <Table dataSource={data}/>
+  return (
+    <Table dataSource={data}/>
+  )
 }
 
 

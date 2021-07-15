@@ -5,12 +5,12 @@ import dropRight from 'lodash/dropRight'
 import {
   mapPluralEntityNameToSingular,
   mapTypeIdToPluralEntityName,
-  PluralSlugEntity,
+  PluralEntityName,
+  RootSlugEntity,
+  SingularEntityName,
   SlugAction,
-  SlugEntities,
-  SlugEntity,
-  SlugId,
   SlugVerb,
+  validChildrenForEntity,
 } from './types'
 import { SearchEntryID } from '../dtos/SearchEntry'
 import { EventID } from '../dtos/Event'
@@ -30,49 +30,101 @@ export const getProjectNameFromQuery = (query: ParsedUrlQuery): string => {
   return convertQueryParamToString(slug)
 }
 
+export const getSingularFormOfEntity = (pluralEntityName: PluralEntityName): SingularEntityName => {
+  return mapPluralEntityNameToSingular[pluralEntityName]
+}
+
 // is responsible for creating {action, entity, id} from query: (e.g {'show', 'event', '322'} )
-export const getSlugActionFromQuery = (query: ParsedUrlQuery): SlugAction => {
+// for more details read slugs.test.ts
+export const getRootSlugActionFromQuery = (query: ParsedUrlQuery): SlugAction => {
   const { slug } = query
 
-  const defaultAction: SlugAction = {
+  const rootAction: SlugAction = {
     verb: SlugVerb.SHOW,
-    entity: SlugEntity.RESULT,
+    entity: RootSlugEntity.RESULT,
     id: null,
+    subSlug: null,
   }
 
+  // todo: needs a double check
   if (isEmpty(slug) || isString(slug)) {
-    return defaultAction
+    return rootAction
   }
 
-  const [_project, pluralEntityName, entityIdOrVerb, optionalVerb] = slug
+  const [_project, ...slugs] = slug
 
-  // check entity is valid
-  if (!SlugEntities.includes(pluralEntityName as PluralSlugEntity)) {
-    return defaultAction
-  }
+  let parentSlugAction = rootAction
 
-  // create verb does not contain entity id, so the length would be 3: [project, entityName, verb]
-  if (slug.length === 3 && entityIdOrVerb === SlugVerb.CREATE) {
-    const verb = SlugVerb.CREATE
+  let parentEntityName = 'root'
 
-    return {
-      verb,
-      entity: mapPluralEntityNameToSingular[pluralEntityName] as SlugEntity,
+  for (let i = 0; i < slugs.length;) {
+    // i always points to the plural form of the entities: e.g (entries, events, ratings, replies)
+
+    const childSlugAction: SlugAction = {
+      verb: SlugVerb.SHOW,
+      entity: '',
       id: null,
+      subSlug: null,
     }
+
+    const childEntityName = slugs[i]
+    const pluralEntityName = childEntityName as PluralEntityName
+    const singularEntityName = getSingularFormOfEntity(pluralEntityName)
+    childSlugAction.entity = singularEntityName
+
+
+    const validChildren = validChildrenForEntity[parentEntityName]
+
+    // main/anInvalidEntity
+    if (validChildren.indexOf(childEntityName) === -1) {
+      break
+    }
+
+    // main/entries
+    if (i + 1 === slugs.length) {
+      // the child entity name is in the plural form, however we use the single form in the ui for readability
+      // we have validated before to be a good child before so the type is safe here to be casted
+      parentSlugAction.subSlug = childSlugAction
+
+      break
+    }
+
+    // main/entries/create
+    if (slugs[i + 1] === SlugVerb.CREATE) {
+      childSlugAction.verb = SlugVerb.CREATE
+
+      parentSlugAction.subSlug = childSlugAction
+
+      break
+    }
+
+    // main/entries/entryId
+    childSlugAction.id = slugs[i + 1]
+
+    if (i + 2 === slugs.length) {
+      parentSlugAction.subSlug = childSlugAction
+
+      break
+    }
+
+    if (slugs[i + 2] === SlugVerb.EDIT) {
+      childSlugAction.verb = SlugVerb.EDIT
+
+      parentSlugAction.subSlug = childSlugAction
+
+      break
+    }
+
+
+    i += 2
+
+    // think like a linked list
+    parentEntityName = singularEntityName
+    parentSlugAction.subSlug = childSlugAction
+    parentSlugAction = childSlugAction
   }
 
-  let verb = SlugVerb.SHOW
-  const entityId = entityIdOrVerb
-  if (!!optionalVerb && Object.values(SlugVerb).includes(optionalVerb as SlugVerb)) {
-    verb = optionalVerb as SlugVerb
-  }
-
-  return {
-    verb: verb as SlugVerb,
-    entity: mapPluralEntityNameToSingular[pluralEntityName] as SlugEntity,
-    id: entityId as SlugId,
-  }
+  return rootAction
 }
 
 
