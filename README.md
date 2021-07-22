@@ -28,7 +28,7 @@ This graph shows you, how the whole Map of tomorrow system interacts with each o
 
 ### Installing Dependencies
 1. node.js: please refer to [nvm](https://github.com/nvm-sh/nvm)
-1. yarn: `npm -g install yarn`
+1. yarn: please refer to [the installation guideline](https://classic.yarnpkg.com/en/docs/install/#debian-stable)
 1. project:
     1. `git clone https://github.com/kartevonmorgen/kartevonmorgen-v1`
     1. `cd kartevonmorgen-v1`
