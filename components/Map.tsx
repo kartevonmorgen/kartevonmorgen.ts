@@ -71,7 +71,7 @@ const onClickOnPin = (router: NextRouter, searchResult: SearchResult) => () => {
     const slugArray = convertQueryParamToArray(slug)
 
     if (entitySlugAction !== null) {
-      slugArray.splice(slugArray.length - 3, 2)
+      slugArray.splice(slugArray.length - 2, 2)
     }
 
     slugArray.push(pluralEntityName, searchResult.id)
