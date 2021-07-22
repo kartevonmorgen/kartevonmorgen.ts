@@ -43,7 +43,8 @@ export const getRootSlugActionFromQuery = (query: ParsedUrlQuery): SlugAction =>
     verb: SlugVerb.SHOW,
     entity: RootSlugEntity.RESULT,
     id: null,
-    subSlug: null,
+    subSlugAction: null,
+    parentSlugAction: null,
   }
 
   // todo: needs a double check
@@ -64,7 +65,8 @@ export const getRootSlugActionFromQuery = (query: ParsedUrlQuery): SlugAction =>
       verb: SlugVerb.SHOW,
       entity: '',
       id: null,
-      subSlug: null,
+      subSlugAction: null,
+      parentSlugAction: null,
     }
 
     const childEntityName = slugs[i]
@@ -84,7 +86,8 @@ export const getRootSlugActionFromQuery = (query: ParsedUrlQuery): SlugAction =>
     if (i + 1 === slugs.length) {
       // the child entity name is in the plural form, however we use the single form in the ui for readability
       // we have validated before to be a good child before so the type is safe here to be casted
-      parentSlugAction.subSlug = childSlugAction
+      parentSlugAction.subSlugAction = childSlugAction
+      childSlugAction.parentSlugAction = parentSlugAction
 
       break
     }
@@ -93,16 +96,19 @@ export const getRootSlugActionFromQuery = (query: ParsedUrlQuery): SlugAction =>
     if (slugs[i + 1] === SlugVerb.CREATE) {
       childSlugAction.verb = SlugVerb.CREATE
 
-      parentSlugAction.subSlug = childSlugAction
+      parentSlugAction.subSlugAction = childSlugAction
+      childSlugAction.parentSlugAction = parentSlugAction
 
       break
     }
 
     // main/entries/entryId
+    // todo: any kind of validation should go here
     childSlugAction.id = slugs[i + 1]
 
     if (i + 2 === slugs.length) {
-      parentSlugAction.subSlug = childSlugAction
+      parentSlugAction.subSlugAction = childSlugAction
+      childSlugAction.parentSlugAction = parentSlugAction
 
       break
     }
@@ -110,7 +116,8 @@ export const getRootSlugActionFromQuery = (query: ParsedUrlQuery): SlugAction =>
     if (slugs[i + 2] === SlugVerb.EDIT) {
       childSlugAction.verb = SlugVerb.EDIT
 
-      parentSlugAction.subSlug = childSlugAction
+      parentSlugAction.subSlugAction = childSlugAction
+      childSlugAction.parentSlugAction = parentSlugAction
 
       break
     }
@@ -120,7 +127,7 @@ export const getRootSlugActionFromQuery = (query: ParsedUrlQuery): SlugAction =>
 
     // think like a linked list
     parentEntityName = singularEntityName
-    parentSlugAction.subSlug = childSlugAction
+    parentSlugAction.subSlugAction = childSlugAction
     parentSlugAction = childSlugAction
   }
 

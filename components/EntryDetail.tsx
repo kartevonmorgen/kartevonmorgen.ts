@@ -5,7 +5,7 @@ import isArray from 'lodash/isArray'
 import { Divider, Spin, Typography } from 'antd'
 import useRequest from '../api/useRequest'
 import { EntryRequest } from '../dtos/EntryRequest'
-import { RouterQueryParam, SlugEntity } from '../utils/types'
+import { RootSlugEntity, RouterQueryParam } from '../utils/types'
 import { SearchEntryID } from '../dtos/SearchEntry'
 import { Entries as EntriesDTO, Entry } from '../dtos/Entry'
 import API_ENDPOINTS from '../api/endpoints'
@@ -118,12 +118,11 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
 
       <EntityTags tags={entry.tags}/>
 
-
       <EntityRatings ratingsIds={entry.ratings}/>
 
       <EntityFooter
         entityId={entry.id}
-        type={SlugEntity.ENTRY}
+        type={RootSlugEntity.ENTRY}
         title={entry.title}
         activeLink={pathname}
         created_at={entry.created}

@@ -11,7 +11,7 @@ import EntityAddress from './EntityAddress'
 import EntityTags from './EntityTags'
 import API_ENDPOINTS from '../api/endpoints'
 import useRequest from '../api/useRequest'
-import { SlugEntity } from '../utils/types'
+import { RootSlugEntity } from '../utils/types'
 
 const { Title, Paragraph, Text } = Typography
 
@@ -74,7 +74,7 @@ const EventDetail: FC<EventDetailProps> = (props) => {
         {`${moment.unix(event.start).format('llll')}`} - {`${moment.unix(event.end).format('llll')}`}
       </Text>
 
-      <Tag color={SlugEntity.EVENT} style={{ marginBottom: 12 }}>{SlugEntity.EVENT}</Tag>
+      <Tag color={RootSlugEntity.EVENT} style={{ marginBottom: 12 }}>{RootSlugEntity.EVENT}</Tag>
 
       <Paragraph>{event.description}</Paragraph>
 
@@ -99,7 +99,7 @@ const EventDetail: FC<EventDetailProps> = (props) => {
 
       <EntityFooter
         entityId={event.id}
-        type={SlugEntity.EVENT}
+        type={RootSlugEntity.EVENT}
         title={event.title}
         activeLink={pathname}
         created_at={event.created_at}

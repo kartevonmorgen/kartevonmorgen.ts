@@ -1,32 +1,40 @@
 import { FC } from 'react'
-import { useRouter } from 'next/router'
-import { getSlugActionFromQuery } from '../utils/slug'
-import { SlugVerb } from '../utils/types'
+import { SlugAction, SlugVerb } from '../utils/types'
 import EntryDetail from './EntryDetail'
 import EntityChooserForm from './EntityChooserForm'
 import Category from '../dtos/Categories'
+import EntryChild from './EntryChild'
 
 
-const Entry: FC = () => {
-  const router = useRouter()
-  const { query } = router
+interface EntryProps {
+  slugAction: SlugAction
+}
 
-  const slugAction = getSlugActionFromQuery(query)
+
+const Entry: FC<EntryProps> = (props) => {
+
+  const { slugAction } = props
+  const { subSlugAction } = slugAction
+
+  if (subSlugAction !== null) {
+    return <EntryChild slugAction={subSlugAction}/>
+  }
 
   switch (slugAction.verb) {
     case SlugVerb.SHOW:
       return <EntryDetail entryId={slugAction.id}/>
     case SlugVerb.CREATE:
       return <EntityChooserForm
-        action={SlugVerb.CREATE}
+        verb={SlugVerb.CREATE}
       />
     case SlugVerb.EDIT:
       return <EntityChooserForm
+        verb={SlugVerb.EDIT}
+        entityId={slugAction.id}
         category={Category.INITIATIVE}
-        action={SlugVerb.EDIT}
       />
     default:
-      // redirect to the result page
+      // todo: redirect to the result page
       return null
   }
 }

@@ -163,6 +163,7 @@
   },
   "ratingForm": {
     "newRatingFor": "New rating for",
+    "newRating": "New rating",
     "introText": "Our ratings make sustainable entries more visible than less sustainable entries. Well rated entries are higher ranked within the von morgen map and its search results.",
     "moreInfoLink": "more info",
     "savingError": "Your rating couldn't be saved.",

@@ -1,28 +1,31 @@
-import { useRouter } from 'next/router'
-import { getSlugActionFromQuery } from '../utils/slug'
-import { SlugVerb } from '../utils/types'
+import { FC } from 'react'
+import { SlugAction, SlugVerb } from '../utils/types'
 import EventDetail from './EventDetail'
 import EntityChooserForm from './EntityChooserForm'
 import Category from '../dtos/Categories'
 
 
-const Event = () => {
-  const router = useRouter()
-  const { query } = router
+interface EventProps {
+  slugAction: SlugAction
+}
 
-  const slugAction = getSlugActionFromQuery(query)
+
+const Event: FC<EventProps> = (props) => {
+
+  const { slugAction } = props
 
   switch (slugAction.verb) {
     case SlugVerb.SHOW:
       return <EventDetail eventId={slugAction.id}/>
     case SlugVerb.CREATE:
       return <EntityChooserForm
-        action={SlugVerb.CREATE}
+        verb={SlugVerb.CREATE}
       />
     case SlugVerb.EDIT:
       return <EntityChooserForm
         category={Category.EVENT}
-        action={SlugVerb.EDIT}
+        verb={SlugVerb.EDIT}
+        entityId={slugAction.id}
       />
     default:
       // redirect to the result page

@@ -1,8 +1,11 @@
 import { RatingComments } from './RatingComment'
 
 
+export type RatingID = string
+
+
 export interface Rating {
-  id: string
+  id: RatingID
   title: string
   created: number
   value: number

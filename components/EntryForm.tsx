@@ -7,7 +7,7 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons/lib'
 import isString from 'lodash/isString'
 import isArray from 'lodash/isArray'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { getSlugActionFromQuery, redirectToEntityDetail } from '../utils/slug'
+import { redirectToEntityDetail } from '../utils/slug'
 import { AxiosInstance } from '../api'
 import useRequest from '../api/useRequest'
 import API_ENDPOINTS from '../api/endpoints'
@@ -188,19 +188,20 @@ type EntryCategories = Category.COMPANY | Category.INITIATIVE
 
 interface EntryFormProps {
   category: EntryCategories
+  verb: SlugVerb.EDIT | SlugVerb.CREATE
+  entryId?: SearchEntryID
 }
 
 const EntryForm: FC<EntryFormProps> = (props) => {
   // todo: for a better experience show spinner with the corresponding message when the form is loading
   // for example: fetching the address
 
-  const { category } = props
+  const { category, verb, entryId } = props
 
   const dispatch = useDispatch()
 
   const router = useRouter()
   const { query } = router
-  const { verb, id: entryId } = getSlugActionFromQuery(query)
 
   const [form] = useForm<EntryFormType>()
 
@@ -290,7 +291,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
 
       <Form.Item
         name="description"
-        rules={[{ required: true }, { min: 10 }, { max: 250 }]}
+        rules={[{ required: true, min: 10, max: 250 }]}
       >
         <TextArea placeholder="Description"/>
       </Form.Item>

@@ -8,7 +8,7 @@ import { AxiosInstance } from '../api'
 import API_ENDPOINTS from '../api/endpoints'
 import { NextRouter, useRouter } from 'next/router'
 import useRequest from '../api/useRequest'
-import { getSlugActionFromQuery, redirectToEntityDetail } from '../utils/slug'
+import { redirectToEntityDetail } from '../utils/slug'
 import { SlugVerb } from '../utils/types'
 import Category from '../dtos/Categories'
 import { onReceiveAdapter, onSendAdapter } from '../adaptors/EventForm'
@@ -66,7 +66,7 @@ const redirectToEvent = (router: NextRouter, eventId: EventID) => {
   )
 }
 
-const onCreate = async (event: EventDTO) => {
+const onCreate = async (event: EventDTO): Promise<EventID> => {
   const response = await AxiosInstance.PostRequest<EventID>(
     API_ENDPOINTS.postEvent(),
     event,
@@ -111,6 +111,9 @@ const createOrEditEvent = async (
 }
 
 
+// todo: it has an issue that we may duplicate the entry in the state twice!
+// once manually and the other with the automatic fetching of api!
+// double check
 const onFinish = (
   router: NextRouter,
   dispatch: AppDispatch,
@@ -126,17 +129,20 @@ const onFinish = (
 }
 
 
-// just to keep the doors open for OCP, not the best way but lets try
 interface EventFormProps {
-  category: Category.EVENT
+  verb: SlugVerb.CREATE | SlugVerb.EDIT
+  eventId: EventID
 }
 
-const EventForm: FC<EventFormProps> = (_props) => {
+
+const EventForm: FC<EventFormProps> = (props) => {
+
+  const { verb, eventId } = props
+
   const dispatch = useDispatch()
 
   const router = useRouter()
   const { query } = router
-  const { verb, id: eventId } = getSlugActionFromQuery(query)
   const isEdit = verb === SlugVerb.EDIT
 
   const [form] = useForm<object>()

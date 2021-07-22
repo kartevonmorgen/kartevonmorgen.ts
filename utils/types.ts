@@ -33,11 +33,11 @@ export enum PluralEntrySlugEntity {
 }
 
 export enum RatingSlugEntity {
-  REPLY = 'reply'
+  COMMENTS = 'comments'
 }
 
 export enum PluralRatingSlugEntity {
-  REPLIES = 'replies'
+  COMMENTS = 'comments'
 }
 
 
@@ -62,7 +62,8 @@ export interface SlugAction {
   verb: SlugVerb
   entity: string
   id: string
-  subSlug: SlugAction
+  subSlugAction: SlugAction
+  parentSlugAction: SlugAction
 }
 
 export interface RootSlugAction extends SlugAction {
@@ -81,7 +82,7 @@ export const mapPluralEntityNameToSingular: Record<PluralEntityName, SingularEnt
   [PluralRootSlugEntity.ENTRIES]: RootSlugEntity.ENTRY,
   [PluralRootSlugEntity.RESULTS]: RootSlugEntity.RESULT,
   [PluralEntrySlugEntity.RATINGS]: EntrySlugEntity.RATING,
-  [PluralRatingSlugEntity.REPLIES]: RatingSlugEntity.REPLY,
+  [PluralRatingSlugEntity.COMMENTS]: RatingSlugEntity.COMMENTS,
 }
 
 export const mapSingularEntityNameToPlural = Object

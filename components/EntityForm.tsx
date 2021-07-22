@@ -1,27 +1,44 @@
 import React, { FC } from 'react'
 import Category from '../dtos/Categories'
-import EntryForm from './EntryForm'
 import EventForm from './EventForm'
+import InitiativeForm from './InitiativeForm'
+import { SearchEntryID } from '../dtos/SearchEntry'
+import { EventID } from '../dtos/Event'
+import { SlugVerb } from '../utils/types'
+import CompanyForm from './CompanyForm'
 
 
 interface EntityFormProps {
   category: Category
+  entityId?: SearchEntryID | EventID
+  verb: SlugVerb.EDIT | SlugVerb.CREATE
 }
 
 const EntityForm: FC<EntityFormProps> = (props) => {
-  const { category } = props
+  const { category, entityId, verb } = props
 
   switch (category) {
     case Category.INITIATIVE:
       return (
-        <EntryForm category={Category.INITIATIVE}/>
+        <InitiativeForm
+          initiativeId={entityId}
+          verb={verb}
+        />
       )
     case Category.COMPANY:
       return (
-        <EntryForm category={Category.COMPANY}/>
+        <CompanyForm
+          companyId={entityId}
+          verb={verb}
+        />
       )
     case Category.EVENT:
-      return <EventForm category={Category.EVENT}/>
+      return (
+        <EventForm
+          eventId={entityId}
+          verb={verb}
+        />
+      )
     default:
       return null
   }

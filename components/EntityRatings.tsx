@@ -1,16 +1,20 @@
 import React, { FC, Fragment } from 'react'
+import { NextRouter, useRouter } from 'next/router'
 import toString from 'lodash/toString'
 import groupBy from 'lodash/groupBy'
 import isEmpty from 'lodash/isEmpty'
 import { isWebUri } from 'valid-url'
 import moment from 'moment'
-import { titleCase } from 'title-case'
-import { Comment, Divider, Typography } from 'antd'
+import { Button, Comment, Divider, Typography } from 'antd'
+import useTranslation from 'next-translate/useTranslation'
 import { Rating } from '../dtos/Rating'
 import { RatingsRequest } from '../dtos/RatingsRequest'
 import useRequest from '../api/useRequest'
 import API_ENDPOINTS from '../api/endpoints'
 import { RatingComment } from '../dtos/RatingComment'
+import produce from 'immer'
+import { convertQueryParamToArray } from '../utils/utils'
+import { EntrySlugEntity, mapSingularEntityNameToPlural, SlugVerb } from '../utils/types'
 
 
 const { Title, Link, Text } = Typography
@@ -21,9 +25,34 @@ interface EntityCommentsProps {
 }
 
 
+const redirectToNewRatingForm = (router: NextRouter) => () => {
+  const { query } = router
+  const newQueryParams = produce(query, draftState => {
+    const { slug } = draftState
+    const slugArray = convertQueryParamToArray(slug)
+
+    slugArray.push(mapSingularEntityNameToPlural[EntrySlugEntity.RATING], SlugVerb.CREATE)
+    draftState.slug = slugArray
+  })
+
+  router.replace(
+    {
+      pathname: '/maps/[...slug]',
+      query: newQueryParams,
+    },
+    undefined,
+    { shallow: true },
+  )
+}
+
+
 const EntityRatings: FC<EntityCommentsProps> = (props) => {
   const { ratingsIds } = props
   const hasRatings = ratingsIds.length !== 0
+
+  const router = useRouter()
+
+  const { t } = useTranslation('map')
 
   // the hooks should be at the top level before any kind of returns
   // so we have to make have the useRequest any way, but we'll make it conditional
@@ -59,7 +88,18 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
 
   return (
     <div>
-      <Divider>Ratings</Divider>
+      <Divider>{t('ratings.rating-heading')}</Divider>
+
+      <Button
+        type="primary"
+        onClick={redirectToNewRatingForm(router)}
+        style={{
+          width: '100%',
+          marginBottom: 16,
+        }}
+      >
+        {t('ratings.newRating')}
+      </Button>
 
       {
         sortedContexts.map((context: string, i: number) => {
@@ -68,7 +108,7 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
 
           return (
             <div key={`groupRatings-${context}`}>
-              <Title className={context} level={5}>{titleCase(context)}</Title>
+              <Title className={context} level={5}>{t(`ratings.contextName.${context}`)}</Title>
 
               {
                 contextRatings.map((contextRating: Rating) => {
@@ -93,7 +133,7 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
                                     href={contextRating.source}
                                     target="_blank"
                                   >
-                                    source
+                                    {t('ratings.sourceWebsite')}
                                   </Link>
                                 ) : (
                                   <Text type="secondary">{contextRating.source}</Text>

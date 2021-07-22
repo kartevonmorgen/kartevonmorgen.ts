@@ -10,8 +10,8 @@ import searchResultSelector from '../selectors/searchResults'
 import Category, { Categories, CategoryToNameMapper } from '../dtos/Categories'
 import { SearchResult, SearchResults } from '../dtos/SearchResult'
 import { convertQueryParamToArray, convertQueryParamToFloat } from '../utils/utils'
-import { mapTypeIdToPluralEntityName, SlugEntity, SlugVerb } from '../utils/types'
-import { getSlugActionFromQuery } from '../utils/slug'
+import { mapTypeIdToPluralEntityName, SlugVerb } from '../utils/types'
+import { getRootSlugActionFromQuery } from '../utils/slug'
 import MapEventsListener from './MapEventsListener'
 import MapLocationInitializer from './MapLocationInitializer'
 import SearchEventsListener from './SearchEventsListener'
@@ -52,11 +52,15 @@ const getIcon = (types: Categories) => {
 
 const onClickOnPin = (router: NextRouter, searchResult: SearchResult) => () => {
   const { query } = router
-  const { verb, entity: slugEntity } = getSlugActionFromQuery(query)
+  const slugAction = getRootSlugActionFromQuery(query)
+  const { subSlugAction } = slugAction
 
   // if we are in the middle of creating/editing an entity, clicking on pins should do nothing
-  if (verb !== SlugVerb.SHOW) {
-    return
+  if (
+    subSlugAction !== null &&
+    subSlugAction.verb !== SlugVerb.SHOW
+  ) {
+    return null
   }
 
   const category = searchResult.categories[0]
@@ -65,8 +69,8 @@ const onClickOnPin = (router: NextRouter, searchResult: SearchResult) => () => {
   const newQueryParams = produce(query, draftState => {
     const { slug } = draftState
     const slugArray = convertQueryParamToArray(slug)
-    if (slugEntity !== SlugEntity.RESULT) {
-      slugArray.splice(slugArray.length - 2, 2)
+    if (subSlugAction !== null) {
+      slugArray.splice(3, slugArray.length - 3)
     }
 
     slugArray.push(pluralEntityName, searchResult.id)

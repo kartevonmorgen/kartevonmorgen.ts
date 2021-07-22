@@ -1,12 +1,12 @@
 import { BASICS_ENDPOINTS } from './BasicsEndpoints'
 import { OFDB_ENDPOINTS } from './OFDBEndpoints'
 import { GEOLOCATION_ENDPOINTS } from './GEOLocationEndpoints'
-import { SlugEntity } from '../../utils/types'
+import { RootSlugEntity } from '../../utils/types'
 
 
 export const mapEntityToOFDB = {
-  [SlugEntity.ENTRY]: OFDB_ENDPOINTS.getOFDBEntry,
-  [SlugEntity.EVENT]: OFDB_ENDPOINTS.getOFDBEvent,
+  [RootSlugEntity.ENTRY]: OFDB_ENDPOINTS.getOFDBEntry,
+  [RootSlugEntity.EVENT]: OFDB_ENDPOINTS.getOFDBEvent,
 }
 
 export const API_ENDPOINTS = {

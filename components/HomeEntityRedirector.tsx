@@ -7,7 +7,7 @@ import isEmpty from 'lodash/isEmpty'
 import { StatusCodes } from 'http-status-codes'
 import { BASICS_ENDPOINTS } from '../api/endpoints/BasicsEndpoints'
 import { convertQueryParamToArray, convertQueryParamToString } from '../utils/utils'
-import { PluralSlugEntity } from '../utils/types'
+import { PluralRootSlugEntity } from '../utils/types'
 
 
 const SELF = '/'
@@ -75,11 +75,11 @@ const adaptParams = async (_entry: string, query: ParsedUrlQuery): Promise<Parse
       if (entryResponse.status === StatusCodes.OK) {
         const entryResponseJson = await entryResponse.json()
         if (entryResponseJson.length !== 0) {
-          entitySlug = PluralSlugEntity.ENTRIES
+          entitySlug = PluralRootSlugEntity.ENTRIES
         } else {
           const eventResponse = await eventRequest
           if (eventResponse.status === StatusCodes.OK) {
-            entitySlug = PluralSlugEntity.EVENTS
+            entitySlug = PluralRootSlugEntity.EVENTS
           }
         }
       }

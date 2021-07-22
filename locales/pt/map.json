@@ -126,6 +126,7 @@
   },
   "ratingForm": {
     "newRatingFor": "Neue Bewertung für",
+    "newRating": "Neue Bewertung",
     "introText": "Positivfaktoren entscheiden darüber, wie sichtbar ein Eintrag auf der Karte von morgen ist. Je größer der Anteil positiver Aspekte einer Organisation ist, desto höher steigt der Pin in den Suchergebnissen.",
     "moreInfoLink": "weitere Infos",
     "savingError": "Die Bewertung konnte nicht gespeichert werden",

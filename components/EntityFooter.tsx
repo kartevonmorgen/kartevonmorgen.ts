@@ -1,7 +1,7 @@
 import React, { FC, Fragment } from 'react'
 import { Col, Divider, Layout, Row, Tooltip, Typography } from 'antd'
 import moment from 'moment'
-import { SlugEntity } from '../utils/types'
+import { RootSlugEntity } from '../utils/types'
 import { mapEntityToOFDB } from '../api/endpoints'
 import createMailToHref from '../utils/mailto'
 import { gold } from '@ant-design/colors'
@@ -13,7 +13,7 @@ const { Link, Text } = Typography
 
 interface EntityFooterProps {
   entityId: string
-  type: SlugEntity.EVENT | SlugEntity.ENTRY
+  type: RootSlugEntity.EVENT | RootSlugEntity.ENTRY
   title: string
   activeLink: string
   created_at: number
