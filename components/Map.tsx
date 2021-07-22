@@ -52,13 +52,13 @@ const getIcon = (types: Categories) => {
 
 const onClickOnPin = (router: NextRouter, searchResult: SearchResult) => () => {
   const { query } = router
-  const slugAction = getRootSlugActionFromQuery(query)
-  const { subSlugAction } = slugAction
+  const rootSlugAction = getRootSlugActionFromQuery(query)
+  const { subSlugAction: entitySlugAction } = rootSlugAction
 
   // if we are in the middle of creating/editing an entity, clicking on pins should do nothing
   if (
-    subSlugAction !== null &&
-    subSlugAction.verb !== SlugVerb.SHOW
+    entitySlugAction !== null &&
+    entitySlugAction.verb !== SlugVerb.SHOW
   ) {
     return null
   }
@@ -69,8 +69,9 @@ const onClickOnPin = (router: NextRouter, searchResult: SearchResult) => () => {
   const newQueryParams = produce(query, draftState => {
     const { slug } = draftState
     const slugArray = convertQueryParamToArray(slug)
-    if (subSlugAction !== null) {
-      slugArray.splice(3, slugArray.length - 3)
+
+    if (entitySlugAction !== null) {
+      slugArray.splice(slugArray.length - 3, 2)
     }
 
     slugArray.push(pluralEntityName, searchResult.id)
