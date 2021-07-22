@@ -7,7 +7,8 @@
     "build": "node server.build.production.js",
     "build:dev": "node server.build.dev.js",
     "build:dev:analyze": "ANALYZE=true node server.build.dev.js",
-    "start": "node server.start.js",
+    "start:production": "node server.start.production.js",
+    "start:dev": "node server.start.dev.js",
     "test": "jest"
   },
   "dependencies": {

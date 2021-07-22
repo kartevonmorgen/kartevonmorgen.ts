@@ -11,7 +11,7 @@ from loguru import logger
 from typing import NamedTuple, List, Optional, Generator
 from dotenv import dotenv_values
 from math import ceil
-from pathlib import PurePath
+from pathlib import PurePath, Path
 from sqlalchemy import String, Integer, Column
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import declarative_base, sessionmaker
@@ -39,7 +39,12 @@ parser.add_argument(
 args = parser.parse_args()
 
 default_config = dotenv_values('../../.env')
-customized_config = dotenv_values('../../.env.production')
+customized_config = {
+    'DB_NAME': 'kartevonmorgen.sqlite'
+}
+if Path('../../.env.production').exists():
+    customized_config = dotenv_values('../../.env.production')
+
 if args.dev:
     customized_config = dotenv_values('../../.env.development')
 
