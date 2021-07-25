@@ -301,7 +301,7 @@ const cases: Case[] = [
           verb: SlugVerb.SHOW,
           id: 'ratingId',
           subSlugAction: {
-            entity: RatingSlugEntity.COMMENTS,
+            entity: RatingSlugEntity.COMMENT,
             verb: SlugVerb.SHOW,
             id: null,
             subSlugAction: null,
@@ -330,7 +330,7 @@ const cases: Case[] = [
           verb: SlugVerb.SHOW,
           id: 'ratingId',
           subSlugAction: {
-            entity: RatingSlugEntity.COMMENTS,
+            entity: RatingSlugEntity.COMMENT,
             verb: SlugVerb.CREATE,
             id: null,
             subSlugAction: null,
@@ -359,7 +359,7 @@ const cases: Case[] = [
           verb: SlugVerb.SHOW,
           id: 'ratingId',
           subSlugAction: {
-            entity: RatingSlugEntity.COMMENTS,
+            entity: RatingSlugEntity.COMMENT,
             verb: SlugVerb.SHOW,
             id: 'replyId',
             subSlugAction: null,
@@ -388,7 +388,7 @@ const cases: Case[] = [
           verb: SlugVerb.SHOW,
           id: 'ratingId',
           subSlugAction: {
-            entity: RatingSlugEntity.COMMENTS,
+            entity: RatingSlugEntity.COMMENT,
             verb: SlugVerb.EDIT,
             id: 'replyId',
             subSlugAction: null,

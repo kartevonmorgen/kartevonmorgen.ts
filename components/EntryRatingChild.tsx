@@ -12,7 +12,7 @@ const EntryRatingChild: FC<EntryRatingChild> = (props) => {
   const { slugAction } = props
 
   switch (slugAction.entity) {
-    case RatingSlugEntity.COMMENTS:
+    case RatingSlugEntity.COMMENT:
       return <EntryRatingComment slugAction={slugAction}/>
     default:
       return null

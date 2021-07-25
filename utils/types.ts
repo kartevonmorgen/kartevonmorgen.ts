@@ -33,7 +33,7 @@ export enum PluralEntrySlugEntity {
 }
 
 export enum RatingSlugEntity {
-  COMMENTS = 'comments'
+  COMMENT = 'comment'
 }
 
 export enum PluralRatingSlugEntity {
@@ -82,7 +82,7 @@ export const mapPluralEntityNameToSingular: Record<PluralEntityName, SingularEnt
   [PluralRootSlugEntity.ENTRIES]: RootSlugEntity.ENTRY,
   [PluralRootSlugEntity.RESULTS]: RootSlugEntity.RESULT,
   [PluralEntrySlugEntity.RATINGS]: EntrySlugEntity.RATING,
-  [PluralRatingSlugEntity.COMMENTS]: RatingSlugEntity.COMMENTS,
+  [PluralRatingSlugEntity.COMMENTS]: RatingSlugEntity.COMMENT,
 }
 
 export const mapSingularEntityNameToPlural = Object

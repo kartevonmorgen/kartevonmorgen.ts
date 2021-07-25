@@ -14,21 +14,15 @@ const EntryRatingComment: FC<EntryRatingCommentProps> = (props) => {
   const { parentSlugAction } = slugAction
   const { parentSlugAction: grandParentSlugAction } = parentSlugAction
 
-  // const {id: entryId} = grandParentSlugAction
-  // const {id: ratingId} = parentSlugAction
+  const { id: entryId } = grandParentSlugAction
+  const { id: ratingId } = parentSlugAction
 
   switch (slugAction.verb) {
     case SlugVerb.CREATE:
       return <EntryRatingCommentForm
         verb={SlugVerb.CREATE}
-        entryId={'entryId'}
-        ratingId={'ratingId'}
-      />
-    case SlugVerb.EDIT:
-      return <EntryRatingCommentForm
-        verb={SlugVerb.CREATE}
-        entryId={'entryId'}
-        ratingId={'ratingId'}
+        entryId={entryId}
+        ratingId={ratingId}
       />
     default:
       return null

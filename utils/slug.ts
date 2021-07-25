@@ -128,6 +128,7 @@ export const getRootSlugActionFromQuery = (query: ParsedUrlQuery): SlugAction =>
     // think like a linked list
     parentEntityName = singularEntityName
     parentSlugAction.subSlugAction = childSlugAction
+    childSlugAction.parentSlugAction = parentSlugAction
     parentSlugAction = childSlugAction
   }
 

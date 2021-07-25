@@ -190,6 +190,7 @@
   "commentForm": {
     "chooseContext": "Add your rating to the following sustainability criterion of this entry",
     "newCommentFor": "New comment for",
+    "newComment": "New comment",
     "save": "comment"
   },
   "subscribeToBbox": {

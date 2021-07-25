@@ -135,22 +135,32 @@ const EntryRatingForm: FC<EntryRatingFormProps> = (props) => {
                 <Text strong>{t('ratings.contextName.diversity')}</Text>
                 <Paragraph type="secondary">{t('ratings.contextExplanation.diversity')}</Paragraph>
               </Radio>
+
               <Radio value="renewable">
                 <Text strong>{t('ratings.contextName.renewable')}</Text>
                 <Paragraph type="secondary">{t('ratings.contextExplanation.renewable')}</Paragraph>
               </Radio>
+
               <Radio value="fairness">
                 <Text strong>{t('ratings.contextName.fairness')}</Text>
                 <Paragraph type="secondary">{t('ratings.contextExplanation.fairness')}</Paragraph>
               </Radio>
+
               <Radio value="humanity">
                 <Text strong>{t('ratings.contextName.humanity')}</Text>
                 <Paragraph type="secondary">{t('ratings.contextExplanation.humanity')}</Paragraph>
               </Radio>
+
               <Radio value="solidarity">
                 <Text strong>{t('ratings.contextName.solidarity')}</Text>
                 <Paragraph type="secondary">{t('ratings.contextExplanation.solidarity')}</Paragraph>
               </Radio>
+
+              <Radio value="transparency">
+                <Text strong>{t('ratings.contextName.transparency')}</Text>
+                <Paragraph type="secondary">{t('ratings.contextExplanation.transparency')}</Paragraph>
+              </Radio>
+
             </Space>
           </Radio.Group>
         </Form.Item>
