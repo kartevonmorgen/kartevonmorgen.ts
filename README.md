@@ -1,6 +1,6 @@
 # Karte von morgen (Map of Tomorrow)
 
-IMAAAGE
+![kartevonmorgen_v1](https://user-images.githubusercontent.com/7106251/126668636-9c859b76-77de-4a05-8300-b38e6c8eb700.jpg)
 
 ## Mapping for Good
 von morgen supports kindness, sustainability and joint action.
@@ -18,7 +18,7 @@ Website: [https://kartevonmorgen.org/](https://kartevonmorgen.org/)
 
 ## System-Architecture 
 This graph shows you, how the whole Map of tomorrow system interacts with each other
-![grafik](https://user-images.githubusercontent.com/15019030/125709247-47128e6a-6a23-43cc-839e-33a0f2715def.png)
+![karte von morgen architecture](https://user-images.githubusercontent.com/15019030/125709247-47128e6a-6a23-43cc-839e-33a0f2715def.png)
 
 ## Dependencies
 - [git](https://www.git-scm.com/)
@@ -28,7 +28,7 @@ This graph shows you, how the whole Map of tomorrow system interacts with each o
 
 ### Installing Dependencies
 1. node.js: please refer to [nvm](https://github.com/nvm-sh/nvm)
-1. yarn: `npm -g install yarn`
+1. yarn: please refer to [the installation guideline](https://classic.yarnpkg.com/en/docs/install/#debian-stable)
 1. project:
     1. `git clone https://github.com/kartevonmorgen/kartevonmorgen-v1`
     1. `cd kartevonmorgen-v1`
