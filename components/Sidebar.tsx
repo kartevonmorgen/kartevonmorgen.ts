@@ -4,6 +4,7 @@ import SidebarContent from './SidebarContent'
 import { Layout } from 'antd'
 import toString from 'lodash/toString'
 import { convertQueryParamToBoolean, updateRoutingQuery } from '../utils/utils'
+import { isRouterInitialized } from '../utils/router'
 
 
 const { Sider } = Layout
@@ -53,6 +54,10 @@ export const openSidebar = (router: NextRouter) => {
 }
 
 const toggleSidebarState = (router: NextRouter, isSidebarOpen: boolean) => {
+  if (!isRouterInitialized(router)) {
+    return
+  }
+
   if (isSidebarOpen) {
     closeSidebar(router)
 
