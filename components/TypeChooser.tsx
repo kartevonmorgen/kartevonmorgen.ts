@@ -4,6 +4,7 @@ import { Col, Row, Tag } from 'antd'
 import Category from '../dtos/Categories'
 import { NextRouter, useRouter } from 'next/router'
 import { convertQueryParamToArray, updateRoutingQuery } from '../utils/utils'
+import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 
 const { CheckableTag } = Tag
 
@@ -56,11 +57,12 @@ const handleChange = (
   }
 
   const newQueryParams = updateRoutingQuery(query, { type: nextSelectedTypes })
+  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
 
   router.replace(
     {
-      pathname: '/maps/[...slug]',
-      query: newQueryParams,
+      pathname: `/maps/${newPath}`,
+      query: newQueryWithoutSlug,
     },
     undefined,
     { shallow: true },

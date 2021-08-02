@@ -4,7 +4,7 @@ import { LeafletEvent, LeafletMouseEvent } from 'leaflet'
 import { useMapEvents } from 'react-leaflet'
 import toString from 'lodash/toString'
 import { updateRoutingQuery } from '../utils/utils'
-import { getRootSlugActionFromQuery } from '../utils/slug'
+import { createSlugPathFromQueryAndRemoveSlug, getRootSlugActionFromQuery } from '../utils/slug'
 import { RootSlugEntity, SlugVerb } from '../utils/types'
 
 
@@ -28,11 +28,12 @@ const MapEventsListener: FC = () => {
       }
 
       const newQueryParams = updateRoutingQuery(query, paramsToUpdate)
+      const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
 
       router.replace(
         {
-          pathname: '/maps/[...slug]',
-          query: newQueryParams,
+          pathname: `/maps/${newPath}`,
+          query: newQueryWithoutSlug,
         },
         undefined,
         { shallow: true },
@@ -56,11 +57,12 @@ const MapEventsListener: FC = () => {
         }
 
         const newQueryParams = updateRoutingQuery(query, paramsToUpdate)
+        const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
 
         router.replace(
           {
-            pathname: '/maps/[...slug]',
-            query: newQueryParams,
+            pathname: `/maps/${newPath}`,
+            query: newQueryWithoutSlug,
           },
           undefined,
           { shallow: true },

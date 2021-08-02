@@ -8,6 +8,7 @@ import { GeoLocations } from '../dtos/GeoLocatoinResponse'
 import { AxiosInstance } from '../api'
 import API_ENDPOINTS from '../api/endpoints'
 import toString from 'lodash/toString'
+import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 
 
 interface Center {
@@ -54,11 +55,12 @@ const changeLatAndLngFromRegionName = (router: NextRouter) => async (regionName:
 
     const { query } = router
     const newQueryParams = updateRoutingQuery(query, paramsToUpdate)
+    const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
 
     router.replace(
       {
-        pathname: '/maps/[...slug]',
-        query: newQueryParams,
+        pathname: `/maps/${newPath}`,
+        query: newQueryWithoutSlug,
       },
       undefined,
       { shallow: true },

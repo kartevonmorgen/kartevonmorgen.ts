@@ -5,6 +5,7 @@ import { PageHeader } from 'antd'
 import { convertQueryParamToArray } from '../utils/utils'
 import { Translate } from 'next-translate'
 import useTranslation from 'next-translate/useTranslation'
+import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 
 
 const calculateLevelsToBack = (isEdit: boolean): number => {
@@ -34,10 +35,12 @@ const onBack = (router: NextRouter, isEdit: boolean) => () => {
     })
   })
 
+  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
+
   router.replace(
     {
-      pathname: '/maps/[...slug]',
-      query: newQueryParams,
+      pathname: `/maps/${newPath}`,
+      query: newQueryWithoutSlug,
     },
     undefined,
     { shallow: true },

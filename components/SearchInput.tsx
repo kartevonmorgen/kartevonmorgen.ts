@@ -5,6 +5,7 @@ import { AutoComplete, Input } from 'antd'
 import { useDebounce } from 'ahooks'
 import { convertQueryParamToString, updateRoutingQuery } from '../utils/utils'
 import useSearchRecommender from '../hooks/useSearchRecommender'
+import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 
 const { Search } = Input
 
@@ -23,10 +24,12 @@ const onSearch = (router) => (searchTerm, _event) => {
     })
   }
 
+  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
+
   router.replace(
     {
-      pathname: '/maps/[...slug]',
-      query: newQueryParams,
+      pathname: `/maps/${newPath}`,
+      query: newQueryWithoutSlug,
     },
     undefined,
     { shallow: true },

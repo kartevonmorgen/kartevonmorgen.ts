@@ -15,6 +15,7 @@ import { RatingComment } from '../dtos/RatingComment'
 import produce from 'immer'
 import { convertQueryParamToArray } from '../utils/utils'
 import { EntrySlugEntity, mapSingularEntityNameToPlural, RatingSlugEntity, SlugVerb } from '../utils/types'
+import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 
 
 const { Title, Link, Text } = Typography
@@ -35,15 +36,18 @@ const redirectToNewRatingForm = (router: NextRouter) => () => {
     draftState.slug = slugArray
   })
 
+  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
+
   router.replace(
     {
-      pathname: '/maps/[...slug]',
-      query: newQueryParams,
+      pathname: `/maps/${newPath}`,
+      query: newQueryWithoutSlug,
     },
     undefined,
     { shallow: true },
   )
 }
+
 
 const redirectToRatingCommentForm = (router: NextRouter, ratingId: RatingID) => () => {
   const { query } = router
@@ -60,10 +64,12 @@ const redirectToRatingCommentForm = (router: NextRouter, ratingId: RatingID) => 
     draftState.slug = slugArray
   })
 
+  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
+
   router.replace(
     {
-      pathname: '/maps/[...slug]',
-      query: newQueryParams,
+      pathname: `/maps/${newPath}`,
+      query: newQueryWithoutSlug,
     },
     undefined,
     { shallow: true },

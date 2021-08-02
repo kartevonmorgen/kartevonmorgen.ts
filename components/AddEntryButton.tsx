@@ -4,7 +4,7 @@ import { Button } from 'antd'
 import { PlusCircleOutlined } from '@ant-design/icons'
 import produce from 'immer'
 import { convertQueryParamToArray } from '../utils/utils'
-import { getRootSlugActionFromQuery } from '../utils/slug'
+import { createSlugPathFromQueryAndRemoveSlug, getRootSlugActionFromQuery } from '../utils/slug'
 import { PluralRootSlugEntity, RootSlugEntity, SlugVerb } from '../utils/types'
 
 
@@ -25,10 +25,12 @@ const onAddEntity = (router: NextRouter) => () => {
     draftState.slug = slugArray
   })
 
+  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
+
   router.replace(
     {
-      pathname: '/maps/[...slug]',
-      query: newQueryParams,
+      pathname: `/maps/${newPath}`,
+      query: newQueryWithoutSlug,
     },
     undefined,
     { shallow: true },

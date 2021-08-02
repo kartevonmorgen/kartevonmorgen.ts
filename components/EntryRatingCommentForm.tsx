@@ -15,6 +15,7 @@ import isEmpty from 'lodash/isEmpty'
 import { isWebUri } from 'valid-url'
 import moment from 'moment'
 import { mapRatingValueToTranslationKey } from '../utils/translation'
+import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 
 
 const { useForm } = Form
@@ -32,10 +33,12 @@ const redirectToEntryDetail = (router: NextRouter) => () => {
     draftState.slug = slugArray
   })
 
+  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
+
   router.replace(
     {
-      pathname: '/maps/[...slug]',
-      query: newQueryParams,
+      pathname: `/maps/${newPath}`,
+      query: newQueryWithoutSlug,
     },
     undefined,
     { shallow: true },

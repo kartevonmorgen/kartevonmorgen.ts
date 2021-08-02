@@ -11,6 +11,7 @@ import {
   updateRoutingQuery,
 } from '../utils/utils'
 import { MapLocationProps } from './Map'
+import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 
 
 interface RouterQueryInitializerProps {
@@ -76,13 +77,15 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
     }
 
     // filter query params out of all params including the dynamic ones
+    // if not removing slug from the query it will add it as a query param not a part of path
     const newQueryParams = updateRoutingQuery(query, paramsToUpdate)
+    const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
 
     //todo: how about having other params like fixedTags but not zoom or things like that
     router.replace(
       {
-        pathname: '/maps/[...slug]',
-        query: newQueryParams,
+        pathname: `/maps/${newPath}`,
+        query: newQueryWithoutSlug,
       },
       undefined,
       { shallow: true },

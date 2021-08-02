@@ -5,6 +5,7 @@ import { Layout } from 'antd'
 import toString from 'lodash/toString'
 import { convertQueryParamToBoolean, updateRoutingQuery } from '../utils/utils'
 import { isRouterInitialized } from '../utils/router'
+import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 
 
 const { Sider } = Layout
@@ -33,12 +34,12 @@ const setSidebarState = (router: NextRouter, sidebarOpenState: SidebarState) => 
   const newQueryParams = updateRoutingQuery(query, {
     isSidebarOpen: toString(Boolean(sidebarOpenState)),
   })
-
+  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
 
   router.replace(
     {
-      pathname: '/maps/[...slug]',
-      query: newQueryParams,
+      pathname: `/maps/${newPath}`,
+      query: newQueryWithoutSlug,
     },
     undefined,
     { shallow: true },

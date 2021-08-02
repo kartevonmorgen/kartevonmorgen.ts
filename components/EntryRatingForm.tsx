@@ -9,6 +9,7 @@ import produce from 'immer'
 import { convertQueryParamToArray } from '../utils/utils'
 import { AxiosInstance } from '../api'
 import API_ENDPOINTS from '../api/endpoints'
+import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 
 
 const { useForm } = Form
@@ -31,10 +32,12 @@ const redirectToEntryDetail = (router: NextRouter) => () => {
     draftState.slug = slugArray
   })
 
+  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
+
   router.replace(
     {
-      pathname: '/maps/[...slug]',
-      query: newQueryParams,
+      pathname: `/maps/${newPath}`,
+      query: newQueryWithoutSlug,
     },
     undefined,
     { shallow: true },

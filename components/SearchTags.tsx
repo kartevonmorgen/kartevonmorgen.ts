@@ -3,6 +3,7 @@ import { NextRouter, useRouter } from 'next/router'
 import produce from 'immer'
 import { convertQueryParamToArray, removeRoutingQueryParams, updateRoutingQuery } from '../utils/utils'
 import TagsSelect from './TagsSelect'
+import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 
 
 const searchTag = (router: NextRouter) => (tag: string) => {
@@ -11,10 +12,12 @@ const searchTag = (router: NextRouter) => (tag: string) => {
   const optionalTags = convertQueryParamToArray(optionalTagsFromQuery)
 
   const newQueryParams = updateRoutingQuery(query, { tag: [...optionalTags, tag] })
+  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
+
   router.replace(
     {
-      pathname: '/maps/[...slug]',
-      query: newQueryParams,
+      pathname: `/maps/${newPath}`,
+      query: newQueryWithoutSlug,
     },
     undefined,
     { shallow: true },
@@ -25,13 +28,12 @@ const searchTag = (router: NextRouter) => (tag: string) => {
 const removeAllTagsFromRouter = (router: NextRouter) => () => {
   const { query } = router
   const newQueryParams = removeRoutingQueryParams(query, ['tag'])
-
-  console.log(newQueryParams)
+  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
 
   router.replace(
     {
-      pathname: '/maps/[...slug]',
-      query: newQueryParams,
+      pathname: `/maps/${newPath}`,
+      query: newQueryWithoutSlug,
     },
     undefined,
     { shallow: true },
@@ -52,10 +54,12 @@ const removeTagFromRouter = (router: NextRouter) => (tagToRemove: string) => {
   })
 
   const newQueryParams = updateRoutingQuery(query, { tag: newTagsParameter })
+  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
+
   router.replace(
     {
-      pathname: '/maps/[...slug]',
-      query: newQueryParams,
+      pathname: `/maps/${newPath}`,
+      query: newQueryWithoutSlug,
     },
     undefined,
     { shallow: true },

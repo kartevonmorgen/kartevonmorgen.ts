@@ -172,3 +172,20 @@ export const redirectToEntityDetail = (
     { shallow: true },
   )
 }
+
+export const createSlugPathFromQueryAndRemoveSlug = (query: ParsedUrlQuery):
+  [string, ParsedUrlQuery] => {
+
+  const { slug } = query
+  const slugArray = convertQueryParamToArray(slug)
+
+  let slugPath = ''
+  if (slugArray.length !== 0) {
+    slugPath = slugArray.join('/')
+  }
+
+  const queryWithoutSlug = removeRoutingQueryParams(query, ['slug'])
+
+
+  return [slugPath, queryWithoutSlug]
+}

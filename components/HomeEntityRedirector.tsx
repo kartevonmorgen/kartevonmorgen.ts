@@ -8,6 +8,7 @@ import { StatusCodes } from 'http-status-codes'
 import { BASICS_ENDPOINTS } from '../api/endpoints/BasicsEndpoints'
 import { convertQueryParamToArray, convertQueryParamToString } from '../utils/utils'
 import { PluralRootSlugEntity } from '../utils/types'
+import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 
 
 const SELF = '/'
@@ -88,7 +89,7 @@ const adaptParams = async (_entry: string, query: ParsedUrlQuery): Promise<Parse
     }
   }
 
-  newParams['slug'] = ['maps', 'main']
+  newParams['slug'] = ['maps', 'fromhome']
   if (entitySlug.length !== 0) {
     newParams['slug'].push(entitySlug)
     newParams['slug'].push(entry)
@@ -138,13 +139,13 @@ const HomeEntityRedirector: FC = () => {
 
       const qs = path.slice(entryPath.length)
       const query = queryString.parse(qs)
-      adaptParams(entry, query).then((newParams) => {
-        const newPath = convertQueryParamToArray(newParams.slug).join('/')
-        delete newParams.slug
+      adaptParams(entry, query).then((newQueryParams) => {
+        const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
+
         router.push(
           {
             pathname: `/${newPath}`,
-            query: newParams,
+            query: newQueryWithoutSlug,
           },
           undefined,
           { shallow: false },

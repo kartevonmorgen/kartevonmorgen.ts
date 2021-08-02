@@ -4,6 +4,7 @@ import { Button, PageHeader } from 'antd'
 import { EditOutlined } from '@ant-design/icons/lib'
 import { convertQueryParamToArray } from '../utils/utils'
 import { SlugVerb } from '../utils/types'
+import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 
 
 const onBack = (router: NextRouter) => () => {
@@ -16,10 +17,12 @@ const onBack = (router: NextRouter) => () => {
     draftState.slug = slugArray
   })
 
+  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
+
   router.replace(
     {
-      pathname: '/maps/[...slug]',
-      query: newQueryParams,
+      pathname: `/maps/${newPath}`,
+      query: newQueryWithoutSlug,
     },
     undefined,
     { shallow: true },
@@ -36,10 +39,12 @@ const onEdit = (router: NextRouter) => () => {
     draftState.slug = slugArray
   })
 
+  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
+
   router.replace(
     {
-      pathname: '/maps/[...slug]',
-      query: newQueryParams,
+      pathname: `/maps/${newPath}`,
+      query: newQueryWithoutSlug,
     },
     undefined,
     { shallow: true },

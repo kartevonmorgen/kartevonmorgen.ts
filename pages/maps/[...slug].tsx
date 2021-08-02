@@ -18,7 +18,6 @@ const { Content } = Layout
 interface MapPageProps {
   popularTags: TagsCount
   mapLocationProps: MapLocationProps,
-  project: string
 }
 
 
@@ -92,7 +91,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return {
     props: {
       mapLocationProps,
-      project,
     },
   }
 }

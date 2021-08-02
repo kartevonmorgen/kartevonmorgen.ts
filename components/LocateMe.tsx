@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { Button } from 'antd'
 import { updateRoutingQuery } from '../utils/utils'
 import { AimOutlined } from '@ant-design/icons'
+import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 
 
 const getCurrentPosition = async (): Promise<GeolocationPosition> => {
@@ -32,11 +33,13 @@ const setQueryParamsToCurrentLocation = (router) => async () => {
     }
 
     const newQueryParams = updateRoutingQuery(query, paramsToUpdate)
+    const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
+
 
     router.replace(
       {
-        pathname: '/maps/[...slug]',
-        query: newQueryParams,
+        pathname: `/maps/${newPath}`,
+        query: newQueryWithoutSlug,
       },
       undefined,
       { shallow: true },

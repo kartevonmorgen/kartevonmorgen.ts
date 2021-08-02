@@ -11,7 +11,7 @@ import Category, { Categories, CategoryToNameMapper } from '../dtos/Categories'
 import { SearchResult, SearchResults } from '../dtos/SearchResult'
 import { convertQueryParamToArray, convertQueryParamToFloat } from '../utils/utils'
 import { mapTypeIdToPluralEntityName, SlugVerb } from '../utils/types'
-import { getRootSlugActionFromQuery } from '../utils/slug'
+import { createSlugPathFromQueryAndRemoveSlug, getRootSlugActionFromQuery } from '../utils/slug'
 import MapEventsListener from './MapEventsListener'
 import MapLocationInitializer from './MapLocationInitializer'
 import SearchEventsListener from './SearchEventsListener'
@@ -81,10 +81,12 @@ const onClickOnPin = (router: NextRouter, searchResult: SearchResult) => () => {
     draftState.isSidebarOpen = toString(true)
   })
 
+  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
+
   router.replace(
     {
-      pathname: '/maps/[...slug]',
-      query: newQueryParams,
+      pathname: `/maps/${newPath}`,
+      query: newQueryWithoutSlug,
     },
     undefined,
     { shallow: true },
