@@ -10,6 +10,7 @@ import ResultCard from './ResultCard'
 
 
 const rowRenderer = (data: SearchResults) => ({ index, key, parent, style }) => {
+  
   const item = data[index]
 
   return (
