@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import useTranslation from 'next-translate/useTranslation'
 import { Select } from 'antd'
@@ -6,6 +6,7 @@ import debounce from 'lodash/debounce'
 import useRequest from '../api/useRequest'
 import { GeoLocations } from '../dtos/GeoLocatoinResponse'
 import API_ENDPOINTS from '../api/endpoints/'
+import { ShowMapBtn } from './ShowMapBtn'
 
 
 const { Option } = Select
@@ -29,7 +30,7 @@ const onSelect = (router: NextRouter) => (value: string) => {
 }
 
 
-const HomeCitySearch: FC = () => {
+const HomeCitySearch: FC = React.memo(() => {
   const router = useRouter()
   const { t } = useTranslation('home')
   const [searchTerm, setSearchTerm] = useState<string>('')
@@ -43,6 +44,19 @@ const HomeCitySearch: FC = () => {
     },
   })
 
+  const showMapOnBtnClick = () => {
+    router.push('/maps/main')
+  }
+
+  const [show, setShow] = useState<boolean>(false)
+  useEffect(() => {
+    if (searchTerm.length > 0 && geoLocations?.length === 0) {
+      setShow(true)
+    }
+    if (searchTerm.length === 0 || geoLocations?.length > 0) {
+      setShow(false)
+    }
+  }, [geoLocations])
 
   return (
     <div
@@ -62,7 +76,7 @@ const HomeCitySearch: FC = () => {
         onSelect={onSelect(router)}
         onSearch={debounce(setSearchTerm, 400)}
         placeholder={t('landingPage.city-search.placeholder')}
-        size="large"
+        size='large'
       >
         {
           geoLocations && !geoLocationError && (
@@ -78,9 +92,14 @@ const HomeCitySearch: FC = () => {
         }
       </Select>
 
+      <div>
+        {
+          show && <ShowMapBtn showMapOnBtnClick={showMapOnBtnClick} />
+        }
+      </div>
     </div>
   )
-}
+})
 
 
 export default HomeCitySearch

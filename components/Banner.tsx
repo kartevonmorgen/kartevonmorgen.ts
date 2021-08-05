@@ -2,6 +2,7 @@ import { FC } from 'react'
 import useTranslation from 'next-translate/useTranslation'
 import { Col, Layout, Row, Typography } from 'antd'
 import HomeCitySearch from './HomeCitySearch'
+import { useRouter } from 'next/router'
 
 const { Content } = Layout
 const { Title } = Typography
@@ -11,10 +12,18 @@ const Banner: FC = () => {
 
   const { t } = useTranslation('home')
 
+  const router = useRouter()
+
+  const divClick = (e) => {
+    if (e.currentTarget === e.target) {
+      router.push('/maps/main')
+    }
+  }
+
   return (
     <Content>
       <div
-        id="main-cover"
+        id='main-cover'
         style={{
           height: 'calc(100vh - 68px)',
           width: '100%',
@@ -22,9 +31,13 @@ const Banner: FC = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          cursor: 'pointer',
         }}
+        onClick={divClick}
       >
-        <Row>
+        <Row style={{
+          display: 'inline-block',
+        }}>
           <Col xs={24} style={{ textAlign: 'center' }}>
             <Title
               level={1}
@@ -36,7 +49,7 @@ const Banner: FC = () => {
             </Title>
           </Col>
           <Col xs={24} style={{ textAlign: 'center' }}>
-            <HomeCitySearch/>
+            <HomeCitySearch />
           </Col>
         </Row>
       </div>
