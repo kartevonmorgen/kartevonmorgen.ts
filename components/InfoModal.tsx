@@ -1,8 +1,13 @@
 import { Modal } from 'antd'
 import Image from 'next/image'
+import useTranslation from 'next-translate/useTranslation'
 
-export const InfoModal = (props: any) => {
-
+type InfoModalPropsType = {
+  setShowModalInfo: (value: boolean) => void
+  showModalInfo: boolean
+}
+export const InfoModal = (props: InfoModalPropsType) => {
+  const { t } = useTranslation('map')
   const handleOk = () => {
     props.setShowModalInfo(false)
   }
@@ -12,7 +17,7 @@ export const InfoModal = (props: any) => {
   }
   return <>
     <Modal width={'700px'}
-           title='Image URL'
+           title='URL'
            style={{
              top: '50px',
            }}
@@ -34,9 +39,9 @@ export const InfoModal = (props: any) => {
           width: '230px',
           paddingLeft: '23px',
         }}>
-          You can get the URL-address of any image in the web
-          by just clicking on it to open the context menu and choose
-          "Copy image address"
+          {
+            t('entryForm.InfoHowToCopyURL')
+          }
         </div>
       </div>
     </Modal>
