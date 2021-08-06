@@ -296,12 +296,26 @@ const EntryForm: FC<EntryFormProps> = (props) => {
         <TextArea placeholder="Description"/>
       </Form.Item>
 
+      <Divider orientation="left">Maxim</Divider>
+
+      <Checkbox.Group
+        options={[
+          {
+            label: <>
+              хз че написать
+            </>,
+            value: 'CC0-1.0',
+          },
+        ]}
+      />
       {/*add validation for the three tags*/}
       <Form.Item name="tags">
         <TagsSelect/>
       </Form.Item>
 
       <Divider orientation="left">Location</Divider>
+
+
 
       <Form.Item>
         <Input.Group compact>

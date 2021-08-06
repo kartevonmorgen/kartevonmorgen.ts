@@ -13,7 +13,6 @@ const EntityTags: FC<EntryTagsProps> = (props) => {
   return (
     <Fragment>
       <Divider>Tags</Divider>
-
       <Space
         size="small"
         wrap
