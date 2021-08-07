@@ -22,6 +22,7 @@ module.exports = nextTranslate(
               'de',
               'es',
               'pt',
+              'ru',
             ],
           }),
         )

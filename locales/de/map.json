@@ -35,6 +35,7 @@
     "entryImage": "Titelbild (optional)",
     "imageUrlExplanation": "Empfohlen: Querformat, min. 400x300 Pixel, max. 300KB",
     "imageUrl": "URL des Bildes",
+    "InfoHowToCopyURL": "Du kannst die URL-Adresse eines beliebigen Bildes im Netz ganz einfach abrufen, indem du auf das Bild klickst, um das Kontextmenü zu öffnen, und \"Grafikadresse kopieren\" wählst. Füge diese URL (die auf .jpg, .png oder ähnliches endet) in diese Zeile ein!",
     "imageLink": "Link (bei Klick auf das Bild, optional)",
     "cancel": "abbrechen",
     "save": "speichern",

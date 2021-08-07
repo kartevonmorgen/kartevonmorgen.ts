@@ -35,6 +35,7 @@
     "entryImage": "Imagen de portada (opcional)",
     "imageUrlExplanation": "Recomendado: formato apaisado, mín. 400x300 píxeles, máx. 300KB",
     "imageUrl": "URL de la imagen",
+    "InfoHowToCopyURL": "Puedes recuperar fácilmente la dirección URL de cualquier imagen en la web haciendo clic en la imagen para abrir el menú contextual y seleccionando \"Copiar dirección gráfica\". Pegue esta URL (que termina en .jpg, .png o similar) en esta línea.",
     "imageLink": "Enlace (al pulsar sobre la imagen, opcional)",
     "cancel": "cancelar",
     "save": "guardar",
