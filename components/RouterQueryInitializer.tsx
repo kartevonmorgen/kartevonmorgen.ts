@@ -12,6 +12,7 @@ import {
 } from '../utils/utils'
 import { MapLocationProps } from './Map'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
+import { getCurrentPosition } from '../utils/geolocation'
 
 
 interface RouterQueryInitializerProps {
@@ -24,76 +25,96 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
 
   const router = useRouter()
   const { query } = router
-
   // initialize the routing params
-  useEffect(() => {
-    // all of that is to set the default URL query params
-    // todo: make it a function because of readability and more params may come in the future
-    const {
-      lat: latParam,
-      lng: lngParam,
-      zoom: zoomParam,
-      type: typesParam,
-      start_min: startMinParam,
-      start_max: startMaxParam,
-      isSidebarOpen: isSidebarOpenParam,
-    } = query
+  useEffect(()=> {
 
-    // coming from the dynamic routing. we should not add them as the query params
-    const lat: string = latParam ?
-      toString(convertQueryParamToFloat(latParam)) :
-      toString(initMapLocationProps.lat)
-    const lng: string = lngParam ?
-      toString(convertQueryParamToFloat(lngParam)) :
-      toString(initMapLocationProps.lng)
-    const zoom: string = zoomParam ?
-      toString(convertQueryParamToFloat(zoomParam)) :
-      toString(initMapLocationProps.zoom)
+    async function initialParams () {
+      
 
-    let types: Category[] = convertQueryParamToArray(typesParam) as Category[]
-    types = types.length !== 0 ? types : defaultTypes.map(t => t.id)
+      // all of that is to set the default URL query params
+      // todo: make it a function because of readability and more params may come in the future
+      const {
+        lat: latParam,
+        lng: lngParam,
+        zoom: zoomParam,
+        type: typesParam,
+        start_min: startMinParam,
+        start_max: startMaxParam,
+        isSidebarOpen: isSidebarOpenParam,
+      } = query
 
-    const startMin: string = startMinParam ?
-      toString(convertQueryParamToFloat(startMinParam)) :
-      toString(moment().startOf('day').subtract(1, 'days').unix())
+      // coming from the dynamic routing. we should not add them as the query params
+      const lat: string = latParam ?
+        toString(convertQueryParamToFloat(latParam)) :
+        toString(initMapLocationProps.lat)
+      const lng: string = lngParam ?
+        toString(convertQueryParamToFloat(lngParam)) :
+        toString(initMapLocationProps.lng)
+      const zoom: string = zoomParam ?
+        toString(convertQueryParamToFloat(zoomParam)) :
+        toString(initMapLocationProps.zoom)
 
-    const startMax: string = startMaxParam ?
-      toString(convertQueryParamToFloat(startMaxParam)) :
-      toString(moment().startOf('day').add(7, 'days').unix())
+      let types: Category[] = convertQueryParamToArray(typesParam) as Category[]
+      types = types.length !== 0 ? types : defaultTypes.map(t => t.id)
 
-    const isSidebarOpen: string = isSidebarOpenParam ?
-      toString(convertQueryParamToBoolean(isSidebarOpenParam)) :
-      toString(true)
+      const startMin: string = startMinParam ?
+        toString(convertQueryParamToFloat(startMinParam)) :
+        toString(moment().startOf('day').subtract(1, 'days').unix())
+
+      const startMax: string = startMaxParam ?
+        toString(convertQueryParamToFloat(startMaxParam)) :
+        toString(moment().startOf('day').add(7, 'days').unix())
+
+      const isSidebarOpen: string = isSidebarOpenParam ?
+        toString(convertQueryParamToBoolean(isSidebarOpenParam)) :
+        toString(true)
 
 
-    const paramsToUpdate = {
-      lat,
-      lng,
-      zoom,
-      type: types,
-      start_min: startMin,
-      start_max: startMax,
-      isSidebarOpen,
+
+
+      const paramsToUpdate = {
+        lat,
+        lng,
+        zoom,
+        type: types,
+        start_min: startMin,
+        start_max: startMax,
+        isSidebarOpen,
+      }
+
+      try {
+        const currentPosition: GeolocationPosition = await getCurrentPosition()
+        paramsToUpdate.lat = currentPosition.coords.latitude.toFixed(4)
+        paramsToUpdate.lng = currentPosition.coords.longitude.toFixed(4)
+      } catch (e) {
+
+      }
+
+      // filter query params out of all params including the dynamic ones
+      // if not removing slug from the query it will add it as a query param not a part of path
+      const newQueryParams = updateRoutingQuery(query, paramsToUpdate)
+      const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
+
+      //todo: how about having other params like fixedTags but not zoom or things like that
+      router.replace(
+        {
+          pathname: `/maps/${newPath}`,
+          query: newQueryWithoutSlug,
+        },
+        undefined,
+        { shallow: true },
+      )
     }
 
-    // filter query params out of all params including the dynamic ones
-    // if not removing slug from the query it will add it as a query param not a part of path
-    const newQueryParams = updateRoutingQuery(query, paramsToUpdate)
-    const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
-
-    //todo: how about having other params like fixedTags but not zoom or things like that
-    router.replace(
-      {
-        pathname: `/maps/${newPath}`,
-        query: newQueryWithoutSlug,
-      },
-      undefined,
-      { shallow: true },
-    )
+    initialParams()
   }, [])
+
+
 
   return null
 }
+
+
 
 
 export default RouterQueryInitializer

@@ -18,6 +18,7 @@ import Point from '../dtos/Point'
 import { ExtendedGeocodeAddress, getCityFromAddress, reverseGeocode } from '../utils/geolocation'
 import { validate as isValidEmail } from 'isemail'
 import TagsSelect from './TagsSelect'
+import { SLUG_ELEMENTS_TO_DELETE_ON_REDIRECT } from './EntryForm'
 
 
 const { useForm } = Form
@@ -56,12 +57,15 @@ const addEventToStateOnCreate = (dispatch: AppDispatch, event: EventDTO, isEdit:
   addEventToState(dispatch, event)
 }
 
-const redirectToEvent = (router: NextRouter, eventId: EventID) => {
+const redirectToEvent = (router: NextRouter, eventId: EventID, isEdit: boolean) => {
+  let mode = isEdit ? "edit" : "create" as ("edit" | "create")
+
   redirectToEntityDetail(
     router,
     eventId,
     Category.EVENT,
-    2,
+    // See docs in EntryForm.tsx
+    SLUG_ELEMENTS_TO_DELETE_ON_REDIRECT(mode),
     ['pinLat', 'pinLng'],
   )
 }
@@ -125,7 +129,7 @@ const onFinish = (
   const eventId = await createOrEditEvent(adaptedFormValues, isEdit)
 
   addEventToStateOnCreate(dispatch, adaptedFormValues, isEdit)
-  redirectToEvent(router, eventId)
+  redirectToEvent(router, eventId, isEdit)
 }
 
 
@@ -168,8 +172,16 @@ const EventForm: FC<EventFormProps> = (props) => {
     return null
   }
 
+  // See docs in EntryForm.tsx
+  const setTagsCallback = (tagsList: string[]) => {
+    form.setFieldsValue({tags: tagsList})
+  }
+
+
   // still loading
   let formInitialValues = {}
+  let tagsInitial = []
+
   if (isEdit) {
     if (!event) {
       return (
@@ -180,6 +192,9 @@ const EventForm: FC<EventFormProps> = (props) => {
     }
 
     formInitialValues = onReceiveAdapter(event)
+    if (formInitialValues.hasOwnProperty("tags")) {
+      tagsInitial = formInitialValues['tags']
+    }
   }
 
 
@@ -227,7 +242,7 @@ const EventForm: FC<EventFormProps> = (props) => {
       </Form.Item>
 
       <Form.Item name="tags">
-        <TagsSelect/>
+        <TagsSelect setTagsCallback={setTagsCallback} initialData={tagsInitial}/>
       </Form.Item>
 
       <Divider orientation="left">Location</Divider>

@@ -35,6 +35,22 @@ const { Link } = Typography
 // we declare both types NewEntryWithLicense for create, and NewEntryWithVersion for update
 type EntryFormType = NewEntryWithLicense | NewEntryWithVersion
 
+// How many elements we have to delete when redirecting after editing or deleting
+export const SLUG_ELEMENTS_TO_DELETE_ON_REDIRECT = (mode: 'edit' | 'create') => {
+  // If we are in edit mode, we have now URL like <host>/<language>/maps/<group>/entries/<entry_id>/edit
+  // We have to remove last 3 params (entries/<entry_id>/edit), because when reassembling URL
+  // will be created as current URL, exclude 3 last params, append /entries/<entry_id>
+  // But if we are in create mode, we have URL like <host>/<language>/maps/<group>/entries/create
+  // So we have to remove only 2 parameters from the end
+  // fix bug with redirecting after submission
+  // TODO: this is better to fix and rewrite to some better logic, because now it's very bad
+  if (mode === 'edit') {
+    return 3
+  } else {
+    return 2
+  }
+}
+
 
 const setAddressDetails = async (form: FormInstance, newPoint: Point) => {
   const place = await reverseGeocode(newPoint.toJson())
@@ -95,19 +111,21 @@ const transformFormFields = (entry: EntryFormType): EntryFormType => {
 // todo: it's an awful ani-pattern to shake the map to retrieve the entry
 // todo: create a class for the changing the router
 // todo: create a thunk for prepending the entry to the collection
-const redirectToEntry = (router: NextRouter, entryId: SearchEntryID) => {
+const redirectToEntry = (router: NextRouter, entryId: SearchEntryID, isEdit: boolean) => {
   // gotcha: the categories of initiative and company both are mapped to entity so it does not matter
   // what we pass as the category
   // if at any time we decided to make them separate here is the point to touch
+
+  let mode = isEdit ? "edit" : "create" as ("edit" | "create")
+
   redirectToEntityDetail(
     router,
     entryId,
     Category.INITIATIVE,
-    2,
+    SLUG_ELEMENTS_TO_DELETE_ON_REDIRECT(mode),
     ['pinLat', 'pinLng'],
   )
 }
-
 
 const addEntryToState = (
   id: SearchEntryID,
@@ -174,13 +192,14 @@ const onFinish = (
   entryId: SearchEntryID,
 ) => async (entry: EntryFormType) => {
   // todo: if failed then show a notification
+  console.log('entry', entry)
   const entryWithDefaultValues = setFieldsToDefaultOrNull(entry)
   const adaptedEntry = transformFormFields(entryWithDefaultValues)
 
   entryId = await createOrEditEntry(adaptedEntry, entryId, isEdit)
 
   addEntryToStateOnCreate(isEdit, entryId, adaptedEntry, dispatch)
-  redirectToEntry(router, entryId)
+  redirectToEntry(router, entryId, isEdit)
 }
 
 
@@ -204,6 +223,8 @@ const EntryForm: FC<EntryFormProps> = (props) => {
   const { query } = router
 
   const [form] = useForm<EntryFormType>()
+
+  form.validateFields([])
 
   const newPoint = new Point().fromQuery(query)
 
@@ -230,12 +251,20 @@ const EntryForm: FC<EntryFormProps> = (props) => {
     params: entryRequest,
   })
 
+  // A callback to pass into TagsSelect element
+  // to set tagslist manually
+  // because tags are collected from both: checkboxes and select element
+  // usual form functions do not work this way
+  // so we use something like a kludge and set the values manually
+  const setTagsCallback = (tagsList: string[]) => {
+    form.setFieldsValue({tags: tagsList})
+  }
+
 
   const foundEntry: boolean = isArray(entries) && entries.length !== 0
   const entry: Entry = foundEntry ? entries[0] : {} as Entry
   //it's an overwrite to be sure it's not empty for the new entries
   entry.categories = [category]
-
 
   if (entriesError) {
     //  todo: show error notification, redirect to the search result view
@@ -297,8 +326,8 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       </Form.Item>
 
       {/*add validation for the three tags*/}
-      <Form.Item name="tags">
-        <TagsSelect/>
+      <Form.Item>
+        <TagsSelect initialData={entry.tags} setTagsCallback={setTagsCallback}/>
       </Form.Item>
 
       <Divider orientation="left">Location</Divider>

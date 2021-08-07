@@ -1,10 +1,10 @@
 label,value,headline,bold,underline,italic,fontSize,Icon,tags
-Aktion der Woche,,true,,,,,,aaa
-regionale Einkaufsführer,einkaufsführer,,,,,,,bbb
-Unternehmen (nachhaltiger Konsum),,true,,,,,,ccc ddd
+Aktion der Woche,,true,,,,,,
+regionale Einkaufsführer,einkaufsführer,,,,,,,testfromfront
+Unternehmen (nachhaltiger Konsum),,true,,,,,,commercial cooperation
 Cafe & Restaurant ,Cafe Restaurant Gastronomie ,,,,,,,
 Lebensmittel ,bio Lebensmittel vegan weltladen,,,,,,,
-Kleidung & secondhand (fairfashion),fair fairfashion Kleidunlug secondhand futurefashion,,,,,,,
+Kleidung & secondhand (fairfashion),fair fairfashion Kleidung secondhand futurefashion,,,,,,,
 Mobilität Fahrrad & Lastenrad,Mobilität fahrrad & lastenrad fahrradwerkstatt fahrradladen,,,,,,,
 Initiativen (sozial-ökologisches Engagement),,true,,,,,,
 sharing reparieren & Umsonstladen,umsonstladen sharing werkstatt reparatur reparieren upcycling kreislaufwirtschaft circulareconomy,,,,,,,
@@ -14,8 +14,8 @@ Bildung & Schule von morgen,Bildung bne Schulevonmorgen bildung-für-nachhaltige
 Wohnprojekte & Lebensgemeinschaften,Wohnprojekt Lebensgemeinschaft Ökodorf,,true,,,,,
 Bewegungen des Wandels,,true,,,,,,
 Gemeinwohlökonomie,gwö ecg ecogood gwö-regionalgruppe energiefeld gwö-unterstützerin gwö-beraterin gwö-mitgliedsunternehmen gwö-peergruppe gwö-peerevaluiert gwö-auditiert,,,,,,,
-Grundeinkommen,bge grundeinkommen,,,,,,,eee
-Postwachstum,degrowth postwachstum rethinkeconomy,,,,,,,fff ggg hhh
+Grundeinkommen,bge grundeinkommen,,,,,,,
+Postwachstum,degrowth postwachstum rethinkeconomy,,,,,,,
 Transition Town,transitiontown transition,,,,,,,
 Permakultur & regenerative Landwirtschaft,agroforst waldgarten aquaponik biozyklisch-veganer-anbau veganer-gartenbau vegane-landwirtschaft essbare-stadt gemeinschaftsgarten urbangardening gardening urban-gardening gärtnern permakultur permaculture regenerative-landwirtschaft co2-land,,,,,,,
 Karte von morgen,kartevonmorgen kvm regpis thempis ideenhochdrei pioneersofchange pocsummit,,,,,,,

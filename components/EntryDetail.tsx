@@ -115,7 +115,6 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
 
       <EntryLinks links={entry.custom}/>
 
-
       <EntityTags tags={entry.tags}/>
 
       <EntityRatings ratingsIds={entry.ratings}/>

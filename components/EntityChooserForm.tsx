@@ -49,6 +49,7 @@ const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
             }}
             value={category}
           >
+            <h1>Я БАЗАРЮ ЭТО ТО ЧТО НУЖНО</h1>
             <Select.Option value={Category.INITIATIVE}>Initiative</Select.Option>
             <Select.Option value={Category.COMPANY}>Company</Select.Option>
             <Select.Option value={Category.EVENT}>Event</Select.Option>

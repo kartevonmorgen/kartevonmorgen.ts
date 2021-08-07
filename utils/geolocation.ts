@@ -11,6 +11,21 @@ export interface ExtendedGeocodeAddress extends GeocodeAddress {
   road?: string
 }
 
+export const getCurrentPosition = async (): Promise<GeolocationPosition> => {
+  return new Promise((resolve, reject) => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          resolve(position)
+        },
+        (err) => {
+          reject(err)
+        },
+      )
+    }
+  })
+}
+
 export const reverseGeocode = async (latLng): Promise<NominatimResponse> => {
   return nominatimReverseGeocode({
     lat: toString(latLng.lat),

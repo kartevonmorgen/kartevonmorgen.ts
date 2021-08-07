@@ -4,25 +4,13 @@ import { Button } from 'antd'
 import { updateRoutingQuery } from '../utils/utils'
 import { AimOutlined } from '@ant-design/icons'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
+import { getCurrentPosition } from '../utils/geolocation'
 
 
-const getCurrentPosition = async (): Promise<GeolocationPosition> => {
-  return new Promise((resolve, reject) => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          resolve(position)
-        },
-        (err) => {
-          reject(err)
-        },
-      )
-    }
-  })
-}
 
 
-const setQueryParamsToCurrentLocation = (router) => async () => {
+
+export const setQueryParamsToCurrentLocation = (router) => async () => {
   const { query } = router
 
   try {
