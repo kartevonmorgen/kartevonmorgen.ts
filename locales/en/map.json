@@ -36,6 +36,7 @@
     "imageUrlExplanation": "suggested: landscape format, min. 400x300 pixel, max. 300KB",
     "imageUrl": "URL of an image",
     "InfoHowToCopyURL": "You can easily get the URL-address of any image in the web by just clicking on it to open the context menu and choose \"Copy image address\". Paste this URL (which will end on .jpg, .png or similar) into this line!",
+    "tutorialModalTitle": "How to get an image URL",
     "imageLink": "Link (when clicking on the image, optional)",
     "cancel": "cancel",
     "save": "save",

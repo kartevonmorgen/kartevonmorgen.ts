@@ -9,6 +9,7 @@ import { AxiosInstance } from '../api'
 import API_ENDPOINTS from '../api/endpoints'
 import toString from 'lodash/toString'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
+import useTranslation from 'next-translate/useTranslation'
 
 
 interface Center {
@@ -74,6 +75,7 @@ const changeLatAndLngFromRegionName = (router: NextRouter) => async (regionName:
 const SearchRegion: FC = () => {
   const router = useRouter()
   const { query } = router
+  const { t } = useTranslation('map')
 
   const { dropdowns } = query
   const regionsGroup = convertQueryParamToString(dropdowns, 'main')
@@ -98,7 +100,7 @@ const SearchRegion: FC = () => {
       onClear={() => {
         setRegionNameToSearch('')
       }}
-      placeholder="Search for a region"
+      placeholder={t('searchFilters.selectRegion')}
       style={{
         width: '100%',
         marginTop: 8,

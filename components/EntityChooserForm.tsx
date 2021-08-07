@@ -6,6 +6,7 @@ import { SlugVerb } from '../utils/types'
 import EntityForm from './EntityForm'
 import { SearchEntryID } from '../dtos/SearchEntry'
 import { EventID } from '../dtos/Event'
+import useTranslation from 'next-translate/useTranslation'
 
 
 const changeCategory = (setCategory: Dispatch<Category>) => (category: Category) => {
@@ -22,6 +23,7 @@ interface EntityChooserFormProps {
 const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
 
   const { verb, entityId } = props
+  const { t } = useTranslation('map')
 
   const [category, setCategory] = useState<Category>(null)
   const shouldCreateANewEntity = verb === SlugVerb.CREATE
@@ -40,7 +42,7 @@ const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
       {
         shouldCreateANewEntity && (
           <Select
-            placeholder="Category"
+            placeholder={t('entryForm.chooseCategory')}
             onSelect={changeCategory(setCategory)}
             style={{
               width: '100%',
@@ -49,9 +51,9 @@ const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
             }}
             value={category}
           >
-            <Select.Option value={Category.INITIATIVE}>Initiative</Select.Option>
-            <Select.Option value={Category.COMPANY}>Company</Select.Option>
-            <Select.Option value={Category.EVENT}>Event</Select.Option>
+            <Select.Option value={Category.INITIATIVE}>{t('entryForm.category.initiative')}</Select.Option>
+            <Select.Option value={Category.COMPANY}>{t('entryForm.category.event')}</Select.Option>
+            <Select.Option value={Category.EVENT}>{t('entryForm.category.company')}</Select.Option>
           </Select>
         )
       }

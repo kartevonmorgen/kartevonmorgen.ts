@@ -25,7 +25,7 @@ import { renameProperties, setValuesToDefaultOrNull, transformObject } from '../
 import { isValidPhoneNumber } from 'libphonenumber-js'
 import { validate as isValidEmail } from 'isemail'
 import TagsSelect from './TagsSelect'
-import { InfoModal } from './InfoModal'
+import ImageURlTutorialModal from './ImageURlTutorialModal'
 
 
 const { useForm } = Form
@@ -499,11 +499,11 @@ const EntryForm: FC<EntryFormProps> = (props) => {
         </Button>
 
       </Form>
-      {showModalInfo && <InfoModal
+      <ImageURlTutorialModal
         setShowModalInfo={setShowModalInfo}
         showModalInfo={showModalInfo}
       />
-      }
+
     </>
   )
 }

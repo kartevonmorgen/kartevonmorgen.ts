@@ -6,6 +6,7 @@ import { useDebounce } from 'ahooks'
 import { convertQueryParamToString, updateRoutingQuery } from '../utils/utils'
 import useSearchRecommender from '../hooks/useSearchRecommender'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
+import useTranslation from 'next-translate/useTranslation'
 
 const { Search } = Input
 
@@ -40,7 +41,7 @@ const onSearch = (router) => (searchTerm, _event) => {
 const SearchInput: FC = () => {
   const router = useRouter()
   const { query } = router
-
+  const { t } = useTranslation('map')
   const { dropdowns } = query
 
   const categoryGroup = convertQueryParamToString(dropdowns, 'main')
@@ -61,11 +62,11 @@ const SearchInput: FC = () => {
       onSelect={(value) => setSearchTerm(prevTerm => `${prevTerm} ${value}`)}
     >
       <Search
-        placeholder="input search text"
+        placeholder={t('searchFilters.searchFor')}
         allowClear
         enterButton
         onSearch={onSearch(router)}
-        className="primary-btn"
+        className='primary-btn'
       />
     </AutoComplete>
   )

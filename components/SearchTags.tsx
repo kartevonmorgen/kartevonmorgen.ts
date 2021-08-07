@@ -4,6 +4,7 @@ import produce from 'immer'
 import { convertQueryParamToArray, removeRoutingQueryParams, updateRoutingQuery } from '../utils/utils'
 import TagsSelect from './TagsSelect'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
+import useTranslation from 'next-translate/useTranslation'
 
 
 const searchTag = (router: NextRouter) => (tag: string) => {
@@ -70,6 +71,7 @@ const removeTagFromRouter = (router: NextRouter) => (tagToRemove: string) => {
 const SearchTags: FC = (_props) => {
   // the ant select uses useLayout internally and we need to be sure it's mounted on the browser
   const [showSelect, setShowSelect] = useState<boolean>(false)
+  const { t } = useTranslation('map')
   useEffect(() => {
     setShowSelect(true)
   }, [])
@@ -85,7 +87,7 @@ const SearchTags: FC = (_props) => {
           }}
         >
           <TagsSelect
-            placeholder="Search for tags"
+            placeholder={t('searchbar.placeholder')}
             onSelect={searchTag(router)}
             onDeselect={removeTagFromRouter(router)}
             onClear={removeAllTagsFromRouter(router)}

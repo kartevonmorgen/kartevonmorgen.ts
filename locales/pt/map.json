@@ -45,7 +45,8 @@
     "invalidLicenseAgreement": "Aprovação inválida",
     "invalidURL": "URL inválido",
     "httpMissing": "\"http://\" ou \"https://\" faltam)",
-    "InfoHowToCopyURL": "Pode recuperar facilmente o endereço URL de qualquer imagem na web clicando na imagem para abrir o menu de contexto e seleccionando \"Copiar endereço gráfico\". Cole este URL (terminando em .jpg, .png ou similar) nesta linha!"
+    "InfoHowToCopyURL": "Pode recuperar facilmente o endereço URL de qualquer imagem na web clicando na imagem para abrir o menu de contexto e seleccionando \"Copiar endereço gráfico\". Cole este URL (terminando em .jpg, .png ou similar) nesta linha!",
+    "tutorialModalTitle": "Como obter um URL de imagem"
   },
   "entryDetails": {
     "loadingEntry": "Item à ser aberto...",
