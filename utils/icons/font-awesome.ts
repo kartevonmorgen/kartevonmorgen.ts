@@ -20,6 +20,11 @@ import {
   faUserFriends,
   faUsers,
   faUserShield,
+  faShare,
+  faCode,
+  faBan,
+  faCopy,
+  faTimesCircle
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -58,6 +63,12 @@ library.add(
   faUserShield,
   faBars,
   faCompass,
+  faShare,
+  faCode,
+  faBan,
+  faCopy,
+  faEnvelope,
+  faTimesCircle
 )
 
 // free-brands-svg-icons

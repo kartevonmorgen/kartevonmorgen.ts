@@ -150,15 +150,19 @@ a {
   border: none;
 }
 
-#map-bottom-right {
+.map-bottom-right {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  bottom: 90px;
+  bottom: 135px;
   margin-bottom: 8px;
   right: 10px;
   position: absolute;
   z-index: 400;
+  transition: all 1s ease-in-out;
+}
+.map-bottom-right-open {
+  bottom: 280px;
 }
 
 #map-top-right {
@@ -196,4 +200,227 @@ a {
   width: 56pt;
   height: 84pt;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000',endColorstr='#D9F0F3' , GradientType=0);
+}
+
+
+
+// style of container ShareEntryButton component
+
+#map-bottom-share{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  bottom: 10px;
+  margin-bottom: 8px;
+  right: 10px;
+  position: absolute;
+  z-index: 400;
+}
+
+// styles for ShareEntryButton component
+
+#share-entry-button{
+  display: flex;
+  flex-direction: column;
+  margin-bottom:10px;
+
+  .dropdown-container{
+    display: flex;
+    flex-direction:column;
+    align-items:flex-end;
+
+    .dropdown-button{
+      transition: all 1s ease-out;
+      color: black;
+      overflow: hidden;
+      padding:0;
+      border-radius:7px;
+
+      .text{
+        margin-left: 5px;
+      }
+    }
+  }
+  .main-button{
+    width: 140px;
+    height: 40px;
+    color: black;
+    font-size: 20px;
+    border-radius: 7px;
+  }
+}
+
+// custom class for ZoomController from react-leaflet
+
+.leaflet-verticalcenter {
+  position: absolute;
+  z-index: 1000;
+  pointer-events: none;
+  bottom:20px;
+  transform: translateY(-50%); /* using the CSS3 Transform technique */
+  padding-top: 10px;
+  transition: all 1s ease-in-out;
+}
+.leaflet-verticalcenter .leaflet-control {
+  margin-bottom: 10px;
+  transition: all 1s ease-in-out;
+}
+
+// styles for Modal component
+
+.modal-footer-embed{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  .footer-button-embed{
+    display:flex;
+    align-items:center;
+    font-size:17px;
+  }
+  .button-text{
+    margin-left: 10px;
+  }
+}
+
+.modal-subscribe{
+  .checkbox-container{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    justify-content:space-between;
+  }
+  .input-container{
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    .text{
+      font-size: 15px;
+      margin-bottom: 10px;
+      font-weight: bolder;
+    }
+    .text-margin{
+      margin-top:10px;
+      margin-bottom:10px;
+      font-weight: bolder;
+      font-size: 15px;
+    }
+    .input{
+      outline: none;
+      padding: 3px 10px 3px 10px;
+      font-size: 20px;
+      margin-bottom: 10px;
+      border: 1px solid #d9d9d9;
+    }
+    .error{
+      border: 1px solid red;
+    }
+    .error-text{
+      color:red;
+      font-size: 14px;
+    }
+    .select{
+      outline: none;
+      padding: 4px 10px 4px 10px;
+      color: rgba(0, 0, 0, 0.85);
+      font-size: 14px;
+      font-variant: tabular-nums;
+      border: 1px solid #d9d9d9;
+    }
+  }
+}
+.modal-footer-subscribe{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  .footer-button-subscribe{
+    display:flex;
+    justify-content: center;
+    align-items:center;
+    font-size:17px;
+    .button-text{
+      margin-left: 10px;
+    }
+  }
+}
+
+// custom checkbox
+@keyframes click-wave {
+  0% {
+    height: 40px;
+    width: 40px;
+    opacity: 0.35;
+    position: relative;
+  }
+  100% {
+    height: 100px;
+    width: 100px;
+    margin-left: -40px;
+    margin-top: -40px;
+    opacity: 0;
+  }
+}
+
+.option-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  position: relative;
+  top: 5px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 30px;
+  width: 30px;
+  transition: all 0.15s ease-out 0s;
+  border: 1px solid black;
+  background: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  margin-right: 1rem;
+  outline: none;
+  z-index: 1000;
+  margin-bottom: 10px;
+}
+.option-input:hover {
+  background: #ffffff;
+}
+.option-input:checked {
+  background: #ffffff;
+}
+.option-input:checked::before {
+  height: 30px;
+  width: 30px;
+  position: absolute;
+  content: '✔';
+  display: inline-block;
+  font-size: 27px;
+  text-align: center;
+  line-height: 22px;
+}
+.option-input:checked::after {
+  -webkit-animation: click-wave 0.65s;
+  -moz-animation: click-wave 0.65s;
+  animation: click-wave 0.65s;
+  background: #60e78e;
+  content: '';
+  display: block;
+  position: relative;
+  z-index: 100;
+}
+.option-input.radio {
+  border-radius: 50%;
+}
+.option-input.radio::after {
+  border-radius: 50%;
+}
+.label-flex{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

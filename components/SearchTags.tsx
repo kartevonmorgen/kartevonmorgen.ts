@@ -67,7 +67,12 @@ const removeTagFromRouter = (router: NextRouter) => (tagToRemove: string) => {
 }
 
 
-const SearchTags: FC = (_props) => {
+interface SearchTagsType {
+  optionsCount: Array<any>
+  addOptionCount : (value) => void
+}
+
+export const SearchTags: FC<SearchTagsType> = ({ optionsCount=[],addOptionCount }) => {
   // the ant select uses useLayout internally and we need to be sure it's mounted on the browser
   const [showSelect, setShowSelect] = useState<boolean>(false)
   useEffect(() => {
@@ -76,6 +81,19 @@ const SearchTags: FC = (_props) => {
 
   const router = useRouter()
 
+  const addTag = (value:string) => {
+    const newArr = optionsCount
+    newArr.push(value)
+    addOptionCount(newArr)
+  }
+  const deleteTag = (value:string) => {
+    const newArr = optionsCount.filter((el) => el !== value)
+    addOptionCount(newArr)
+  }
+  const clearAllTag = () => {
+    const newArr = []
+    addOptionCount(newArr)
+  }
   return (
     <Fragment>
       {showSelect && (
@@ -86,9 +104,18 @@ const SearchTags: FC = (_props) => {
         >
           <TagsSelect
             placeholder="Search for tags"
-            onSelect={searchTag(router)}
-            onDeselect={removeTagFromRouter(router)}
-            onClear={removeAllTagsFromRouter(router)}
+            onSelect={(value,option) => {
+              addTag(value)
+              searchTag(router)}
+            }
+            onDeselect={(value,option) => {
+              deleteTag(value)
+              removeTagFromRouter(router)}}
+            onClear={() => {
+              clearAllTag()
+              removeAllTagsFromRouter(router)
+            }
+            }
           />
         </div>
       )}
