@@ -1,26 +1,30 @@
 import { Modal } from 'antd'
 import Image from 'next/image'
 import useTranslation from 'next-translate/useTranslation'
+import { FC } from 'react'
 
-type ImageURlTutorialModalPropsType = {
+interface ImageURlTutorialModalProps {
   setShowModalInfo: (value: boolean) => void
   showModalInfo: boolean
 }
-export const ImageURlTutorialModal = (props: ImageURlTutorialModalPropsType) => {
+
+export const ImageURlTutorialModal: FC<ImageURlTutorialModalProps> = (props) => {
+  const { setShowModalInfo, showModalInfo } = props
   const { t } = useTranslation('map')
+
   const handleOk = () => {
-    props.setShowModalInfo(false)
+    setShowModalInfo(false)
   }
 
   const handleCancel = () => {
-    props.setShowModalInfo(false)
+    setShowModalInfo(false)
   }
   return <Modal width={'700px'}
                 title='URL'
                 style={{
                   top: '50px',
                 }}
-                visible={props.showModalInfo} onOk={handleOk} onCancel={handleCancel}>
+                visible={showModalInfo} onOk={handleOk} onCancel={handleCancel}>
     <div style={{
       display: 'flex',
       flexWrap: 'nowrap',

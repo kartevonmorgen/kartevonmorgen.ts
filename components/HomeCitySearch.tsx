@@ -6,7 +6,7 @@ import debounce from 'lodash/debounce'
 import useRequest from '../api/useRequest'
 import { GeoLocations } from '../dtos/GeoLocatoinResponse'
 import API_ENDPOINTS from '../api/endpoints/'
-import { ShowMapBtn } from './ShowMapBtn'
+import ShowMapButton from './ShowMapButton'
 
 
 const { Option } = Select
@@ -29,8 +29,11 @@ const onSelect = (router: NextRouter) => (value: string) => {
   )
 }
 
+const showMapByClickOnButton = (router: NextRouter) => () => {
+  router.push('/maps/main')
+}
 
-const HomeCitySearch: FC = React.memo(() => {
+const HomeCitySearch: FC = () => {
   const router = useRouter()
   const { t } = useTranslation('home')
   const [searchTerm, setSearchTerm] = useState<string>('')
@@ -44,17 +47,14 @@ const HomeCitySearch: FC = React.memo(() => {
     },
   })
 
-  const showMapByClickOnButton = () => {
-    router.push('/maps/main')
-  }
+  const [showMapButton, setShowMapButton] = useState<boolean>(false)
 
-  const [show, setShow] = useState<boolean>(false)
   useEffect(() => {
     if (searchTerm.length > 0 && geoLocations?.length === 0) {
-      setShow(true)
+      setShowMapButton(true)
     }
     if (searchTerm.length === 0 || geoLocations?.length > 0) {
-      setShow(false)
+      setShowMapButton(false)
     }
   }, [geoLocations])
 
@@ -94,12 +94,12 @@ const HomeCitySearch: FC = React.memo(() => {
 
       <div>
         {
-          show && <ShowMapBtn showMapByClickOnButton={showMapByClickOnButton} />
+          showMapButton && <ShowMapButton showMapByClickOnButton={showMapByClickOnButton(router)} />
         }
       </div>
     </div>
   )
-})
+}
 
 
 export default HomeCitySearch

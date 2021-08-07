@@ -261,253 +261,255 @@ const EntryForm: FC<EntryFormProps> = (props) => {
   }
 
   return (
-    <Form
-      layout='vertical'
-      size='middle'
-      style={{
-        marginTop: 8,
-      }}
-      initialValues={entry}
-      onFinish={onFinish(router, dispatch, isEdit, entryId)}
-      form={form}
-    >
-
-      <Form.Item name='id' hidden>
-        <Input disabled />
-      </Form.Item>
-
-      {/*the backend accepts an array that's because it's named plural*/}
-      {/* but in reality it contains only one category*/}
-      {/*and the value is initialized by the parent not the api in the edit mode*/}
-      <Form.Item name='categories' hidden>
-        <Select
-          mode='multiple'
-          disabled
-        />
-      </Form.Item>
-
-      <Form.Item
-        name='title'
-        rules={[{ required: true, min: 3 }]}
-      >
-        <Input placeholder={t('entryForm.title')} />
-      </Form.Item>
-
-      <Form.Item
-        name='description'
-        rules={[{ required: true, min: 10, max: 250 }]}
-      >
-        <TextArea placeholder={t('entryForm.description')} />
-      </Form.Item>
-
-      {/*add validation for the three tags*/}
-      <Form.Item name='tags'>
-        <TagsSelect placeholder={t('entryForm.tags')} />
-      </Form.Item>
-
-      <Divider orientation='left'>
-        {t('entryForm.location')}
-      </Divider>
-
-      <Form.Item>
-        <Input.Group compact>
-          <Form.Item
-            name={'city'}
-            noStyle
-          >
-            <Input style={{ width: '50%' }} placeholder={t('entryForm.city')} />
-          </Form.Item>
-          <Form.Item
-            name={'zip'}
-            noStyle
-          >
-            <Input style={{ width: '50%' }} placeholder={t('entryForm.zip')} />
-          </Form.Item>
-        </Input.Group>
-      </Form.Item>
-
-      <Form.Item name='country' hidden />
-
-      <Form.Item name='state' hidden />
-
-      <Form.Item name='street'>
-        <Input placeholder={t('entryForm.street')} />
-      </Form.Item>
-
-      <Form.Item
-        name='lat'
+    <>
+      <Form
+        layout='vertical'
+        size='middle'
         style={{
-          display: 'inline-block',
-          width: '50%',
+          marginTop: 8,
         }}
+        initialValues={entry}
+        onFinish={onFinish(router, dispatch, isEdit, entryId)}
+        form={form}
       >
-        <Input placeholder='Latitude' disabled />
-      </Form.Item>
 
-      <Form.Item
-        name='lng'
-        style={{
-          display: 'inline-block',
-          width: '50%',
-        }}
-      >
-        <Input placeholder='Longitude' disabled />
-      </Form.Item>
+        <Form.Item name='id' hidden>
+          <Input disabled />
+        </Form.Item>
 
-      <Divider orientation='left'>{t('entryForm.contact')}</Divider>
+        {/*the backend accepts an array that's because it's named plural*/}
+        {/* but in reality it contains only one category*/}
+        {/*and the value is initialized by the parent not the api in the edit mode*/}
+        <Form.Item name='categories' hidden>
+          <Select
+            mode='multiple'
+            disabled
+          />
+        </Form.Item>
 
-      <Form.Item name='contact'>
-        <Input placeholder={t('entryForm.contactPerson')} prefix={<FontAwesomeIcon icon='user' />} />
-      </Form.Item>
-
-      <Form.Item
-        name='telephone'
-        rules={[
-          {
-            validator: (_, value) => (
-              isValidPhoneNumber(value) ?
-                Promise.resolve() :
-                Promise.reject('not a valid telephone number')
-            ),
-          },
-        ]}
-      >
-        <Input placeholder={t('entryForm.phone')} prefix={<FontAwesomeIcon icon='phone' />} />
-      </Form.Item>
-
-      <Form.Item
-        name='email'
-        rules={[
-          {
-            validator: (_, value) => (
-              isValidEmail(value) ?
-                Promise.resolve() :
-                Promise.reject('not a valid email')
-            ),
-          },
-        ]}
-      >
-        <Input placeholder={t('entryForm.email')} prefix={<FontAwesomeIcon icon='envelope' />} />
-      </Form.Item>
-
-      <Form.Item name='homepage'>
-        <Input placeholder={t('entryDetails.homepagePlaceholder')} prefix={<FontAwesomeIcon icon='globe' />} />
-      </Form.Item>
-
-      <Form.Item name='opening_hours'>
-        <Input placeholder={t('entryForm.openingHours')} prefix={<FontAwesomeIcon icon='clock' />} />
-      </Form.Item>
-
-      <div style={{ width: '100%', textAlign: 'center' }}>
-        <Link
-          href={process.env.NEXT_PUBLIC_OPENING_HOURS}
-          target='_blank'
+        <Form.Item
+          name='title'
+          rules={[{ required: true, min: 3 }]}
         >
-          {t('entryForm.generateHours')}
-        </Link>
-      </div>
+          <Input placeholder={t('entryForm.title')} />
+        </Form.Item>
 
-      <Divider orientation='left'>{t('entryForm.links')}</Divider>
+        <Form.Item
+          name='description'
+          rules={[{ required: true, min: 10, max: 250 }]}
+        >
+          <TextArea placeholder={t('entryForm.description')} />
+        </Form.Item>
 
-      <Form.List name='custom_links'>
-        {(fields, { add, remove }) => (
-          <Fragment>
-            {fields.map(field => (
-              <Space key={field.key} style={{ display: 'flex', marginBottom: 8 }} align='baseline'>
-                <Form.Item
-                  {...field}
-                  name={[field.name, 'first']}
-                  fieldKey={[field.fieldKey, 'first']}
-                >
-                  <Input placeholder='First Name' />
-                </Form.Item>
-                <Form.Item
-                  {...field}
-                  name={[field.name, 'last']}
-                  fieldKey={[field.fieldKey, 'last']}
-                >
-                  <Input placeholder='Last Name' />
-                </Form.Item>
-                <MinusCircleOutlined onClick={() => remove(field.name)} />
-              </Space>
-            ))}
-            <Form.Item>
-              <Button type='dashed' onClick={() => add()} block icon={<PlusOutlined />}>
-                {t('resultlist.addEntry')}
-              </Button>
+        {/*add validation for the three tags*/}
+        <Form.Item name='tags'>
+          <TagsSelect placeholder={t('entryForm.tags')} />
+        </Form.Item>
+
+        <Divider orientation='left'>
+          {t('entryForm.location')}
+        </Divider>
+
+        <Form.Item>
+          <Input.Group compact>
+            <Form.Item
+              name={'city'}
+              noStyle
+            >
+              <Input style={{ width: '50%' }} placeholder={t('entryForm.city')} />
             </Form.Item>
-          </Fragment>
-        )}
-      </Form.List>
+            <Form.Item
+              name={'zip'}
+              noStyle
+            >
+              <Input style={{ width: '50%' }} placeholder={t('entryForm.zip')} />
+            </Form.Item>
+          </Input.Group>
+        </Form.Item>
 
-      <Divider orientation='left'>{t('entryForm.entryImage')}</Divider>
+        <Form.Item name='country' hidden />
 
-      <Form.Item style={{
-        position: 'relative',
-      }} name='image_url'>
-        <Input placeholder={t('entryForm.imageUrl')}
-               prefix={<FontAwesomeIcon icon='camera' />} />
-        <InfoCircleOutlined
+        <Form.Item name='state' hidden />
+
+        <Form.Item name='street'>
+          <Input placeholder={t('entryForm.street')} />
+        </Form.Item>
+
+        <Form.Item
+          name='lat'
           style={{
-            top: '-16px',
-            right: '9px',
-            position: 'absolute',
-            zIndex: 10,
-            cursor: 'pointer',
-            backgroundColor: 'white',
+            display: 'inline-block',
+            width: '50%',
           }}
-          onClick={openImageTutorialModal} />
-      </Form.Item>
+        >
+          <Input placeholder='Latitude' disabled />
+        </Form.Item>
 
-      <Form.Item name='image_link_url'>
-        <Input placeholder={t('entryForm.linkUrl')} prefix={<FontAwesomeIcon icon='link' />} />
-      </Form.Item>
+        <Form.Item
+          name='lng'
+          style={{
+            display: 'inline-block',
+            width: '50%',
+          }}
+        >
+          <Input placeholder='Longitude' disabled />
+        </Form.Item>
 
-      <Divider orientation='left'>{t('entryForm.license')}</Divider>
+        <Divider orientation='left'>{t('entryForm.contact')}</Divider>
 
-      <Form.Item
-        name='license'
-        rules={[{ required: true, message: t('entryForm.acceptLicense') }]}
-        valuePropName='value'
-      >
-        {/*it's necessary to catch the value of the checkbox, but the out come will be a list*/}
-        {/*so we should grab the first element*/}
-        <Checkbox.Group
-          options={[
+        <Form.Item name='contact'>
+          <Input placeholder={t('entryForm.contactPerson')} prefix={<FontAwesomeIcon icon='user' />} />
+        </Form.Item>
+
+        <Form.Item
+          name='telephone'
+          rules={[
             {
-              label: <Fragment>
-                {t('entryForm.iHaveRead') + ' '}
-                <Link
-                  href={process.env.NEXT_PUBLIC_CC_LINK}
-                  target='_blank'
-                >
-                  {t('entryForm.creativeCommonsLicense')}
-                </Link>
-              </Fragment>,
-              value: 'CC0-1.0',
+              validator: (_, value) => (
+                isValidPhoneNumber(value) ?
+                  Promise.resolve() :
+                  Promise.reject('not a valid telephone number')
+              ),
             },
           ]}
-        />
-      </Form.Item>
+        >
+          <Input placeholder={t('entryForm.phone')} prefix={<FontAwesomeIcon icon='phone' />} />
+        </Form.Item>
 
-      <Form.Item name='version' hidden>
-        <Input disabled />
-      </Form.Item>
+        <Form.Item
+          name='email'
+          rules={[
+            {
+              validator: (_, value) => (
+                isValidEmail(value) ?
+                  Promise.resolve() :
+                  Promise.reject('not a valid email')
+              ),
+            },
+          ]}
+        >
+          <Input placeholder={t('entryForm.email')} prefix={<FontAwesomeIcon icon='envelope' />} />
+        </Form.Item>
 
-      <Button
-        type='primary'
-        htmlType='submit'
-        style={{
-          width: '100%',
-        }}
-      >
-        {t('entryForm.save')}
-      </Button>
+        <Form.Item name='homepage'>
+          <Input placeholder={t('entryDetails.homepagePlaceholder')} prefix={<FontAwesomeIcon icon='globe' />} />
+        </Form.Item>
+
+        <Form.Item name='opening_hours'>
+          <Input placeholder={t('entryForm.openingHours')} prefix={<FontAwesomeIcon icon='clock' />} />
+        </Form.Item>
+
+        <div style={{ width: '100%', textAlign: 'center' }}>
+          <Link
+            href={process.env.NEXT_PUBLIC_OPENING_HOURS}
+            target='_blank'
+          >
+            {t('entryForm.generateHours')}
+          </Link>
+        </div>
+
+        <Divider orientation='left'>{t('entryForm.links')}</Divider>
+
+        <Form.List name='custom_links'>
+          {(fields, { add, remove }) => (
+            <Fragment>
+              {fields.map(field => (
+                <Space key={field.key} style={{ display: 'flex', marginBottom: 8 }} align='baseline'>
+                  <Form.Item
+                    {...field}
+                    name={[field.name, 'first']}
+                    fieldKey={[field.fieldKey, 'first']}
+                  >
+                    <Input placeholder='First Name' />
+                  </Form.Item>
+                  <Form.Item
+                    {...field}
+                    name={[field.name, 'last']}
+                    fieldKey={[field.fieldKey, 'last']}
+                  >
+                    <Input placeholder='Last Name' />
+                  </Form.Item>
+                  <MinusCircleOutlined onClick={() => remove(field.name)} />
+                </Space>
+              ))}
+              <Form.Item>
+                <Button type='dashed' onClick={() => add()} block icon={<PlusOutlined />}>
+                  {t('resultlist.addEntry')}
+                </Button>
+              </Form.Item>
+            </Fragment>
+          )}
+        </Form.List>
+
+        <Divider orientation='left'>{t('entryForm.entryImage')}</Divider>
+
+        <Form.Item style={{
+          position: 'relative',
+        }} name='image_url'>
+          <Input placeholder={t('entryForm.imageUrl')}
+                 prefix={<FontAwesomeIcon icon='camera' />} />
+          <InfoCircleOutlined
+            style={{
+              top: '-16px',
+              right: '9px',
+              position: 'absolute',
+              zIndex: 10,
+              cursor: 'pointer',
+              backgroundColor: 'white',
+            }}
+            onClick={openImageTutorialModal} />
+        </Form.Item>
+
+        <Form.Item name='image_link_url'>
+          <Input placeholder={t('entryForm.linkUrl')} prefix={<FontAwesomeIcon icon='link' />} />
+        </Form.Item>
+
+        <Divider orientation='left'>{t('entryForm.license')}</Divider>
+
+        <Form.Item
+          name='license'
+          rules={[{ required: true, message: t('entryForm.acceptLicense') }]}
+          valuePropName='value'
+        >
+          {/*it's necessary to catch the value of the checkbox, but the out come will be a list*/}
+          {/*so we should grab the first element*/}
+          <Checkbox.Group
+            options={[
+              {
+                label: <Fragment>
+                  {t('entryForm.iHaveRead') + ' '}
+                  <Link
+                    href={process.env.NEXT_PUBLIC_CC_LINK}
+                    target='_blank'
+                  >
+                    {t('entryForm.creativeCommonsLicense')}
+                  </Link>
+                </Fragment>,
+                value: 'CC0-1.0',
+              },
+            ]}
+          />
+        </Form.Item>
+
+        <Form.Item name='version' hidden>
+          <Input disabled />
+        </Form.Item>
+
+        <Button
+          type='primary'
+          htmlType='submit'
+          style={{
+            width: '100%',
+          }}
+        >
+          {t('entryForm.save')}
+        </Button>
+      </Form>
       <ImageURlTutorialModal
         setShowModalInfo={setShowModalInfo}
         showModalInfo={showModalInfo}
       />
-    </Form>
+    </>
   )
 }
 
