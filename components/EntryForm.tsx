@@ -26,6 +26,7 @@ import { isValidPhoneNumber } from 'libphonenumber-js'
 import { validate as isValidEmail } from 'isemail'
 import TagsSelect from './TagsSelect'
 import ImageURlTutorialModal from './ImageURlTutorialModal'
+import useTranslation from 'next-translate/useTranslation'
 
 
 const { useForm } = Form
@@ -192,9 +193,10 @@ interface EntryFormProps {
 const EntryForm: FC<EntryFormProps> = (props) => {
   // todo: for a better experience show spinner with the corresponding message when the form is loading
   // for example: fetching the address
+  const { t } = useTranslation('map')
 
   const [showModalInfo, setShowModalInfo] = useState<boolean>(false)
-  const openModalInfo = () => {
+  const openImageTutorialModal = () => {
     setShowModalInfo(true)
   }
 
@@ -289,22 +291,24 @@ const EntryForm: FC<EntryFormProps> = (props) => {
           name='title'
           rules={[{ required: true, min: 3 }]}
         >
-          <Input placeholder='Title' />
+          <Input placeholder={t('entryForm.title')} />
         </Form.Item>
 
         <Form.Item
           name='description'
           rules={[{ required: true, min: 10, max: 250 }]}
         >
-          <TextArea placeholder='Description' />
+          <TextArea placeholder={t('entryForm.description')} />
         </Form.Item>
 
         {/*add validation for the three tags*/}
         <Form.Item name='tags'>
-          <TagsSelect />
+          <TagsSelect placeholder={t('entryForm.tags')} />
         </Form.Item>
 
-        <Divider orientation='left'>Location</Divider>
+        <Divider orientation='left'>
+          {t('entryForm.location')}
+        </Divider>
 
         <Form.Item>
           <Input.Group compact>
@@ -312,13 +316,13 @@ const EntryForm: FC<EntryFormProps> = (props) => {
               name={'city'}
               noStyle
             >
-              <Input style={{ width: '50%' }} placeholder='City' />
+              <Input style={{ width: '50%' }} placeholder={t('entryForm.city')} />
             </Form.Item>
             <Form.Item
               name={'zip'}
               noStyle
             >
-              <Input style={{ width: '50%' }} placeholder='Zip' />
+              <Input style={{ width: '50%' }} placeholder={t('entryForm.zip')} />
             </Form.Item>
           </Input.Group>
         </Form.Item>
@@ -328,7 +332,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
         <Form.Item name='state' hidden />
 
         <Form.Item name='street'>
-          <Input placeholder='Address' />
+          <Input placeholder={t('entryForm.street')} />
         </Form.Item>
 
         <Form.Item
@@ -351,10 +355,10 @@ const EntryForm: FC<EntryFormProps> = (props) => {
           <Input placeholder='Longitude' disabled />
         </Form.Item>
 
-        <Divider orientation='left'>Contact</Divider>
+        <Divider orientation='left'>{t('entryForm.contact')}</Divider>
 
         <Form.Item name='contact'>
-          <Input placeholder='Contact Person' prefix={<FontAwesomeIcon icon='user' />} />
+          <Input placeholder={t('entryForm.contactPerson')} prefix={<FontAwesomeIcon icon='user' />} />
         </Form.Item>
 
         <Form.Item
@@ -369,7 +373,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
             },
           ]}
         >
-          <Input placeholder='Phone' prefix={<FontAwesomeIcon icon='phone' />} />
+          <Input placeholder={t('entryForm.phone')} prefix={<FontAwesomeIcon icon='phone' />} />
         </Form.Item>
 
         <Form.Item
@@ -384,15 +388,15 @@ const EntryForm: FC<EntryFormProps> = (props) => {
             },
           ]}
         >
-          <Input placeholder='Email' prefix={<FontAwesomeIcon icon='envelope' />} />
+          <Input placeholder={t('entryForm.email')} prefix={<FontAwesomeIcon icon='envelope' />} />
         </Form.Item>
 
         <Form.Item name='homepage'>
-          <Input placeholder='homepage' prefix={<FontAwesomeIcon icon='globe' />} />
+          <Input placeholder={t('entryDetails.homepagePlaceholder')} prefix={<FontAwesomeIcon icon='globe' />} />
         </Form.Item>
 
         <Form.Item name='opening_hours'>
-          <Input placeholder='Opening Hours' prefix={<FontAwesomeIcon icon='clock' />} />
+          <Input placeholder={t('entryForm.openingHours')} prefix={<FontAwesomeIcon icon='clock' />} />
         </Form.Item>
 
         <div style={{ width: '100%', textAlign: 'center' }}>
@@ -400,11 +404,11 @@ const EntryForm: FC<EntryFormProps> = (props) => {
             href={process.env.NEXT_PUBLIC_OPENING_HOURS}
             target='_blank'
           >
-            Find out the right format for your time
+            {t('entryForm.generateHours')}
           </Link>
         </div>
 
-        <Divider orientation='left'>Links and Social Media</Divider>
+        <Divider orientation='left'>{t('entryForm.links')}</Divider>
 
         <Form.List name='custom_links'>
           {(fields, { add, remove }) => (
@@ -430,38 +434,41 @@ const EntryForm: FC<EntryFormProps> = (props) => {
               ))}
               <Form.Item>
                 <Button type='dashed' onClick={() => add()} block icon={<PlusOutlined />}>
-                  Add field
+                  {t('resultlist.addEntry')}
                 </Button>
               </Form.Item>
             </Fragment>
           )}
         </Form.List>
 
-        <Divider orientation='left'>Image</Divider>
+        <Divider orientation='left'>{t('entryForm.entryImage')}</Divider>
 
         <Form.Item style={{
           position: 'relative',
         }} name='image_url'>
-          <Input placeholder='URL of an image' prefix={<FontAwesomeIcon icon='camera' />} />
-          <InfoCircleOutlined style={{
-            top: '-16px',
-            right: '9px',
-            position: 'absolute',
-            zIndex: 10,
-            cursor: 'pointer',
-            backgroundColor: 'white',
-          }} onClick={openModalInfo} />
+          <Input placeholder={t('entryForm.imageUrl')}
+                 prefix={<FontAwesomeIcon icon='camera' />} />
+          <InfoCircleOutlined
+            style={{
+              top: '-16px',
+              right: '9px',
+              position: 'absolute',
+              zIndex: 10,
+              cursor: 'pointer',
+              backgroundColor: 'white',
+            }}
+            onClick={openImageTutorialModal} />
         </Form.Item>
 
         <Form.Item name='image_link_url'>
-          <Input placeholder='Link' prefix={<FontAwesomeIcon icon='link' />} />
+          <Input placeholder={t('entryForm.linkUrl')} prefix={<FontAwesomeIcon icon='link' />} />
         </Form.Item>
 
-        <Divider orientation='left'>License</Divider>
+        <Divider orientation='left'>{t('entryForm.license')}</Divider>
 
         <Form.Item
           name='license'
-          rules={[{ required: true }]}
+          rules={[{ required: true, message: t('entryForm.acceptLicense') }]}
           valuePropName='value'
         >
           {/*it's necessary to catch the value of the checkbox, but the out come will be a list*/}
@@ -470,12 +477,12 @@ const EntryForm: FC<EntryFormProps> = (props) => {
             options={[
               {
                 label: <Fragment>
-                  {`I have read and accept the Terms of the `}
+                  {t('entryForm.iHaveRead') + ' '}
                   <Link
                     href={process.env.NEXT_PUBLIC_CC_LINK}
                     target='_blank'
                   >
-                    Creative-Commons License CC0
+                    {t('entryForm.creativeCommonsLicense')}
                   </Link>
                 </Fragment>,
                 value: 'CC0-1.0',
@@ -495,15 +502,13 @@ const EntryForm: FC<EntryFormProps> = (props) => {
             width: '100%',
           }}
         >
-          Submit
+          {t('entryForm.save')}
         </Button>
-
       </Form>
       <ImageURlTutorialModal
         setShowModalInfo={setShowModalInfo}
         showModalInfo={showModalInfo}
       />
-
     </>
   )
 }

@@ -20,6 +20,7 @@ import EntityDetailHeader from './EntityDetailHeader'
 import OpeningHours from './OpeningHours'
 import EntryLinks from './EntryLinks'
 import TypeTag from './TypeTag'
+import useTranslation from 'next-translate/useTranslation'
 
 
 const { Title, Paragraph } = Typography
@@ -32,7 +33,7 @@ interface EntryDetailProps {
 
 const EntryDetail: FC<EntryDetailProps> = (props) => {
   const { entryId } = props
-
+  const { t } = useTranslation('map')
   // todo: truncate long details
   // const [truncateDetail, setTruncateDetail] = useState(true)
 
@@ -63,7 +64,7 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
   if (!entries) {
     return (
       <div className='center'>
-        <Spin size="large"/>
+        <Spin size='large' />
       </div>
     )
   }
@@ -78,7 +79,7 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
 
   return (
     <div>
-      <EntityDetailHeader/>
+      <EntityDetailHeader />
 
       <EntityImage
         title={entry.title}
@@ -94,7 +95,7 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
 
       <Paragraph>{entry.description}</Paragraph>
 
-      <Divider>Contact</Divider>
+      <Divider>{t('entryForm.contactPerson')}</Divider>
 
       <EntityContact
         homepage={entry.homepage}
@@ -111,14 +112,14 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
         zip={entry.zip}
       />
 
-      <OpeningHours openingHours={entry.opening_hours}/>
+      <OpeningHours openingHours={entry.opening_hours} />
 
-      <EntryLinks links={entry.custom}/>
+      <EntryLinks links={entry.custom} />
 
 
-      <EntityTags tags={entry.tags}/>
+      <EntityTags tags={entry.tags} />
 
-      <EntityRatings ratingsIds={entry.ratings}/>
+      <EntityRatings ratingsIds={entry.ratings} />
 
       <EntityFooter
         entityId={entry.id}
