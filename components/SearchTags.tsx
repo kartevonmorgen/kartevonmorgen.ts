@@ -67,12 +67,12 @@ const removeTagFromRouter = (router: NextRouter) => (tagToRemove: string) => {
 }
 
 
-interface SearchTagsType {
-  optionsCount: Array<any>
-  addOptionCount : (value) => void
+interface SearchTagsProps {
+  optionsCount?: Array<any>
+  addOptionCount?: (value) => void
 }
 
-export const SearchTags: FC<SearchTagsType> = ({ optionsCount=[],addOptionCount }) => {
+export const SearchTags: FC<SearchTagsProps> = ({ optionsCount=[],addOptionCount }) => {
   // the ant select uses useLayout internally and we need to be sure it's mounted on the browser
   const [showSelect, setShowSelect] = useState<boolean>(false)
   useEffect(() => {

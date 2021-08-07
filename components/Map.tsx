@@ -145,7 +145,15 @@ const Map: FC = () => {
 
       <MapCustomClassZoomControl createClass={createClass} setCreateClass={setCreateClass}/>
 
-      <div className={`${showButtons ? 'map-bottom-right map-bottom-right-open' : 'map-bottom-right'}`}>
+      <ModalComponent isModalVisible={isModalVisibleEmbed} setIsModalVisible={setIsModalVisibleEmbed} mode={'embed'} />
+
+      <ModalComponent isModalVisible={isModalVisibleSubscribe} setIsModalVisible={setIsModalVisibleSubscribe} mode={'subscribe'} />
+
+      <div id="map-top-right">
+        <BurgerMenu />
+      </div>
+
+      <div className={'map-bottom-right'}>
         <AddEntryButton />
         <LocateMe />
       </div>
@@ -158,17 +166,10 @@ const Map: FC = () => {
 
       <ZoomControl position={'verticalcenterright'} />
 
-      <div id="map-top-right">
-        <BurgerMenu />
-      </div>
-
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-
-      {isModalVisibleEmbed && <ModalComponent isModalVisible={isModalVisibleEmbed} setIsModalVisible={setIsModalVisibleEmbed} mode={'embed'} />}
-      {isModalVisibleSubscribe && <ModalComponent isModalVisible={isModalVisibleSubscribe} setIsModalVisible={setIsModalVisibleSubscribe} mode={'subscribe'} />}
 
       {
         showMarkedPin && (

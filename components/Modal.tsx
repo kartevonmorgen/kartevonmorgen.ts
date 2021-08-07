@@ -1,5 +1,5 @@
 import { Button, Modal, notification } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { stackoverflowLight } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
@@ -7,14 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { convertBBoxToString, uniqId, validateEmail } from '../utils/utils'
 import SearchTags from './SearchTags'
 import { useMap } from 'react-leaflet'
-import { AxiosInstance } from '../api/RequestHandler'
+import { AxiosInstance } from '../api'
 import { BASICS_ENDPOINTS } from '../api/endpoints/BasicsEndpoints'
-
-interface ModalComponentType {
-  isModalVisible: boolean
-  setIsModalVisible: (value) => void
-  mode: string
-}
 
 const getIframeCode = (url) => {
   return (
@@ -30,9 +24,24 @@ target="_blank" rel="noreferrer noopener" aria-label=" (öffnet in neuem Tab)">
   )
 }
 
+const titleOptions = [
+  {
+    label: 'Report only new entries',
+    value: 'new',
+  },
+  {
+    label: 'Report new entries and updates to existing entries',
+    value: 'all',
+  },
+]
 
+interface ModalComponentProps {
+  isModalVisible: boolean
+  setIsModalVisible: (value) => void
+  mode: string
+}
 
-export const ModalComponent: (props: ModalComponentType) => JSX.Element = (props: ModalComponentType) => {
+export const ModalComponent:FC<ModalComponentProps> = (props) => {
 
   //common handlers
 
@@ -44,28 +53,53 @@ export const ModalComponent: (props: ModalComponentType) => JSX.Element = (props
     props.setIsModalVisible(false)
   }
 
-  // embed
+  const chooseModal = (mode) => {
+    switch (mode) {
+      case 'embed' : {
+        return <Embed handleOk={handleOk} handleCancel={handleCancel} isModalVisible={props.isModalVisible} />
+      }
+      case 'subscribe' : {
+        return <Subscribe handleOk={handleOk} handleCancel={handleCancel} isModalVisible={props.isModalVisible}/>
+      }
+      default :
+        return null
+    }
+  }
+
+  return chooseModal(props.mode)
+}
+
+
+
+// Variations for Modals
+
+interface ModalVariationProps{
+  isModalVisible:boolean
+  handleCancel:() => void
+  handleOk:() => void
+}
+
+const Embed:FC<ModalVariationProps> = (props) => {
 
   const [url, setUrl] = useState<string>('')
 
   useEffect(() => {
-    if (props.mode === 'embed') setUrl(window.location.href)
+    setUrl(window.location.href)
   }, [])
 
-  // subscribe
+return (
+  <Modal visible={props.isModalVisible} width={'800px'} key={uniqId()} onCancel={props.handleCancel}
+         footer={[<FooterEmbed handleCancel={props.handleCancel} handleOk={props.handleOk} key={uniqId()} url={url}/>]}>
+    <div style={{marginTop:"30px"}}>
+      <SyntaxHighlighter language="javascript" style={stackoverflowLight}>
+        {getIframeCode(url)}
+      </SyntaxHighlighter>
+    </div>
+  </Modal>
+)
+}
 
-  const titleOptions = [
-    {
-      label: 'Report only new entries',
-      value: 'new',
-    },
-    {
-      label: 'Report new entries and updates to existing entries',
-      value: 'all',
-    },
-  ]
-  const map = useMap()
-  const bbox = convertBBoxToString(map.getBounds()).split(',')
+const Subscribe:FC<ModalVariationProps> = (props) => {
 
   const [email, setEmail] = useState('')
   const [frequency, setFrequency] = useState('week')
@@ -75,6 +109,9 @@ export const ModalComponent: (props: ModalComponentType) => JSX.Element = (props
     errorMail: false,
     errorTags: false
   })
+
+  const map = useMap()
+  const bbox = convertBBoxToString(map.getBounds()).split(',')
 
   const handlerRadioChange = (label) => {
     titleOptions.forEach((el, index) => {
@@ -87,17 +124,28 @@ export const ModalComponent: (props: ModalComponentType) => JSX.Element = (props
     setEmail(e.currentTarget.value)
   }
 
-  function validateTags(array) {
-    return array.length >= 1
+  const getData = () => {
+    return {
+      email: email,
+      changeType: currentType.value,
+      tags: arrayOfTags,
+      frequency: frequency,
+      bbox: {
+        lat1: bbox[0],
+        lng1: bbox[1],
+        lat2: bbox[2],
+        lng2: bbox[3],
+      },
+    }
   }
 
-  function validateData(){
+  const validateData = () => {
     let errorLocal = false
     if(!validateEmail(email)){
       errorLocal = true
       setError({...error,errorMail:true})
     }
-    else if(!validateTags(arrayOfTags)){
+    else if(!(arrayOfTags.length >= 1)){
       errorLocal = true
       setError({...error,errorTags:true})
     }
@@ -115,81 +163,48 @@ export const ModalComponent: (props: ModalComponentType) => JSX.Element = (props
       .catch((error) => console.log(error))
   }
 
-  function getData() {
-    return {
-      email: email,
-      changeType: currentType.value,
-      tags: arrayOfTags,
-      frequency: frequency,
-      bbox: {
-        lat1: bbox[0],
-        lng1: bbox[1],
-        lat2: bbox[2],
-        lng2: bbox[3],
-      },
-    }
-  }
 
 
-  const chooseModal = (mode) => {
-    switch (mode) {
-      case 'embed' : {
-        return (
-          <Modal visible={props.isModalVisible} width={'800px'} key={uniqId()} onCancel={handleCancel}
-                 footer={[<FooterEmbed handleCancel={handleCancel} handleOk={handleOk} key={uniqId()} url={url}/>]}>
-            <SyntaxHighlighter language="javascript" style={stackoverflowLight}>
-              {getIframeCode(url)}
-            </SyntaxHighlighter>
-          </Modal>
-        )
-      }
-      case 'subscribe' : {
-        return (
-          <Modal visible={props.isModalVisible} width={'500px'} className={'modal-subscribe'} onCancel={handleCancel}
-                 footer={[<FooterSubscribe handleCancel={handleCancel} handleOk={() => validateData()}
-                                           key={uniqId()} />]}>
-            <div className={'input-container'}>
-              <span className={'text'}>Please enter your email</span>
-              {error.errorMail && <span className={'error-text'}>Email is not correctly</span>}
-              <input className={`input ${error.errorMail && 'error'}`}
-                     value={email}
-                     onChange={handlerEmailChange} />
 
-              <span className={'text'}>Please enter tags for your subscribe</span>
-              {error.errorTags && <span className={'error-text'}> Select at least 1 tag</span>}
-              <SearchTags optionsCount={arrayOfTags} addOptionCount={setArrayOfTags} />
-              <span className={'text-margin'}>Please choose report frequency</span>
-              <select className={'select'} value={frequency} onChange={(e) => {
-                setFrequency(e.target.value)
-              }}>
-                <option>hour</option>
-                <option>day</option>
-                <option>week</option>
-              </select>
-              <span className={'text-margin'}>Please choose type of report</span>
-            </div>
+  return (
+    <Modal visible={props.isModalVisible} width={'500px'} className={'modal-subscribe'} onCancel={props.handleCancel}
+           footer={[<FooterSubscribe handleCancel={props.handleCancel} handleOk={() => validateData()}
+                                     key={uniqId()} />]}>
+      <div className={'input-container'}>
+        <span className={'text'}>Please enter your email</span>
+        {error.errorMail && <span className={'error-text'}>Email is not correctly</span>}
+        <input className={`input ${error.errorMail && 'error'}`}
+               value={email}
+               onChange={handlerEmailChange} />
 
-            <div className={'checkbox-container'}>
-              {titleOptions.map((el, index) => {
-                return (
-                  <label className={'label-flex'}>
-                    <input type="radio" className="option-input radio" name="type"
-                           checked={currentType.label === el.label}
-                           onChange={() => handlerRadioChange(el.label)} key={index + el.label} />
-                    {el.label}
-                  </label>
-                )
-              })}
-            </div>
-          </Modal>
-        )
-      }
-      default :
-        return null
-    }
-  }
+        <span className={'text'}>Please enter tags for your subscribe</span>
+        {error.errorTags && <span className={'error-text'}> Select at least 1 tag</span>}
+        <SearchTags optionsCount={arrayOfTags} addOptionCount={setArrayOfTags} />
+        <span className={'text-margin'}>Please choose report frequency</span>
+        <select className={'select'} value={frequency} onChange={(e) => {
+          setFrequency(e.target.value)
+        }}>
+          <option>hour</option>
+          <option>day</option>
+          <option>week</option>
+        </select>
+        <span className={'text-margin'}>Please choose type of report</span>
+      </div>
 
-  return chooseModal(props.mode)
+      <div className={'checkbox-container'}>
+        {titleOptions.map((el, index) => {
+          return (
+            <label className={'label-flex'}>
+              <input type="radio" className="option-input radio" name="type"
+                     checked={currentType.label === el.label}
+                     onChange={() => handlerRadioChange(el.label)} key={index + el.label} />
+              {el.label}
+            </label>
+          )
+        })}
+      </div>
+    </Modal>
+  )
 }
 
 // Footer for Modals
@@ -200,7 +215,7 @@ interface FooterType {
   url?: string
 }
 
-const FooterEmbed: (props: FooterType) => JSX.Element = (props: FooterType) => {
+const FooterEmbed:FC<FooterType> = (props) => {
 
   const showNotification = () => {
     notification.open({
@@ -226,7 +241,7 @@ const FooterEmbed: (props: FooterType) => JSX.Element = (props: FooterType) => {
       </CopyToClipboard>
     </div>)
 }
-const FooterSubscribe: (props: FooterType) => JSX.Element = (props: FooterType) => {
+const FooterSubscribe:FC<FooterType> = (props) => {
   return (
     <div className={'modal-footer-subscribe'} key={uniqId()}>
       <Button key={uniqId()} onClick={props.handleOk} className={'footer-button-subscribe'}>
@@ -240,4 +255,3 @@ const FooterSubscribe: (props: FooterType) => JSX.Element = (props: FooterType) 
       </Button>
     </div>)
 }
-

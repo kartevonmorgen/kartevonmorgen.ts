@@ -9,29 +9,29 @@ interface CustomZoomControlType {
 }
 
 export const MapCustomClassZoomControl: (props: CustomZoomControlType) => JSX.Element = (props:CustomZoomControlType) => {
+
   const map = useMap()
-  useEffect(() => {
-    function addControlPlaceholders(map) {
-      const corners = map._controlCorners,
-        l = 'leaflet-',
-        container = map._controlContainer
 
-      function createCorner(vSide, hSide) {
-        const className = l + vSide + ' ' + l + hSide
+  function addControlPlaceholders(map) {
+    const corners = map._controlCorners,
+      l = 'leaflet-',
+      container = map._controlContainer
 
-        corners[vSide + hSide] = L.DomUtil.create('div', className, container)
-      }
+    function createCorner(vSide, hSide) {
+      const className = l + vSide + ' ' + l + hSide
 
-      if(!props.createClass){
-        createCorner('verticalcenter', 'left')
-        createCorner('verticalcenter', 'right')
-        props.setCreateClass(true)
-      }
-
+      corners[vSide + hSide] = L.DomUtil.create('div', className, container)
     }
 
-    addControlPlaceholders(map)
-    // Change the position of the Zoom Control to a newly created placeholder.
+    createCorner('verticalcenter', 'left')
+    createCorner('verticalcenter', 'right')
+    props.setCreateClass(true)
+
+  }
+
+  useEffect(() => {
+    if(!props.createClass) addControlPlaceholders(map)
   }, [props.createClass])
-  return (<div/>)
+
+  return (<></>)
 }

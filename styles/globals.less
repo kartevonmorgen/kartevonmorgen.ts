@@ -227,18 +227,24 @@ a {
   .dropdown-container{
     display: flex;
     flex-direction:column;
-    align-items:flex-end;
+    align-items:flex-start;
 
     .dropdown-button{
       transition: all 1s ease-out;
       color: black;
       overflow: hidden;
-      padding:0;
       border-radius:7px;
+      padding: 0 7px 0 7px;
+      .text-container{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .small-text{
 
-      .text{
-        margin-left: 5px;
+        }
       }
+
+
     }
   }
   .main-button{
