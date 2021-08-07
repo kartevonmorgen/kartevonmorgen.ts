@@ -44,7 +44,7 @@ const HomeCitySearch: FC = React.memo(() => {
     },
   })
 
-  const showMapOnBtnClick = () => {
+  const showMapByClickOnButton = () => {
     router.push('/maps/main')
   }
 
@@ -94,7 +94,7 @@ const HomeCitySearch: FC = React.memo(() => {
 
       <div>
         {
-          show && <ShowMapBtn showMapOnBtnClick={showMapOnBtnClick} />
+          show && <ShowMapBtn showMapByClickOnButton={showMapByClickOnButton} />
         }
       </div>
     </div>

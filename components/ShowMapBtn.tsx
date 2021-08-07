@@ -3,12 +3,12 @@ import React from 'react'
 import useTranslation from 'next-translate/useTranslation'
 
 type ShowMapBtnPropsType = {
-  showMapOnBtnClick: () => void
+  showMapByClickOnButton: () => void
 }
 
-export const ShowMapBtn = React.memo((props: ShowMapBtnPropsType) => {
-  const {t} = useTranslation('home')
-  return <Button size={'large'} onClick={props.showMapOnBtnClick}>
+export const ShowMapBtn = (props: ShowMapBtnPropsType) => {
+  const { t } = useTranslation('home')
+  return <Button size={'large'} onClick={props.showMapByClickOnButton}>
     {t('landingPage.city-search.show-map')}
   </Button>
-})
+}

@@ -1,12 +1,17 @@
-import { FC } from 'react'
+import { FC, MouseEvent } from 'react'
 import useTranslation from 'next-translate/useTranslation'
 import { Col, Layout, Row, Typography } from 'antd'
 import HomeCitySearch from './HomeCitySearch'
-import { useRouter } from 'next/router'
+import { NextRouter, useRouter } from 'next/router'
 
 const { Content } = Layout
 const { Title } = Typography
 
+const openMapByClickingOnTheBackground = (router: NextRouter) => (e: MouseEvent<HTMLDivElement>) => {
+  if (e.currentTarget === e.target) {
+    router.push('/maps/main')
+  }
+}
 
 const Banner: FC = () => {
 
@@ -14,11 +19,6 @@ const Banner: FC = () => {
 
   const router = useRouter()
 
-  const divClick = (e) => {
-    if (e.currentTarget === e.target) {
-      router.push('/maps/main')
-    }
-  }
 
   return (
     <Content>
@@ -33,7 +33,7 @@ const Banner: FC = () => {
           justifyContent: 'center',
           cursor: 'pointer',
         }}
-        onClick={divClick}
+        onClick={openMapByClickingOnTheBackground(router)}
       >
         <Row style={{
           display: 'inline-block',

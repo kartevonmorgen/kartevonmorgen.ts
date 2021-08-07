@@ -37,7 +37,7 @@
     "imageUrl": "URL of an image",
     "imageLink": "Link (when clicking on the image, optional)",
     "cancel": "cancel",
-    "save": "save",
+    "save": "Save",
     "editEntryHeading": "Edit entry",
     "newEntryHeading": "New entry",
     "savingError": "Error while trying to save the entry...",

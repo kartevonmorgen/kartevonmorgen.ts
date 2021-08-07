@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useEffect } from 'react'
+import React, { FC, Fragment, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Button, Checkbox, DatePicker, Divider, Form, FormInstance, Input, Spin, Typography } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -18,6 +18,8 @@ import Point from '../dtos/Point'
 import { ExtendedGeocodeAddress, getCityFromAddress, reverseGeocode } from '../utils/geolocation'
 import { validate as isValidEmail } from 'isemail'
 import TagsSelect from './TagsSelect'
+import { InfoCircleOutlined } from '@ant-design/icons'
+import { ImageURlTutorialModal } from './ImageURlTutorialModal'
 
 
 const { useForm } = Form
@@ -151,6 +153,11 @@ const EventForm: FC<EventFormProps> = (props) => {
 
   const effectDeps = [...newPoint.toArray()]
 
+  const [showModalInfo, setShowModalInfo] = useState<boolean>(false)
+  const openImageTutorialModal = () => {
+    setShowModalInfo(true)
+  }
+
   // set address information if the map marker/pin moves
   useEffect(() => {
     if (!newPoint.isEmpty()) {
@@ -174,7 +181,7 @@ const EventForm: FC<EventFormProps> = (props) => {
     if (!event) {
       return (
         <div className='center'>
-          <Spin size="large"/>
+          <Spin size='large' />
         </div>
       )
     }
@@ -185,7 +192,7 @@ const EventForm: FC<EventFormProps> = (props) => {
 
   return (
     <Form
-      size="middle"
+      size='middle'
       style={{
         marginTop: 8,
       }}
@@ -198,19 +205,19 @@ const EventForm: FC<EventFormProps> = (props) => {
       form={form}
     >
 
-      <Form.Item name="id" hidden>
-        <Input disabled/>
+      <Form.Item name='id' hidden>
+        <Input disabled />
       </Form.Item>
 
       <Form.Item
-        name="title"
+        name='title'
         rules={[{ required: true, min: 3 }]}
       >
-        <Input placeholder="Title"/>
+        <Input placeholder='Title' />
       </Form.Item>
 
       <Form.Item
-        name="duration"
+        name='duration'
         rules={[{ required: true }]}
       >
         <RangePicker
@@ -220,17 +227,17 @@ const EventForm: FC<EventFormProps> = (props) => {
       </Form.Item>
 
       <Form.Item
-        name="description"
+        name='description'
         rules={[{ required: true }, { min: 10 }, { max: 250 }]}
       >
-        <TextArea placeholder="Description"/>
+        <TextArea placeholder='Description' />
       </Form.Item>
 
-      <Form.Item name="tags">
-        <TagsSelect/>
+      <Form.Item name='tags'>
+        <TagsSelect />
       </Form.Item>
 
-      <Divider orientation="left">Location</Divider>
+      <Divider orientation='left'>Location</Divider>
 
       <Form.Item>
         <Input.Group compact>
@@ -238,53 +245,53 @@ const EventForm: FC<EventFormProps> = (props) => {
             name={'city'}
             noStyle
           >
-            <Input style={{ width: '50%' }} placeholder="City"/>
+            <Input style={{ width: '50%' }} placeholder='City' />
           </Form.Item>
           <Form.Item
             name={'zip'}
             noStyle
           >
-            <Input style={{ width: '50%' }} placeholder="Zip"/>
+            <Input style={{ width: '50%' }} placeholder='Zip' />
           </Form.Item>
         </Input.Group>
       </Form.Item>
 
-      <Form.Item name="country" hidden/>
+      <Form.Item name='country' hidden />
 
-      <Form.Item name="state" hidden/>
+      <Form.Item name='state' hidden />
 
-      <Form.Item name="street">
-        <Input placeholder="Address"/>
+      <Form.Item name='street'>
+        <Input placeholder='Address' />
       </Form.Item>
 
       <Form.Item
-        name="lat"
+        name='lat'
         style={{
           display: 'inline-block',
           width: '50%',
         }}
       >
-        <Input placeholder="Latitude" disabled/>
+        <Input placeholder='Latitude' disabled />
       </Form.Item>
 
       <Form.Item
-        name="lng"
+        name='lng'
         style={{
           display: 'inline-block',
           width: '50%',
         }}
       >
-        <Input placeholder="Longitude" disabled/>
+        <Input placeholder='Longitude' disabled />
       </Form.Item>
 
-      <Divider orientation="left">Contact</Divider>
+      <Divider orientation='left'>Contact</Divider>
 
-      <Form.Item name="contact">
-        <Input placeholder="Contact Person" prefix={<FontAwesomeIcon icon="user"/>}/>
+      <Form.Item name='contact'>
+        <Input placeholder='Contact Person' prefix={<FontAwesomeIcon icon='user' />} />
       </Form.Item>
 
       <Form.Item
-        name="telephone"
+        name='telephone'
         rules={[
           {
             validator: (_, value) => (
@@ -295,11 +302,11 @@ const EventForm: FC<EventFormProps> = (props) => {
           },
         ]}
       >
-        <Input placeholder="Phone" prefix={<FontAwesomeIcon icon="phone"/>}/>
+        <Input placeholder='Phone' prefix={<FontAwesomeIcon icon='phone' />} />
       </Form.Item>
 
       <Form.Item
-        name="email"
+        name='email'
         rules={[
           {
             validator: (_, value) => (
@@ -310,41 +317,51 @@ const EventForm: FC<EventFormProps> = (props) => {
           },
         ]}
       >
-        <Input placeholder="Email" prefix={<FontAwesomeIcon icon="envelope"/>}/>
+        <Input placeholder='Email' prefix={<FontAwesomeIcon icon='envelope' />} />
       </Form.Item>
 
-      <Form.Item name="homepage">
-        <Input placeholder="homepage" prefix={<FontAwesomeIcon icon="globe"/>}/>
+      <Form.Item name='homepage'>
+        <Input placeholder='homepage' prefix={<FontAwesomeIcon icon='globe' />} />
       </Form.Item>
 
-      <Form.Item name="created_by" hidden>
-        <Input disabled/>
+      <Form.Item name='created_by' hidden>
+        <Input disabled />
       </Form.Item>
 
-      <Form.Item name="organizer">
-        <Input placeholder="organizer" prefix={<FontAwesomeIcon icon="user"/>}/>
+      <Form.Item name='organizer'>
+        <Input placeholder='organizer' prefix={<FontAwesomeIcon icon='user' />} />
       </Form.Item>
 
-      <Form.Item name="registration" hidden>
-        <Input disabled/>
+      <Form.Item name='registration' hidden>
+        <Input disabled />
       </Form.Item>
 
-      <Divider orientation="left">Image</Divider>
+      <Divider orientation='left'>Image</Divider>
 
-      <Form.Item name="image_url">
-        <Input placeholder="URL of an image" prefix={<FontAwesomeIcon icon="camera"/>}/>
+      <Form.Item name='image_url'>
+        <Input placeholder='URL of an image' prefix={<FontAwesomeIcon icon='camera' />} />
+        <InfoCircleOutlined
+          style={{
+            top: '-16px',
+            right: '9px',
+            position: 'absolute',
+            zIndex: 10,
+            cursor: 'pointer',
+            backgroundColor: 'white',
+          }}
+          onClick={openImageTutorialModal} />
       </Form.Item>
 
-      <Form.Item name="image_link_url">
-        <Input placeholder="Link" prefix={<FontAwesomeIcon icon="link"/>}/>
+      <Form.Item name='image_link_url'>
+        <Input placeholder='Link' prefix={<FontAwesomeIcon icon='link' />} />
       </Form.Item>
 
-      <Divider orientation="left">License</Divider>
+      <Divider orientation='left'>License</Divider>
 
       <Form.Item
-        name="license"
+        name='license'
         rules={[{ required: true }]}
-        valuePropName="value"
+        valuePropName='value'
       >
         {/*it's necessary to catch the value of the checkbox, but the out come will be a list*/}
         {/*so we should grab the first element*/}
@@ -355,7 +372,7 @@ const EventForm: FC<EventFormProps> = (props) => {
                 {`I have read and accept the Terms of the `}
                 <Link
                   href={process.env.NEXT_PUBLIC_CC_LINK}
-                  target="_blank"
+                  target='_blank'
                 >
                   Creative-Commons License CC0
                 </Link>
@@ -368,15 +385,18 @@ const EventForm: FC<EventFormProps> = (props) => {
 
 
       <Button
-        type="primary"
-        htmlType="submit"
+        type='primary'
+        htmlType='submit'
         style={{
           width: '100%',
         }}
       >
         Submit
       </Button>
-
+      <ImageURlTutorialModal
+        setShowModalInfo={setShowModalInfo}
+        showModalInfo={showModalInfo}
+      />renaming
     </Form>
   )
 }
