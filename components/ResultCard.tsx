@@ -74,16 +74,19 @@ const ResultCard: FC<ResultCardProps> = (props) => {
         title={title}
         description={getTimeDescriptionForEvent(searchResult, type)}
       />
-      <div>{description.substr(0, 70)}</div>
-      <div style={{ marginTop: 4 }}>
-        <Space size="small" wrap>
-          {
-            tags.slice(0, 3).map(
-              (tag: string) => (<Tag key={tag}>{tag}</Tag>),
-            )
-          }
-        </Space>
-      </div>
+      {tags && <>
+        <div>{description.substr(0, 70)}</div>
+        <div style={{ marginTop: 4 }}>
+          <Space size='small' wrap>
+            {
+              tags?.slice(0, 3).map(
+                (tag: string) => (<Tag key={tag}>{tag}</Tag>),
+              )
+            }
+          </Space>
+        </div>
+      </>
+      }
     </Item>
   )
 }

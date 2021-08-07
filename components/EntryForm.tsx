@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useEffect } from 'react'
+import React, { FC, Fragment, useEffect, useState } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../store'
@@ -25,6 +25,8 @@ import { renameProperties, setValuesToDefaultOrNull, transformObject } from '../
 import { isValidPhoneNumber } from 'libphonenumber-js'
 import { validate as isValidEmail } from 'isemail'
 import TagsSelect from './TagsSelect'
+import { NewEntry } from '../dtos/NewEntry'
+import { DuplicateModal } from './DuplicateModal'
 
 
 const { useForm } = Form
@@ -33,8 +35,16 @@ const { Link } = Typography
 
 
 // we declare both types NewEntryWithLicense for create, and NewEntryWithVersion for update
-type EntryFormType = NewEntryWithLicense | NewEntryWithVersion
+export type EntryFormType = NewEntryWithLicense | NewEntryWithVersion
 
+export interface DuplicatePayload extends NewEntry {
+  id: string | null
+  license: string | string[]
+  links: string[]
+  version: number
+  contact: string
+  custom_links?: string
+}
 
 const setAddressDetails = async (form: FormInstance, newPoint: Point) => {
   const place = await reverseGeocode(newPoint.toJson())
@@ -167,21 +177,6 @@ const addEntryToStateOnCreate = (
   addEntryToState(id, entry, dispatch)
 }
 
-const onFinish = (
-  router: NextRouter,
-  dispatch: AppDispatch,
-  isEdit: boolean,
-  entryId: SearchEntryID,
-) => async (entry: EntryFormType) => {
-  // todo: if failed then show a notification
-  const entryWithDefaultValues = setFieldsToDefaultOrNull(entry)
-  const adaptedEntry = transformFormFields(entryWithDefaultValues)
-
-  entryId = await createOrEditEntry(adaptedEntry, entryId, isEdit)
-
-  addEntryToStateOnCreate(isEdit, entryId, adaptedEntry, dispatch)
-  redirectToEntry(router, entryId)
-}
 
 
 type EntryCategories = Category.COMPANY | Category.INITIATIVE
@@ -193,9 +188,11 @@ interface EntryFormProps {
 }
 
 const EntryForm: FC<EntryFormProps> = (props) => {
+  const [showModal, setShowModal] = useState(false)
+  const [duplicate, setDuplicate] = useState<DuplicatePayload[]>([])
+  const [formData, setFormData] = useState({} as EntryFormType)
   // todo: for a better experience show spinner with the corresponding message when the form is loading
   // for example: fetching the address
-
   const { category, verb, entryId } = props
 
   const dispatch = useDispatch()
@@ -236,6 +233,76 @@ const EntryForm: FC<EntryFormProps> = (props) => {
   //it's an overwrite to be sure it's not empty for the new entries
   entry.categories = [category]
 
+  const checkDuplicateEntries = async (entry: NewEntryWithLicense) => {
+    const { title, description, city, zip, country, state, street, lat, lng, telephone, email } = entry
+    const license = Array.isArray(entry.license) ? entry.license.join('') : entry.license
+    const duplicate: DuplicatePayload = {
+      title,
+      description,
+      city,
+      zip,
+      country,
+      state,
+      street,
+      lat,
+      lng,
+      telephone,
+      email,
+      id: null,
+      homepage: null,
+      tags: [],
+      image_url: null,
+      image_link_url: null,
+      opening_hours: null,
+      links: [],
+      version: 1,
+      contact: null,
+      categories: [],
+      license,
+    }
+    const res = await AxiosInstance.PostRequest<DuplicatePayload[]>(
+      API_ENDPOINTS.checkForDuplicate(),
+      duplicate,
+    )
+    return res.data
+  }
+
+  const createNewEntry = async(
+    entry: EntryFormType,
+    router: NextRouter,
+    dispatch: AppDispatch,
+    isEdit: boolean,
+    entryId: SearchEntryID,
+  ) => {
+    const entryWithDefaultValues = setFieldsToDefaultOrNull(entry)
+    const adaptedEntry = transformFormFields(entryWithDefaultValues)
+
+    entryId = await createOrEditEntry(adaptedEntry, entryId, isEdit)
+
+    addEntryToStateOnCreate(isEdit, entryId, adaptedEntry, dispatch)
+    redirectToEntry(router, entryId)
+  }
+
+  const onFinish = (
+    router: NextRouter,
+    dispatch: AppDispatch,
+    isEdit: boolean,
+    entryId: SearchEntryID,
+  ) => async (entry: EntryFormType) => {
+    // todo: if failed then show a notification
+    setFormData(entry)
+    const duplicate = await checkDuplicateEntries(entry)
+    if (duplicate.length > 0) {
+      setShowModal(true)
+      setDuplicate(duplicate)
+    } else {
+      await createNewEntry(entry, router, dispatch, isEdit, entryId)
+    }
+  }
+
+  const HandlerModal = () => {
+    createNewEntry(formData, router, dispatch, isEdit, entryId)
+  }
 
   if (entriesError) {
     //  todo: show error notification, redirect to the search result view
@@ -246,7 +313,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
   if (!entries && isEdit) {
     return (
       <div className='center'>
-        <Spin size="large"/>
+        <Spin size='large' />
       </div>
     )
   }
@@ -257,9 +324,10 @@ const EntryForm: FC<EntryFormProps> = (props) => {
   }
 
   return (
+
     <Form
-      layout="vertical"
-      size="middle"
+      layout='vertical'
+      size='middle'
       style={{
         marginTop: 8,
       }}
@@ -268,40 +336,16 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       form={form}
     >
 
-      <Form.Item name="id" hidden>
-        <Input disabled/>
-      </Form.Item>
-
-      {/*the backend accepts an array that's because it's named plural*/}
-      {/* but in reality it contains only one category*/}
-      {/*and the value is initialized by the parent not the api in the edit mode*/}
-      <Form.Item name="categories" hidden>
-        <Select
-          mode="multiple"
-          disabled
+      {
+        showModal && <DuplicateModal
+          duplicate={duplicate}
+          showModal={showModal}
+          setShowModal={setShowModal}
+          HandlerModal={HandlerModal}
         />
-      </Form.Item>
+      }
 
-      <Form.Item
-        name="title"
-        rules={[{ required: true, min: 3 }]}
-      >
-        <Input placeholder="Title"/>
-      </Form.Item>
-
-      <Form.Item
-        name="description"
-        rules={[{ required: true, min: 10, max: 250 }]}
-      >
-        <TextArea placeholder="Description"/>
-      </Form.Item>
-
-      {/*add validation for the three tags*/}
-      <Form.Item name="tags">
-        <TagsSelect/>
-      </Form.Item>
-
-      <Divider orientation="left">Location</Divider>
+      <Divider orientation='left'>Location</Divider>
 
       <Form.Item>
         <Input.Group compact>
@@ -309,53 +353,89 @@ const EntryForm: FC<EntryFormProps> = (props) => {
             name={'city'}
             noStyle
           >
-            <Input style={{ width: '50%' }} placeholder="City"/>
+            <Input style={{ width: '50%' }} placeholder='City' />
           </Form.Item>
           <Form.Item
             name={'zip'}
             noStyle
           >
-            <Input style={{ width: '50%' }} placeholder="Zip"/>
+            <Input style={{ width: '50%' }} placeholder='Zip' />
           </Form.Item>
         </Input.Group>
       </Form.Item>
 
-      <Form.Item name="country" hidden/>
+      <Form.Item name='country' hidden />
 
-      <Form.Item name="state" hidden/>
+      <Form.Item name='state' hidden />
 
-      <Form.Item name="street">
-        <Input placeholder="Address"/>
+      <Form.Item name='street'>
+        <Input placeholder='Address' />
       </Form.Item>
 
       <Form.Item
-        name="lat"
+        name='lat'
         style={{
           display: 'inline-block',
           width: '50%',
         }}
       >
-        <Input placeholder="Latitude" disabled/>
+        <Input placeholder='Latitude' disabled />
       </Form.Item>
 
       <Form.Item
-        name="lng"
+        name='lng'
         style={{
           display: 'inline-block',
           width: '50%',
         }}
       >
-        <Input placeholder="Longitude" disabled/>
+        <Input placeholder='Longitude' disabled />
       </Form.Item>
 
-      <Divider orientation="left">Contact</Divider>
+      <Form.Item name='id' hidden>
+        <Input disabled />
+      </Form.Item>
 
-      <Form.Item name="contact">
-        <Input placeholder="Contact Person" prefix={<FontAwesomeIcon icon="user"/>}/>
+      {/*the backend accepts an array that's because it's named plural*/}
+      {/* but in reality it contains only one category*/}
+      {/*and the value is initialized by the parent not the api in the edit mode*/}
+      <Form.Item name='categories' hidden>
+        <Select
+          mode='multiple'
+          disabled
+        />
+      </Form.Item>
+
+      <Divider orientation='left'>Title</Divider>
+
+      <Form.Item
+        name='title'
+        rules={[{ required: true, min: 3 }]}
+      >
+        <Input placeholder='Title' />
       </Form.Item>
 
       <Form.Item
-        name="telephone"
+        name='description'
+        rules={[{ required: true, min: 10, max: 250 }]}
+      >
+        <TextArea placeholder='Description' />
+      </Form.Item>
+
+      <Divider orientation='left'>Tags</Divider>
+      {/*add validation for the three tags*/}
+      <Form.Item name='tags'>
+        <TagsSelect />
+      </Form.Item>
+
+      <Divider orientation='left'>Contact</Divider>
+
+      <Form.Item name='contact'>
+        <Input placeholder='Contact Person' prefix={<FontAwesomeIcon icon='user' />} />
+      </Form.Item>
+
+      <Form.Item
+        name='telephone'
         rules={[
           {
             validator: (_, value) => (
@@ -366,11 +446,11 @@ const EntryForm: FC<EntryFormProps> = (props) => {
           },
         ]}
       >
-        <Input placeholder="Phone" prefix={<FontAwesomeIcon icon="phone"/>}/>
+        <Input placeholder='Phone' prefix={<FontAwesomeIcon icon='phone' />} />
       </Form.Item>
 
       <Form.Item
-        name="email"
+        name='email'
         rules={[
           {
             validator: (_, value) => (
@@ -381,52 +461,52 @@ const EntryForm: FC<EntryFormProps> = (props) => {
           },
         ]}
       >
-        <Input placeholder="Email" prefix={<FontAwesomeIcon icon="envelope"/>}/>
+        <Input placeholder='Email' prefix={<FontAwesomeIcon icon='envelope' />} />
       </Form.Item>
 
-      <Form.Item name="homepage">
-        <Input placeholder="homepage" prefix={<FontAwesomeIcon icon="globe"/>}/>
+      <Form.Item name='homepage'>
+        <Input placeholder='homepage' prefix={<FontAwesomeIcon icon='globe' />} />
       </Form.Item>
 
-      <Form.Item name="opening_hours">
-        <Input placeholder="Opening Hours" prefix={<FontAwesomeIcon icon="clock"/>}/>
+      <Form.Item name='opening_hours'>
+        <Input placeholder='Opening Hours' prefix={<FontAwesomeIcon icon='clock' />} />
       </Form.Item>
 
       <div style={{ width: '100%', textAlign: 'center' }}>
         <Link
           href={process.env.NEXT_PUBLIC_OPENING_HOURS}
-          target="_blank"
+          target='_blank'
         >
           Find out the right format for your time
         </Link>
       </div>
 
-      <Divider orientation="left">Links and Social Media</Divider>
+      <Divider orientation='left'>Links and Social Media</Divider>
 
-      <Form.List name="custom_links">
+      <Form.List name='custom_links'>
         {(fields, { add, remove }) => (
           <Fragment>
             {fields.map(field => (
-              <Space key={field.key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
+              <Space key={field.key} style={{ display: 'flex', marginBottom: 8 }} align='baseline'>
                 <Form.Item
                   {...field}
                   name={[field.name, 'first']}
                   fieldKey={[field.fieldKey, 'first']}
                 >
-                  <Input placeholder="First Name"/>
+                  <Input placeholder='First Name' />
                 </Form.Item>
                 <Form.Item
                   {...field}
                   name={[field.name, 'last']}
                   fieldKey={[field.fieldKey, 'last']}
                 >
-                  <Input placeholder="Last Name"/>
+                  <Input placeholder='Last Name' />
                 </Form.Item>
-                <MinusCircleOutlined onClick={() => remove(field.name)}/>
+                <MinusCircleOutlined onClick={() => remove(field.name)} />
               </Space>
             ))}
             <Form.Item>
-              <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined/>}>
+              <Button type='dashed' onClick={() => add()} block icon={<PlusOutlined />}>
                 Add field
               </Button>
             </Form.Item>
@@ -434,22 +514,22 @@ const EntryForm: FC<EntryFormProps> = (props) => {
         )}
       </Form.List>
 
-      <Divider orientation="left">Image</Divider>
+      <Divider orientation='left'>Image</Divider>
 
-      <Form.Item name="image_url">
-        <Input placeholder="URL of an image" prefix={<FontAwesomeIcon icon="camera"/>}/>
+      <Form.Item name='image_url'>
+        <Input placeholder='URL of an image' prefix={<FontAwesomeIcon icon='camera' />} />
       </Form.Item>
 
-      <Form.Item name="image_link_url">
-        <Input placeholder="Link" prefix={<FontAwesomeIcon icon="link"/>}/>
+      <Form.Item name='image_link_url'>
+        <Input placeholder='Link' prefix={<FontAwesomeIcon icon='link' />} />
       </Form.Item>
 
-      <Divider orientation="left">License</Divider>
+      <Divider orientation='left'>License</Divider>
 
       <Form.Item
-        name="license"
+        name='license'
         rules={[{ required: true }]}
-        valuePropName="value"
+        valuePropName='value'
       >
         {/*it's necessary to catch the value of the checkbox, but the out come will be a list*/}
         {/*so we should grab the first element*/}
@@ -460,7 +540,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
                 {`I have read and accept the Terms of the `}
                 <Link
                   href={process.env.NEXT_PUBLIC_CC_LINK}
-                  target="_blank"
+                  target='_blank'
                 >
                   Creative-Commons License CC0
                 </Link>
@@ -471,13 +551,13 @@ const EntryForm: FC<EntryFormProps> = (props) => {
         />
       </Form.Item>
 
-      <Form.Item name="version" hidden>
-        <Input disabled/>
+      <Form.Item name='version' hidden>
+        <Input disabled />
       </Form.Item>
 
       <Button
-        type="primary"
-        htmlType="submit"
+        type='primary'
+        htmlType='submit'
         style={{
           width: '100%',
         }}

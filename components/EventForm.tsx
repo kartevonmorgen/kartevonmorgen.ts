@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useEffect } from 'react'
+import React, { FC, Fragment, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Button, Checkbox, DatePicker, Divider, Form, FormInstance, Input, Spin, Typography } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -18,12 +18,25 @@ import Point from '../dtos/Point'
 import { ExtendedGeocodeAddress, getCityFromAddress, reverseGeocode } from '../utils/geolocation'
 import { validate as isValidEmail } from 'isemail'
 import TagsSelect from './TagsSelect'
+import { DuplicatePayload } from './EntryForm'
+import { DuplicateModal } from './DuplicateModal'
 
 
 const { useForm } = Form
 const { TextArea } = Input
 const { RangePicker } = DatePicker
 const { Link } = Typography
+
+type DurationType = {
+  [key: number]: {}
+}
+
+interface DuplicateEventPayload extends DuplicatePayload {
+  created_by?: string
+  duration?: DurationType
+  organizer?: string
+  registration?: string
+}
 
 
 const setAddressDetails = async (form: FormInstance, newPoint: Point) => {
@@ -114,19 +127,6 @@ const createOrEditEvent = async (
 // todo: it has an issue that we may duplicate the entry in the state twice!
 // once manually and the other with the automatic fetching of api!
 // double check
-const onFinish = (
-  router: NextRouter,
-  dispatch: AppDispatch,
-  isEdit: boolean,
-) => async (eventFormValues: any) => {
-  // todo: if failed shoe a notification
-
-  const adaptedFormValues = onSendAdapter(eventFormValues)
-  const eventId = await createOrEditEvent(adaptedFormValues, isEdit)
-
-  addEventToStateOnCreate(dispatch, adaptedFormValues, isEdit)
-  redirectToEvent(router, eventId)
-}
 
 
 interface EventFormProps {
@@ -136,6 +136,9 @@ interface EventFormProps {
 
 
 const EventForm: FC<EventFormProps> = (props) => {
+  const [showModal, setShowModal] = useState(false)
+  const [duplicate, setDuplicate] = useState<DuplicatePayload[]>([])
+  const [formData, setFormData] = useState({});
 
   const { verb, eventId } = props
 
@@ -174,7 +177,7 @@ const EventForm: FC<EventFormProps> = (props) => {
     if (!event) {
       return (
         <div className='center'>
-          <Spin size="large"/>
+          <Spin size='large' />
         </div>
       )
     }
@@ -182,10 +185,76 @@ const EventForm: FC<EventFormProps> = (props) => {
     formInitialValues = onReceiveAdapter(event)
   }
 
+  const checkDuplicateEntries = async (eventFormValues: any) => {
+    const { title, description, city, zip, country, state, street, lat, lng, telephone, email, } = eventFormValues
+    const license = Array.isArray(eventFormValues.license) ? eventFormValues.license.join('') : eventFormValues.license
+    const duplicate: DuplicateEventPayload = {
+      title,
+      description,
+      city,
+      zip,
+      country,
+      state,
+      street,
+      lat,
+      lng,
+      telephone,
+      email,
+      id: null,
+      homepage: null,
+      tags: [],
+      image_url: null,
+      image_link_url: null,
+      opening_hours: null,
+      links: [],
+      version: 1,
+      contact: null,
+      categories: [],
+      license,
+    }
+    const res = await AxiosInstance.PostRequest<DuplicatePayload[]>(
+      API_ENDPOINTS.checkForDuplicate(),
+      duplicate,
+    )
+    return res.data
+  }
+
+  const createNewEntry = async(
+    eventFormValues: any,
+    router: NextRouter,
+    dispatch: AppDispatch,
+    isEdit: boolean,
+  ) => {
+    const adaptedFormValues = await onSendAdapter(eventFormValues)
+    const eventId = await createOrEditEvent(adaptedFormValues, isEdit)
+
+    addEventToStateOnCreate(dispatch, adaptedFormValues, isEdit)
+    redirectToEvent(router, eventId)
+  }
+
+  const onFinish = (
+    router: NextRouter,
+    dispatch: AppDispatch,
+    isEdit: boolean,
+  ) => async (eventFormValues: any) => {
+    // todo: if failed shoe a notification
+    setFormData(eventFormValues)
+    const duplicate = await checkDuplicateEntries(eventFormValues)
+    if (duplicate.length > 0) {
+      setDuplicate(duplicate)
+      setShowModal(true)
+    } else {
+      await createNewEntry(eventFormValues, router, dispatch, isEdit)
+    }
+  }
+
+  const HandlerModal = () => {
+    createNewEntry(formData, router, dispatch, isEdit)
+  }
 
   return (
     <Form
-      size="middle"
+      size='middle'
       style={{
         marginTop: 8,
       }}
@@ -198,19 +267,77 @@ const EventForm: FC<EventFormProps> = (props) => {
       form={form}
     >
 
-      <Form.Item name="id" hidden>
-        <Input disabled/>
+      {
+        showModal && <DuplicateModal
+          duplicate={duplicate}
+          showModal={showModal}
+          setShowModal={setShowModal}
+          HandlerModal={HandlerModal}
+        />
+      }
+
+      <Divider orientation='left'>Location</Divider>
+
+      <Form.Item>
+        <Input.Group compact>
+          <Form.Item
+            name={'city'}
+            noStyle
+          >
+            <Input style={{ width: '50%' }} placeholder='City' />
+          </Form.Item>
+          <Form.Item
+            name={'zip'}
+            noStyle
+          >
+            <Input style={{ width: '50%' }} placeholder='Zip' />
+          </Form.Item>
+        </Input.Group>
+      </Form.Item>
+
+      <Form.Item name='country' hidden />
+
+      <Form.Item name='state' hidden />
+
+      <Form.Item name='street'>
+        <Input placeholder='Address' />
       </Form.Item>
 
       <Form.Item
-        name="title"
+        name='lat'
+        style={{
+          display: 'inline-block',
+          width: '50%',
+        }}
+      >
+        <Input placeholder='Latitude' disabled />
+      </Form.Item>
+
+      <Form.Item
+        name='lng'
+        style={{
+          display: 'inline-block',
+          width: '50%',
+        }}
+      >
+        <Input placeholder='Longitude' disabled />
+      </Form.Item>
+
+      <Divider orientation='left'>Title</Divider>
+
+      <Form.Item name='id' hidden>
+        <Input disabled />
+      </Form.Item>
+
+      <Form.Item
+        name='title'
         rules={[{ required: true, min: 3 }]}
       >
-        <Input placeholder="Title"/>
+        <Input placeholder='Title' />
       </Form.Item>
 
       <Form.Item
-        name="duration"
+        name='duration'
         rules={[{ required: true }]}
       >
         <RangePicker
@@ -220,71 +347,26 @@ const EventForm: FC<EventFormProps> = (props) => {
       </Form.Item>
 
       <Form.Item
-        name="description"
+        name='description'
         rules={[{ required: true }, { min: 10 }, { max: 250 }]}
       >
-        <TextArea placeholder="Description"/>
+        <TextArea placeholder='Description' />
       </Form.Item>
 
-      <Form.Item name="tags">
-        <TagsSelect/>
+      <Divider orientation='left'>Tags</Divider>
+
+      <Form.Item name='tags'>
+        <TagsSelect />
       </Form.Item>
 
-      <Divider orientation="left">Location</Divider>
+      <Divider orientation='left'>Contact</Divider>
 
-      <Form.Item>
-        <Input.Group compact>
-          <Form.Item
-            name={'city'}
-            noStyle
-          >
-            <Input style={{ width: '50%' }} placeholder="City"/>
-          </Form.Item>
-          <Form.Item
-            name={'zip'}
-            noStyle
-          >
-            <Input style={{ width: '50%' }} placeholder="Zip"/>
-          </Form.Item>
-        </Input.Group>
-      </Form.Item>
-
-      <Form.Item name="country" hidden/>
-
-      <Form.Item name="state" hidden/>
-
-      <Form.Item name="street">
-        <Input placeholder="Address"/>
+      <Form.Item name='contact'>
+        <Input placeholder='Contact Person' prefix={<FontAwesomeIcon icon='user' />} />
       </Form.Item>
 
       <Form.Item
-        name="lat"
-        style={{
-          display: 'inline-block',
-          width: '50%',
-        }}
-      >
-        <Input placeholder="Latitude" disabled/>
-      </Form.Item>
-
-      <Form.Item
-        name="lng"
-        style={{
-          display: 'inline-block',
-          width: '50%',
-        }}
-      >
-        <Input placeholder="Longitude" disabled/>
-      </Form.Item>
-
-      <Divider orientation="left">Contact</Divider>
-
-      <Form.Item name="contact">
-        <Input placeholder="Contact Person" prefix={<FontAwesomeIcon icon="user"/>}/>
-      </Form.Item>
-
-      <Form.Item
-        name="telephone"
+        name='telephone'
         rules={[
           {
             validator: (_, value) => (
@@ -295,11 +377,11 @@ const EventForm: FC<EventFormProps> = (props) => {
           },
         ]}
       >
-        <Input placeholder="Phone" prefix={<FontAwesomeIcon icon="phone"/>}/>
+        <Input placeholder='Phone' prefix={<FontAwesomeIcon icon='phone' />} />
       </Form.Item>
 
       <Form.Item
-        name="email"
+        name='email'
         rules={[
           {
             validator: (_, value) => (
@@ -310,41 +392,41 @@ const EventForm: FC<EventFormProps> = (props) => {
           },
         ]}
       >
-        <Input placeholder="Email" prefix={<FontAwesomeIcon icon="envelope"/>}/>
+        <Input placeholder='Email' prefix={<FontAwesomeIcon icon='envelope' />} />
       </Form.Item>
 
-      <Form.Item name="homepage">
-        <Input placeholder="homepage" prefix={<FontAwesomeIcon icon="globe"/>}/>
+      <Form.Item name='homepage'>
+        <Input placeholder='homepage' prefix={<FontAwesomeIcon icon='globe' />} />
       </Form.Item>
 
-      <Form.Item name="created_by" hidden>
-        <Input disabled/>
+      <Form.Item name='created_by' hidden>
+        <Input disabled />
       </Form.Item>
 
-      <Form.Item name="organizer">
-        <Input placeholder="organizer" prefix={<FontAwesomeIcon icon="user"/>}/>
+      <Form.Item name='organizer'>
+        <Input placeholder='organizer' prefix={<FontAwesomeIcon icon='user' />} />
       </Form.Item>
 
-      <Form.Item name="registration" hidden>
-        <Input disabled/>
+      <Form.Item name='registration' hidden>
+        <Input disabled />
       </Form.Item>
 
-      <Divider orientation="left">Image</Divider>
+      <Divider orientation='left'>Image</Divider>
 
-      <Form.Item name="image_url">
-        <Input placeholder="URL of an image" prefix={<FontAwesomeIcon icon="camera"/>}/>
+      <Form.Item name='image_url'>
+        <Input placeholder='URL of an image' prefix={<FontAwesomeIcon icon='camera' />} />
       </Form.Item>
 
-      <Form.Item name="image_link_url">
-        <Input placeholder="Link" prefix={<FontAwesomeIcon icon="link"/>}/>
+      <Form.Item name='image_link_url'>
+        <Input placeholder='Link' prefix={<FontAwesomeIcon icon='link' />} />
       </Form.Item>
 
-      <Divider orientation="left">License</Divider>
+      <Divider orientation='left'>License</Divider>
 
       <Form.Item
-        name="license"
+        name='license'
         rules={[{ required: true }]}
-        valuePropName="value"
+        valuePropName='value'
       >
         {/*it's necessary to catch the value of the checkbox, but the out come will be a list*/}
         {/*so we should grab the first element*/}
@@ -355,7 +437,7 @@ const EventForm: FC<EventFormProps> = (props) => {
                 {`I have read and accept the Terms of the `}
                 <Link
                   href={process.env.NEXT_PUBLIC_CC_LINK}
-                  target="_blank"
+                  target='_blank'
                 >
                   Creative-Commons License CC0
                 </Link>
@@ -368,8 +450,8 @@ const EventForm: FC<EventFormProps> = (props) => {
 
 
       <Button
-        type="primary"
-        htmlType="submit"
+        type='primary'
+        htmlType='submit'
         style={{
           width: '100%',
         }}
