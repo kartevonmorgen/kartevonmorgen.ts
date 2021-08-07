@@ -12,6 +12,10 @@ export default css.global`
  border-color: #555;
 }
 
+.hashtag_checkbox_group {
+  margin: 10px;
+}
+
 .ant-btn-primary:hover {
  background-color: #777;
  border-color: #666;
