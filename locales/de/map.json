@@ -342,11 +342,29 @@
     },
     "embed": {
       "findOutMore": "Mehr über das Teilen und Einbetten von Karten"
+    },
+    "subscribe": {
+      "enterEmail": "Bitte geben Sie ihre E-Mail-Adresse ein",
+      "errorEmail": "Die eingegebene E-Mail ist ungültig",
+      "enterTags": "Bitte geben Sie Tags für Ihr Abonnement ein",
+      "errorTags": "Wählen Sie mindestens 1 Tag aus",
+      "enterFrequency":{
+        "question":"Bitte wählen Sie die Berichtshäufigkeit",
+        "day":"Tag",
+        "hour":"Stunde",
+        "week":"Woche"
+      },
+      "enterType": {
+        "question":"Bitte wählen Sie die Art des Berichts",
+        "all":"Nur neue Einträge melden",
+        "upd":"Melden Sie neue Einträge und Aktualisierungen bestehender Einträge"
+      }
     }
   },
   "share": "Teilen",
   "copy": "Kopieren",
   "embed": "Als Iframe einbetten",
+  "subscribe": "Abonnieren",
   "burgerMenu": {
     "home": "Startseite",
     "join": "Mitmachen",
@@ -354,5 +372,9 @@
     "contact": "Kontakt",
     "aboutUs": "Über uns",
     "privacy": "Datenschutzerklärung"
+  },
+  "tooltip": {
+    "addEntry": "Eintrag hinzufügen",
+    "locateMe": "Lokalisiere mich"
   }
 }

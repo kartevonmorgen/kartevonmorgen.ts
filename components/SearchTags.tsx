@@ -4,6 +4,7 @@ import produce from 'immer'
 import { convertQueryParamToArray, removeRoutingQueryParams, updateRoutingQuery } from '../utils/utils'
 import TagsSelect from './TagsSelect'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
+import useTranslation from 'next-translate/useTranslation'
 
 
 const searchTag = (router: NextRouter) => (tag: string) => {
@@ -67,33 +68,37 @@ const removeTagFromRouter = (router: NextRouter) => (tagToRemove: string) => {
 }
 
 
-interface SearchTagsProps {
+interface SearchTagsType {
   optionsCount?: Array<any>
   addOptionCount?: (value) => void
 }
 
-export const SearchTags: FC<SearchTagsProps> = ({ optionsCount=[],addOptionCount }) => {
+export const SearchTags: FC<SearchTagsType> = ({ optionsCount = [],
+                                                 addOptionCount = (value: string) => {} }) => {
   // the ant select uses useLayout internally and we need to be sure it's mounted on the browser
   const [showSelect, setShowSelect] = useState<boolean>(false)
+  const { t } = useTranslation('map')
   useEffect(() => {
     setShowSelect(true)
   }, [])
 
   const router = useRouter()
 
-  const addTag = (value:string) => {
-    const newArr = optionsCount
-    newArr.push(value)
-    addOptionCount(newArr)
+  const resetTagsList = (tagsList: string[]) => {
+    const { query } = router
+    const newQueryParams = updateRoutingQuery(query, { tag: tagsList })
+    const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
+
+    router.replace(
+      {
+        pathname: `/maps/${newPath}`,
+        query: newQueryWithoutSlug,
+      },
+      undefined,
+      { shallow: true },
+    )
   }
-  const deleteTag = (value:string) => {
-    const newArr = optionsCount.filter((el) => el !== value)
-    addOptionCount(newArr)
-  }
-  const clearAllTag = () => {
-    const newArr = []
-    addOptionCount(newArr)
-  }
+
   return (
     <Fragment>
       {showSelect && (
@@ -103,19 +108,7 @@ export const SearchTags: FC<SearchTagsProps> = ({ optionsCount=[],addOptionCount
           }}
         >
           <TagsSelect
-            placeholder="Search for tags"
-            onSelect={(value,option) => {
-              addTag(value)
-              searchTag(router)}
-            }
-            onDeselect={(value,option) => {
-              deleteTag(value)
-              removeTagFromRouter(router)}}
-            onClear={() => {
-              clearAllTag()
-              removeAllTagsFromRouter(router)
-            }
-            }
+            setTagsCallback={resetTagsList}
           />
         </div>
       )}

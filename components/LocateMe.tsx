@@ -1,10 +1,10 @@
-import { FC } from 'react'
+import React, { FC } from 'react'
 import { useRouter } from 'next/router'
-import { Button } from 'antd'
+import { Button, Tooltip } from 'antd'
 import { updateRoutingQuery } from '../utils/utils'
 import { AimOutlined } from '@ant-design/icons'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
-
+import useTranslation from 'next-translate/useTranslation'
 
 const getCurrentPosition = async (): Promise<GeolocationPosition> => {
   return new Promise((resolve, reject) => {
@@ -21,8 +21,7 @@ const getCurrentPosition = async (): Promise<GeolocationPosition> => {
   })
 }
 
-
-const setQueryParamsToCurrentLocation = (router) => async () => {
+export const setQueryParamsToCurrentLocation = (router) => async () => {
   const { query } = router
 
   try {
@@ -52,13 +51,15 @@ const setQueryParamsToCurrentLocation = (router) => async () => {
 
 const LocateMe: FC = () => {
   const router = useRouter()
-
+  const { t } = useTranslation('map')
   return (
-    <Button
-      type="primary"
-      icon={<AimOutlined/>}
-      onClick={setQueryParamsToCurrentLocation(router)}
-    />
+    <Tooltip placement="left" title={t("tooltip.locateMe")}>
+      <Button
+        type="primary"
+        icon={<AimOutlined />}
+        onClick={setQueryParamsToCurrentLocation(router)}
+      />
+    </Tooltip>
   )
 }
 

@@ -342,6 +342,23 @@
     },
     "embed": {
       "findOutMore": "Find out more about map sharing and embedding options"
+    },
+    "subscribe": {
+      "enterEmail": "Please enter your Email",
+      "errorEmail": "Email is not correctly",
+      "enterTags": "Please enter tags for your subscribe",
+      "errorTags": "Select at least 1 tag",
+      "enterFrequency":{
+        "question":"Please choose report frequency",
+        "day":"day",
+        "hour":"hour",
+        "week":"week"
+      },
+      "enterType": {
+        "question":"Please choose type of report",
+        "all":"Report only new entries",
+        "upd":"Report new entries and updates to existing entries"
+      }
     }
   },
   "share": "Share",
@@ -354,5 +371,9 @@
     "contact": "Contact",
     "aboutUs": "About",
     "privacy": "Privacy"
+  },
+  "tooltip": {
+    "addEntry": "Add entry",
+    "locateMe": "Locate me"
   }
 }

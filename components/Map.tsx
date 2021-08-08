@@ -21,9 +21,8 @@ import BurgerMenu from './BurgerMenu'
 import MapQueryParamsListener from './MapQueryParamsListener'
 import LocateMe from './LocateMe'
 import ShareEntryButton from './ShareEntryButton'
-import { ModalComponent} from './Modal'
+import { MapModalMode, MapShareModal } from './MapShareModal'
 import { MapCustomClassZoomControl } from './MapCustomClassZoomController'
-
 
 
 const icons = {
@@ -145,17 +144,17 @@ const Map: FC = () => {
 
       <MapCustomClassZoomControl createClass={createClass} setCreateClass={setCreateClass}/>
 
-      <ModalComponent isModalVisible={isModalVisibleEmbed} setIsModalVisible={setIsModalVisibleEmbed} mode={'embed'} />
+      <MapShareModal isModalVisible={isModalVisibleEmbed} setIsModalVisible={setIsModalVisibleEmbed} mode={MapModalMode.EMBED} />
 
-      <ModalComponent isModalVisible={isModalVisibleSubscribe} setIsModalVisible={setIsModalVisibleSubscribe} mode={'subscribe'} />
+      <MapShareModal isModalVisible={isModalVisibleSubscribe} setIsModalVisible={setIsModalVisibleSubscribe} mode={MapModalMode.SUBSCRIPTION} />
 
       <div id="map-top-right">
         <BurgerMenu />
       </div>
 
       <div className={'map-bottom-right'}>
-        <AddEntryButton />
-        <LocateMe />
+          <AddEntryButton />
+          <LocateMe />
       </div>
 
       <div id="map-bottom-share">

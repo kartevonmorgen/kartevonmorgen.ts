@@ -172,12 +172,6 @@ export const cropText = (
 }
 
 
-export function uniqId(prefix = "", random = false) {
-  const sec = Date.now() * 1000 + Math.random() * 1000;
-  const id = sec.toString(16).replace(/\./g, "").padEnd(14, "0");
-  return `${prefix}${id}${random ? `.${Math.trunc(Math.random() * 100000000)}`:""}`;
-};
-
 export function validateEmail(email) {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());

@@ -1,14 +1,14 @@
 import { useMap } from 'react-leaflet'
-import React, { useEffect } from 'react'
+import React, { FC, useEffect } from 'react'
 import L from 'leaflet'
 
 
-interface CustomZoomControlType {
+interface CustomZoomControlProps {
   createClass: boolean,
   setCreateClass: (value:boolean) => void
 }
 
-export const MapCustomClassZoomControl: (props: CustomZoomControlType) => JSX.Element = (props:CustomZoomControlType) => {
+export const MapCustomClassZoomControl:FC<CustomZoomControlProps> = (props:CustomZoomControlProps) => {
 
   const map = useMap()
 

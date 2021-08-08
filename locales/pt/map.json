@@ -286,14 +286,39 @@
       "text": "Events werden zur Zeit noch nicht unterstützt.\n\n Ob Tagung, Konferenz oder Festival - auf der Karte von morgen sollen auch bald Events eingetragen werden. Wir planen außerdem einen Veranstaltungskalender, der die Ergebnisse anzeigt und exportiert.\n\n Helfe mit, damit diese Funktion schon bald verfügbar ist und beteilige Dich an der Spendenaktion auf betterplace.org!",
       "close": "schließen",
       "donate": "spenden"
+    },
+    "subscribe": {
+      "enterEmail": "Por favor, digite seu e-mail",
+      "errorEmail": "Email não está correto",
+      "enterTags": "Por favor, insira tags para sua inscrição",
+      "errorTags": "Selecione pelo menos 1 tag",
+      "enterFrequency":{
+        "question":"Escolha a frequência do relatório",
+        "day":"dia dia",
+        "hour":"hora",
+        "week":"semana"
+      },
+      "enterType": {
+        "question":"Por favor, escolha o tipo de relatório",
+        "all":"Reportar apenas novas entradas",
+        "upd":"Reportar novas entradas e atualizações às entradas existentes"
+      }
     }
   },
   "burgerMenu": {
-    "home": "Home",
-    "join": "Join",
+    "home": "Casa",
+    "join": "Aderir",
     "loginForPilots": "Login",
-    "contact": "Contact",
+    "contact": "Contato",
     "aboutUs": "About",
-    "privacy": "Privacy"
+    "privacy": "Privacidade"
+  },
+  "subscribe": "se inscrever",
+  "share": "compartilhada",
+  "copy": "cópia de",
+  "embed": "Embutir",
+  "tooltip": {
+    "addEntry": "Adicionar entrada",
+    "locateMe": "Me localize"
   }
 }

@@ -342,11 +342,29 @@
     },
     "embed": {
       "findOutMore": "Más información sobre las opciones para compartir e integrar mapas en otros sitios web"
+    },
+    "subscribe": {
+      "enterEmail": "Por favor introduzca su correo electrónico",
+      "errorEmail": "El correo electrónico no es correcto",
+      "enterTags": "Introduzca etiquetas para su suscripción",
+      "errorTags": "Seleccione al menos 1 etiqueta",
+      "enterFrequency":{
+        "question":"Elija la frecuencia del informe",
+        "day":"día día",
+        "hour":"hora",
+        "week":"semana"
+      },
+      "enterType": {
+        "question":"Elija el tipo de informe",
+        "all":"Informar solo las entradas nuevas",
+        "upd":"Informar nuevas entradas y actualizaciones de las entradas existentes"
+      }
     }
   },
   "share": "Compartir",
   "copy": "Copiar",
   "embed": "Embed",
+  "subscribe": "suscribir",
   "burgerMenu": {
     "home": "Inicio",
     "join": "Unirse",
@@ -354,5 +372,9 @@
     "contact": "Contacto",
     "aboutUs": "Sobre nosotros",
     "privacy": "Declaración de privacidad"
+  },
+  "tooltip": {
+    "addEntry": "Añadir entrada",
+    "locateMe": "Ubicame"
   }
 }

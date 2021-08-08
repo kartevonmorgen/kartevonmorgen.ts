@@ -1,15 +1,17 @@
-import { FC } from 'react'
+import React, { FC } from 'react'
 import { NextRouter, useRouter } from 'next/router'
-import { Button } from 'antd'
+import { Button, Tooltip } from 'antd'
 import { PlusCircleOutlined } from '@ant-design/icons'
 import produce from 'immer'
 import { convertQueryParamToArray } from '../utils/utils'
 import { createSlugPathFromQueryAndRemoveSlug, getRootSlugActionFromQuery } from '../utils/slug'
 import { PluralRootSlugEntity, RootSlugEntity, SlugVerb } from '../utils/types'
+import useTranslation from 'next-translate/useTranslation'
 
 
 const onAddEntity = (router: NextRouter) => () => {
   const { query } = router
+
 
   // be sure the state is not in the edit or create mode
   const slugAction = getRootSlugActionFromQuery(query)
@@ -39,17 +41,19 @@ const onAddEntity = (router: NextRouter) => () => {
 
 const AddEntryButton: FC = () => {
   const router = useRouter()
-
+  const { t } = useTranslation('map')
   return (
-    <Button
-      style={{
-        marginBottom: 8,
-      }}
-      type="primary"
-      size="middle"
-      icon={<PlusCircleOutlined/>}
-      onClick={onAddEntity(router)}
-    />
+    <Tooltip placement="left" title={t("tooltip.addEntry")}>
+      <Button
+        style={{
+          marginBottom: 8,
+        }}
+        type="primary"
+        size="middle"
+        icon={<PlusCircleOutlined />}
+        onClick={onAddEntity(router)}
+      />
+    </Tooltip>
   )
 }
 
