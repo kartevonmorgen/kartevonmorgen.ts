@@ -26,7 +26,7 @@ import { isValidPhoneNumber } from 'libphonenumber-js'
 import { validate as isValidEmail } from 'isemail'
 import TagsSelect from './TagsSelect'
 import { NewEntry } from '../dtos/NewEntry'
-import { DuplicateModal } from './DuplicateModal'
+import DuplicateListModal from './DuplicateListModal'
 
 
 const { useForm } = Form
@@ -233,7 +233,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
   //it's an overwrite to be sure it's not empty for the new entries
   entry.categories = [category]
 
-  const checkDuplicateEntries = async (entry: NewEntryWithLicense) => {
+  const checkDuplicateEntries = async (entry: NewEntryWithLicense): Promise<DuplicatePayload[]> => {
     const { title, description, city, zip, country, state, street, lat, lng, telephone, email } = entry
     const license = Array.isArray(entry.license) ? entry.license.join('') : entry.license
     const duplicate: DuplicatePayload = {
@@ -335,15 +335,12 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       onFinish={onFinish(router, dispatch, isEdit, entryId)}
       form={form}
     >
-
-      {
-        showModal && <DuplicateModal
+        <DuplicateListModal
           duplicate={duplicate}
           showModal={showModal}
           setShowModal={setShowModal}
           HandlerModal={HandlerModal}
         />
-      }
 
       <Divider orientation='left'>Location</Divider>
 

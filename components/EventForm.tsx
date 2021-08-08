@@ -19,7 +19,7 @@ import { ExtendedGeocodeAddress, getCityFromAddress, reverseGeocode } from '../u
 import { validate as isValidEmail } from 'isemail'
 import TagsSelect from './TagsSelect'
 import { DuplicatePayload } from './EntryForm'
-import { DuplicateModal } from './DuplicateModal'
+import  DuplicateListModal from './DuplicateListModal'
 
 
 const { useForm } = Form
@@ -185,7 +185,7 @@ const EventForm: FC<EventFormProps> = (props) => {
     formInitialValues = onReceiveAdapter(event)
   }
 
-  const checkDuplicateEntries = async (eventFormValues: any) => {
+  const checkDuplicateEntries = async (eventFormValues: any): Promise<DuplicatePayload[]> => {
     const { title, description, city, zip, country, state, street, lat, lng, telephone, email, } = eventFormValues
     const license = Array.isArray(eventFormValues.license) ? eventFormValues.license.join('') : eventFormValues.license
     const duplicate: DuplicateEventPayload = {
@@ -267,14 +267,12 @@ const EventForm: FC<EventFormProps> = (props) => {
       form={form}
     >
 
-      {
-        showModal && <DuplicateModal
+        <DuplicateListModal
           duplicate={duplicate}
           showModal={showModal}
           setShowModal={setShowModal}
           HandlerModal={HandlerModal}
         />
-      }
 
       <Divider orientation='left'>Location</Divider>
 
