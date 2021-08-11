@@ -238,7 +238,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       API_ENDPOINTS.checkForDuplicate(),
       {
         ...entry,
-        license: Array.isArray(entry.license) ? entry.license.join('') : entry.license,
+        license: '',
         tags: [],
         categories: []
       },

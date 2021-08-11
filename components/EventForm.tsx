@@ -183,7 +183,7 @@ const EventForm: FC<EventFormProps> = (props) => {
       API_ENDPOINTS.checkForDuplicate(),
       {
         ...eventFormValues,
-        license: Array.isArray(eventFormValues.license) ? eventFormValues.license.join('') : eventFormValues.license,
+        license: '',
         tags: [],
         categories: []
       },
