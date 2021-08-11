@@ -31,13 +31,6 @@ type DurationType = {
   [key: number]: {}
 }
 
-interface DuplicateEventPayload extends DuplicatePayload {
-  created_by?: string
-  duration?: DurationType
-  organizer?: string
-  registration?: string
-}
-
 
 const setAddressDetails = async (form: FormInstance, newPoint: Point) => {
   const place = await reverseGeocode(newPoint.toJson())
@@ -186,35 +179,14 @@ const EventForm: FC<EventFormProps> = (props) => {
   }
 
   const checkDuplicateEntries = async (eventFormValues: any): Promise<DuplicatePayload[]> => {
-    const { title, description, city, zip, country, state, street, lat, lng, telephone, email, } = eventFormValues
-    const license = Array.isArray(eventFormValues.license) ? eventFormValues.license.join('') : eventFormValues.license
-    const duplicate: DuplicateEventPayload = {
-      title,
-      description,
-      city,
-      zip,
-      country,
-      state,
-      street,
-      lat,
-      lng,
-      telephone,
-      email,
-      id: null,
-      homepage: null,
-      tags: [],
-      image_url: null,
-      image_link_url: null,
-      opening_hours: null,
-      links: [],
-      version: 1,
-      contact: null,
-      categories: [],
-      license,
-    }
     const res = await AxiosInstance.PostRequest<DuplicatePayload[]>(
       API_ENDPOINTS.checkForDuplicate(),
-      duplicate,
+      {
+        ...eventFormValues,
+        license: Array.isArray(eventFormValues.license) ? eventFormValues.license.join('') : eventFormValues.license,
+        tags: [],
+        categories: []
+      },
     )
     return res.data
   }

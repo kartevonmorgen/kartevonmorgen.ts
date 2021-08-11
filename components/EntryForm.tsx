@@ -234,35 +234,14 @@ const EntryForm: FC<EntryFormProps> = (props) => {
   entry.categories = [category]
 
   const checkDuplicateEntries = async (entry: NewEntryWithLicense): Promise<DuplicatePayload[]> => {
-    const { title, description, city, zip, country, state, street, lat, lng, telephone, email } = entry
-    const license = Array.isArray(entry.license) ? entry.license.join('') : entry.license
-    const duplicate: DuplicatePayload = {
-      title,
-      description,
-      city,
-      zip,
-      country,
-      state,
-      street,
-      lat,
-      lng,
-      telephone,
-      email,
-      id: null,
-      homepage: null,
-      tags: [],
-      image_url: null,
-      image_link_url: null,
-      opening_hours: null,
-      links: [],
-      version: 1,
-      contact: null,
-      categories: [],
-      license,
-    }
     const res = await AxiosInstance.PostRequest<DuplicatePayload[]>(
       API_ENDPOINTS.checkForDuplicate(),
-      duplicate,
+      {
+        ...entry,
+        license: Array.isArray(entry.license) ? entry.license.join('') : entry.license,
+        tags: [],
+        categories: []
+      },
     )
     return res.data
   }
