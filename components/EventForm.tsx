@@ -242,7 +242,7 @@ const EventForm: FC<EventFormProps> = (props) => {
       </Form.Item>
 
       <Form.Item name="tags">
-        <TagsSelect setTagsCallback={setTagsCallback} initialData={tagsInitial}/>
+        <TagsSelect setTagsCallback={setTagsCallback} initialData={tagsInitial} isFormPart={true}/>
       </Form.Item>
 
       <Divider orientation="left">Location</Divider>

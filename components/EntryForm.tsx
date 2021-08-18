@@ -327,7 +327,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
 
       {/*add validation for the three tags*/}
       <Form.Item>
-        <TagsSelect initialData={entry.tags} setTagsCallback={setTagsCallback}/>
+        <TagsSelect initialData={entry.tags} setTagsCallback={setTagsCallback} isFormPart={true}/>
       </Form.Item>
 
       <Divider orientation="left">Location</Divider>

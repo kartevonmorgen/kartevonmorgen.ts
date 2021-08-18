@@ -29,6 +29,8 @@ const TagsSelect: FC<any> = (props) => {
     placeholder,
   } = props
 
+  let isFormPart = props.isFormPart ?? false
+
   let setTagsCallback = props.setTagsCallback
 
   if (!setTagsCallback) {
@@ -126,11 +128,13 @@ const TagsSelect: FC<any> = (props) => {
         newSelectedTags.push(tag)
       }
     })
+    // Renew selectedTags value on form data
+    setTagsCallback(newSelectedTags)
     setSelectedTags(newSelectedTags)
+
   }
 
-  // Renew selectedTags value on form data
-  setTagsCallback(selectedTags)
+
 
   // Event when some value is selected on input
   const onInputSelect = (value, option) => {
@@ -138,18 +142,19 @@ const TagsSelect: FC<any> = (props) => {
 
     // Run callback
     setTokenToMatchTagsWith('')
+
+    if (selectedTags.includes(value)) {
+      return
+    }
+
+    // Deep copy of array
+    newSelectedTags = selectedTags.map(value => value)
+    newSelectedTags.push(value)
+
     onSelectCallback(value, option)
 
-    // Go for each tag in allTags
-    // matchedTagsWithFrequency - list of objects like {tag: string, frequency: number}
-    // we need only tag from this
-    matchedTagsWithFrequency.forEach(tagFr => {
-      let tag = tagFr.tag
-      if (selectedTags.includes(tag) || tag == value) {
-        newSelectedTags.push(tag)
-      }
-    })
-
+    // Renew selectedTags value on form data
+    setTagsCallback(newSelectedTags)
     setSelectedTags(newSelectedTags)
   }
 
@@ -167,6 +172,8 @@ const TagsSelect: FC<any> = (props) => {
     setTokenToMatchTagsWith('')
     onDeselectCallback(value, option)
 
+    // Renew selectedTags value on form data
+    setTagsCallback(newSelectedTags)
     setSelectedTags(newSelectedTags)
   }
 
@@ -177,6 +184,40 @@ const TagsSelect: FC<any> = (props) => {
     setSelectedTags([])
   }
 
+  let selectElement = <Select
+    mode="multiple"
+    allowClear
+    style={{ width: '100%' }}
+    placeholder={placeholder}
+    onSearch={(input) => {
+      setTokenToMatchTagsWith(input)
+      onSearchCallback(input)
+    }}
+    onSelect={(value, option) => {
+      onInputSelect(value, option)
+    }}
+    onDeselect={(value, option) => {
+      onInputDeselect(value, option)
+    }}
+    onClear={() => {
+      clear()
+    }}
+    value={selectedTags}
+  >
+    {
+      matchedTagsWithFrequency && (
+        matchedTagsWithFrequency.map(tagWithFrequency => (
+          <Option
+            key={`tag-input-${tagWithFrequency.tag}`}
+            value={tagWithFrequency.tag}
+          >
+            {tagWithFrequency.tag}
+          </Option>
+        ))
+      )
+    }
+  </Select>
+
   return (
     <div>
       <Checkbox.Group
@@ -185,44 +226,13 @@ const TagsSelect: FC<any> = (props) => {
         onChange={onCheckboxChange}
         value={selectedTags}
       />
+      {
+        isFormPart ?
+          <Form.Item name="tags" validateStatus={'success'}>{selectElement}</Form.Item>
+          :
+          <div>{selectElement}</div>
+      }
 
-      <Form.Item name="tags"
-                 validateStatus={'success'}>
-
-        <Select
-          mode="multiple"
-          allowClear
-          style={{ width: '100%' }}
-          placeholder={placeholder}
-          onSearch={(input) => {
-            setTokenToMatchTagsWith(input)
-            onSearchCallback(input)
-          }}
-          onSelect={(value, option) => {
-            onInputSelect(value, option)
-          }}
-          onDeselect={(value, option) => {
-            onInputDeselect(value, option)
-          }}
-          onClear={() => {
-            clear()
-          }}
-        >
-          {
-            matchedTagsWithFrequency && (
-              matchedTagsWithFrequency.map(tagWithFrequency => (
-                <Option
-                  key={`tag-input-${tagWithFrequency.tag}`}
-                  value={tagWithFrequency.tag}
-                >
-                  {tagWithFrequency.tag}
-                </Option>
-              ))
-            )
-          }
-        </Select>
-
-      </Form.Item>
     </div>
   )
 }
