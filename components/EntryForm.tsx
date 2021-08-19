@@ -22,8 +22,6 @@ import { ExtendedGeocodeAddress, getCityFromAddress, reverseGeocode } from '../u
 import Category from '../dtos/Categories'
 import { entriesActions } from '../slices'
 import { renameProperties, setValuesToDefaultOrNull, transformObject } from '../utils/objects'
-import { isValidPhoneNumber } from 'libphonenumber-js'
-import { validate as isValidEmail } from 'isemail'
 import TagsSelect from './TagsSelect'
 
 
@@ -354,33 +352,11 @@ const EntryForm: FC<EntryFormProps> = (props) => {
         <Input placeholder="Contact Person" prefix={<FontAwesomeIcon icon="user"/>}/>
       </Form.Item>
 
-      <Form.Item
-        name="telephone"
-        rules={[
-          {
-            validator: (_, value) => (
-              isValidPhoneNumber(value) ?
-                Promise.resolve() :
-                Promise.reject('not a valid telephone number')
-            ),
-          },
-        ]}
-      >
+      <Form.Item name="telephone">
         <Input placeholder="Phone" prefix={<FontAwesomeIcon icon="phone"/>}/>
       </Form.Item>
 
-      <Form.Item
-        name="email"
-        rules={[
-          {
-            validator: (_, value) => (
-              isValidEmail(value) ?
-                Promise.resolve() :
-                Promise.reject('not a valid email')
-            ),
-          },
-        ]}
-      >
+      <Form.Item name="email">
         <Input placeholder="Email" prefix={<FontAwesomeIcon icon="envelope"/>}/>
       </Form.Item>
 

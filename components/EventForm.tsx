@@ -2,7 +2,6 @@ import React, { FC, Fragment, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Button, Checkbox, DatePicker, Divider, Form, FormInstance, Input, Spin, Typography } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { isValidPhoneNumber } from 'libphonenumber-js'
 import EventDTO, { EventID } from '../dtos/Event'
 import { AxiosInstance } from '../api'
 import API_ENDPOINTS from '../api/endpoints'
@@ -16,7 +15,6 @@ import { AppDispatch } from '../store'
 import { eventsActions } from '../slices'
 import Point from '../dtos/Point'
 import { ExtendedGeocodeAddress, getCityFromAddress, reverseGeocode } from '../utils/geolocation'
-import { validate as isValidEmail } from 'isemail'
 import TagsSelect from './TagsSelect'
 
 
@@ -283,33 +281,11 @@ const EventForm: FC<EventFormProps> = (props) => {
         <Input placeholder="Contact Person" prefix={<FontAwesomeIcon icon="user"/>}/>
       </Form.Item>
 
-      <Form.Item
-        name="telephone"
-        rules={[
-          {
-            validator: (_, value) => (
-              isValidPhoneNumber(value) ?
-                Promise.resolve() :
-                Promise.reject('not a valid phone number')
-            ),
-          },
-        ]}
-      >
+      <Form.Item name="telephone">
         <Input placeholder="Phone" prefix={<FontAwesomeIcon icon="phone"/>}/>
       </Form.Item>
 
-      <Form.Item
-        name="email"
-        rules={[
-          {
-            validator: (_, value) => (
-              isValidEmail(value) ?
-                Promise.resolve() :
-                Promise.reject('not a valid email')
-            ),
-          },
-        ]}
-      >
+      <Form.Item name="email">
         <Input placeholder="Email" prefix={<FontAwesomeIcon icon="envelope"/>}/>
       </Form.Item>
 
