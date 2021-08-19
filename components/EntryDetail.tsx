@@ -20,6 +20,7 @@ import EntityDetailHeader from './EntityDetailHeader'
 import OpeningHours from './OpeningHours'
 import EntryLinks from './EntryLinks'
 import TypeTag from './TypeTag'
+import EntryRatingFlower from './EntryRatingFlower'
 
 
 const { Title, Paragraph } = Typography
@@ -115,8 +116,11 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
 
       <EntryLinks links={entry.custom}/>
 
-
       <EntityTags tags={entry.tags}/>
+
+      <EntryRatingFlower
+        entryId={entryId}
+      />
 
       <EntityRatings ratingsIds={entry.ratings}/>
 

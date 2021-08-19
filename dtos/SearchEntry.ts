@@ -4,7 +4,7 @@ The compact view of an entry as returned in search results.
 import ReviewStatus from './ReviewStatus'
 import Category from './Categories'
 import Tag from './Tag'
-import Ratings, { newRatings } from './Ratings'
+import AvgRatings, { newAvgRatings } from './AvgRatings'
 import { NewEntry } from './NewEntry'
 
 
@@ -19,7 +19,7 @@ interface SearchEntry {
   description: string
   categories: Category[]
   tags: Tag[]
-  ratings: Ratings
+  ratings: AvgRatings
 }
 
 export type SearchEntries = SearchEntry[]
@@ -41,7 +41,7 @@ export const convertNewEntryToSearchEntry = (
     description: newEntry.description,
     categories: newEntry.categories,
     tags: newEntry.tags,
-    ratings: newRatings(),
+    ratings: newAvgRatings(),
   }
 }
 

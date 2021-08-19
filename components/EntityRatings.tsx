@@ -119,8 +119,6 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
 
   return (
     <div>
-      <Divider>{t('ratings.rating-heading')}</Divider>
-
       <Button
         type="primary"
         onClick={redirectToNewRatingForm(router)}

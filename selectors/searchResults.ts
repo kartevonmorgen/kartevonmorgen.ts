@@ -8,7 +8,8 @@ import { SearchEntries } from '../dtos/SearchEntry'
 const searchResultSelector = createSelector(
   entriesSelector,
   compactEventsSelector,
-  (entries: SearchEntries, events: CompactEvents) => ([...entries, ...events]))
+  (entries: SearchEntries, events: CompactEvents) => ([...entries, ...events]),
+)
 
 
 export default searchResultSelector
