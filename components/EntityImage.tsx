@@ -1,5 +1,4 @@
 import { FC } from 'react'
-import NextImage from 'next/image'
 import { Image } from 'antd'
 
 
@@ -9,27 +8,21 @@ interface EntityImageProps {
 }
 
 const EntityImage: FC<EntityImageProps> = (props) => {
+
+  const { src, title } = props
+
+  if (!src) {
+    return null
+  }
+
   return (
     <div className="entity-image-container">
-      {
-        props.src ?
-          (
-            <Image
-              src={props.src}
-              alt={props.title}
-              width="100%"
-              height="32vh"
-            />
-          ) : (
-            <NextImage
-              src="/assets/file_image.png"
-              alt={props.title}
-              width={56}
-              height={44}
-              layout="fixed"
-            />
-          )
-      }
+      <Image
+        src={src}
+        alt={title}
+        width="100%"
+        height="32vh"
+      />
     </div>
   )
 }
