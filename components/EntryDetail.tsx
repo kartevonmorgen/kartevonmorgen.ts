@@ -95,7 +95,7 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
 
       <Paragraph>{entry.description}</Paragraph>
 
-      <Divider>Contact</Divider>
+      <Divider/>
 
       <EntityContact
         homepage={entry.homepage}

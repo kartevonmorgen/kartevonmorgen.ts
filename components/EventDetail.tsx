@@ -78,7 +78,7 @@ const EventDetail: FC<EventDetailProps> = (props) => {
 
       <Paragraph>{event.description}</Paragraph>
 
-      <Divider>Contact</Divider>
+      <Divider/>
 
       <EntityContact
         homepage={event.homepage}

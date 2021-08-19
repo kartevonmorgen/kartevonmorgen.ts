@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, ReactNode } from 'react'
 import { RootSlugEntity, SlugAction } from '../utils/types'
 import Entry from './Entry'
 import Event from './Event'
@@ -9,10 +9,7 @@ interface SidebarContentChildProps {
 }
 
 
-const SidebarContentChild: FC<SidebarContentChildProps> = (props) => {
-
-  const { slugAction } = props
-
+const renderSideBarContentChild = (slugAction: SlugAction): ReactNode => {
   switch (slugAction.entity) {
     case RootSlugEntity.ENTRY:
       return <Entry slugAction={slugAction}/>
@@ -21,6 +18,23 @@ const SidebarContentChild: FC<SidebarContentChildProps> = (props) => {
     default:
       return null
   }
+}
+
+
+const SidebarContentChild: FC<SidebarContentChildProps> = (props) => {
+
+  const { slugAction } = props
+
+  return (
+    <div
+      style={{
+        paddingLeft: 12,
+        paddingRight: 12,
+      }}
+    >
+      {renderSideBarContentChild(slugAction)}
+    </div>
+  )
 
 }
 

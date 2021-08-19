@@ -38,8 +38,8 @@ const EntityFooter: FC<EntityFooterProps> = (props) => {
         paddingRight: 8,
         paddingTop: 8,
         paddingBottom: 8,
-        marginLeft: -4,
-        marginRight: -4,
+        marginLeft: -16,
+        marginRight: -16,
         marginTop: 16,
         marginBottom: 60,
       }}
