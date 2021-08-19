@@ -50,6 +50,7 @@ const HomeCitySearch: FC = () => {
         display: 'flex',
         justifyContent: 'center',
         alignContent: 'center',
+        width: '100%',
       }}
     >
       <Select
@@ -58,7 +59,7 @@ const HomeCitySearch: FC = () => {
         filterOption={false}
         notFoundContent={null}
         dropdownMatchSelectWidth={252}
-        style={{ width: 250 }}
+        style={{ width: '100%' }}
         onSelect={onSelect(router)}
         onSearch={debounce(setSearchTerm, 400)}
         placeholder={t('landingPage.city-search.placeholder')}

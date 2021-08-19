@@ -24,21 +24,30 @@ const Banner: FC = () => {
           justifyContent: 'center',
         }}
       >
-        <Row>
-          <Col xs={24} style={{ textAlign: 'center' }}>
-            <Title
-              level={1}
+        <div>
+          <Row>
+            <Col xs={24} style={{ textAlign: 'center' }}>
+              <Title
+                level={1}
+                style={{
+                  color: 'white',
+                }}
+              >
+                {t('landingPage.slogan')}
+              </Title>
+            </Col>
+          </Row>
+          <Row>
+            <Col
+              xs={24}
               style={{
-                color: 'white',
+                textAlign: 'center',
               }}
             >
-              {t('landingPage.slogan')}
-            </Title>
-          </Col>
-          <Col xs={24} style={{ textAlign: 'center' }}>
-            <HomeCitySearch/>
-          </Col>
-        </Row>
+              <HomeCitySearch/>
+            </Col>
+          </Row>
+        </div>
       </div>
     </Content>
   )
