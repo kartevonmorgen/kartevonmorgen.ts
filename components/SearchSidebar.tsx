@@ -2,6 +2,7 @@ import { FC, Fragment } from 'react'
 
 import ResultList from './ResultList'
 import SearchControllers from './SearchControllers'
+import SidebarZoomOutButton from './SidebarZoomOutButton'
 
 
 const SearchSidebar: FC = (_props) => {
@@ -12,6 +13,8 @@ const SearchSidebar: FC = (_props) => {
 
       <div style={{ flexGrow: 1 }}>
         <ResultList/>
+
+        <SidebarZoomOutButton/>
       </div>
     </Fragment>
   )

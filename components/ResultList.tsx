@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { useSelector } from 'react-redux'
 import { List } from 'antd'
 import { AutoSizer, CellMeasurer, CellMeasurerCache, List as VirtualList } from 'react-virtualized'
@@ -36,11 +36,15 @@ const cache = new CellMeasurerCache({
   fixedWidth: true,
 })
 
+
 const ResultList: FC = () => {
   const searchResults: SearchResults = useSelector(
     (state: RootState) => searchResultSelector(state),
   )
 
+  if (searchResults.length === 0) {
+    return null
+  }
 
   return (
     <List
