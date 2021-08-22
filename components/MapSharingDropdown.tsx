@@ -2,6 +2,7 @@ import { FC } from 'react'
 import { Button, Dropdown, Menu } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import CopyURLToClipboardButton from './CopyURLToClipboardButton'
+import MapSharingModal from './MapSharingModal'
 
 
 const { Item } = Menu
@@ -17,12 +18,19 @@ const menu = (
       icon={
         <FontAwesomeIcon
           icon={['far', 'copy']}
-          style={{
-            marginRight: 8,
-          }}
         />
       }>
       <CopyURLToClipboardButton/>
+    </Item>
+
+    <Item
+      icon={
+        <FontAwesomeIcon
+          icon="code"
+        />
+      }
+    >
+      <MapSharingModal/>
     </Item>
   </Menu>
 )

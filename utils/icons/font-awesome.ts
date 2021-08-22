@@ -24,7 +24,7 @@ import {
   faUserShield,
 } from '@fortawesome/free-solid-svg-icons'
 
-import { faCopy } from '@fortawesome/free-regular-svg-icons'
+import { faCopy, faTimesCircle } from '@fortawesome/free-regular-svg-icons'
 
 import {
   faCreativeCommons,
@@ -69,6 +69,7 @@ library.add(
 // @fortawesome/free-regular-svg-icons
 library.add(
   faCopy,
+  faTimesCircle,
 )
 
 // free-brands-svg-icons
