@@ -20,6 +20,7 @@ import AddEntryButton from './AddEntryButton'
 import BurgerMenu from './BurgerMenu'
 import MapQueryParamsListener from './MapQueryParamsListener'
 import LocateMe from './LocateMe'
+import MapSharingDropdown from './MapSharingDropdown'
 
 
 const icons = {
@@ -128,7 +129,7 @@ const Map: FC = () => {
 
       <SearchEventsListener/>
 
-      <div id="map-bottom-right">
+      <div id="map-bottom-right-above-controller">
         <AddEntryButton/>
 
         <LocateMe/>
@@ -138,6 +139,9 @@ const Map: FC = () => {
         <BurgerMenu/>
       </div>
 
+      <div id="map-bottom-right-below-controller">
+        <MapSharingDropdown/>
+      </div>
 
       <ZoomControl position="bottomright"/>
 

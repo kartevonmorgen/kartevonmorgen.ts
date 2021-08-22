@@ -5,7 +5,8 @@ dotenv.config()
 
 process.env.HOSTNAME = process.env.HOSTNAME || 'localhost'
 process.env.PORT = process.env.PORT || '3000'
-process.env.NEXT_PUBLIC_SELF_API = `http://${process.env.HOSTNAME}:${process.env.PORT}/api/v0`
+process.env.NEXT_PUBLIC_SELF_DOMAIN = `http://${process.env.HOSTNAME}:${process.env.PORT}`
+process.env.NEXT_PUBLIC_SELF_API = `${process.env.NEXT_PUBLIC_SELF_DOMAIN}/api/v0`
 
 
 cli.nextDev(

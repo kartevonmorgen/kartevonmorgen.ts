@@ -5,6 +5,7 @@ import {
   faBars,
   faCamera,
   faClock,
+  faCode,
   faColumns,
   faCompass,
   faEnvelope,
@@ -16,11 +17,14 @@ import {
   faMapMarkerAlt,
   faPhone,
   faRoute,
+  faShare,
   faUser,
   faUserFriends,
   faUsers,
   faUserShield,
 } from '@fortawesome/free-solid-svg-icons'
+
+import { faCopy } from '@fortawesome/free-regular-svg-icons'
 
 import {
   faCreativeCommons,
@@ -58,6 +62,13 @@ library.add(
   faUserShield,
   faBars,
   faCompass,
+  faShare,
+  faCode,
+)
+
+// @fortawesome/free-regular-svg-icons
+library.add(
+  faCopy,
 )
 
 // free-brands-svg-icons

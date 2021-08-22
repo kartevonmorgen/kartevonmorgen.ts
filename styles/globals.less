@@ -150,13 +150,27 @@ a {
   border: none;
 }
 
-#map-bottom-right {
+.leaflet-bar.leaflet-control.leaflet-control-zoom {
+  position: absolute;
+  right: 10px;
+  bottom: 64px;
+  margin: 0;
+}
+
+#map-bottom-right-below-controller {
+  position: absolute;
+  bottom: 24px;
+  right: 11px;
+  height: 32px;
+  z-index: 400;
+}
+
+#map-bottom-right-above-controller {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  bottom: 90px;
-  margin-bottom: 8px;
-  right: 10px;
+  bottom: 136px;
+  right: 11px;
   position: absolute;
   z-index: 400;
 }
@@ -166,6 +180,10 @@ a {
   right: 0;
   position: absolute;
   z-index: 400;
+}
+
+.map-sharing-dropdown-item {
+
 }
 
 .ant-comment-actions {
