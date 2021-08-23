@@ -2,17 +2,6 @@ import { FC } from 'react'
 import { Button } from 'antd'
 import { NextRouter, useRouter } from 'next/router'
 import { convertQueryParamToFloat, updateRoutingQuery } from '../utils/utils'
-import { useSelector } from 'react-redux'
-import { RootState } from '../slices'
-import searchResultSelector from '../selectors/searchResults'
-
-
-const MIN_REQUIRED_RESULTS = 20
-
-
-interface SidebarZoomOutButtonProps {
-  divisionFactor?: number
-}
 
 
 const zoomOut = (divisionFactor: number, router: NextRouter) => () => {
@@ -34,16 +23,18 @@ const zoomOut = (divisionFactor: number, router: NextRouter) => () => {
   )
 }
 
+
+interface SidebarZoomOutButtonProps {
+  divisionFactor?: number
+  visible?: boolean
+}
+
 const SidebarZoomOutButton: FC<SidebarZoomOutButtonProps> = (props) => {
-  const { divisionFactor } = props
+  const { divisionFactor, visible } = props
 
   const router = useRouter()
 
-  const numberOfSearchResults: number = useSelector(
-    (state: RootState) => searchResultSelector(state).length,
-  )
-
-  if (numberOfSearchResults >= MIN_REQUIRED_RESULTS) {
+  if (!visible) {
     return null
   }
 
@@ -63,6 +54,7 @@ const SidebarZoomOutButton: FC<SidebarZoomOutButtonProps> = (props) => {
 
 SidebarZoomOutButton.defaultProps = {
   divisionFactor: 2,
+  visible: false,
 }
 
 

@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { List } from 'antd'
 import { AutoSizer, CellMeasurer, CellMeasurerCache, List as VirtualList } from 'react-virtualized'
@@ -7,6 +7,9 @@ import searchResultSelector from '../selectors/searchResults'
 import { SearchResults } from '../dtos/SearchResult'
 import 'react-virtualized/styles.css'
 import ResultCard from './ResultCard'
+
+
+const MIN_REQUIRED_RESULTS = 20
 
 
 const rowRenderer = (data: SearchResults) => ({ index, key, parent, style }) => {
@@ -37,12 +40,31 @@ const cache = new CellMeasurerCache({
 })
 
 
-const ResultList: FC = () => {
+interface ResultListProps {
+  showSidebarZoomOutButton: () => void,
+  hideSidebarZoomOutButton: () => void
+}
+
+const ResultList: FC<ResultListProps> = (props) => {
+
+  const { showSidebarZoomOutButton, hideSidebarZoomOutButton } = props
+
   const searchResults: SearchResults = useSelector(
     (state: RootState) => searchResultSelector(state),
   )
+  const { length: numberOfSearchResults } = searchResults
 
-  if (searchResults.length === 0) {
+  useEffect(() => {
+
+    if (numberOfSearchResults < MIN_REQUIRED_RESULTS) {
+      showSidebarZoomOutButton()
+    } else {
+      hideSidebarZoomOutButton()
+    }
+
+  }, [searchResults.length])
+
+  if (numberOfSearchResults === 0) {
     return null
   }
 
@@ -63,7 +85,7 @@ const ResultList: FC = () => {
             defaultHeight={70}
             defaultWidth={150}
             height={height}
-            rowCount={searchResults.length}
+            rowCount={numberOfSearchResults}
             rowHeight={cache.rowHeight}
             rowRenderer={rowRenderer(searchResults)}
             width={width}
