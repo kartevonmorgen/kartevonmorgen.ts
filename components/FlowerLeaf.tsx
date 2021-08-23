@@ -81,7 +81,7 @@ FlowerLeaf.propTypes = {
   color: PropTypes.string,
   height: PropTypes.number,
   width: PropTypes.number,
-  tooltip: PropTypes.string,
+  tooltip: PropTypes.object,
   transform: PropTypes.string,
 }
 
