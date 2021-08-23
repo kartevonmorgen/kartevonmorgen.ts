@@ -46,24 +46,24 @@ const Menu: FC = () => {
                 paddingRight: 8,
               }}
             >
-              <Row
-                justify="space-between"
-                // gutter={[32, 4]}
+              <Link
+                href={linkWithIcon.link}
+                target={LinkPolicyToTargetAttributeMapper[linkWithIcon.policy]}
+                rel="noopener noreferrer"
               >
-                <Col>
-                  <Link
-                    href={linkWithIcon.link}
-                    target={LinkPolicyToTargetAttributeMapper[linkWithIcon.policy]}
-                    rel="noopener noreferrer"
-                  >
-                    {t(`burgerMenu.${linkWithIcon.title}`)}
-                  </Link>
-                </Col>
+                <Row
+                  justify="space-between"
+                >
+                  <Col>
 
-                <Col>
-                  <FontAwesomeIcon icon={linkWithIcon.icon}/>
-                </Col>
-              </Row>
+                    {t(`burgerMenu.${linkWithIcon.title}`)}
+                  </Col>
+
+                  <Col>
+                    <FontAwesomeIcon icon={linkWithIcon.icon}/>
+                  </Col>
+                </Row>
+              </Link>
             </AntMenu.Item>
           ),
         )
