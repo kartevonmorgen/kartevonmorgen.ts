@@ -2,6 +2,7 @@ import React, { FC, Fragment, useEffect } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../store'
+import { validate as validateEmail } from 'isemail'
 import { Button, Checkbox, Divider, Form, FormInstance, Input, Select, Space, Spin, Typography } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons/lib'
 import isString from 'lodash/isString'
@@ -356,7 +357,18 @@ const EntryForm: FC<EntryFormProps> = (props) => {
         <Input placeholder="Phone" prefix={<FontAwesomeIcon icon="phone"/>}/>
       </Form.Item>
 
-      <Form.Item name="email">
+      <Form.Item
+        name="email"
+        rules={[
+          {
+            validator: (_, value) => (
+              validateEmail(value) ?
+                Promise.resolve() :
+                Promise.reject('not a valid email')
+            ),
+          },
+        ]}
+      >
         <Input placeholder="Email" prefix={<FontAwesomeIcon icon="envelope"/>}/>
       </Form.Item>
 

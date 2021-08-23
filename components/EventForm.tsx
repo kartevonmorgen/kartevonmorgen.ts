@@ -2,6 +2,7 @@ import React, { FC, Fragment, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Button, Checkbox, DatePicker, Divider, Form, FormInstance, Input, Spin, Typography } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { validate as validateEmail } from 'isemail'
 import EventDTO, { EventID } from '../dtos/Event'
 import { AxiosInstance } from '../api'
 import API_ENDPOINTS from '../api/endpoints'
@@ -285,7 +286,18 @@ const EventForm: FC<EventFormProps> = (props) => {
         <Input placeholder="Phone" prefix={<FontAwesomeIcon icon="phone"/>}/>
       </Form.Item>
 
-      <Form.Item name="email">
+      <Form.Item
+        name="email"
+        rules={[
+          {
+            validator: (_, value) => (
+              validateEmail(value) ?
+                Promise.resolve() :
+                Promise.reject('not a valid email')
+            ),
+          },
+        ]}
+      >
         <Input placeholder="Email" prefix={<FontAwesomeIcon icon="envelope"/>}/>
       </Form.Item>
 
