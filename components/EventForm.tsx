@@ -214,6 +214,7 @@ const EventForm: FC<EventFormProps> = (props) => {
       >
         <RangePicker
           showTime={{ format: 'HH:mm' }}
+          format="YYYY-MM-DD HH:mm"
           style={{ width: '100%' }}
         />
       </Form.Item>
