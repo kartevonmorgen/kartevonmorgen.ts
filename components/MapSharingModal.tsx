@@ -1,5 +1,4 @@
 import { FC, Fragment } from 'react'
-import { useRouter } from 'next/router'
 import { Button, Modal } from 'antd'
 import { useBoolean } from 'ahooks'
 import Lowlight from 'react-lowlight'
@@ -24,11 +23,9 @@ const generateIframeCode = (url: string): string => (
 
 
 const MapSharingModal: FC = () => {
-  const router = useRouter()
-  const { asPath: path } = router
   const [isModalVisible, { setTrue: showModal, setFalse: hideModal }] = useBoolean()
 
-  const iframeCode = generateIframeCode(`${process.env.NEXT_PUBLIC_SELF_DOMAIN}${path}`)
+  const iframeCode = generateIframeCode(window.location.href)
 
   return (
     <Fragment>
@@ -60,6 +57,7 @@ const MapSharingModal: FC = () => {
         />
 
       </Modal>
+
     </Fragment>
   )
 }
