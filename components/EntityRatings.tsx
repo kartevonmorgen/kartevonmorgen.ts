@@ -4,7 +4,6 @@ import toString from 'lodash/toString'
 import groupBy from 'lodash/groupBy'
 import isEmpty from 'lodash/isEmpty'
 import { isWebUri } from 'valid-url'
-import moment from 'moment'
 import { Button, Comment, Divider, Typography } from 'antd'
 import useTranslation from 'next-translate/useTranslation'
 import { Rating, RatingID } from '../dtos/Rating'
@@ -16,9 +15,10 @@ import produce from 'immer'
 import { convertQueryParamToArray } from '../utils/utils'
 import { EntrySlugEntity, mapSingularEntityNameToPlural, RatingSlugEntity, SlugVerb } from '../utils/types'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
+import { mapRatingValueToKey } from '../utils/ratings'
 
 
-const { Title, Link, Text } = Typography
+const { Title, Link, Text, Paragraph } = Typography
 
 
 interface EntityCommentsProps {
@@ -142,33 +142,44 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
               {
                 contextRatings.map((contextRating: Rating) => {
                   const [rootComment, ...replies] = contextRating.comments
+                  const ratingValueName = t(`ratings.valueName.${mapRatingValueToKey(contextRating.value)}`)
 
                   return (
                     <Comment
                       key={`comment-${rootComment.id}`}
                       content={
                         <Fragment>
-                          <Text>{rootComment.text}</Text>
+                          <Text>{`${ratingValueName}: `}</Text>
+                          <Text strong>{contextRating.title}</Text>
+                          <Paragraph
+                            style={{
+                              marginBottom: '0.01em',
+                            }}
+                          >
 
-                          {
-                            !isEmpty(contextRating.source) &&
-                            <Fragment>
-                              <Divider type="vertical"/>
+                            {rootComment.text}
 
-                              {
-                                isWebUri(contextRating.source) ? (
-                                  <Link
-                                    href={contextRating.source}
-                                    target="_blank"
-                                  >
-                                    {t('ratings.sourceWebsite')}
-                                  </Link>
-                                ) : (
-                                  <Text type="secondary">{contextRating.source}</Text>
-                                )
-                              }
-                            </Fragment>
-                          }
+                            {
+                              !isEmpty(contextRating.source) &&
+                              <Fragment>
+                                <Divider type="vertical"/>
+
+                                {
+                                  isWebUri(contextRating.source) ? (
+                                    <Link
+                                      href={contextRating.source}
+                                      target="_blank"
+                                    >
+                                      {t('ratings.sourceWebsite')}
+                                    </Link>
+                                  ) : (
+                                    <Text type="secondary">{contextRating.source}</Text>
+                                  )
+                                }
+                              </Fragment>
+                            }
+
+                          </Paragraph>
                         </Fragment>
                       }
                       actions={[
@@ -177,10 +188,9 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
                           size="small"
                           onClick={redirectToRatingCommentForm(router, contextRating.id)}
                         >
-                          {t('ratings.newComment')}
+                          <Text type="secondary">{t('ratings.newComment')}</Text>
                         </Button>,
                       ]}
-                      datetime={moment.unix(rootComment.created).fromNow()}
                     >
                       {
                         replies.map((reply: RatingComment) => {
@@ -188,7 +198,6 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
                             <Comment
                               key={`comment-${reply.id}`}
                               content={<Text>{reply.text}</Text>}
-                              datetime={moment.unix(reply.created).fromNow()}
                             />
                           )
                         })
