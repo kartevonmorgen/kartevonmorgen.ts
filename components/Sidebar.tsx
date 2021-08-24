@@ -1,11 +1,8 @@
 import { Dispatch, FC, useState } from 'react'
-import { NextRouter, useRouter } from 'next/router'
-import SidebarContent from './SidebarContent'
+import { useRouter } from 'next/router'
 import { Drawer } from 'antd'
-import toString from 'lodash/toString'
-import { convertQueryParamToBoolean, updateRoutingQuery } from '../utils/utils'
-import { isRouterInitialized } from '../utils/router'
-import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
+import SidebarContent from './SidebarContent'
+import { convertQueryParamToBoolean } from '../utils/utils'
 
 
 const toggleSidebarWidth = (setSidebarWidth: Dispatch<string>) => (broken: boolean): void => {
@@ -19,51 +16,7 @@ const toggleSidebarWidth = (setSidebarWidth: Dispatch<string>) => (broken: boole
 }
 
 
-export enum SidebarState {
-  Close,
-  Open
-}
 
-
-const setSidebarState = (router: NextRouter, sidebarOpenState: SidebarState) => {
-  const { query } = router
-
-  const newQueryParams = updateRoutingQuery(query, {
-    isSidebarOpen: toString(Boolean(sidebarOpenState)),
-  })
-  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
-
-  router.replace(
-    {
-      pathname: `/maps/${newPath}`,
-      query: newQueryWithoutSlug,
-    },
-    undefined,
-    { shallow: true },
-  )
-}
-
-export const closeSidebar = (router: NextRouter) => {
-  setSidebarState(router, SidebarState.Close)
-}
-
-export const openSidebar = (router: NextRouter) => {
-  setSidebarState(router, SidebarState.Open)
-}
-
-const toggleSidebarState = (router: NextRouter, isSidebarOpen: boolean) => {
-  if (!isRouterInitialized(router)) {
-    return
-  }
-
-  if (isSidebarOpen) {
-    closeSidebar(router)
-
-    return
-  }
-
-  openSidebar(router)
-}
 
 
 const Sidebar: FC = () => {
@@ -80,7 +33,7 @@ const Sidebar: FC = () => {
 
   return (
     <Drawer
-      visible
+      visible={isSidebarOpen}
       placement="left"
       closable={false}
       mask={false}
@@ -91,7 +44,9 @@ const Sidebar: FC = () => {
         flexDirection: 'column',
       }}
     >
-      {isSidebarOpen && <SidebarContent/>}
+
+    {isSidebarOpen && <SidebarContent/>}
+
     </Drawer>
   )
 }

@@ -11,6 +11,7 @@ import MapSharingDropdown from './MapSharingDropdown'
 import MapMarkers from './MapMarkers'
 import NewMapMarker from './NewMapMarker'
 import 'leaflet/dist/leaflet.css'
+import CollapseSidebarButton from './CollapseSidebarButton'
 
 
 export interface MapLocationProps {
@@ -37,6 +38,8 @@ const Map: FC = () => {
       <MapQueryParamsListener/>
 
       <SearchEventsListener/>
+
+      <CollapseSidebarButton/>
 
       <div id="map-bottom-right-above-controller">
         <AddEntryButton/>
