@@ -20,7 +20,11 @@ const SearchSidebar: FC = () => {
 
       <SearchControllers/>
 
-      <div style={{ flexGrow: 1 }}>
+      <div
+        style={{
+          flex: '1 1 auto',
+        }}
+      >
         <ResultList
           showSidebarZoomOutButton={showSidebarZoomOutButton}
           hideSidebarZoomOutButton={hideSidebarZoomOutButton}

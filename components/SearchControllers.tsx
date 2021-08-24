@@ -1,4 +1,4 @@
-import { FC, Fragment } from 'react'
+import { FC } from 'react'
 import { useToggle } from 'ahooks'
 import { Button, Col, Row } from 'antd'
 import SearchFilters from './SearchFilters'
@@ -12,7 +12,13 @@ const SearchControllers: FC = (_props) => {
   const [showFilters, { toggle: toggleShowFilters }] = useToggle('0', '1')
 
   return (
-    <Fragment>
+    <div
+      style={{
+        flex: '0 1 auto',
+        marginBottom: 8,
+        marginTop: 8,
+      }}
+    >
       {/*todo: make the search component a separate component to prevent unnecessary renders*/}
       <Row
         align="middle"
@@ -45,7 +51,7 @@ const SearchControllers: FC = (_props) => {
       <SearchFilters
         showFilters={showFilters}
       />
-    </Fragment>
+    </div>
   )
 }
 

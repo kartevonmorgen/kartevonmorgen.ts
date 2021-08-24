@@ -51,9 +51,7 @@ const MapPage: FC<MapPageProps> = (props) => {
         initMapLocationProps={mapLocationProps}
       />
 
-      <Layout
-        hasSider
-      >
+      <Layout>
 
         <Sidebar/>
 

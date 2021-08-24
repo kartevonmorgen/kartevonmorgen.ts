@@ -1,14 +1,11 @@
 import { Dispatch, FC, useState } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import SidebarContent from './SidebarContent'
-import { Layout } from 'antd'
+import { Drawer } from 'antd'
 import toString from 'lodash/toString'
 import { convertQueryParamToBoolean, updateRoutingQuery } from '../utils/utils'
 import { isRouterInitialized } from '../utils/router'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
-
-
-const { Sider } = Layout
 
 
 const toggleSidebarWidth = (setSidebarWidth: Dispatch<string>) => (broken: boolean): void => {
@@ -81,26 +78,21 @@ const Sidebar: FC = () => {
 
   const [sidebarWidth, setSidebarWidth] = useState<string>('32vw')
 
-
   return (
-    <Sider
-      breakpoint="lg"
-      onBreakpoint={toggleSidebarWidth(setSidebarWidth)}
-      theme="light"
-      collapsible
-      collapsed={!isSidebarOpen}
-      onCollapse={() => toggleSidebarState(router, isSidebarOpen)}
+    <Drawer
+      visible
+      placement="left"
+      closable={false}
+      mask={false}
       width={sidebarWidth}
-      collapsedWidth={32}
-      style={{
-        height: '100vh',
+      bodyStyle={{
+        padding: 0,
         display: 'flex',
         flexDirection: 'column',
-        overflowY: 'auto',
       }}
     >
       {isSidebarOpen && <SidebarContent/>}
-    </Sider>
+    </Drawer>
   )
 }
 
