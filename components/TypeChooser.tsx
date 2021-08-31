@@ -61,7 +61,7 @@ const handleChange = (
 
   router.replace(
     {
-      pathname: `/maps/${newPath}`,
+      pathname: `/m/${newPath}`,
       query: newQueryWithoutSlug,
     },
     undefined,

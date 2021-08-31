@@ -39,7 +39,7 @@ const onBack = (router: NextRouter, isEdit: boolean) => () => {
 
   router.replace(
     {
-      pathname: `/maps/${newPath}`,
+      pathname: `/m/${newPath}`,
       query: newQueryWithoutSlug,
     },
     undefined,

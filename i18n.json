@@ -10,7 +10,7 @@
     "/[[...slug]]": [
       "home"
     ],
-    "/maps/[...slug]": [
+    "/m/[...slug]": [
       "map"
     ],
     "/tables/[project]": [

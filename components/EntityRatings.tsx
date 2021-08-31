@@ -13,7 +13,7 @@ import API_ENDPOINTS from '../api/endpoints'
 import { RatingComment } from '../dtos/RatingComment'
 import produce from 'immer'
 import { convertQueryParamToArray } from '../utils/utils'
-import { EntrySlugEntity, mapSingularEntityNameToPlural, RatingSlugEntity, SlugVerb } from '../utils/types'
+import { EntrySlugEntity, mapSingularEntityNameToBrief, RatingSlugEntity, SlugVerb } from '../utils/types'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 import { mapRatingValueToKey } from '../utils/ratings'
 
@@ -32,7 +32,7 @@ const redirectToNewRatingForm = (router: NextRouter) => () => {
     const { slug } = draftState
     const slugArray = convertQueryParamToArray(slug)
 
-    slugArray.push(mapSingularEntityNameToPlural[EntrySlugEntity.RATING], SlugVerb.CREATE)
+    slugArray.push(mapSingularEntityNameToBrief[EntrySlugEntity.RATING], SlugVerb.CREATE)
     draftState.slug = slugArray
   })
 
@@ -40,7 +40,7 @@ const redirectToNewRatingForm = (router: NextRouter) => () => {
 
   router.replace(
     {
-      pathname: `/maps/${newPath}`,
+      pathname: `/m/${newPath}`,
       query: newQueryWithoutSlug,
     },
     undefined,
@@ -56,9 +56,9 @@ const redirectToRatingCommentForm = (router: NextRouter, ratingId: RatingID) => 
     const slugArray = convertQueryParamToArray(slug)
 
     slugArray.push(
-      mapSingularEntityNameToPlural[EntrySlugEntity.RATING],
+      mapSingularEntityNameToBrief[EntrySlugEntity.RATING],
       ratingId,
-      mapSingularEntityNameToPlural[RatingSlugEntity.COMMENT],
+      mapSingularEntityNameToBrief[RatingSlugEntity.COMMENT],
       SlugVerb.CREATE,
     )
     draftState.slug = slugArray
@@ -68,7 +68,7 @@ const redirectToRatingCommentForm = (router: NextRouter, ratingId: RatingID) => 
 
   router.replace(
     {
-      pathname: `/maps/${newPath}`,
+      pathname: `/m/${newPath}`,
       query: newQueryWithoutSlug,
     },
     undefined,

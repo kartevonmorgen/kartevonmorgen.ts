@@ -16,7 +16,7 @@ const onSelect = (router: NextRouter) => (value: string) => {
 
   router.push(
     {
-      pathname: '/maps/home',
+      pathname: '/m/home',
       query: {
         lat,
         lng,

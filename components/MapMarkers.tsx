@@ -8,7 +8,7 @@ import Category, { Categories, CategoryToNameMapper } from '../dtos/Categories'
 import { Icon, Point } from 'leaflet'
 import { NextRouter, useRouter } from 'next/router'
 import { createSlugPathFromQueryAndRemoveSlug, getRootSlugActionFromQuery } from '../utils/slug'
-import { mapTypeIdToPluralEntityName, SlugVerb } from '../utils/types'
+import { mapTypeIdToBriefEntityName, SlugVerb } from '../utils/types'
 import produce from 'immer'
 import { convertQueryParamToArray } from '../utils/utils'
 import toString from 'lodash/toString'
@@ -56,7 +56,7 @@ const onClickOnPin = (router: NextRouter, searchResult: SearchResult) => () => {
   }
 
   const category = searchResult.categories[0]
-  const pluralEntityName = mapTypeIdToPluralEntityName[category]
+  const briefEntityName = mapTypeIdToBriefEntityName[category]
 
   const newQueryParams = produce(query, draftState => {
     const { slug } = draftState
@@ -66,7 +66,7 @@ const onClickOnPin = (router: NextRouter, searchResult: SearchResult) => () => {
       slugArray.splice(slugArray.length - 2, 2)
     }
 
-    slugArray.push(pluralEntityName, searchResult.id)
+    slugArray.push(briefEntityName, searchResult.id)
     draftState.slug = slugArray
 
     // open the sidebar
@@ -77,7 +77,7 @@ const onClickOnPin = (router: NextRouter, searchResult: SearchResult) => () => {
 
   router.replace(
     {
-      pathname: `/maps/${newPath}`,
+      pathname: `/m/${newPath}`,
       query: newQueryWithoutSlug,
     },
     undefined,

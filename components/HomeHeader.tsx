@@ -51,7 +51,7 @@ const HomeHeader: FC = () => {
           <Menu
             mode="horizontal"
           >
-            <Menu.Item><Link href={'/maps/main'}>{t('landingPage.menu.map')}</Link></Menu.Item>
+            <Menu.Item><Link href={'/m/main'}>{t('landingPage.menu.map')}</Link></Menu.Item>
             <Menu.Item><Link href="https://blog.vonmorgen.org/">{t('landingPage.menu.infos')}</Link></Menu.Item>
             <Menu.Item><Link href={'/contact'}>{t('landingPage.menu.contact')}</Link></Menu.Item>
             <Menu.Item><Link href="https://blog.vonmorgen.org/spenden">{t('landingPage.menu.donate')}</Link></Menu.Item>

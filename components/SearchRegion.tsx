@@ -59,7 +59,7 @@ const changeLatAndLngFromRegionName = (router: NextRouter) => async (regionName:
 
     router.replace(
       {
-        pathname: `/maps/${newPath}`,
+        pathname: `/m/${newPath}`,
         query: newQueryWithoutSlug,
       },
       undefined,

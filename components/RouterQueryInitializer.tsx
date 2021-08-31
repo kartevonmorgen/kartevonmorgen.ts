@@ -84,7 +84,7 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
     //todo: how about having other params like fixedTags but not zoom or things like that
     router.replace(
       {
-        pathname: `/maps/${newPath}`,
+        pathname: `/m/${newPath}`,
         query: newQueryWithoutSlug,
       },
       undefined,

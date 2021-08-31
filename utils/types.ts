@@ -18,17 +18,17 @@ export enum RootSlugEntity {
   RESULT = 'result',
 }
 
-export enum PluralRootSlugEntity {
-  EVENTS = 'events',
-  ENTRIES = 'entries',
-  RESULTS = 'results',
+export enum BriefRootSlugEntity {
+  EVENTS = 'ev',
+  ENTRIES = 'en',
+  RESULTS = 're',
 }
 
 export enum EntrySlugEntity {
   RATING = 'rating'
 }
 
-export enum PluralEntrySlugEntity {
+export enum BriefEntrySlugEntity {
   RATINGS = 'ratings'
 }
 
@@ -36,24 +36,24 @@ export enum RatingSlugEntity {
   COMMENT = 'comment'
 }
 
-export enum PluralRatingSlugEntity {
+export enum BriefRatingSlugEntity {
   COMMENTS = 'comments'
 }
 
 
 export type SingularEntityName = RootSlugEntity | EntrySlugEntity | RatingSlugEntity
-export type PluralEntityName = PluralRootSlugEntity | PluralEntrySlugEntity | PluralRatingSlugEntity
+export type BriefEntityName = BriefRootSlugEntity | BriefEntrySlugEntity | BriefRatingSlugEntity
 
 
 export const validChildrenForEntity: Record<string, string[]> = {
-  root: Object.values(PluralRootSlugEntity),
-  [RootSlugEntity.ENTRY]: Object.values(PluralEntrySlugEntity),
-  [EntrySlugEntity.RATING]: Object.values(PluralRatingSlugEntity),
+  root: Object.values(BriefRootSlugEntity),
+  [RootSlugEntity.ENTRY]: Object.values(BriefEntrySlugEntity),
+  [EntrySlugEntity.RATING]: Object.values(BriefRatingSlugEntity),
 }
 
-export const RootSlugEntities: PluralRootSlugEntity[] = [
-  PluralRootSlugEntity.EVENTS,
-  PluralRootSlugEntity.ENTRIES,
+export const RootSlugEntities: BriefRootSlugEntity[] = [
+  BriefRootSlugEntity.EVENTS,
+  BriefRootSlugEntity.ENTRIES,
 ]
 
 export type SlugId = EventID | SearchEntryID | null
@@ -71,25 +71,25 @@ export interface RootSlugAction extends SlugAction {
   id: SlugId
 }
 
-export const mapTypeIdToPluralEntityName = {
-  [Category.INITIATIVE]: PluralRootSlugEntity.ENTRIES,
-  [Category.COMPANY]: PluralRootSlugEntity.ENTRIES,
-  [Category.EVENT]: PluralRootSlugEntity.EVENTS,
+export const mapTypeIdToBriefEntityName = {
+  [Category.INITIATIVE]: BriefRootSlugEntity.ENTRIES,
+  [Category.COMPANY]: BriefRootSlugEntity.ENTRIES,
+  [Category.EVENT]: BriefRootSlugEntity.EVENTS,
 }
 
-export const mapPluralEntityNameToSingular: Record<PluralEntityName, SingularEntityName> = {
-  [PluralRootSlugEntity.EVENTS]: RootSlugEntity.EVENT,
-  [PluralRootSlugEntity.ENTRIES]: RootSlugEntity.ENTRY,
-  [PluralRootSlugEntity.RESULTS]: RootSlugEntity.RESULT,
-  [PluralEntrySlugEntity.RATINGS]: EntrySlugEntity.RATING,
-  [PluralRatingSlugEntity.COMMENTS]: RatingSlugEntity.COMMENT,
+export const mapBriefEntityNameToSingular: Record<BriefEntityName, SingularEntityName> = {
+  [BriefRootSlugEntity.EVENTS]: RootSlugEntity.EVENT,
+  [BriefRootSlugEntity.ENTRIES]: RootSlugEntity.ENTRY,
+  [BriefRootSlugEntity.RESULTS]: RootSlugEntity.RESULT,
+  [BriefEntrySlugEntity.RATINGS]: EntrySlugEntity.RATING,
+  [BriefRatingSlugEntity.COMMENTS]: RatingSlugEntity.COMMENT,
 }
 
-export const mapSingularEntityNameToPlural = Object
-  .keys(mapPluralEntityNameToSingular)
+export const mapSingularEntityNameToBrief = Object
+  .keys(mapBriefEntityNameToSingular)
   .reduce(
-    (mappedNames, pluralEntityName) => {
-      mappedNames[mapPluralEntityNameToSingular[pluralEntityName]] = pluralEntityName
+    (mappedNames, briefEntityName) => {
+      mappedNames[mapBriefEntityNameToSingular[briefEntityName]] = briefEntityName
 
       return mappedNames
     },

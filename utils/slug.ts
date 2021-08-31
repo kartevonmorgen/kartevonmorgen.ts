@@ -3,9 +3,9 @@ import isEmpty from 'lodash/isEmpty'
 import isString from 'lodash/isString'
 import dropRight from 'lodash/dropRight'
 import {
-  mapPluralEntityNameToSingular,
-  mapTypeIdToPluralEntityName,
-  PluralEntityName,
+  BriefEntityName,
+  mapBriefEntityNameToSingular,
+  mapTypeIdToBriefEntityName,
   RootSlugEntity,
   SingularEntityName,
   SlugAction,
@@ -30,8 +30,8 @@ export const getProjectNameFromQuery = (query: ParsedUrlQuery): string => {
   return convertQueryParamToString(slug)
 }
 
-export const getSingularFormOfEntity = (pluralEntityName: PluralEntityName): SingularEntityName => {
-  return mapPluralEntityNameToSingular[pluralEntityName]
+export const getSingularFormOfEntity = (briefEntityName: BriefEntityName): SingularEntityName => {
+  return mapBriefEntityNameToSingular[briefEntityName]
 }
 
 // is responsible for creating {action, entity, id} from query: (e.g {'show', 'event', '322'} )
@@ -59,7 +59,7 @@ export const getRootSlugActionFromQuery = (query: ParsedUrlQuery): SlugAction =>
   let parentEntityName = 'root'
 
   for (let i = 0; i < slugs.length;) {
-    // i always points to the plural form of the entities: e.g (entries, events, ratings, replies)
+    // i always points to the brief form of the entities: e.g (entries, events, ratings, replies)
 
     const childSlugAction: SlugAction = {
       verb: SlugVerb.SHOW,
@@ -70,8 +70,8 @@ export const getRootSlugActionFromQuery = (query: ParsedUrlQuery): SlugAction =>
     }
 
     const childEntityName = slugs[i]
-    const pluralEntityName = childEntityName as PluralEntityName
-    const singularEntityName = getSingularFormOfEntity(pluralEntityName)
+    const briefEntityName = childEntityName as BriefEntityName
+    const singularEntityName = getSingularFormOfEntity(briefEntityName)
     childSlugAction.entity = singularEntityName
 
 
@@ -84,7 +84,7 @@ export const getRootSlugActionFromQuery = (query: ParsedUrlQuery): SlugAction =>
 
     // main/entries
     if (i + 1 === slugs.length) {
-      // the child entity name is in the plural form, however we use the single form in the ui for readability
+      // the child entity name is in the brief form, however we use the single form in the ui for readability
       // we have validated before to be a good child before so the type is safe here to be casted
       parentSlugAction.subSlugAction = childSlugAction
       childSlugAction.parentSlugAction = parentSlugAction
@@ -154,18 +154,18 @@ export const redirectToEntityDetail = (
     paramsToRemove,
   )
 
-  const pluralTypeName = mapTypeIdToPluralEntityName[category]
+  const briefTypeName = mapTypeIdToBriefEntityName[category]
 
   const updatedQueryParams = updateRoutingQuery(
     prunedQueryParams,
     {
-      slug: [...skippedSlugArray, pluralTypeName, id],
+      slug: [...skippedSlugArray, briefTypeName, id],
     },
   )
 
   router.replace(
     {
-      pathname: '/maps/[...slug]',
+      pathname: '/m/[...slug]',
       query: updatedQueryParams,
     },
     undefined,

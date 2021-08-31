@@ -16,7 +16,7 @@ const searchTag = (router: NextRouter) => (tag: string) => {
 
   router.replace(
     {
-      pathname: `/maps/${newPath}`,
+      pathname: `/m/${newPath}`,
       query: newQueryWithoutSlug,
     },
     undefined,
@@ -32,7 +32,7 @@ const removeAllTagsFromRouter = (router: NextRouter) => () => {
 
   router.replace(
     {
-      pathname: `/maps/${newPath}`,
+      pathname: `/m/${newPath}`,
       query: newQueryWithoutSlug,
     },
     undefined,
@@ -58,7 +58,7 @@ const removeTagFromRouter = (router: NextRouter) => (tagToRemove: string) => {
 
   router.replace(
     {
-      pathname: `/maps/${newPath}`,
+      pathname: `/m/${newPath}`,
       query: newQueryWithoutSlug,
     },
     undefined,
