@@ -7,12 +7,12 @@ import { convertQueryParamToFloat, updateRoutingQuery } from '../utils/utils'
 const zoomOut = (divisionFactor: number, router: NextRouter) => () => {
 
   const { query } = router
-  const { zoom } = query
+  const { z: zoom } = query
 
   const currentZoom = convertQueryParamToFloat(zoom)
   const newZoom = currentZoom / divisionFactor
 
-  const newQueryParams = updateRoutingQuery(query, { 'zoom': newZoom.toFixed(2) })
+  const newQueryParams = updateRoutingQuery(query, { 'z': newZoom.toFixed(2) })
 
   router.replace(
     {

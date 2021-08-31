@@ -21,7 +21,7 @@ const adaptParams = async (_entry: string, query: ParsedUrlQuery): Promise<Parse
   const {
     center,
     entry,
-    zoom,
+    z: zoom,
     dropdowns,
     orgTag,
     fixedTags,
@@ -38,7 +38,7 @@ const adaptParams = async (_entry: string, query: ParsedUrlQuery): Promise<Parse
 
   // eliminate empty values params
   const newParams = Object.keys({
-    zoom,
+    z: zoom,
     dropdowns,
     orgTag,
     fixedTags,

@@ -26,7 +26,7 @@ const SearchEventsListener: FC = () => {
   const { query } = router
   const {
     search: searchParam,
-    zoom: zoomParam,
+    z: zoomParam,
     type: typesParam,
     limit: limitParam,
     tag: tagsParam,

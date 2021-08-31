@@ -13,7 +13,7 @@ const MapQueryParamsListener: FC = () => {
   const {
     lat: latParam,
     lng: lngParam,
-    zoom: zoomParam,
+    z: zoomParam,
   } = query
 
   const lat = convertQueryParamToFloat(latParam)

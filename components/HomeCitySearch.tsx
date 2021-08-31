@@ -20,7 +20,7 @@ const onSelect = (router: NextRouter) => (value: string) => {
       query: {
         lat,
         lng,
-        zoom: 10,
+        z: 10,
       },
     },
     undefined,

@@ -24,7 +24,7 @@ const MapEventsListener: FC = () => {
       const paramsToUpdate = {
         lat: lat.toFixed(4),
         lng: lng.toFixed(4),
-        zoom: zoom.toFixed(2),
+        z: zoom.toFixed(2),
       }
 
       const newQueryParams = updateRoutingQuery(query, paramsToUpdate)

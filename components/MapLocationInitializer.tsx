@@ -12,7 +12,7 @@ const MapLocationInitializer: FC = () => {
 
   useEffect(() => {
     // the assumption is the lan, lng, zoom are set in the url from the query initializer
-    const { lat: latParam, lng: lngParam, zoom: zoomParam } = query
+    const { lat: latParam, lng: lngParam, z: zoomParam } = query
     const lat = convertQueryParamToFloat(latParam)
     const lng = convertQueryParamToFloat(lngParam)
     const zoom = convertQueryParamToFloat(zoomParam)

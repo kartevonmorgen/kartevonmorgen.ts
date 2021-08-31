@@ -32,7 +32,7 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
     const {
       lat: latParam,
       lng: lngParam,
-      zoom: zoomParam,
+      z: zoomParam,
       type: typesParam,
       start_min: startMinParam,
       start_max: startMaxParam,
@@ -69,7 +69,7 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
     const paramsToUpdate = {
       lat,
       lng,
-      zoom,
+      z: zoom,
       type: types,
       start_min: startMin,
       start_max: startMax,
