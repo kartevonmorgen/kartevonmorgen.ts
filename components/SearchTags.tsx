@@ -48,8 +48,8 @@ const removeAllTagsFromRouter = (router: NextRouter) => () => {
 
 const removeTagFromRouter = (router: NextRouter) => (tagToRemove: string) => {
   const { query } = router
-  const { tag: optoinalTagsFromQuery } = query
-  const optionalTags = convertQueryParamToArray(optoinalTagsFromQuery)
+  const { tag: optionalTagsFromQuery } = query
+  const optionalTags = convertQueryParamToArray(optionalTagsFromQuery)
 
   const newTagsParameter = produce(optionalTags, draft => {
     const indexOfTagToRemove = draft.indexOf(tagToRemove)
@@ -58,7 +58,12 @@ const removeTagFromRouter = (router: NextRouter) => (tagToRemove: string) => {
     }
   })
 
-  const newQueryParams = updateRoutingQuery(query, { tag: convertArrayToQueryParam(newTagsParameter) })
+  let newQueryParams = {}
+  if (newTagsParameter.length !== 0) {
+    newQueryParams = updateRoutingQuery(query, { tag: convertArrayToQueryParam(newTagsParameter) })
+  } else {
+    newQueryParams = removeRoutingQueryParams(query, ['tag'])
+  }
   const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
 
   router.replace(
