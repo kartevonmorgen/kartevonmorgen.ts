@@ -2,13 +2,12 @@ import React, { CSSProperties, FC } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import { List, Space, Tag } from 'antd'
 import { SearchResult } from '../dtos/SearchResult'
-import { Type as ResultType, types as resultTypes } from './TypeChooser'
 import { SearchEntryID } from '../dtos/SearchEntry'
 import { CompactEvent, EventID } from '../dtos/Event'
 import { redirectToEntityDetail } from '../utils/slug'
 import toString from 'lodash/toString'
 import { CellMeasurerChildProps } from 'react-virtualized/dist/es/CellMeasurer'
-import Category from '../dtos/Categories'
+import Category, { CategoryToNameMapper } from '../dtos/Categories'
 import { formatDuration } from '../utils/time'
 import moment from 'moment'
 
@@ -23,20 +22,20 @@ interface ResultCardProps extends CellMeasurerChildProps {
 
 const onResultClick = (
   router: NextRouter,
-  type: ResultType,
+  type: Category,
   id: SearchEntryID | EventID,
 ) => () => {
   redirectToEntityDetail(
     router,
     id,
-    type.id,
+    type,
     0,
     [],
   )
 }
 
-const getTimeDescriptionForEvent = (entity: SearchResult, type: ResultType): string | null => {
-  if (type.id !== Category.EVENT) {
+const getTimeDescriptionForEvent = (entity: SearchResult, type: Category): string | null => {
+  if (type !== Category.EVENT) {
     return null
   }
 
@@ -57,7 +56,8 @@ const ResultCard: FC<ResultCardProps> = (props) => {
   let { description } = searchResult
   description = toString(description)
 
-  const type = resultTypes.find(t => t.id === categories[0])
+  const type: Category = categories[0]
+  const typeName: string = CategoryToNameMapper[type]
 
   const router = useRouter()
 
@@ -67,7 +67,7 @@ const ResultCard: FC<ResultCardProps> = (props) => {
     <Item
       onLoad={measure}
       style={style}
-      className={`${type.name}-result-card`}
+      className={`${typeName}-result-card`}
       onClick={onResultClick(router, type, id)}
     >
       <Item.Meta

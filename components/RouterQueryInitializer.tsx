@@ -2,8 +2,7 @@ import { FC, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import moment from 'moment'
 import toString from 'lodash/toString'
-import Category from '../dtos/Categories'
-import { types as defaultTypes } from './TypeChooser'
+import Category, { knownCategories } from '../dtos/Categories'
 import {
   convertQueryParamToArray,
   convertQueryParamToBoolean,
@@ -56,7 +55,7 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
       toString(initMapLocationProps.zoom)
 
     let types: Category[] = convertQueryParamToArray(typesParam) as Category[]
-    types = types.length !== 0 ? types : defaultTypes.map(t => t.id)
+    types = types.length !== 0 ? types : knownCategories
 
     const startMin: string = startMinParam ?
       toString(convertQueryParamToFloat(startMinParam)) :

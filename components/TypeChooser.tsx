@@ -1,34 +1,12 @@
 import { FC } from 'react'
-
 import { Col, Row, Tag } from 'antd'
-import Category from '../dtos/Categories'
+import lodashClone from 'lodash/clone'
+import Category, { CategoryToNameMapper, knownCategories } from '../dtos/Categories'
 import { NextRouter, useRouter } from 'next/router'
 import { convertQueryParamToArray, updateRoutingQuery } from '../utils/utils'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 
 const { CheckableTag } = Tag
-
-export interface Type {
-  id: Category
-  name: string
-}
-
-
-// todo: move the colors an style file because of different themes
-export const types: Type[] = [
-  {
-    id: Category.INITIATIVE,
-    name: 'initiative',
-  },
-  {
-    id: Category.COMPANY,
-    name: 'company',
-  },
-  {
-    id: Category.EVENT,
-    name: 'event',
-  },
-]
 
 
 const handleChange = (
@@ -41,12 +19,12 @@ const handleChange = (
   const { query } = router
 
   let nextSelectedTypes = [] as Category[]
-  if (selectedTypes.length === types.length) {
+  if (selectedTypes.length === knownCategories.length) {
     // if all are selected -> disable others
     nextSelectedTypes = [typeId]
   } else if (selectedTypes.length === 1 && selectedTypes[0] === typeId) {
     // if this type is the only active type -> select all types to prevent non-selection
-    nextSelectedTypes = types.map(type => type.id)
+    nextSelectedTypes = lodashClone(knownCategories)
   } else {
     // everything is normal
     if (checked) {
@@ -78,20 +56,22 @@ const TypeChooser: FC = () => {
 
   return (
     <Row gutter={8}>
-      {types.map(type => {
-        const isChecked = selectedTypes.indexOf(type.id) > -1
+      {knownCategories.map(category => {
+        const categoryName = CategoryToNameMapper[category]
+        const isChecked = selectedTypes.indexOf(category) > -1
+
         return (
-          <Col key={type.id} span={8}>
+          <Col key={category} span={8}>
             <CheckableTag
-              className={isChecked && `${type.name}-tag`}
+              className={isChecked && `${categoryName}-tag`}
               checked={isChecked}
-              onChange={checked => handleChange(type.id, checked, selectedTypes, router)}
+              onChange={checked => handleChange(category, checked, selectedTypes, router)}
               style={{
                 width: '100%',
                 textAlign: 'center',
               }}
             >
-              {type.name}
+              {categoryName}
             </CheckableTag>
           </Col>
         )

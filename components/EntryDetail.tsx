@@ -10,7 +10,6 @@ import { SearchEntryID } from '../dtos/SearchEntry'
 import { Entries as EntriesDTO, Entry } from '../dtos/Entry'
 import API_ENDPOINTS from '../api/endpoints'
 import EntityImage from './EntityImage'
-import { types as resultTypes } from './TypeChooser'
 import EntityContact from './EntityContact'
 import EntityAddress from './EntityAddress'
 import EntityTags from './EntityTags'
@@ -21,6 +20,7 @@ import OpeningHours from './OpeningHours'
 import EntryLinks from './EntryLinks'
 import TypeTag from './TypeTag'
 import EntryRatingFlower from './EntryRatingFlower'
+import Category, { CategoryToNameMapper } from '../dtos/Categories'
 
 
 const { Title, Paragraph } = Typography
@@ -75,7 +75,8 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
   }
 
 
-  const type = resultTypes.find(t => t.id === entry.categories[0])
+  const type: Category = entry.categories[0]
+  const typeName: string = CategoryToNameMapper[type]
 
   return (
     <div>
@@ -89,7 +90,7 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
       <Title level={2}>{entry.title}</Title>
 
       <TypeTag
-        type={type.name}
+        type={typeName}
         style={{ marginBottom: 12 }}
       />
 
