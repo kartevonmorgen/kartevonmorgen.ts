@@ -11,7 +11,7 @@ import { convertBBoxToString, convertQueryParamToInt, convertQueryParamToString 
 import { SearchEntriesRequest as SearchEntriesRequestDTO } from '../dtos/SearchEntriesRequest'
 import Category, { CategoryNameToIdMapper, CategoryToNameMapper, isEntryCategory } from '../dtos/Categories'
 import { SearchEventsRequest as SearchEventsRequestDTO } from '../dtos/SearchEventsRequest'
-import { getTypeNamesFromRouterOrKnownCategoryNamesIfEmpty } from '../utils/router'
+import { getMapTimesFromRouter, getTypeNamesFromRouterOrKnownCategoryNamesIfEmpty, MapTimes } from '../utils/router'
 
 
 const SearchEventsListener: FC = () => {
@@ -23,8 +23,8 @@ const SearchEventsListener: FC = () => {
     type: typesParam,
     limit: limitParam,
     tag: tagsParam,
-    start_min: startMin,
-    start_max: startMax,
+    start_min: startMinParam,
+    start_max: startMaxParam,
   } = query
 
   const dispatch = useDispatch()
@@ -43,8 +43,8 @@ const SearchEventsListener: FC = () => {
     toString(typesParam),
     toNumber(limitParam),
     toString(tagsParam),
-    toNumber(startMin),
-    toNumber(startMax),
+    toNumber(startMinParam),
+    toNumber(startMaxParam),
   ]
 
 
@@ -76,13 +76,16 @@ const SearchEventsListener: FC = () => {
 
     // search events
     if (typeNames.includes(CategoryToNameMapper[Category.EVENT])) {
+
+      const mapTimes: MapTimes = getMapTimesFromRouter(router)
+
       const searchEventsRequestDTO: SearchEventsRequestDTO = {
         bbox: bbox,
         text: searchTerm,
         limit: limit,
         tag: toString(tagsParam),
-        start_min: toNumber(startMin),
-        start_max: toNumber(startMax),
+        start_min: mapTimes.startMin.unix(),
+        start_max: mapTimes.startMax.unix(),
       }
       dispatch(fetchEvents(searchEventsRequestDTO))
     } else {

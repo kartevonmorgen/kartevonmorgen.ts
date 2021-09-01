@@ -1,8 +1,15 @@
 import { NextRouter } from 'next/router'
-import { convertQueryParamToArray, convertQueryParamToString, convertStringToFloat, SEP } from './utils'
+import {
+  convertQueryParamToArray,
+  convertQueryParamToInt,
+  convertQueryParamToString,
+  convertStringToFloat,
+  SEP,
+} from './utils'
 import { RouterQueryParam } from './types'
 import { LatLng } from './geolocation'
 import { knownCategoryNames } from '../dtos/Categories'
+import moment, { Moment } from 'moment'
 
 
 export const isRouterInitialized = (router: NextRouter): boolean => {
@@ -57,4 +64,34 @@ export const getTypeNamesFromRouterOrKnownCategoryNamesIfEmpty = (router: NextRo
   }
 
   return typeNameFromRouter
+}
+
+export interface MapTimes {
+  startMin: Moment
+  startMax: Moment
+}
+
+export const getMapTimesFromRouter = (router: NextRouter): MapTimes => {
+  const { query } = router
+  const {
+    start_min: startMinParam,
+    start_max: startMaxParam,
+  } = query
+
+  let startMin: Moment = moment().startOf('day').subtract(1, 'days')
+  if (startMinParam) {
+    startMin = moment.unix(convertQueryParamToInt(startMinParam))
+  }
+
+  let startMax: Moment = moment().startOf('day').add(7, 'days')
+  if (startMaxParam) {
+    startMax = moment.unix(convertQueryParamToInt(startMaxParam))
+  }
+
+  const mapTimes: MapTimes = {
+    startMin,
+    startMax,
+  }
+
+  return mapTimes
 }

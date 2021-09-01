@@ -1,6 +1,5 @@
 import { FC, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import moment from 'moment'
 import lodashToString from 'lodash/toString'
 import { convertQueryParamToFloat, convertQueryParamToString, updateRoutingQuery } from '../utils/utils'
 import { MapLocationProps } from './Map'
@@ -26,9 +25,6 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
     const {
       c: centerParam,
       z: zoomParam,
-      type: typesParam,
-      start_min: startMinParam,
-      start_max: startMaxParam,
     } = query
 
 
@@ -46,20 +42,9 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
       lodashToString(convertQueryParamToFloat(zoomParam)) :
       lodashToString(initMapLocationProps.zoom)
 
-
-    const startMin: string = startMinParam ?
-      lodashToString(convertQueryParamToFloat(startMinParam)) :
-      lodashToString(moment().startOf('day').subtract(1, 'days').unix())
-
-    const startMax: string = startMaxParam ?
-      lodashToString(convertQueryParamToFloat(startMaxParam)) :
-      lodashToString(moment().startOf('day').add(7, 'days').unix())
-
     const paramsToUpdate = {
       c: center,
       z: zoom,
-      start_min: startMin,
-      start_max: startMax,
     }
 
     // filter query params out of all params including the dynamic ones
