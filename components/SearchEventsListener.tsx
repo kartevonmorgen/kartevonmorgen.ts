@@ -7,15 +7,11 @@ import toString from 'lodash/toString'
 import toNumber from 'lodash/toNumber'
 import { emptyEntries, fetchEntries } from '../slices/entriesSlice'
 import { emptyEvents, fetchEvents } from '../slices/eventsSlice'
-import {
-  convertBBoxToString,
-  convertQueryParamToArray,
-  convertQueryParamToInt,
-  convertQueryParamToString,
-} from '../utils/utils'
+import { convertBBoxToString, convertQueryParamToInt, convertQueryParamToString } from '../utils/utils'
 import { SearchEntriesRequest as SearchEntriesRequestDTO } from '../dtos/SearchEntriesRequest'
-import Category, { CategoryNameToIdMapper, isEntryCategory } from '../dtos/Categories'
+import Category, { CategoryNameToIdMapper, CategoryToNameMapper, isEntryCategory } from '../dtos/Categories'
 import { SearchEventsRequest as SearchEventsRequestDTO } from '../dtos/SearchEventsRequest'
+import { getTypeNamesFromRouterOrKnownCategoryNamesIfEmpty } from '../utils/router'
 
 
 const SearchEventsListener: FC = () => {
@@ -60,16 +56,16 @@ const SearchEventsListener: FC = () => {
     let limit: number | undefined = convertQueryParamToInt(limitParam)
     limit = limit !== 0 ? limit : undefined
 
-    const typesArray = convertQueryParamToArray(typesParam)
+    const typeNames = getTypeNamesFromRouterOrKnownCategoryNamesIfEmpty(router)
 
     // search entries
     // if no entry category is there, we should set the entries state to an empty array
-    const entryCategories = typesArray.filter(t => isEntryCategory(t)).map(tId => CategoryNameToIdMapper[tId])
+    const entryCategories = typeNames.filter(t => isEntryCategory(t)).map(tName => CategoryNameToIdMapper[tName])
     if (entryCategories.length !== 0) {
       const searchEntriesRequestDTO: SearchEntriesRequestDTO = {
         bbox: bbox,
         text: searchTerm,
-        categories: toString(typesParam),
+        categories: toString(entryCategories),
         limit: limit,
         tags: toString(tagsParam),
       }
@@ -79,7 +75,7 @@ const SearchEventsListener: FC = () => {
     }
 
     // search events
-    if (typesArray.includes(Category.EVENT)) {
+    if (typeNames.includes(CategoryToNameMapper[Category.EVENT])) {
       const searchEventsRequestDTO: SearchEventsRequestDTO = {
         bbox: bbox,
         text: searchTerm,

@@ -13,15 +13,16 @@ export const CategoryToNameMapper = {
 }
 
 export const CategoryNameToIdMapper = Object.keys(CategoryToNameMapper).reduce(
-  (mappedObject, categoryName) => {
-    mappedObject[categoryName] = Category[categoryName]
+  (mappedObjects, categoryId) => {
 
-    return mappedObject
+    mappedObjects[CategoryToNameMapper[categoryId]] = categoryId
+
+    return mappedObjects
   },
-  {},
-)
+  {})
 
 export const knownCategories = Object.values(Category).filter(category => category !== Category.UNKNOWN)
+export const knownCategoryNames = Object.values(knownCategories).map(categoryId => CategoryToNameMapper[categoryId])
 
 
 export type Categories = Category[]

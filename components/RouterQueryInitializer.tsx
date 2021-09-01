@@ -2,14 +2,7 @@ import { FC, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import moment from 'moment'
 import lodashToString from 'lodash/toString'
-import { CategoryToNameMapper, knownCategories } from '../dtos/Categories'
-import {
-  convertArrayToQueryParam,
-  convertQueryParamToArray,
-  convertQueryParamToFloat,
-  convertQueryParamToString,
-  updateRoutingQuery,
-} from '../utils/utils'
+import { convertQueryParamToFloat, convertQueryParamToString, updateRoutingQuery } from '../utils/utils'
 import { MapLocationProps } from './Map'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 import { convertLatLngToString, LatLng } from '../utils/geolocation'
@@ -53,10 +46,6 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
       lodashToString(convertQueryParamToFloat(zoomParam)) :
       lodashToString(initMapLocationProps.zoom)
 
-    let types: string[] = convertQueryParamToArray(typesParam)
-    types = types.length !== 0 ?
-      types :
-      Object.values(knownCategories).map(categoryId => CategoryToNameMapper[categoryId])
 
     const startMin: string = startMinParam ?
       lodashToString(convertQueryParamToFloat(startMinParam)) :
@@ -69,7 +58,6 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
     const paramsToUpdate = {
       c: center,
       z: zoom,
-      type: convertArrayToQueryParam(types),
       start_min: startMin,
       start_max: startMax,
     }

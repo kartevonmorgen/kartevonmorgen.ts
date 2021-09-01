@@ -2,8 +2,9 @@ import { FC } from 'react'
 import { Col, Row, Tag } from 'antd'
 import { CategoryToNameMapper, knownCategories } from '../dtos/Categories'
 import { NextRouter, useRouter } from 'next/router'
-import { convertArrayToQueryParam, convertQueryParamToArray, updateRoutingQuery } from '../utils/utils'
+import { convertArrayToQueryParam, removeRoutingQueryParams, updateRoutingQuery } from '../utils/utils'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
+import { getTypeNamesFromRouterOrKnownCategoryNamesIfEmpty } from '../utils/router'
 
 const { CheckableTag } = Tag
 
@@ -33,7 +34,14 @@ const handleChange = (
     }
   }
 
-  const newQueryParams = updateRoutingQuery(query, { type: convertArrayToQueryParam(nextSelectedTypes) })
+  let newQueryParams = {}
+  if (nextSelectedTypes.length < knownCategories.length) {
+    newQueryParams = updateRoutingQuery(query, { type: convertArrayToQueryParam(nextSelectedTypes) })
+  } else {
+    // all tags are selected
+    newQueryParams = removeRoutingQueryParams(query, ['type'])
+  }
+
   const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
 
   router.replace(
@@ -49,9 +57,7 @@ const handleChange = (
 
 const TypeChooser: FC = () => {
   const router = useRouter()
-  const { query } = router
-  const { type: typesParam } = query
-  let selectedTypes = convertQueryParamToArray(typesParam) as string[]
+  const selectedTypes = getTypeNamesFromRouterOrKnownCategoryNamesIfEmpty(router)
 
   return (
     <Row gutter={8}>

@@ -1,7 +1,8 @@
 import { NextRouter } from 'next/router'
-import { convertQueryParamToString, convertStringToFloat, SEP } from './utils'
+import { convertQueryParamToArray, convertQueryParamToString, convertStringToFloat, SEP } from './utils'
 import { RouterQueryParam } from './types'
 import { LatLng } from './geolocation'
+import { knownCategoryNames } from '../dtos/Categories'
 
 
 export const isRouterInitialized = (router: NextRouter): boolean => {
@@ -38,4 +39,22 @@ export const getCenterLatLngFromRouter = (router: NextRouter): LatLng => {
   const centerLatLng: LatLng = getLatLngFromRouterWithParamName(router, 'c')
 
   return centerLatLng
+}
+
+export const getTypeNamesFromRouter = (router: NextRouter): string[] => {
+  const { query } = router
+  const { type: typeParams } = query
+
+  const typeNames: string[] = convertQueryParamToArray(typeParams)
+
+  return typeNames
+}
+
+export const getTypeNamesFromRouterOrKnownCategoryNamesIfEmpty = (router: NextRouter): string[] => {
+  const typeNameFromRouter: string[] = getTypeNamesFromRouter(router)
+  if (typeNameFromRouter.length === 0) {
+    return knownCategoryNames
+  }
+
+  return typeNameFromRouter
 }
