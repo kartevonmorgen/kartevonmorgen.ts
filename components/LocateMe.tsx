@@ -4,6 +4,7 @@ import { Button } from 'antd'
 import { updateRoutingQuery } from '../utils/utils'
 import { AimOutlined } from '@ant-design/icons'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
+import { convertLatLngToString, LatLng } from '../utils/geolocation'
 
 
 const getCurrentPosition = async (): Promise<GeolocationPosition> => {
@@ -27,9 +28,12 @@ const setQueryParamsToCurrentLocation = (router) => async () => {
 
   try {
     const currentPosition = await getCurrentPosition()
+    const center: LatLng = {
+      lat: currentPosition.coords.latitude,
+      lng: currentPosition.coords.longitude,
+    }
     const paramsToUpdate = {
-      lat: currentPosition.coords.latitude.toFixed(4),
-      lng: currentPosition.coords.longitude.toFixed(4),
+      c: convertLatLngToString(center),
     }
 
     const newQueryParams = updateRoutingQuery(query, paramsToUpdate)

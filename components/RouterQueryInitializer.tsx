@@ -8,10 +8,12 @@ import {
   convertQueryParamToArray,
   convertQueryParamToBoolean,
   convertQueryParamToFloat,
+  convertQueryParamToString,
   updateRoutingQuery,
 } from '../utils/utils'
 import { MapLocationProps } from './Map'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
+import { convertLatLngToString, LatLng } from '../utils/geolocation'
 
 
 interface RouterQueryInitializerProps {
@@ -30,8 +32,7 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
     // all of that is to set the default URL query params
     // todo: make it a function because of readability and more params may come in the future
     const {
-      lat: latParam,
-      lng: lngParam,
+      c: centerParam,
       z: zoomParam,
       type: typesParam,
       start_min: startMinParam,
@@ -39,13 +40,17 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
       isSidebarOpen: isSidebarOpenParam,
     } = query
 
-    // coming from the dynamic routing. we should not add them as the query params
-    const lat: string = latParam ?
-      toString(convertQueryParamToFloat(latParam)) :
-      toString(initMapLocationProps.lat)
-    const lng: string = lngParam ?
-      toString(convertQueryParamToFloat(lngParam)) :
-      toString(initMapLocationProps.lng)
+
+    let center: string = convertQueryParamToString(centerParam)
+    if (center === '') {
+      const centerLatLng: LatLng = {
+        lat: initMapLocationProps.lat,
+        lng: initMapLocationProps.lng,
+      }
+
+      center = convertLatLngToString(centerLatLng)
+    }
+
     const zoom: string = zoomParam ?
       toString(convertQueryParamToFloat(zoomParam)) :
       toString(initMapLocationProps.zoom)
@@ -67,8 +72,7 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
 
 
     const paramsToUpdate = {
-      lat,
-      lng,
+      c: center,
       z: zoom,
       type: types,
       start_min: startMin,

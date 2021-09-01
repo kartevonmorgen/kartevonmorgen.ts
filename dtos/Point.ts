@@ -1,5 +1,5 @@
 import { ParsedUrlQuery } from 'querystring'
-import { convertQueryParamToFloat } from '../utils/utils'
+import { convertQueryParamToLatLng } from '../utils/router'
 
 
 class Point {
@@ -13,8 +13,8 @@ class Point {
   }
 
   fromQuery(query: ParsedUrlQuery): Point {
-    const lat = convertQueryParamToFloat(query.pinLat)
-    const lng = convertQueryParamToFloat(query.pinLng)
+    const { pinCenter } = query
+    const { lat, lng } = convertQueryParamToLatLng(pinCenter)
 
     return new Point(lat, lng)
   }

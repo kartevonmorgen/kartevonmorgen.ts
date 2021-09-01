@@ -1,8 +1,9 @@
 import { FC, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useMap } from 'react-leaflet'
-import { convertQueryParamToFloat, convertQueryParamToString } from '../utils/utils'
+import { convertQueryParamToFloat } from '../utils/utils'
 import { LatLngExpression } from 'leaflet'
+import { getCenterLatLngFromRouter } from '../utils/router'
 
 
 const MapQueryParamsListener: FC = () => {
@@ -11,19 +12,16 @@ const MapQueryParamsListener: FC = () => {
   const router = useRouter()
   const { query } = router
   const {
-    lat: latParam,
-    lng: lngParam,
     z: zoomParam,
   } = query
 
-  const lat = convertQueryParamToFloat(latParam)
-  const lng = convertQueryParamToFloat(lngParam)
+  const { lat, lng } = getCenterLatLngFromRouter(router)
   const zoom = convertQueryParamToFloat(zoomParam)
 
-  const effectDependencies: string[] = [
-    convertQueryParamToString(latParam),
-    convertQueryParamToString(lngParam),
-    convertQueryParamToString(zoomParam),
+  const effectDependencies: any[] = [
+    lat,
+    lng,
+    zoom,
   ]
 
   useEffect(() => {

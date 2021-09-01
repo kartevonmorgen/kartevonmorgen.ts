@@ -7,16 +7,11 @@ import { convertQueryParamToString, convertStringToFloat, updateRoutingQuery } f
 import { GeoLocations } from '../dtos/GeoLocatoinResponse'
 import { AxiosInstance } from '../api'
 import API_ENDPOINTS from '../api/endpoints'
-import toString from 'lodash/toString'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
+import { convertLatLngToString, LatLng } from '../utils/geolocation'
 
 
-interface Center {
-  lat: number
-  lng: number
-}
-
-const fetchLocationFromRegionName = async (regionName: string): Promise<Center> => {
+const fetchLocationFromRegionName = async (regionName: string): Promise<LatLng> => {
   // todo: catch error if the region api did not responded successfully
   const regionLookupResponse =
     await AxiosInstance.GetRequest<GeoLocations>(
@@ -38,10 +33,12 @@ const fetchLocationFromRegionName = async (regionName: string): Promise<Center> 
   }
 
   const region = regionLookup[0]
-  return {
+  const regionLatLng: LatLng = {
     lat: convertStringToFloat(region.lat, 4),
     lng: convertStringToFloat(region.lon, 4),
   }
+
+  return regionLatLng
 }
 
 const changeLatAndLngFromRegionName = (router: NextRouter) => async (regionName: string) => {
@@ -49,8 +46,7 @@ const changeLatAndLngFromRegionName = (router: NextRouter) => async (regionName:
     const regionCenter = await fetchLocationFromRegionName(regionName)
 
     const paramsToUpdate = {
-      lat: toString(regionCenter.lat),
-      lng: toString(regionCenter.lng),
+      c: convertLatLngToString(regionCenter),
     }
 
     const { query } = router

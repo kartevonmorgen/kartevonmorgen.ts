@@ -20,7 +20,7 @@ export enum RootSlugEntity {
 
 export enum BriefRootSlugEntity {
   EVENTS = 'ev',
-  ENTRIES = 'en',
+  ENTRIES = 'e',
   RESULTS = 're',
 }
 
@@ -29,7 +29,7 @@ export enum EntrySlugEntity {
 }
 
 export enum BriefEntrySlugEntity {
-  RATINGS = 'ratings'
+  RATINGS = 'r'
 }
 
 export enum RatingSlugEntity {
@@ -37,7 +37,7 @@ export enum RatingSlugEntity {
 }
 
 export enum BriefRatingSlugEntity {
-  COMMENTS = 'comments'
+  COMMENTS = 'c'
 }
 
 

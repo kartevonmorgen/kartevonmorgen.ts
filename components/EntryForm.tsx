@@ -103,7 +103,7 @@ const redirectToEntry = (router: NextRouter, entryId: SearchEntryID) => {
     entryId,
     Category.INITIATIVE,
     2,
-    ['pinLat', 'pinLng'],
+    ['pinCenter'],
   )
 }
 

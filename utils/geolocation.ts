@@ -1,7 +1,15 @@
 import toString from 'lodash/toString'
 import isUndefined from 'lodash/isUndefined'
 import { GeocodeAddress, NominatimResponse, reverseGeocode as nominatimReverseGeocode } from 'nominatim-browser'
+import { convertFloatToString, SEP } from './utils'
 
+
+// it was not possible to use the latlng from leaflet
+// because throws the error "window is not defined"
+export interface LatLng {
+  lat: number
+  lng: number
+}
 
 export interface ExtendedGeocodeAddress extends GeocodeAddress {
   town?: string
@@ -35,4 +43,15 @@ export const getCityFromAddress = (extendedAddress: ExtendedGeocodeAddress): str
   }
 
   return ''
+}
+
+
+export const convertLatLngToString = (latLng: LatLng): string => {
+  const { lat, lng } = latLng
+  const stringifiedLat: string = convertFloatToString(lat)
+  const stringifiedLng: string = convertFloatToString(lng)
+
+  const joinedLatLng: string = [stringifiedLat, stringifiedLng].join(SEP)
+
+  return joinedLatLng
 }

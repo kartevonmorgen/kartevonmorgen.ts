@@ -19,7 +19,7 @@ const calculateLevelsToBack = (isEdit: boolean): number => {
 const onBack = (router: NextRouter, isEdit: boolean) => () => {
   const { query } = router
 
-  const paramsToRemove = ['pinLat', 'pinLng']
+  const paramsToRemove = ['pinCenter']
 
   const newQueryParams = produce(query, draftState => {
     const { slug } = draftState

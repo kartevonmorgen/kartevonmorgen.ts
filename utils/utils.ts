@@ -7,6 +7,14 @@ import { LatLngBounds } from 'leaflet'
 import { RouterQueryParam } from './types'
 
 
+export const SEP = ','
+export const FLOATING_POINT_DIGITS = 4
+
+
+export const convertFloatToString = (value: number, precision: number = FLOATING_POINT_DIGITS): string => {
+  return value.toFixed(precision)
+}
+
 export const convertStringToBoolean = (str: string): boolean => {
   return str === 'true'
 }

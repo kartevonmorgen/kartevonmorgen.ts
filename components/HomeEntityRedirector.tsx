@@ -1,4 +1,4 @@
-// it's not possible to handle the old addresses by nginx
+// it's not possible to handle the old addresses by nginx. UPDATE: it's possible with njs
 // https://serverfault.com/questions/714232/nginx-discards-data-after-number-sign/714245
 import { FC, useEffect } from 'react'
 import { useRouter } from 'next/router'

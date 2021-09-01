@@ -61,7 +61,7 @@ const redirectToEvent = (router: NextRouter, eventId: EventID) => {
     eventId,
     Category.EVENT,
     2,
-    ['pinLat', 'pinLng'],
+    ['pinCenter'],
   )
 }
 

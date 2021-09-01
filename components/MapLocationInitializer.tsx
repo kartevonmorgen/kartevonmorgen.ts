@@ -2,6 +2,7 @@ import { FC, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useMap } from 'react-leaflet'
 import { convertQueryParamToFloat } from '../utils/utils'
+import { getCenterLatLngFromRouter } from '../utils/router'
 
 
 const MapLocationInitializer: FC = () => {
@@ -12,10 +13,10 @@ const MapLocationInitializer: FC = () => {
 
   useEffect(() => {
     // the assumption is the lan, lng, zoom are set in the url from the query initializer
-    const { lat: latParam, lng: lngParam, z: zoomParam } = query
-    const lat = convertQueryParamToFloat(latParam)
-    const lng = convertQueryParamToFloat(lngParam)
+    const { z: zoomParam } = query
     const zoom = convertQueryParamToFloat(zoomParam)
+
+    const { lat, lng } = getCenterLatLngFromRouter(router)
 
     map.flyTo([lat, lng], zoom)
   }, [])

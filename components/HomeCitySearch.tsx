@@ -12,14 +12,13 @@ const { Option } = Select
 
 
 const onSelect = (router: NextRouter) => (value: string) => {
-  const [lat, lng] = value.split(',')
+  const center: string = value
 
   router.push(
     {
       pathname: '/m/home',
       query: {
-        lat,
-        lng,
+        c: center,
         z: 10,
       },
     },
