@@ -1,8 +1,8 @@
 import { FC, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import moment from 'moment'
-import toString from 'lodash/toString'
-import Category, { knownCategories } from '../dtos/Categories'
+import lodashToString from 'lodash/toString'
+import { CategoryToNameMapper, knownCategories } from '../dtos/Categories'
 import {
   convertArrayToQueryParam,
   convertQueryParamToArray,
@@ -52,23 +52,25 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
     }
 
     const zoom: string = zoomParam ?
-      toString(convertQueryParamToFloat(zoomParam)) :
-      toString(initMapLocationProps.zoom)
+      lodashToString(convertQueryParamToFloat(zoomParam)) :
+      lodashToString(initMapLocationProps.zoom)
 
-    let types: Category[] = convertQueryParamToArray(typesParam) as Category[]
-    types = types.length !== 0 ? types : knownCategories
+    let types: string[] = convertQueryParamToArray(typesParam)
+    types = types.length !== 0 ?
+      types :
+      Object.values(knownCategories).map(categoryId => CategoryToNameMapper[categoryId])
 
     const startMin: string = startMinParam ?
-      toString(convertQueryParamToFloat(startMinParam)) :
-      toString(moment().startOf('day').subtract(1, 'days').unix())
+      lodashToString(convertQueryParamToFloat(startMinParam)) :
+      lodashToString(moment().startOf('day').subtract(1, 'days').unix())
 
     const startMax: string = startMaxParam ?
-      toString(convertQueryParamToFloat(startMaxParam)) :
-      toString(moment().startOf('day').add(7, 'days').unix())
+      lodashToString(convertQueryParamToFloat(startMaxParam)) :
+      lodashToString(moment().startOf('day').add(7, 'days').unix())
 
     const isSidebarOpen: string = isSidebarOpenParam ?
-      toString(convertQueryParamToBoolean(isSidebarOpenParam)) :
-      toString(true)
+      lodashToString(convertQueryParamToBoolean(isSidebarOpenParam)) :
+      lodashToString(true)
 
 
     const paramsToUpdate = {

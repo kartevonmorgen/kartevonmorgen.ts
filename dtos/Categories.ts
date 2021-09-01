@@ -27,10 +27,14 @@ export const knownCategories = Object.values(Category).filter(category => catego
 export type Categories = Category[]
 
 
-const EntryCategories = [Category.COMPANY, Category.INITIATIVE]
+const EntryCategories = [
+  CategoryToNameMapper[Category.COMPANY],
+  CategoryToNameMapper[Category.INITIATIVE],
+]
+
 const EventCategory = Category.EVENT
 
-export const isEntryCategory = (id: string): boolean => (EntryCategories.includes(id as Category))
-export const isEventCategory = (id: string): boolean => (id === EventCategory)
+export const isEntryCategory = (categoryName: string): boolean => (EntryCategories.includes(categoryName))
+export const isEventCategory = (categoryName: string): boolean => (categoryName === EventCategory)
 
 export default Category

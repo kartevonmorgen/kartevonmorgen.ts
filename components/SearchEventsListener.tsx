@@ -2,14 +2,11 @@
 import { FC, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
-
 import { useMap } from 'react-leaflet'
 import toString from 'lodash/toString'
 import toNumber from 'lodash/toNumber'
-
 import { emptyEntries, fetchEntries } from '../slices/entriesSlice'
 import { emptyEvents, fetchEvents } from '../slices/eventsSlice'
-
 import {
   convertBBoxToString,
   convertQueryParamToArray,
@@ -17,7 +14,7 @@ import {
   convertQueryParamToString,
 } from '../utils/utils'
 import { SearchEntriesRequest as SearchEntriesRequestDTO } from '../dtos/SearchEntriesRequest'
-import Category, { isEntryCategory } from '../dtos/Categories'
+import Category, { CategoryNameToIdMapper, isEntryCategory } from '../dtos/Categories'
 import { SearchEventsRequest as SearchEventsRequestDTO } from '../dtos/SearchEventsRequest'
 
 
@@ -67,7 +64,7 @@ const SearchEventsListener: FC = () => {
 
     // search entries
     // if no entry category is there, we should set the entries state to an empty array
-    const entryCategories = typesArray.filter(t => isEntryCategory(t))
+    const entryCategories = typesArray.filter(t => isEntryCategory(t)).map(tId => CategoryNameToIdMapper[tId])
     if (entryCategories.length !== 0) {
       const searchEntriesRequestDTO: SearchEntriesRequestDTO = {
         bbox: bbox,
