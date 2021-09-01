@@ -22,6 +22,7 @@ const onAddEntity = (router: NextRouter) => () => {
     const slugArray = convertQueryParamToArray(slug)
     slugArray.push(BriefRootSlugEntity.ENTRIES, SlugVerb.CREATE)
 
+    delete draftState.sidebar
     draftState.slug = slugArray
   })
 

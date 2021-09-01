@@ -6,7 +6,6 @@ import { CategoryToNameMapper, knownCategories } from '../dtos/Categories'
 import {
   convertArrayToQueryParam,
   convertQueryParamToArray,
-  convertQueryParamToBoolean,
   convertQueryParamToFloat,
   convertQueryParamToString,
   updateRoutingQuery,
@@ -37,7 +36,6 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
       type: typesParam,
       start_min: startMinParam,
       start_max: startMaxParam,
-      isSidebarOpen: isSidebarOpenParam,
     } = query
 
 
@@ -68,18 +66,12 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
       lodashToString(convertQueryParamToFloat(startMaxParam)) :
       lodashToString(moment().startOf('day').add(7, 'days').unix())
 
-    const isSidebarOpen: string = isSidebarOpenParam ?
-      lodashToString(convertQueryParamToBoolean(isSidebarOpenParam)) :
-      lodashToString(true)
-
-
     const paramsToUpdate = {
       c: center,
       z: zoom,
       type: convertArrayToQueryParam(types),
       start_min: startMin,
       start_max: startMax,
-      isSidebarOpen,
     }
 
     // filter query params out of all params including the dynamic ones

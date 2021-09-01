@@ -2,7 +2,8 @@ import { Dispatch, FC, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Drawer } from 'antd'
 import SidebarContent from './SidebarContent'
-import { convertQueryParamToBoolean } from '../utils/utils'
+import { convertQueryParamToString } from '../utils/utils'
+import { isSidebarStatusShown } from '../dtos/SidebarStatus'
 
 
 const toggleSidebarWidth = (setSidebarWidth: Dispatch<string>) => (broken: boolean): void => {
@@ -23,11 +24,11 @@ const Sidebar: FC = () => {
   const router = useRouter()
   const {
     query: {
-      isSidebarOpen: isSidebarOpenParam,
+      sidebar: sidebarParam,
     },
   } = router
 
-  const isSidebarOpen = convertQueryParamToBoolean(isSidebarOpenParam)
+  const isSidebarOpen = isSidebarStatusShown(convertQueryParamToString(sidebarParam))
 
   const [sidebarWidth, setSidebarWidth] = useState<string>('32vw')
 

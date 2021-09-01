@@ -7,12 +7,10 @@ import { LatLng } from './geolocation'
 export const isRouterInitialized = (router: NextRouter): boolean => {
   const { query } = router
   const {
-    lat,
-    lng,
-    zoom,
-    isSidebarOpen,
+    c: center,
+    z: zoom,
   } = query
-  const initializeIndicators = [lat, lng, zoom, isSidebarOpen]
+  const initializeIndicators = [center, zoom]
 
   const areAllIndicatorsInitialized: boolean = initializeIndicators.every((indicator) => indicator !== undefined)
 

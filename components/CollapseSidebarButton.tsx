@@ -3,10 +3,10 @@ import { NextRouter, useRouter } from 'next/router'
 import { Button } from 'antd'
 import TweenOne from 'rc-tween-one'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { convertQueryParamToBoolean, updateRoutingQuery } from '../utils/utils'
-import toString from 'lodash/toString'
+import { convertQueryParamToString, removeRoutingQueryParams, updateRoutingQuery } from '../utils/utils'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 import { isRouterInitialized } from '../utils/router'
+import SidebarStatus, { isSidebarStatusShown } from '../dtos/SidebarStatus'
 
 
 export enum SidebarState {
@@ -18,9 +18,15 @@ export enum SidebarState {
 const setSidebarState = (router: NextRouter, sidebarOpenState: SidebarState) => {
   const { query } = router
 
-  const newQueryParams = updateRoutingQuery(query, {
-    isSidebarOpen: toString(Boolean(sidebarOpenState)),
-  })
+  let newQueryParams = {}
+  if (sidebarOpenState === SidebarState.Open) {
+    newQueryParams = removeRoutingQueryParams(query, ['sidebar'])
+  } else {
+    newQueryParams = updateRoutingQuery(query, {
+      sidebar: SidebarStatus.HIDDEN,
+    })
+  }
+
   const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
 
   router.replace(
@@ -75,8 +81,8 @@ const CollapseSidebarButton: FC = () => {
 
   const router = useRouter()
   const { query } = router
-  const { isSidebarOpen: isSidebarOpenQueryParam } = query
-  const isSidebarOpen = convertQueryParamToBoolean(isSidebarOpenQueryParam)
+  const { sidebar: sidebarParam } = query
+  const isSidebarOpen = isSidebarStatusShown(convertQueryParamToString(sidebarParam))
 
   return (
     <TweenOne

@@ -11,7 +11,6 @@ import { createSlugPathFromQueryAndRemoveSlug, getRootSlugActionFromQuery } from
 import { mapTypeIdToBriefEntityName, SlugVerb } from '../utils/types'
 import produce from 'immer'
 import { convertQueryParamToArray } from '../utils/utils'
-import toString from 'lodash/toString'
 
 
 const icons = {
@@ -70,7 +69,7 @@ const onClickOnPin = (router: NextRouter, searchResult: SearchResult) => () => {
     draftState.slug = slugArray
 
     // open the sidebar
-    draftState.isSidebarOpen = toString(true)
+    delete draftState.sidebar
   })
 
   const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
