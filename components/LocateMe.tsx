@@ -59,7 +59,6 @@ const LocateMe: FC = () => {
 
   return (
     <Button
-      type="primary"
       icon={<AimOutlined/>}
       onClick={setQueryParamsToCurrentLocation(router)}
     />

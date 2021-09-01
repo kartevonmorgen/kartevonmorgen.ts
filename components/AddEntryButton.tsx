@@ -46,7 +46,6 @@ const AddEntryButton: FC = () => {
       style={{
         marginBottom: 8,
       }}
-      type="primary"
       size="middle"
       icon={<PlusCircleOutlined/>}
       onClick={onAddEntity(router)}

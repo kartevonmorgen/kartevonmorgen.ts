@@ -42,7 +42,6 @@ const MapSharingDropdown: FC = () => {
       placement="topLeft"
     >
       <Button
-        type="primary"
         size="middle"
         icon={
           <FontAwesomeIcon
