@@ -136,10 +136,24 @@ export const convertQueryParamToArray = (param: RouterQueryParam): string[] => {
   }
 
   if (isString(param)) {
-    return [param]
+    return param.split(SEP)
   }
 
-  return param
+  // is array -> split and make it flat
+  const aggregatedSplitedParams: string[] = param
+    .map(element => element.split(SEP))
+    .reduce((aggregatedStrings, arrayOfSplittedStrings) => {
+      return [
+        ...aggregatedStrings,
+        ...arrayOfSplittedStrings,
+      ]
+    }, [] as string[])
+
+  return aggregatedSplitedParams
+}
+
+export const convertArrayToQueryParam = (array: string[]): string => {
+  return array.join(SEP)
 }
 
 interface cropTextLimit {

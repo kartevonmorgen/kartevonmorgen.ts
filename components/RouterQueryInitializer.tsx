@@ -4,6 +4,7 @@ import moment from 'moment'
 import toString from 'lodash/toString'
 import Category, { knownCategories } from '../dtos/Categories'
 import {
+  convertArrayToQueryParam,
   convertQueryParamToArray,
   convertQueryParamToBoolean,
   convertQueryParamToFloat,
@@ -73,7 +74,7 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
     const paramsToUpdate = {
       c: center,
       z: zoom,
-      type: types,
+      type: convertArrayToQueryParam(types),
       start_min: startMin,
       start_max: startMax,
       isSidebarOpen,

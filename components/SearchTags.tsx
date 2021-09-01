@@ -1,7 +1,12 @@
 import React, { FC, Fragment, useEffect, useState } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import produce from 'immer'
-import { convertQueryParamToArray, removeRoutingQueryParams, updateRoutingQuery } from '../utils/utils'
+import {
+  convertArrayToQueryParam,
+  convertQueryParamToArray,
+  removeRoutingQueryParams,
+  updateRoutingQuery,
+} from '../utils/utils'
 import TagsSelect from './TagsSelect'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 
@@ -11,7 +16,7 @@ const searchTag = (router: NextRouter) => (tag: string) => {
   const { tag: optionalTagsFromQuery } = query
   const optionalTags = convertQueryParamToArray(optionalTagsFromQuery)
 
-  const newQueryParams = updateRoutingQuery(query, { tag: [...optionalTags, tag] })
+  const newQueryParams = updateRoutingQuery(query, { tag: convertArrayToQueryParam([...optionalTags, tag]) })
   const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
 
   router.replace(
@@ -53,7 +58,7 @@ const removeTagFromRouter = (router: NextRouter) => (tagToRemove: string) => {
     }
   })
 
-  const newQueryParams = updateRoutingQuery(query, { tag: newTagsParameter })
+  const newQueryParams = updateRoutingQuery(query, { tag: convertArrayToQueryParam(newTagsParameter) })
   const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
 
   router.replace(

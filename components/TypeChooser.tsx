@@ -3,7 +3,7 @@ import { Col, Row, Tag } from 'antd'
 import lodashClone from 'lodash/clone'
 import Category, { CategoryToNameMapper, knownCategories } from '../dtos/Categories'
 import { NextRouter, useRouter } from 'next/router'
-import { convertQueryParamToArray, updateRoutingQuery } from '../utils/utils'
+import { convertArrayToQueryParam, convertQueryParamToArray, updateRoutingQuery } from '../utils/utils'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 
 const { CheckableTag } = Tag
@@ -34,7 +34,7 @@ const handleChange = (
     }
   }
 
-  const newQueryParams = updateRoutingQuery(query, { type: nextSelectedTypes })
+  const newQueryParams = updateRoutingQuery(query, { type: convertArrayToQueryParam(nextSelectedTypes) })
   const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
 
   router.replace(
