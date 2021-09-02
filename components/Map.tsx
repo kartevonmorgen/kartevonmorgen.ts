@@ -10,8 +10,8 @@ import LocateMe from './LocateMe'
 import MapSharingDropdown from './MapSharingDropdown'
 import MapMarkers from './MapMarkers'
 import NewMapMarker from './NewMapMarker'
-import 'leaflet/dist/leaflet.css'
 import CollapseSidebarButton from './CollapseSidebarButton'
+import 'leaflet/dist/leaflet.css'
 
 
 export interface MapLocationProps {
@@ -42,8 +42,6 @@ const Map: FC = () => {
       <CollapseSidebarButton/>
 
       <div id="map-bottom-right-above-controller">
-        <AddEntryButton/>
-
         <LocateMe/>
       </div>
 
@@ -53,6 +51,8 @@ const Map: FC = () => {
 
       <div id="map-bottom-right-below-controller">
         <MapSharingDropdown/>
+
+        <AddEntryButton/>
       </div>
 
       <ZoomControl position="bottomright"/>

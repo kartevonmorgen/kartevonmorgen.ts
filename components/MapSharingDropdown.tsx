@@ -50,6 +50,10 @@ const MapSharingDropdown: FC = () => {
               marginRight: 4,
             }}
           />}
+        style={{
+          marginBottom: 8,
+          width: 88,
+        }}
       >
         Share
       </Button>
