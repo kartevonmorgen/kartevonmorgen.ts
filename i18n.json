@@ -13,7 +13,7 @@
     "/m/[...slug]": [
       "map"
     ],
-    "/tables/[project]": [
+    "/t/[project]": [
       "tables"
     ]
   }
