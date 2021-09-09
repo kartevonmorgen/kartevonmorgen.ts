@@ -16,7 +16,7 @@ const onSelect = (router: NextRouter) => (value: string) => {
 
   router.push(
     {
-      pathname: '/m/home',
+      pathname: '/m/main',
       query: {
         c: center,
         z: 10,
