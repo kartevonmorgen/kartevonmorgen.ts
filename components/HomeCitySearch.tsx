@@ -1,15 +1,18 @@
-import { FC, useState } from 'react'
+import React, { FC, useState } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import useTranslation from 'next-translate/useTranslation'
-import { Select } from 'antd'
+import { AutoComplete, Input } from 'antd'
 import debounce from 'lodash/debounce'
 import useRequest from '../api/useRequest'
 import { GeoLocations } from '../dtos/GeoLocatoinResponse'
 import API_ENDPOINTS from '../api/endpoints/'
+import LocateMe from './LocateMe'
 
 
-const { Option } = Select
-
+interface Option {
+  label: string
+  value: string
+}
 
 const onSelect = (router: NextRouter) => (value: string) => {
   const center: string = value
@@ -28,6 +31,22 @@ const onSelect = (router: NextRouter) => (value: string) => {
 }
 
 
+const convertGeoLocationsToOptions = (geoLocations: GeoLocations): Option[] => {
+  const options: Option[] = geoLocations.map((geoLocation) => {
+
+      const { lat, lon, display_name } = geoLocation
+
+      return ({
+        label: display_name,
+        value: [lat, lon].join(),
+      })
+    },
+  )
+
+  return options
+}
+
+
 const HomeCitySearch: FC = () => {
   const router = useRouter()
   const { t } = useTranslation('home')
@@ -42,6 +61,12 @@ const HomeCitySearch: FC = () => {
     },
   })
 
+  const couldFetchGeoLocations: boolean = geoLocations && !geoLocationError
+
+  let options = []
+  if (couldFetchGeoLocations) {
+    options = convertGeoLocationsToOptions(geoLocations)
+  }
 
   return (
     <div
@@ -49,34 +74,30 @@ const HomeCitySearch: FC = () => {
         display: 'flex',
         justifyContent: 'center',
         alignContent: 'center',
-        width: '100%',
+        width: 'inherit',
       }}
     >
-      <Select
-        showSearch
+      <AutoComplete
         showArrow={false}
         filterOption={false}
         notFoundContent={null}
-        dropdownMatchSelectWidth={252}
-        style={{ width: '100%' }}
+        dropdownMatchSelectWidth={600}
+        options={options}
         onSelect={onSelect(router)}
         onSearch={debounce(setSearchTerm, 400)}
-        placeholder={t('landingPage.city-search.placeholder')}
-        size="large"
+        style={{ width: '100%' }}
       >
-        {
-          geoLocations && !geoLocationError && (
-            geoLocations.map(({ lat, lon, display_name, place_id }) => (
-              <Option
-                key={`geoLocationOption-${place_id}`}
-                value={[lat, lon].join()}
-              >
-                {display_name}
-              </Option>
-            ))
-          )
-        }
-      </Select>
+        <Input
+          size="large"
+          placeholder={t('landingPage.city-search.placeholder')}
+          addonBefore={
+            <LocateMe
+              type="text"
+              shouldIncludeDefaultProjectName
+            />
+          }
+        />
+      </AutoComplete>
 
     </div>
   )

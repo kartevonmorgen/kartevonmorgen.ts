@@ -24,8 +24,14 @@ const Banner: FC = () => {
           justifyContent: 'center',
         }}
       >
-        <div>
-          <Row>
+        <div
+          style={{
+            width: 'inherit',
+          }}
+        >
+          <Row
+            justify="center"
+          >
             <Col xs={24} style={{ textAlign: 'center' }}>
               <Title
                 level={1}
@@ -37,9 +43,12 @@ const Banner: FC = () => {
               </Title>
             </Col>
           </Row>
-          <Row>
+          <Row
+            justify="center"
+          >
             <Col
-              xs={24}
+              xs={20}
+              sm={8}
               style={{
                 textAlign: 'center',
               }}

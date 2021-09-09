@@ -1,6 +1,6 @@
 import { FC } from 'react'
-import { useRouter } from 'next/router'
-import { Button } from 'antd'
+import { NextRouter, useRouter } from 'next/router'
+import { Button, ButtonProps } from 'antd'
 import { updateRoutingQuery } from '../utils/utils'
 import { AimOutlined } from '@ant-design/icons'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
@@ -23,7 +23,7 @@ const getCurrentPosition = async (): Promise<GeolocationPosition> => {
 }
 
 
-const setQueryParamsToCurrentLocation = (router) => async () => {
+const setQueryParamsToCurrentLocation = (shouldIncludeDefaultProjectName: boolean, router: NextRouter) => async () => {
   const { query } = router
 
   try {
@@ -39,10 +39,12 @@ const setQueryParamsToCurrentLocation = (router) => async () => {
     const newQueryParams = updateRoutingQuery(query, paramsToUpdate)
     const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
 
+    const pathname: string = `/m/${shouldIncludeDefaultProjectName ? 'main' : ''}${newPath}`
+    console.log(pathname)
 
     router.replace(
       {
-        pathname: `/m/${newPath}`,
+        pathname,
         query: newQueryWithoutSlug,
       },
       undefined,
@@ -53,16 +55,27 @@ const setQueryParamsToCurrentLocation = (router) => async () => {
   }
 }
 
+interface LocateMeProps extends ButtonProps {
+  shouldIncludeDefaultProjectName: boolean
+}
 
-const LocateMe: FC = () => {
+const LocateMe: FC<LocateMeProps> = (props) => {
+  const { shouldIncludeDefaultProjectName } = props
+
   const router = useRouter()
+
 
   return (
     <Button
+      {...props}
       icon={<AimOutlined/>}
-      onClick={setQueryParamsToCurrentLocation(router)}
+      onClick={setQueryParamsToCurrentLocation(shouldIncludeDefaultProjectName, router)}
     />
   )
+}
+
+LocateMe.defaultProps = {
+  shouldIncludeDefaultProjectName: false,
 }
 
 
