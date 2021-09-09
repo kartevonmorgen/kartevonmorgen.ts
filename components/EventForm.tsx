@@ -1,5 +1,6 @@
 import React, { FC, Fragment, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import useTranslation from 'next-translate/useTranslation'
 import { Button, Checkbox, DatePicker, Divider, Form, FormInstance, Input, Spin, Typography } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { validate as validateEmail } from 'isemail'
@@ -140,6 +141,8 @@ const EventForm: FC<EventFormProps> = (props) => {
 
   const dispatch = useDispatch()
 
+  const { t } = useTranslation('map')
+
   const router = useRouter()
   const { query } = router
   const isEdit = verb === SlugVerb.EDIT
@@ -203,34 +206,44 @@ const EventForm: FC<EventFormProps> = (props) => {
 
       <Form.Item
         name="title"
-        rules={[{ required: true, min: 3 }]}
+        rules={[
+          { required: true, message: t('entryForm.requiredField') },
+          { min: 3, message: t('entryForm.titleTooShort') },
+        ]}
       >
-        <Input placeholder="Title"/>
+        <Input placeholder={t('entryForm.title')}/>
       </Form.Item>
 
       <Form.Item
         name="duration"
-        rules={[{ required: true }]}
+        rules={[
+          { required: true, message: t('entryForm.requiredField') },
+        ]}
       >
         <RangePicker
           showTime={{ format: 'HH:mm' }}
           format="YYYY-MM-DD HH:mm"
           style={{ width: '100%' }}
+          placeholder={[t('entryForm.start'), t('entryForm.end')]}
         />
       </Form.Item>
 
       <Form.Item
         name="description"
-        rules={[{ required: true }, { min: 10 }, { max: 250 }]}
+        rules={[
+          { required: true, message: t('entryForm.requiredField') },
+          { max: 250, message: t('entryForm.descriptionTooLong') },
+          { min: 10, message: t('entryForm.descriptionTooShort') },
+        ]}
       >
-        <TextArea placeholder="Description"/>
+        <TextArea placeholder={t('entryForm.description')}/>
       </Form.Item>
 
       <Form.Item name="tags">
-        <TagsSelect/>
+        <TagsSelect placeholder={t('entryForm.tags')}/>
       </Form.Item>
 
-      <Divider orientation="left">Location</Divider>
+      <Divider orientation="left">{t('entryForm.location')}</Divider>
 
       <Form.Item>
         <Input.Group compact>
@@ -238,13 +251,13 @@ const EventForm: FC<EventFormProps> = (props) => {
             name={'city'}
             noStyle
           >
-            <Input style={{ width: '50%' }} placeholder="City"/>
+            <Input style={{ width: '50%' }} placeholder={t('entryForm.city')}/>
           </Form.Item>
           <Form.Item
             name={'zip'}
             noStyle
           >
-            <Input style={{ width: '50%' }} placeholder="Zip"/>
+            <Input style={{ width: '50%' }} placeholder={t('entryForm.zip')}/>
           </Form.Item>
         </Input.Group>
       </Form.Item>
@@ -254,7 +267,7 @@ const EventForm: FC<EventFormProps> = (props) => {
       <Form.Item name="state" hidden/>
 
       <Form.Item name="street">
-        <Input placeholder="Address"/>
+        <Input placeholder={t('entryForm.street')}/>
       </Form.Item>
 
       <Form.Item
@@ -277,14 +290,20 @@ const EventForm: FC<EventFormProps> = (props) => {
         <Input placeholder="Longitude" disabled/>
       </Form.Item>
 
-      <Divider orientation="left">Contact</Divider>
+      <Divider orientation="left">{t('entryForm.contact')}</Divider>
 
       <Form.Item name="contact">
-        <Input placeholder="Contact Person" prefix={<FontAwesomeIcon icon="user"/>}/>
+        <Input
+          placeholder={t('entryForm.contactPerson')}
+          prefix={<FontAwesomeIcon icon="user"/>}
+        />
       </Form.Item>
 
       <Form.Item name="telephone">
-        <Input placeholder="Phone" prefix={<FontAwesomeIcon icon="phone"/>}/>
+        <Input
+          placeholder={t('entryForm.phone')}
+          prefix={<FontAwesomeIcon icon="phone"/>}
+        />
       </Form.Item>
 
       <Form.Item
@@ -299,11 +318,17 @@ const EventForm: FC<EventFormProps> = (props) => {
           },
         ]}
       >
-        <Input placeholder="Email" prefix={<FontAwesomeIcon icon="envelope"/>}/>
+        <Input
+          placeholder={t('entryForm.email')}
+          prefix={<FontAwesomeIcon icon="envelope"/>}
+        />
       </Form.Item>
 
       <Form.Item name="homepage">
-        <Input placeholder="homepage" prefix={<FontAwesomeIcon icon="globe"/>}/>
+        <Input
+          placeholder={t('entryForm.homepage')}
+          prefix={<FontAwesomeIcon icon="globe"/>}
+        />
       </Form.Item>
 
       <Form.Item name="created_by" hidden>
@@ -311,28 +336,39 @@ const EventForm: FC<EventFormProps> = (props) => {
       </Form.Item>
 
       <Form.Item name="organizer">
-        <Input placeholder="organizer" prefix={<FontAwesomeIcon icon="user"/>}/>
+        <Input
+          placeholder={t('entryForm.contactPerson')}
+          prefix={<FontAwesomeIcon icon="user"/>}
+        />
       </Form.Item>
 
       <Form.Item name="registration" hidden>
         <Input disabled/>
       </Form.Item>
 
-      <Divider orientation="left">Image</Divider>
+      <Divider orientation="left">{t('entryForm.entryImage')}</Divider>
 
       <Form.Item name="image_url">
-        <Input placeholder="URL of an image" prefix={<FontAwesomeIcon icon="camera"/>}/>
+        <Input
+          placeholder={t('entryForm.imageUrl')}
+          prefix={<FontAwesomeIcon icon="camera"/>}
+        />
       </Form.Item>
 
       <Form.Item name="image_link_url">
-        <Input placeholder="Link" prefix={<FontAwesomeIcon icon="link"/>}/>
+        <Input
+          placeholder={t('entryForm.imageLink')}
+          prefix={<FontAwesomeIcon icon="link"/>}
+        />
       </Form.Item>
 
-      <Divider orientation="left">License</Divider>
+      <Divider orientation="left">{t('entryForm.license')}</Divider>
 
       <Form.Item
         name="license"
-        rules={[{ required: true }]}
+        rules={[
+          { required: true, message: t('entryForm.requiredField') },
+        ]}
         valuePropName="value"
       >
         {/*it's necessary to catch the value of the checkbox, but the out come will be a list*/}
@@ -341,13 +377,14 @@ const EventForm: FC<EventFormProps> = (props) => {
           options={[
             {
               label: <Fragment>
-                {`I have read and accept the Terms of the `}
+                {t('entryForm.iHaveRead')}&nbsp;
                 <Link
                   href={process.env.NEXT_PUBLIC_CC_LINK}
                   target="_blank"
                 >
-                  Creative-Commons License CC0
+                  {t('entryForm.creativeCommonsLicense')}&nbsp;
                 </Link>
+                {t('entryForm.licenseAccepted')}
               </Fragment>,
               value: 'CC0-1.0',
             },
@@ -363,7 +400,7 @@ const EventForm: FC<EventFormProps> = (props) => {
           width: '100%',
         }}
       >
-        Submit
+        {t('entryForm.save')}
       </Button>
 
     </Form>

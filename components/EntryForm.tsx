@@ -392,7 +392,10 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       </Form.Item>
 
       <Form.Item name="homepage">
-        <Input placeholder={t('entryForm.homepage')} prefix={<FontAwesomeIcon icon="globe"/>}/>
+        <Input
+          placeholder={t('entryForm.homepage')}
+          prefix={<FontAwesomeIcon icon="globe"/>}
+        />
       </Form.Item>
 
       <Form.Item name="opening_hours">
@@ -468,11 +471,15 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       <Form.Item name="image_url">
         <Input
           placeholder={t('entryForm.imageUrl')}
-          prefix={<FontAwesomeIcon icon="camera"/>}/>
+          prefix={<FontAwesomeIcon icon="camera"/>}
+        />
       </Form.Item>
 
       <Form.Item name="image_link_url">
-        <Input placeholder={t('entryForm.imageLink')} prefix={<FontAwesomeIcon icon="link"/>}/>
+        <Input
+          placeholder={t('entryForm.imageLink')}
+          prefix={<FontAwesomeIcon icon="link"/>}
+        />
       </Form.Item>
 
       <Divider orientation="left">{t('entryForm.license')}</Divider>
