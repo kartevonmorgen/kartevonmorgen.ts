@@ -2,6 +2,7 @@ import React, { FC, Fragment, useEffect } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../store'
+import useTranslation from 'next-translate/useTranslation'
 import { validate as validateEmail } from 'isemail'
 import { Button, Checkbox, Divider, Form, FormInstance, Input, Select, Spin, Typography } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons/lib'
@@ -199,6 +200,8 @@ const EntryForm: FC<EntryFormProps> = (props) => {
 
   const dispatch = useDispatch()
 
+  const { t } = useTranslation('map')
+
   const router = useRouter()
   const { query } = router
 
@@ -283,24 +286,31 @@ const EntryForm: FC<EntryFormProps> = (props) => {
 
       <Form.Item
         name="title"
-        rules={[{ required: true, min: 3 }]}
+        rules={[
+          { required: true, message: t('entryForm.requiredField') },
+          { min: 3, message: t('entryForm.titleTooShort') },
+        ]}
       >
-        <Input placeholder="Title"/>
+        <Input placeholder={t('entryForm.title')}/>
       </Form.Item>
 
       <Form.Item
         name="description"
-        rules={[{ required: true, min: 10, max: 250 }]}
+        rules={[
+          { required: true, message: t('entryForm.requiredField') },
+          { max: 250, message: t('entryForm.descriptionTooLong') },
+          { min: 10, message: t('entryForm.descriptionTooShort') },
+        ]}
       >
-        <TextArea placeholder="Description"/>
+        <TextArea placeholder={t('entryForm.description')}/>
       </Form.Item>
 
       {/*add validation for the three tags*/}
       <Form.Item name="tags">
-        <TagsSelect/>
+        <TagsSelect placeholder={t('entryForm.tags')}/>
       </Form.Item>
 
-      <Divider orientation="left">Location</Divider>
+      <Divider orientation="left">{t('entryForm.location')}</Divider>
 
       <Form.Item>
         <Input.Group compact>
@@ -308,13 +318,13 @@ const EntryForm: FC<EntryFormProps> = (props) => {
             name={'city'}
             noStyle
           >
-            <Input style={{ width: '50%' }} placeholder="City"/>
+            <Input style={{ width: '50%' }} placeholder={t('entryForm.city')}/>
           </Form.Item>
           <Form.Item
             name={'zip'}
             noStyle
           >
-            <Input style={{ width: '50%' }} placeholder="Zip"/>
+            <Input style={{ width: '50%' }} placeholder={t('entryForm.zip')}/>
           </Form.Item>
         </Input.Group>
       </Form.Item>
@@ -324,7 +334,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       <Form.Item name="state" hidden/>
 
       <Form.Item name="street">
-        <Input placeholder="Address"/>
+        <Input placeholder={t('entryForm.street')}/>
       </Form.Item>
 
       <Form.Item
@@ -347,14 +357,20 @@ const EntryForm: FC<EntryFormProps> = (props) => {
         <Input placeholder="Longitude" disabled/>
       </Form.Item>
 
-      <Divider orientation="left">Contact</Divider>
+      <Divider orientation="left">{t('entryForm.contact')}</Divider>
 
       <Form.Item name="contact">
-        <Input placeholder="Contact Person" prefix={<FontAwesomeIcon icon="user"/>}/>
+        <Input
+          placeholder={t('entryForm.contactPerson')}
+          prefix={<FontAwesomeIcon icon="user"/>}
+        />
       </Form.Item>
 
       <Form.Item name="telephone">
-        <Input placeholder="Phone" prefix={<FontAwesomeIcon icon="phone"/>}/>
+        <Input
+          placeholder={t('entryForm.phone')}
+          prefix={<FontAwesomeIcon icon="phone"/>}
+        />
       </Form.Item>
 
       <Form.Item
@@ -369,15 +385,18 @@ const EntryForm: FC<EntryFormProps> = (props) => {
           },
         ]}
       >
-        <Input placeholder="Email" prefix={<FontAwesomeIcon icon="envelope"/>}/>
+        <Input
+          placeholder={t('entryForm.email')}
+          prefix={<FontAwesomeIcon icon="envelope"/>}
+        />
       </Form.Item>
 
       <Form.Item name="homepage">
-        <Input placeholder="homepage" prefix={<FontAwesomeIcon icon="globe"/>}/>
+        <Input placeholder={t('entryForm.homepage')} prefix={<FontAwesomeIcon icon="globe"/>}/>
       </Form.Item>
 
       <Form.Item name="opening_hours">
-        <Input placeholder="Opening Hours" prefix={<FontAwesomeIcon icon="clock"/>}/>
+        <Input placeholder={t('entryForm.openingHours')} prefix={<FontAwesomeIcon icon="clock"/>}/>
       </Form.Item>
 
       <div style={{ width: '100%', textAlign: 'center' }}>
@@ -385,11 +404,11 @@ const EntryForm: FC<EntryFormProps> = (props) => {
           href={process.env.NEXT_PUBLIC_OPENING_HOURS}
           target="_blank"
         >
-          Find out the right format for your time
+          {t('entryForm.generateHours')}
         </Link>
       </div>
 
-      <Divider orientation="left">Links and Social Media</Divider>
+      <Divider orientation="left">{t('entryForm.links')}</Divider>
 
       <Form.List
         name="custom"
@@ -403,21 +422,21 @@ const EntryForm: FC<EntryFormProps> = (props) => {
                   name={[field.name, 'url']}
                   fieldKey={[field.fieldKey, 'url']}
                 >
-                  <Input placeholder="url"/>
+                  <Input placeholder={t('entryForm.url')}/>
                 </Form.Item>
                 <Form.Item
                   {...field}
                   name={[field.name, 'title']}
                   fieldKey={[field.fieldKey, 'title']}
                 >
-                  <Input placeholder="title"/>
+                  <Input placeholder={t('entryForm.linkTitle')}/>
                 </Form.Item>
                 <Form.Item
                   {...field}
                   name={[field.name, 'description']}
                   fieldKey={[field.fieldKey, 'description']}
                 >
-                  <Input placeholder="description"/>
+                  <Input placeholder={t('entryForm.linkDescription')}/>
                 </Form.Item>
                 <Button
                   onClick={() => remove(field.name)}
@@ -444,21 +463,25 @@ const EntryForm: FC<EntryFormProps> = (props) => {
         )}
       </Form.List>
 
-      <Divider orientation="left">Image</Divider>
+      <Divider orientation="left">{t('entryForm.entryImage')}</Divider>
 
       <Form.Item name="image_url">
-        <Input placeholder="URL of an image" prefix={<FontAwesomeIcon icon="camera"/>}/>
+        <Input
+          placeholder={t('entryForm.imageUrl')}
+          prefix={<FontAwesomeIcon icon="camera"/>}/>
       </Form.Item>
 
       <Form.Item name="image_link_url">
-        <Input placeholder="Link" prefix={<FontAwesomeIcon icon="link"/>}/>
+        <Input placeholder={t('entryForm.imageLink')} prefix={<FontAwesomeIcon icon="link"/>}/>
       </Form.Item>
 
-      <Divider orientation="left">License</Divider>
+      <Divider orientation="left">{t('entryForm.license')}</Divider>
 
       <Form.Item
         name="license"
-        rules={[{ required: true }]}
+        rules={[
+          { required: true, message: t('entryForm.requiredField') },
+        ]}
         valuePropName="value"
       >
         {/*it's necessary to catch the value of the checkbox, but the out come will be a list*/}
@@ -467,13 +490,14 @@ const EntryForm: FC<EntryFormProps> = (props) => {
           options={[
             {
               label: <Fragment>
-                {`I have read and accept the Terms of the `}
+                {t('entryForm.iHaveRead')}&nbsp;
                 <Link
                   href={process.env.NEXT_PUBLIC_CC_LINK}
                   target="_blank"
                 >
-                  Creative-Commons License CC0
+                  {t('entryForm.creativeCommonsLicense')}&nbsp;
                 </Link>
+                {t('entryForm.licenseAccepted')}
               </Fragment>,
               value: 'CC0-1.0',
             },
@@ -492,7 +516,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
           width: '100%',
         }}
       >
-        Submit
+        {t('entryForm.save')}
       </Button>
 
     </Form>
