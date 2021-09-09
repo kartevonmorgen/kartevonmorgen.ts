@@ -7,6 +7,7 @@ import useRequest from '../api/useRequest'
 import { GeoLocations } from '../dtos/GeoLocatoinResponse'
 import API_ENDPOINTS from '../api/endpoints/'
 import LocateMe from './LocateMe'
+import RedirectToMapButton from './RedirectToMapButton'
 
 
 interface Option {
@@ -93,9 +94,11 @@ const HomeCitySearch: FC = () => {
           addonBefore={
             <LocateMe
               type="text"
+              size="middle"
               shouldIncludeDefaultProjectName
             />
           }
+          addonAfter={<RedirectToMapButton/>}
         />
       </AutoComplete>
 
