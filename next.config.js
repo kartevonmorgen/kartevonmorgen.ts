@@ -42,12 +42,12 @@ module.exports = nextTranslate(
         },
         {
           source: '/t',
-          destination: '/t/kmv',
+          destination: '/t/main',
           permanent: true,
         },
         {
           source: '/tables',
-          destination: '/t/kmv',
+          destination: '/t/main',
           permanent: true,
         },
         {
