@@ -29,6 +29,7 @@ const TagsSelect: FC<SelectProps<any>> = (props) => {
 
   return (
     <Select
+      {...props}
       mode="tags"
       allowClear
       style={{ width: '100%' }}

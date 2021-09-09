@@ -297,7 +297,9 @@ const EntryForm: FC<EntryFormProps> = (props) => {
 
       {/*add validation for the three tags*/}
       <Form.Item name="tags">
-        <TagsSelect/>
+        <TagsSelect
+          defaultValue={form.getFieldValue('tags')}
+        />
       </Form.Item>
 
       <Divider orientation="left">Location</Divider>
