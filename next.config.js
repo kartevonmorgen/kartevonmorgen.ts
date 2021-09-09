@@ -32,12 +32,27 @@ module.exports = nextTranslate(
       redirects: async () => ([
         {
           source: '/maps',
-          destination: '/maps/main',
+          destination: '/m/main',
+          permanent: true,
+        },
+        {
+          source: '/m',
+          destination: '/m/main',
+          permanent: true,
+        },
+        {
+          source: '/t',
+          destination: '/t/kmv',
           permanent: true,
         },
         {
           source: '/tables',
-          destination: '/tables/kvm',
+          destination: '/t/kmv',
+          permanent: true,
+        },
+        {
+          source: '/tables/:path*',
+          destination: '/t/:path*',
           permanent: true,
         },
       ]),
