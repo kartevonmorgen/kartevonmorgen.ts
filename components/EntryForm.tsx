@@ -3,7 +3,7 @@ import { NextRouter, useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../store'
 import { validate as validateEmail } from 'isemail'
-import { Button, Checkbox, Divider, Form, FormInstance, Input, Select, Space, Spin, Typography } from 'antd'
+import { Button, Checkbox, Divider, Form, FormInstance, Input, Select, Spin, Typography } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons/lib'
 import isString from 'lodash/isString'
 import isArray from 'lodash/isArray'
@@ -392,32 +392,51 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       <Divider orientation="left">Links and Social Media</Divider>
 
       <Form.List
-        name="custom_links"
-        initialValue={form.getFieldValue('custom_links')}
+        name="custom"
       >
         {(fields, { add, remove }) => (
           <Fragment>
             {fields.map(field => (
-              <Space key={field.key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
+              <Fragment>
                 <Form.Item
                   {...field}
-                  name={[field.name, 'first']}
-                  fieldKey={[field.fieldKey, 'first']}
+                  name={[field.name, 'url']}
+                  fieldKey={[field.fieldKey, 'url']}
                 >
-                  <Input placeholder="First Name"/>
+                  <Input placeholder="url"/>
                 </Form.Item>
                 <Form.Item
                   {...field}
-                  name={[field.name, 'last']}
-                  fieldKey={[field.fieldKey, 'last']}
+                  name={[field.name, 'title']}
+                  fieldKey={[field.fieldKey, 'title']}
                 >
-                  <Input placeholder="Last Name"/>
+                  <Input placeholder="title"/>
                 </Form.Item>
-                <MinusCircleOutlined onClick={() => remove(field.name)}/>
-              </Space>
+                <Form.Item
+                  {...field}
+                  name={[field.name, 'description']}
+                  fieldKey={[field.fieldKey, 'description']}
+                >
+                  <Input placeholder="description"/>
+                </Form.Item>
+                <Button
+                  onClick={() => remove(field.name)}
+                  block
+                  icon={<MinusCircleOutlined/>}
+                >
+                  Remove
+                </Button>
+
+                <Divider dashed/>
+
+              </Fragment>
             ))}
             <Form.Item>
-              <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined/>}>
+              <Button
+                onClick={() => add()}
+                block
+                icon={<PlusOutlined/>}
+              >
                 Add field
               </Button>
             </Form.Item>
