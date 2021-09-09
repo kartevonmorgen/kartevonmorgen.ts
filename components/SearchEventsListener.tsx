@@ -25,6 +25,7 @@ const SearchEventsListener: FC = () => {
     tag: tagsParam,
     start_min: startMinParam,
     start_max: startMaxParam,
+    end_min: endMinParam,
   } = query
 
   const dispatch = useDispatch()
@@ -45,6 +46,7 @@ const SearchEventsListener: FC = () => {
     toString(tagsParam),
     toNumber(startMinParam),
     toNumber(startMaxParam),
+    toNumber(endMinParam),
   ]
 
 
@@ -64,7 +66,7 @@ const SearchEventsListener: FC = () => {
     if (entryCategories.length !== 0) {
       const searchEntriesRequestDTO: SearchEntriesRequestDTO = {
         bbox: bbox,
-        text: searchTerm,
+        text: searchTerm.length !== 0 ? searchTerm : undefined,
         categories: toString(entryCategories),
         limit: limit,
         tags: toString(tagsParam),
@@ -81,11 +83,12 @@ const SearchEventsListener: FC = () => {
 
       const searchEventsRequestDTO: SearchEventsRequestDTO = {
         bbox: bbox,
-        text: searchTerm,
+        text: searchTerm.length !== 0 ? searchTerm : undefined,
         limit: limit,
         tag: toString(tagsParam),
-        start_min: mapTimes.startMin.unix(),
-        start_max: mapTimes.startMax.unix(),
+        start_min: mapTimes.startMin?.unix(),
+        start_max: mapTimes.startMax?.unix(),
+        end_min: mapTimes.endMin.unix(),
       }
       dispatch(fetchEvents(searchEventsRequestDTO))
     } else {

@@ -67,8 +67,9 @@ export const getTypeNamesFromRouterOrKnownCategoryNamesIfEmpty = (router: NextRo
 }
 
 export interface MapTimes {
-  startMin: Moment
-  startMax: Moment
+  startMin?: Moment
+  startMax?: Moment
+  endMin?: Moment
 }
 
 export const getMapTimesFromRouter = (router: NextRouter): MapTimes => {
@@ -76,21 +77,22 @@ export const getMapTimesFromRouter = (router: NextRouter): MapTimes => {
   const {
     start_min: startMinParam,
     start_max: startMaxParam,
+    end_min: endMinParam,
   } = query
 
-  let startMin: Moment = moment().startOf('day').subtract(1, 'days')
+  const mapTimes: MapTimes = {}
+
   if (startMinParam) {
-    startMin = moment.unix(convertQueryParamToInt(startMinParam))
+    mapTimes.startMin = moment.unix(convertQueryParamToInt(startMinParam))
   }
 
-  let startMax: Moment = moment().startOf('day').add(7, 'days')
   if (startMaxParam) {
-    startMax = moment.unix(convertQueryParamToInt(startMaxParam))
+    mapTimes.startMax = moment.unix(convertQueryParamToInt(startMaxParam))
   }
 
-  const mapTimes: MapTimes = {
-    startMin,
-    startMax,
+  mapTimes.endMin = moment().endOf('day')
+  if (endMinParam) {
+    mapTimes.endMin = moment.unix(convertQueryParamToInt(endMinParam))
   }
 
   return mapTimes

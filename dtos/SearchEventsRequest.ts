@@ -10,6 +10,7 @@ export interface SearchEventsRequest {
   tag?: TagList
   start_min?: number
   start_max?: number
+  end_min?: number
   text?: string
   created_by?: string
 }
