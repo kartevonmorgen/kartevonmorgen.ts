@@ -227,9 +227,7 @@ const EventForm: FC<EventFormProps> = (props) => {
       </Form.Item>
 
       <Form.Item name="tags">
-        <TagsSelect
-          defaultValue={form.getFieldValue('tags')}
-        />
+        <TagsSelect/>
       </Form.Item>
 
       <Divider orientation="left">Location</Divider>

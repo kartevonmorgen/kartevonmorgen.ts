@@ -297,9 +297,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
 
       {/*add validation for the three tags*/}
       <Form.Item name="tags">
-        <TagsSelect
-          defaultValue={form.getFieldValue('tags')}
-        />
+        <TagsSelect/>
       </Form.Item>
 
       <Divider orientation="left">Location</Divider>
@@ -393,7 +391,10 @@ const EntryForm: FC<EntryFormProps> = (props) => {
 
       <Divider orientation="left">Links and Social Media</Divider>
 
-      <Form.List name="custom_links">
+      <Form.List
+        name="custom_links"
+        initialValue={form.getFieldValue('custom_links')}
+      >
         {(fields, { add, remove }) => (
           <Fragment>
             {fields.map(field => (
