@@ -56,7 +56,7 @@ const setQueryParamsToCurrentLocation = (shouldIncludeDefaultProjectName: boolea
 }
 
 interface LocateMeProps extends ButtonProps {
-  shouldIncludeDefaultProjectName: boolean
+  shouldIncludeDefaultProjectName?: boolean
 }
 
 const LocateMe: FC<LocateMeProps> = (props) => {
