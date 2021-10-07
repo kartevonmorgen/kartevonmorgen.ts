@@ -79,6 +79,11 @@ const transformFormFields = (entry: EntryFormType): EntryFormType => {
 
       return licenseArray[0]
     },
+    email: (email: string | null | undefined): string | null => {
+      if (email === '') {
+        return null
+      }
+    },
   }
 
   const fieldsToRename = {
@@ -380,11 +385,17 @@ const EntryForm: FC<EntryFormProps> = (props) => {
         name="email"
         rules={[
           {
-            validator: (_, value) => (
-              validateEmail(value) ?
-                Promise.resolve() :
-                Promise.reject('not a valid email')
-            ),
+            validator: (_, value) => {
+              if (!value) {
+                return Promise.resolve()
+              }
+
+              if (validateEmail(value)) {
+                return Promise.resolve()
+              }
+
+              return Promise.reject(new Error('not a valid email'))
+            },
           },
         ]}
       >
