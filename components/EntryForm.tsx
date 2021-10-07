@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../store'
 import useTranslation from 'next-translate/useTranslation'
 import { validate as validateEmail } from 'isemail'
+import { isWebUri } from 'valid-url'
 import { Button, Checkbox, Divider, Form, FormInstance, Input, Select, Spin, Typography } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons/lib'
 import isString from 'lodash/isString'
@@ -25,6 +26,7 @@ import Category from '../dtos/Categories'
 import { entriesActions } from '../slices'
 import { renameProperties, setValuesToDefaultOrNull, transformObject } from '../utils/objects'
 import TagsSelect from './TagsSelect'
+import { prependWebProtocol } from '../utils/utils'
 
 
 const { useForm } = Form
@@ -390,7 +392,9 @@ const EntryForm: FC<EntryFormProps> = (props) => {
                 return Promise.resolve()
               }
 
-              if (validateEmail(value)) {
+              const trimmedValue: string = value.trim()
+
+              if (validateEmail(trimmedValue)) {
                 return Promise.resolve()
               }
 
@@ -405,7 +409,27 @@ const EntryForm: FC<EntryFormProps> = (props) => {
         />
       </Form.Item>
 
-      <Form.Item name="homepage">
+      <Form.Item
+        name="homepage"
+        rules={[
+          {
+            validator: (_, value) => {
+              if (!value) {
+                return Promise.resolve()
+              }
+
+              const trimmedValue: string = value.trim()
+              const valueWithWebProtocol: string = prependWebProtocol(trimmedValue)
+
+              if (isWebUri(valueWithWebProtocol)) {
+                return Promise.resolve()
+              }
+
+              return Promise.reject(new Error('not a valid url'))
+            },
+          },
+        ]}
+      >
         <Input
           placeholder={t('entryForm.homepage')}
           prefix={<FontAwesomeIcon icon="globe"/>}

@@ -4,6 +4,7 @@ import useTranslation from 'next-translate/useTranslation'
 import { Button, Checkbox, DatePicker, Divider, Form, FormInstance, Input, Spin, Typography } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { validate as validateEmail } from 'isemail'
+import { isWebUri } from 'valid-url'
 import EventDTO, { EventID } from '../dtos/Event'
 import { AxiosInstance } from '../api'
 import API_ENDPOINTS from '../api/endpoints'
@@ -18,6 +19,7 @@ import { eventsActions } from '../slices'
 import Point from '../dtos/Point'
 import { ExtendedGeocodeAddress, getCityFromAddress, reverseGeocode } from '../utils/geolocation'
 import TagsSelect from './TagsSelect'
+import { prependWebProtocol } from '../utils/utils'
 
 
 const { useForm } = Form
@@ -318,7 +320,9 @@ const EventForm: FC<EventFormProps> = (props) => {
                 return Promise.resolve()
               }
 
-              if (validateEmail(value)) {
+              const trimmedValue: string = value.trim()
+
+              if (validateEmail(trimmedValue)) {
                 return Promise.resolve()
               }
 
@@ -333,7 +337,27 @@ const EventForm: FC<EventFormProps> = (props) => {
         />
       </Form.Item>
 
-      <Form.Item name="homepage">
+      <Form.Item
+        name="homepage"
+        rules={[
+          {
+            validator: (_, value) => {
+              if (!value) {
+                return Promise.resolve()
+              }
+
+              const trimmedValue: string = value.trim()
+              const valueWithWebProtocol: string = prependWebProtocol(trimmedValue)
+
+              if (isWebUri(valueWithWebProtocol)) {
+                return Promise.resolve()
+              }
+
+              return Promise.reject(new Error('not a valid url'))
+            },
+          },
+        ]}
+      >
         <Input
           placeholder={t('entryForm.homepage')}
           prefix={<FontAwesomeIcon icon="globe"/>}

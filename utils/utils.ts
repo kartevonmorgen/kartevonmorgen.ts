@@ -9,7 +9,7 @@ import { RouterQueryParam } from './types'
 
 export const SEP = ','
 export const FLOATING_POINT_DIGITS = 4
-
+export const WEB_PROTOCOLS = ['http', 'https']
 
 export const convertFloatToString = (value: number, precision: number = FLOATING_POINT_DIGITS): string => {
   return value.toFixed(precision)
@@ -191,4 +191,19 @@ export const cropText = (
   }
 
   return text
+}
+
+export const prependWebProtocol = (value: string): string => {
+  let hasAlreadyAProtocol: boolean = false
+  WEB_PROTOCOLS.forEach(protocol => {
+    if (value.startsWith(protocol)) {
+      hasAlreadyAProtocol = true
+    }
+  })
+
+  if (hasAlreadyAProtocol) {
+    return value
+  }
+
+  return `${WEB_PROTOCOLS[0]}://${value}`
 }
