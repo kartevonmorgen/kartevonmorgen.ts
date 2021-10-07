@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import produce from 'immer'
 import { AutoComplete, Input } from 'antd'
@@ -41,12 +41,17 @@ const SearchInput: FC = () => {
   const router = useRouter()
   const { query } = router
 
-  const { dropdowns } = query
+  const { dropdowns, search: searchQuery } = query
+  const searchTermFromURL: string = convertQueryParamToString(searchQuery)
 
   const categoryGroup = convertQueryParamToString(dropdowns, 'main')
 
   const [searchTerm, setSearchTerm] = useState<string>('')
   const debouncedTokenToSearch = useDebounce(searchTerm, { wait: 100 })
+
+  useEffect(() => {
+    setSearchTerm(searchTermFromURL)
+  }, [])
 
   const searchOptions = useSearchRecommender(debouncedTokenToSearch, categoryGroup)
 
@@ -58,7 +63,7 @@ const SearchInput: FC = () => {
         width: '100%',
       }}
       onSearch={(term: string) => setSearchTerm(term)}
-      onSelect={(value) => setSearchTerm(prevTerm => `${prevTerm} ${value}`)}
+      onSelect={(value: string) => setSearchTerm(value)}
     >
       <Search
         placeholder="input search text"
