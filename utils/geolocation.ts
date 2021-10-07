@@ -38,7 +38,7 @@ export const getCityFromAddress = (extendedAddress: ExtendedGeocodeAddress): str
 
   for (const possibleRegion of regionPriorities) {
     if (!isUndefined(extendedAddress[possibleRegion])) {
-      return possibleRegion
+      return extendedAddress[possibleRegion]
     }
   }
 
