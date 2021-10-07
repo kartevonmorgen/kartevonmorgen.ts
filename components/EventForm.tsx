@@ -56,12 +56,15 @@ const addEventToStateOnCreate = (dispatch: AppDispatch, event: EventDTO, isEdit:
   addEventToState(dispatch, event)
 }
 
-const redirectToEvent = (router: NextRouter, eventId: EventID) => {
+const redirectToEvent = (router: NextRouter, eventId: EventID, isEdit: boolean) => {
+
+  const slugLevelsToIgnore = isEdit ? 3 : 2
+
   redirectToEntityDetail(
     router,
     eventId,
     Category.EVENT,
-    2,
+    slugLevelsToIgnore,
     ['pinCenter'],
   )
 }
@@ -125,7 +128,7 @@ const onFinish = (
   const eventId = await createOrEditEvent(adaptedFormValues, isEdit)
 
   addEventToStateOnCreate(dispatch, adaptedFormValues, isEdit)
-  redirectToEvent(router, eventId)
+  redirectToEvent(router, eventId, isEdit)
 }
 
 
@@ -310,11 +313,17 @@ const EventForm: FC<EventFormProps> = (props) => {
         name="email"
         rules={[
           {
-            validator: (_, value) => (
-              validateEmail(value) ?
-                Promise.resolve() :
-                Promise.reject('not a valid email')
-            ),
+            validator: (_, value) => {
+              if (!value) {
+                return Promise.resolve()
+              }
+
+              if (validateEmail(value)) {
+                return Promise.resolve()
+              }
+
+              return Promise.reject(new Error('not a valid email'))
+            },
           },
         ]}
       >
