@@ -95,15 +95,18 @@ const transformFormFields = (entry: EntryFormType): EntryFormType => {
 // todo: it's an awful ani-pattern to shake the map to retrieve the entry
 // todo: create a class for the changing the router
 // todo: create a thunk for prepending the entry to the collection
-const redirectToEntry = (router: NextRouter, entryId: SearchEntryID) => {
+const redirectToEntry = (router: NextRouter, entryId: SearchEntryID, isEdit: boolean) => {
   // gotcha: the categories of initiative and company both are mapped to entity so it does not matter
   // what we pass as the category
   // if at any time we decided to make them separate here is the point to touch
+
+  const slugLevelsToIgnore = isEdit ? 3 : 2
+
   redirectToEntityDetail(
     router,
     entryId,
     Category.INITIATIVE,
-    2,
+    slugLevelsToIgnore,
     ['pinCenter'],
   )
 }
@@ -180,7 +183,7 @@ const onFinish = (
   entryId = await createOrEditEntry(adaptedEntry, entryId, isEdit)
 
   addEntryToStateOnCreate(isEdit, entryId, adaptedEntry, dispatch)
-  redirectToEntry(router, entryId)
+  redirectToEntry(router, entryId, isEdit)
 }
 
 
