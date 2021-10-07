@@ -78,13 +78,26 @@ const removeTagFromRouter = (router: NextRouter) => (tagToRemove: string) => {
 
 
 const SearchTags: FC = (_props) => {
+  const router = useRouter()
+  const {
+    query: {
+      tag: tagQueryParam,
+    },
+  } = router
+
+  const tagsFromURL: string[] = convertQueryParamToArray(tagQueryParam)
+
   // the ant select uses useLayout internally and we need to be sure it's mounted on the browser
   const [showSelect, setShowSelect] = useState<boolean>(false)
   useEffect(() => {
     setShowSelect(true)
   }, [])
 
-  const router = useRouter()
+  const [selectedTags, setSelectedTags] = useState<string[]>([''])
+  useEffect(() => {
+    setSelectedTags(tagsFromURL)
+  }, [tagsFromURL])
+
 
   return (
     <Fragment>
@@ -96,6 +109,7 @@ const SearchTags: FC = (_props) => {
         >
           <TagsSelect
             placeholder="Search for tags"
+            value={selectedTags}
             onSelect={searchTag(router)}
             onDeselect={removeTagFromRouter(router)}
             onClear={removeAllTagsFromRouter(router)}
