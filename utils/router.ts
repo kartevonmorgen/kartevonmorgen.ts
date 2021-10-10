@@ -5,11 +5,14 @@ import {
   convertQueryParamToString,
   convertStringToFloat,
   SEP,
+  updateRoutingQuery,
 } from './utils'
 import { RouterQueryParam } from './types'
-import { LatLng } from './geolocation'
+import { convertLatLngToString, LatLng } from './geolocation'
 import { knownCategoryNames } from '../dtos/Categories'
 import moment, { Moment } from 'moment'
+import { DEFAULTS } from '../consts/map'
+import { createSlugPathFromQueryAndRemoveSlug } from './slug'
 
 
 export const isRouterInitialized = (router: NextRouter): boolean => {
@@ -42,13 +45,45 @@ export const getLatLngFromRouterWithParamName = (router: NextRouter, paramName: 
   return convertQueryParamToLatLng(param)
 }
 
+export const isLatLngValid = (latLng: LatLng): boolean => {
+  const isValid = !!latLng.lat && !!latLng.lng
+
+  return isValid
+}
+
 export const getCenterLatLngFromRouter = (router: NextRouter): LatLng => {
   const centerLatLng: LatLng = getLatLngFromRouterWithParamName(router, 'c')
 
   return centerLatLng
 }
 
+export const setCenterAndZoom = (
+  router: NextRouter,
+  center: LatLng,
+  zoom: number = DEFAULTS.default_zoom,
+) => {
+  const { query } = router
+
+  const paramsToUpdate = {
+    c: convertLatLngToString(center),
+    z: zoom.toFixed(2),
+  }
+
+  const newQueryParams = updateRoutingQuery(query, paramsToUpdate)
+  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
+
+  router.replace(
+    {
+      pathname: `/m/${newPath}`,
+      query: newQueryWithoutSlug,
+    },
+    undefined,
+    { shallow: true },
+  )
+}
+
 export const getTypeNamesFromRouter = (router: NextRouter): string[] => {
+  // type refers to the `type` from query params
   const { query } = router
   const { type: typeParams } = query
 
@@ -58,6 +93,8 @@ export const getTypeNamesFromRouter = (router: NextRouter): string[] => {
 }
 
 export const getTypeNamesFromRouterOrKnownCategoryNamesIfEmpty = (router: NextRouter): string[] => {
+  // type refers to the `type` from query params
+
   const typeNameFromRouter: string[] = getTypeNamesFromRouter(router)
   if (typeNameFromRouter.length === 0) {
     return knownCategoryNames

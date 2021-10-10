@@ -4,14 +4,14 @@ import Category from '../dtos/Categories'
 import { Marker } from 'react-leaflet'
 import { useRouter } from 'next/router'
 import { LatLng } from '../utils/geolocation'
-import { getLatLngFromRouterWithParamName } from '../utils/router'
+import { getLatLngFromRouterWithParamName, isLatLngValid } from '../utils/router'
 
 
 const NewMapMarker: FC = () => {
   const router = useRouter()
 
   const markedPinLatLng: LatLng = getLatLngFromRouterWithParamName(router, 'pinCenter')
-  const showMarkedPin = !!markedPinLatLng.lat && !!markedPinLatLng.lng
+  const showMarkedPin = isLatLngValid(markedPinLatLng)
 
   if (!showMarkedPin) {
     return null

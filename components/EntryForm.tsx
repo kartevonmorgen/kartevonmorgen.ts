@@ -21,7 +21,12 @@ import { Entries as EntriesDTO, Entry } from '../dtos/Entry'
 import { convertNewEntryToSearchEntry, SearchEntryID } from '../dtos/SearchEntry'
 import Point from '../dtos/Point'
 import { RouterQueryParam, SlugVerb } from '../utils/types'
-import { ExtendedGeocodeAddress, getCityFromAddress, reverseGeocode } from '../utils/geolocation'
+import {
+  ExtendedGeocodeAddress,
+  flyToFormAddressIfPinIsNotSet,
+  getCityFromAddress,
+  reverseGeocode,
+} from '../utils/geolocation'
 import Category from '../dtos/Categories'
 import { entriesActions } from '../slices'
 import { renameProperties, setValuesToDefaultOrNull, transformObject } from '../utils/objects'
@@ -328,13 +333,22 @@ const EntryForm: FC<EntryFormProps> = (props) => {
             name={'city'}
             noStyle
           >
-            <Input style={{ width: '50%' }} placeholder={t('entryForm.city')}/>
+            <Input
+              style={{ width: '50%' }}
+              placeholder={t('entryForm.city')}
+              onBlur={() => flyToFormAddressIfPinIsNotSet(router, form)}
+            />
           </Form.Item>
+
           <Form.Item
             name={'zip'}
             noStyle
           >
-            <Input style={{ width: '50%' }} placeholder={t('entryForm.zip')}/>
+            <Input
+              style={{ width: '50%' }}
+              placeholder={t('entryForm.zip')}
+              onBlur={() => flyToFormAddressIfPinIsNotSet(router, form)}
+            />
           </Form.Item>
         </Input.Group>
       </Form.Item>
@@ -344,7 +358,10 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       <Form.Item name="state" hidden/>
 
       <Form.Item name="street">
-        <Input placeholder={t('entryForm.street')}/>
+        <Input
+          placeholder={t('entryForm.street')}
+          onBlur={() => flyToFormAddressIfPinIsNotSet(router, form)}
+        />
       </Form.Item>
 
       <Form.Item

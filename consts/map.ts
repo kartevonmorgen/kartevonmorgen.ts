@@ -1,7 +1,7 @@
-export const MAP_ROUTING = {
-  dynamicParams: ['project'],
+export const DEFAULTS = {
+  default_zoom: 7.0,
+  close_zoom: 15.0,
 }
-
 
 export default {
   precisions: {
