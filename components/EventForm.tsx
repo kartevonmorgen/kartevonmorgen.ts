@@ -1,6 +1,7 @@
-import React, { FC, Fragment, useEffect } from 'react'
+import { Dispatch, FC, Fragment, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import useTranslation from 'next-translate/useTranslation'
+import produce from 'immer'
 import { Button, Checkbox, DatePicker, Divider, Form, FormInstance, Input, Spin, Typography } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { validate as validateEmail } from 'isemail'
@@ -17,7 +18,12 @@ import { onReceiveAdapter, onSendAdapter } from '../adaptors/EventForm'
 import { AppDispatch } from '../store'
 import { eventsActions } from '../slices'
 import Point from '../dtos/Point'
-import { ExtendedGeocodeAddress, getCityFromAddress, reverseGeocode } from '../utils/geolocation'
+import {
+  ExtendedGeocodeAddress,
+  flyToFormAddressIfPinIsNotSet,
+  getCityFromAddress,
+  reverseGeocode,
+} from '../utils/geolocation'
 import TagsSelect from './TagsSelect'
 import { prependWebProtocol } from '../utils/utils'
 
@@ -28,13 +34,17 @@ const { RangePicker } = DatePicker
 const { Link } = Typography
 
 
-const setAddressDetails = async (form: FormInstance, newPoint: Point) => {
+const setAddressDetailsIfAddressFieldsAreNotTouched = async (
+  form: FormInstance,
+  newPoint: Point,
+  touchedAddressFieldNames: string[],
+) => {
   const place = await reverseGeocode(newPoint.toJson())
   const address = place.address as ExtendedGeocodeAddress
 
   // it's not an error, town and road are optional fields than are not included in the interface
   // but can exist in the response from nominatim
-  form.setFieldsValue({
+  const fieldsToSetInForm = {
     lat: newPoint.lat,
     lng: newPoint.lng,
     country: address.country,
@@ -42,7 +52,13 @@ const setAddressDetails = async (form: FormInstance, newPoint: Point) => {
     state: address.state,
     street: address.road,
     zip: address.postcode,
+  }
+
+  touchedAddressFieldNames.forEach(touchedFieldName => {
+    delete fieldsToSetInForm[touchedFieldName]
   })
+
+  form.setFieldsValue(fieldsToSetInForm)
 
 }
 
@@ -134,6 +150,16 @@ const onFinish = (
 }
 
 
+// todo: any is not a suitable type for dispatch, it should be string[]
+const addTouchedAddressFieldName = (setTouchedAddressFields: Dispatch<any>, fieldName: string) => {
+  setTouchedAddressFields(prevTouchedAddressFields =>
+    produce(prevTouchedAddressFields, draft => {
+      draft.push(fieldName)
+    }),
+  )
+}
+
+
 interface EventFormProps {
   verb: SlugVerb.CREATE | SlugVerb.EDIT
   eventId: EventID
@@ -150,6 +176,9 @@ const EventForm: FC<EventFormProps> = (props) => {
 
   const router = useRouter()
   const { query } = router
+
+  const [touchedAddressFields, setTouchedAddressFields] = useState<string[]>([])
+
   const isEdit = verb === SlugVerb.EDIT
 
   const [form] = useForm<object>()
@@ -161,7 +190,7 @@ const EventForm: FC<EventFormProps> = (props) => {
   // set address information if the map marker/pin moves
   useEffect(() => {
     if (!newPoint.isEmpty()) {
-      setAddressDetails(form, newPoint).then()
+      setAddressDetailsIfAddressFieldsAreNotTouched(form, newPoint, touchedAddressFields).then()
     }
 
   }, effectDeps)
@@ -256,13 +285,27 @@ const EventForm: FC<EventFormProps> = (props) => {
             name={'city'}
             noStyle
           >
-            <Input style={{ width: '50%' }} placeholder={t('entryForm.city')}/>
+            <Input
+              style={{ width: '50%' }}
+              placeholder={t('entryForm.city')}
+              onBlur={() => {
+                addTouchedAddressFieldName(setTouchedAddressFields, 'city')
+                flyToFormAddressIfPinIsNotSet(router, form).then()
+              }}
+            />
           </Form.Item>
           <Form.Item
             name={'zip'}
             noStyle
           >
-            <Input style={{ width: '50%' }} placeholder={t('entryForm.zip')}/>
+            <Input
+              style={{ width: '50%' }}
+              placeholder={t('entryForm.zip')}
+              onBlur={() => {
+                addTouchedAddressFieldName(setTouchedAddressFields, 'zip')
+                flyToFormAddressIfPinIsNotSet(router, form).then()
+              }}
+            />
           </Form.Item>
         </Input.Group>
       </Form.Item>
@@ -272,7 +315,13 @@ const EventForm: FC<EventFormProps> = (props) => {
       <Form.Item name="state" hidden/>
 
       <Form.Item name="street">
-        <Input placeholder={t('entryForm.street')}/>
+        <Input
+          placeholder={t('entryForm.street')}
+          onBlur={() => {
+            addTouchedAddressFieldName(setTouchedAddressFields, 'street')
+            flyToFormAddressIfPinIsNotSet(router, form).then()
+          }}
+        />
       </Form.Item>
 
       <Form.Item
