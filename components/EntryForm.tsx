@@ -1,6 +1,7 @@
-import React, { FC, Fragment, useEffect } from 'react'
+import { Dispatch, FC, Fragment, useEffect, useState } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
+import produce from 'immer'
 import { AppDispatch } from '../store'
 import useTranslation from 'next-translate/useTranslation'
 import { validate as validateEmail } from 'isemail'
@@ -43,13 +44,17 @@ const { Link } = Typography
 type EntryFormType = NewEntryWithLicense | NewEntryWithVersion
 
 
-const setAddressDetails = async (form: FormInstance, newPoint: Point) => {
+const setAddressDetailsIfAddressFieldsAreNotTouched = async (
+  form: FormInstance,
+  newPoint: Point,
+  touchedAddressFieldNames: string[],
+) => {
   const place = await reverseGeocode(newPoint.toJson())
   const address = place.address as ExtendedGeocodeAddress
 
   // it's not an error, town and road are optional fields than are not included in the interface
   // but can exist in the response from nominatim
-  form.setFieldsValue({
+  const fieldsToSetInForm = {
     lat: newPoint.lat,
     lng: newPoint.lng,
     country: address.country,
@@ -57,7 +62,13 @@ const setAddressDetails = async (form: FormInstance, newPoint: Point) => {
     state: address.state,
     street: address.road,
     zip: address.postcode,
+  }
+
+  touchedAddressFieldNames.forEach(touchedFieldName => {
+    delete fieldsToSetInForm[touchedFieldName]
   })
+
+  form.setFieldsValue(fieldsToSetInForm)
 
 }
 
@@ -199,6 +210,16 @@ const onFinish = (
 }
 
 
+// todo: any is not a suitable type for dispatch, it should be string[]
+const addTouchedAddressFieldName = (setTouchedAddressFields: Dispatch<any>, fieldName: string) => {
+  setTouchedAddressFields(prevTouchedAddressFields =>
+    produce(prevTouchedAddressFields, draft => {
+      draft.push(fieldName)
+    }),
+  )
+}
+
+
 type EntryCategories = Category.COMPANY | Category.INITIATIVE
 
 interface EntryFormProps {
@@ -220,6 +241,8 @@ const EntryForm: FC<EntryFormProps> = (props) => {
   const router = useRouter()
   const { query } = router
 
+  const [touchedAddressFields, setTouchedAddressFields] = useState<string[]>([])
+
   const [form] = useForm<EntryFormType>()
 
   const newPoint = new Point().fromQuery(query)
@@ -229,7 +252,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
   // set address information if the map marker/pin moves
   useEffect(() => {
     if (!newPoint.isEmpty()) {
-      setAddressDetails(form, newPoint).then()
+      setAddressDetailsIfAddressFieldsAreNotTouched(form, newPoint, touchedAddressFields).then()
     }
 
   }, effectDeps)
@@ -336,7 +359,10 @@ const EntryForm: FC<EntryFormProps> = (props) => {
             <Input
               style={{ width: '50%' }}
               placeholder={t('entryForm.city')}
-              onBlur={() => flyToFormAddressIfPinIsNotSet(router, form)}
+              onBlur={() => {
+                addTouchedAddressFieldName(setTouchedAddressFields, 'city')
+                flyToFormAddressIfPinIsNotSet(router, form).then()
+              }}
             />
           </Form.Item>
 
@@ -347,7 +373,10 @@ const EntryForm: FC<EntryFormProps> = (props) => {
             <Input
               style={{ width: '50%' }}
               placeholder={t('entryForm.zip')}
-              onBlur={() => flyToFormAddressIfPinIsNotSet(router, form)}
+              onBlur={() => {
+                addTouchedAddressFieldName(setTouchedAddressFields, 'zip')
+                flyToFormAddressIfPinIsNotSet(router, form).then()
+              }}
             />
           </Form.Item>
         </Input.Group>
@@ -360,7 +389,10 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       <Form.Item name="street">
         <Input
           placeholder={t('entryForm.street')}
-          onBlur={() => flyToFormAddressIfPinIsNotSet(router, form)}
+          onBlur={() => {
+            addTouchedAddressFieldName(setTouchedAddressFields, 'street')
+            flyToFormAddressIfPinIsNotSet(router, form).then()
+          }}
         />
       </Form.Item>
 
