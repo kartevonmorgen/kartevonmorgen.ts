@@ -74,7 +74,7 @@ const EntityFooter: FC<EntityFooterProps> = (props) => {
           </Text>
 
           {
-            version && (
+            (version !== undefined) && (
               <Fragment>
                 <Divider type="vertical"/>
                 <Text
