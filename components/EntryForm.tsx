@@ -111,7 +111,20 @@ const transformFormFields = (entry: EntryFormType): EntryFormType => {
   const transformedEntry = transformObject(entry, rules)
   const transformedEntryWithRenamedFields = renameProperties(transformedEntry, fieldsToRename)
 
-  return transformedEntryWithRenamedFields
+  const optionalFieldsToDelete: string[] = ['email']
+  const transformedEntryWithRenamedAndDeletedOptionalFields = produce(
+    transformedEntryWithRenamedFields,
+    (draft) => {
+      optionalFieldsToDelete.forEach(optionalField => {
+        if (!draft[optionalField]) {
+          delete draft[optionalField]
+        }
+      })
+    },
+  )
+
+
+  return transformedEntryWithRenamedAndDeletedOptionalFields
 }
 
 
