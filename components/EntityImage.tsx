@@ -1,7 +1,7 @@
 import { FC } from 'react'
 
 
-interface EntityImageProps {
+export interface EntityImageProps {
   src?: string
   title: string
 }

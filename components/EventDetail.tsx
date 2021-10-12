@@ -3,7 +3,6 @@ import { useRouter } from 'next/router'
 import moment from 'moment'
 import { Divider, Spin, Tag, Typography } from 'antd'
 import Event, { EventID } from '../dtos/Event'
-import EntityImage from './EntityImage'
 import EntityFooter from './EntityFooter'
 import EntityDetailHeader from './EntityDetailHeader'
 import EntityContact from './EntityContact'
@@ -12,6 +11,7 @@ import EntityTags from './EntityTags'
 import API_ENDPOINTS from '../api/endpoints'
 import useRequest from '../api/useRequest'
 import { RootSlugEntity } from '../utils/types'
+import EntityImageWithLink from './EntityImageWithLink'
 
 const { Title, Paragraph, Text } = Typography
 
@@ -53,9 +53,10 @@ const EventDetail: FC<EventDetailProps> = (props) => {
 
       <EntityDetailHeader/>
 
-      <EntityImage
+      <EntityImageWithLink
         title={event.title}
         src={event.image_url}
+        link={event.image_link_url}
       />
 
       <Title

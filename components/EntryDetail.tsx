@@ -9,7 +9,6 @@ import { RootSlugEntity, RouterQueryParam } from '../utils/types'
 import { SearchEntryID } from '../dtos/SearchEntry'
 import { Entries as EntriesDTO, Entry } from '../dtos/Entry'
 import API_ENDPOINTS from '../api/endpoints'
-import EntityImage from './EntityImage'
 import EntityContact from './EntityContact'
 import EntityAddress from './EntityAddress'
 import EntityTags from './EntityTags'
@@ -21,6 +20,7 @@ import EntryLinks from './EntryLinks'
 import TypeTag from './TypeTag'
 import EntryRatingFlower from './EntryRatingFlower'
 import Category, { CategoryToNameMapper } from '../dtos/Categories'
+import EntityImageWithLink from './EntityImageWithLink'
 
 
 const { Title, Paragraph } = Typography
@@ -82,9 +82,10 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
     <div>
       <EntityDetailHeader/>
 
-      <EntityImage
+      <EntityImageWithLink
         title={entry.title}
         src={entry.image_url}
+        link={entry.image_link_url}
       />
 
       <Title level={2}>{entry.title}</Title>
