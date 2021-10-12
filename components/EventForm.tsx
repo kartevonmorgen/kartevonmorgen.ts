@@ -50,7 +50,7 @@ const setAddressDetailsIfAddressFieldsAreNotTouched = async (
     country: address.country,
     city: getCityFromAddress(address),
     state: address.state,
-    street: address.road,
+    street: [address.road, address.house_number].join(' ').trim(),
     zip: address.postcode,
   }
 
