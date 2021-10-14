@@ -119,6 +119,7 @@ export const getMapTimesFromRouter = (router: NextRouter): MapTimes => {
 
   const mapTimes: MapTimes = {}
 
+  mapTimes.startMin = moment().startOf('day')
   if (startMinParam) {
     mapTimes.startMin = moment.unix(convertQueryParamToInt(startMinParam))
   }
