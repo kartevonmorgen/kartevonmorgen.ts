@@ -1,6 +1,7 @@
 import { CSSProperties, FC } from 'react'
 import { NextRouter, useRouter } from 'next/router'
-import { Button } from 'antd'
+import useTranslation from 'next-translate/useTranslation'
+import { Button, ButtonProps } from 'antd'
 import { PlusCircleOutlined } from '@ant-design/icons'
 import produce from 'immer'
 import { convertQueryParamToArray } from '../utils/utils'
@@ -39,18 +40,25 @@ const onAddEntity = (router: NextRouter) => () => {
 }
 
 
-interface AddEntryButtonProps {
+interface AddEntryButtonProps extends ButtonProps {
+  shortTitle?: boolean
   style?: CSSProperties
 }
 
 
 const AddEntryButton: FC<AddEntryButtonProps> = (props) => {
+
+  const { style, shortTitle, type } = props
+
   const router = useRouter()
 
-  const { style } = props
+  const { t } = useTranslation('map')
+  const title: string = shortTitle ? 'Add' : t('resultlist.addEntry')
+
 
   return (
     <Button
+      type={type}
       size="middle"
       icon={
         <PlusCircleOutlined
@@ -62,7 +70,7 @@ const AddEntryButton: FC<AddEntryButtonProps> = (props) => {
       onClick={onAddEntity(router)}
       style={style}
     >
-      Add
+      {title}
     </Button>
   )
 }
@@ -71,6 +79,7 @@ AddEntryButton.defaultProps = {
   style: {
     width: 88,
   },
+  shortTitle: false,
 }
 
 export default AddEntryButton

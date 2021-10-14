@@ -52,7 +52,9 @@ const Map: FC = () => {
       <div id="map-bottom-right-below-controller">
         <MapSharingDropdown/>
 
-        <AddEntryButton/>
+        <AddEntryButton
+          shortTitle
+        />
       </div>
 
       <ZoomControl position="bottomright"/>
