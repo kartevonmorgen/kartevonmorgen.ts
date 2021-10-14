@@ -24,10 +24,9 @@ const SearchControllers: FC = (_props) => {
         align="middle"
         justify="space-around"
         wrap={false}
-        gutter={2}
       >
         <Col
-          md={21}
+          md={20}
         >
           <SearchInput/>
         </Col>
