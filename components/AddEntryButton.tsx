@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { CSSProperties, FC } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import { Button } from 'antd'
 import { PlusCircleOutlined } from '@ant-design/icons'
@@ -38,8 +38,16 @@ const onAddEntity = (router: NextRouter) => () => {
   )
 }
 
-const AddEntryButton: FC = () => {
+
+interface AddEntryButtonProps {
+  style?: CSSProperties
+}
+
+
+const AddEntryButton: FC<AddEntryButtonProps> = (props) => {
   const router = useRouter()
+
+  const { style } = props
 
   return (
     <Button
@@ -52,13 +60,17 @@ const AddEntryButton: FC = () => {
         />
       }
       onClick={onAddEntity(router)}
-      style={{
-        width: 88,
-      }}
+      style={style}
     >
       Add
     </Button>
   )
+}
+
+AddEntryButton.defaultProps = {
+  style: {
+    width: 88,
+  },
 }
 
 export default AddEntryButton

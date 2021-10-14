@@ -39,15 +39,25 @@ const SidebarZoomOutButton: FC<SidebarZoomOutButtonProps> = (props) => {
   }
 
   return (
-    <Button
-      type="primary"
-      onClick={zoomOut(divisionFactor, router)}
+    <div
       style={{
         width: '100%',
+        paddingLeft: 16,
+        paddingRight: 16,
+        marginTop: 16,
+        marginBottom: 16,
       }}
     >
-      Zoom Out
-    </Button>
+      <Button
+        type="primary"
+        onClick={zoomOut(divisionFactor, router)}
+        style={{
+          width: '100%',
+        }}
+      >
+        Zoom Out
+      </Button>
+    </div>
   )
 }
 

@@ -6,7 +6,6 @@ import { SearchEntryID } from '../dtos/SearchEntry'
 import { CompactEvent, EventID } from '../dtos/Event'
 import { redirectToEntityDetail } from '../utils/slug'
 import toString from 'lodash/toString'
-import { CellMeasurerChildProps } from 'react-virtualized/dist/es/CellMeasurer'
 import Category, { CategoryToNameMapper } from '../dtos/Categories'
 import { formatDuration } from '../utils/time'
 import moment from 'moment'
@@ -15,7 +14,7 @@ import moment from 'moment'
 const { Item } = List
 
 
-interface ResultCardProps extends CellMeasurerChildProps {
+interface ResultCardProps {
   searchResult: SearchResult
   style?: CSSProperties
 }
@@ -47,9 +46,17 @@ const getTimeDescriptionForEvent = (entity: SearchResult, type: Category): strin
   return formatDuration(start, end)
 }
 
+const getSubstringOfDescription = (description: string, maxLength: number) => {
+  if (description.length <= maxLength) {
+    return description
+  }
+
+  return `${description.substr(0, 70)} ...`
+}
+
 const ResultCard: FC<ResultCardProps> = (props) => {
 
-  const { searchResult, style, measure } = props
+  const { searchResult } = props
   const { id, title, tags, categories } = searchResult
 
   // found some events with undefined description so a default value is mandatory
@@ -65,8 +72,6 @@ const ResultCard: FC<ResultCardProps> = (props) => {
   // todo: bug maybe here is the place we should touch to have the cells measures correctly
   return (
     <Item
-      onLoad={measure}
-      style={style}
       className={`${typeName}-result-card`}
       onClick={onResultClick(router, type, id)}
     >
@@ -74,7 +79,7 @@ const ResultCard: FC<ResultCardProps> = (props) => {
         title={title}
         description={getTimeDescriptionForEvent(searchResult, type)}
       />
-      <div>{description.substr(0, 70)}</div>
+      <div>{getSubstringOfDescription(description, 70)}</div>
       <div style={{ marginTop: 4 }}>
         <Space size="small" wrap>
           {
