@@ -2,9 +2,10 @@ import css from 'styled-jsx/css'
 import { RatingFactor } from '../dtos/RatingFactor'
 
 
-const INITIATIVE_COLOR = '#a4c93e'
-const COMPANY_COLOR = '#31a1b6'
-const EVENT_COLOR = '#eb80a9'
+export const INITIATIVE_COLOR = '#a4c93e'
+export const COMPANY_COLOR = '#31a1b6'
+export const EVENT_COLOR = '#eb80a9'
+export const UNKNOWN_COLOR = 'rgb(221,221,221)'
 
 
 export const grayBlue = 'rgb(100,122,133)'
@@ -69,6 +70,18 @@ export default css.global`
 
 .event-result-card {
   border-left: solid 5px ${EVENT_COLOR};
+}
+
+.initiative-circle-marker {
+  fill: ${INITIATIVE_COLOR};
+}
+
+.company-circle-marker {
+  fill: ${COMPANY_COLOR};
+}
+
+.event-circle-marker {
+  fill: ${EVENT_COLOR};
 }
 
 `

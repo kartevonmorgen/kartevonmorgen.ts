@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { getIcon } from './MapMarkers'
+import { getBalloonIcon } from './MapMarkers'
 import Category from '../dtos/Categories'
 import { Marker } from 'react-leaflet'
 import { useRouter } from 'next/router'
@@ -20,7 +20,7 @@ const NewMapMarker: FC = () => {
   return (
     <Marker
       position={markedPinLatLng}
-      icon={getIcon([Category.UNKNOWN])}
+      icon={getBalloonIcon(Category.UNKNOWN)}
     />
   )
 }
