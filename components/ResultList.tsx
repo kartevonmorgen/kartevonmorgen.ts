@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { List } from 'antd'
 import { useBoolean } from 'ahooks'
 import { RootState } from '../slices'
-import searchResultSelector from '../selectors/searchResults'
+import { sortedSearchResultSelector } from '../selectors/searchResults'
 import { SearchResults } from '../dtos/SearchResult'
 import ResultCard from './ResultCard'
 import SidebarZoomOutButton from './SidebarZoomOutButton'
@@ -18,10 +18,10 @@ interface ResultListProps {
 const ResultList: FC<ResultListProps> = (_props) => {
 
 
-  const searchResults: SearchResults = useSelector(
-    (state: RootState) => searchResultSelector(state),
+  const sortedSearchResults: SearchResults = useSelector(
+    (state: RootState) => sortedSearchResultSelector(state),
   )
-  const { length: numberOfSearchResults } = searchResults
+  const { length: numberOfSearchResults } = sortedSearchResults
 
   const [
     isSidebarZoomOutButtonVisible,
@@ -39,7 +39,7 @@ const ResultList: FC<ResultListProps> = (_props) => {
       hideSidebarZoomOutButton()
     }
 
-  }, [searchResults.length])
+  }, [sortedSearchResults.length])
 
   if (numberOfSearchResults === 0) {
     return null
@@ -55,7 +55,7 @@ const ResultList: FC<ResultListProps> = (_props) => {
       }}
     >
       {
-        searchResults.map(searchResult => (
+        sortedSearchResults.map(searchResult => (
           <ResultCard
             key={searchResult.id}
             searchResult={searchResult}
