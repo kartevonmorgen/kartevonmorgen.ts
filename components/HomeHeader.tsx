@@ -38,10 +38,10 @@ const HomeHeader: FC = () => {
             }}
           >
             <Image
-              src="/assets/img/logo.png"
+              src="/assets/img/logo.webp"
               alt="logo"
               layout="intrinsic"
-              width={97}
+              width={64}
               height={40}
             />
           </div>
