@@ -5,7 +5,7 @@
       "event": "Evento",
       "company": "Empresa (tiendas, servicios y necesidades)"
     },
-    "chooseCategory": "Selecciona una categoría",
+    "chooseCategory": "Selecciona un tipo",
     "location": "Lugar",
     "clickMap": "(pulsa sobre el mapa)",
     "iHaveRead": "He leído los",
@@ -54,7 +54,7 @@
     "minNumCharactersDescription": "de mín. 10 caracteres",
     "invalidLatitude": "Latitud inválida",
     "invalidLongitude": "Longitud inválida",
-    "invalidCategory": "Categoría no válida",
+    "invalidCategory": "Typo no válida",
     "invalidTags": "Etiquetas no válidas",
     "minNumCharactersTags": "Longitud mínima de las etiquetas: 3 caracteres",
     "acceptLicense": "Se requiere la aprobación de la licencia",
@@ -279,7 +279,7 @@
   },
   "searchFilters": {
     "selectRegion": "Seleccionar región",
-    "selectCategory": "Seleccionar categoría",
+    "selectCategory": "Seleccionar el tipo",
     "openFilters": "Abrir filtros",
     "collapseFilters": "Colapsar filtros",
     "searchFor": "Buscar"
