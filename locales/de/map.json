@@ -5,7 +5,7 @@
       "event": "Event",
       "company": "Unternehmen (Läden, Dienstleistungen & Bedürfnisse)"
     },
-    "chooseCategory": "Kategorie auswählen",
+    "chooseCategory": "Typ auswählen",
     "location": "Ort",
     "clickMap": "(auf Karte klicken)",
     "iHaveRead": "Ich habe die",
@@ -54,7 +54,7 @@
     "minNumCharactersDescription": "von mind. 10 Zeichen",
     "invalidLatitude": "Ungültiger Breitengrad",
     "invalidLongitude": "Ungültiger Längengrad",
-    "invalidCategory": "Ungültige Kategorie",
+    "invalidCategory": "Ungültiger Typ",
     "invalidTags": "Ungültige Stichworte",
     "minNumCharactersTags": "Mindestlänge von Stichworten: 3 Zeichen",
     "acceptLicense": "Lizenzzustimmung ist nötig",
@@ -279,7 +279,7 @@
   },
   "searchFilters": {
     "selectRegion": "Region auswählen",
-    "selectCategory": "Kategorie auswählen",
+    "selectCategory": "Typ auswählen",
     "openFilters": "Filter anzeigen",
     "collapseFilters": "Filter verstecken",
     "searchFor": "Suchen nach"
