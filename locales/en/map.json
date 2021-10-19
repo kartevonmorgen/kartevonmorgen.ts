@@ -5,7 +5,7 @@
       "event": "Event",
       "company": "Enterprise (shops, services & needs)"
     },
-    "chooseCategory": "Select category",
+    "chooseCategory": "Choose the entry type",
     "location": "Location",
     "clickMap": "(click on the map)",
     "iHaveRead": "I have read and accept the Terms of the ",
@@ -54,7 +54,7 @@
     "minNumCharactersDescription": "characters, minimum: 10",
     "invalidLatitude": "Invalid Latitude",
     "invalidLongitude": "Invalid Longitude",
-    "invalidCategory": "Invalid Category",
+    "invalidCategory": "Invalid type",
     "invalidTags": "Invalid tags",
     "minNumCharactersTags": "please provide tags with a minimum of 3 characters",
     "acceptLicense": "Please accept the license",
@@ -279,7 +279,7 @@
   },
   "searchFilters": {
     "selectRegion": "Search a region",
-    "selectCategory": "Select a category",
+    "selectCategory": "Select a type",
     "openFilters": "Open filters",
     "collapseFilters": "Collapse filters",
     "searchFor": "Search for"
