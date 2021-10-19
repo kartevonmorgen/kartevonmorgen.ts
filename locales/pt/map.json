@@ -1,6 +1,6 @@
 {
   "entryForm": {
-    "chooseCategory": "Escolher categoria",
+    "chooseCategory": "Escolher o tipo",
     "location": "Lugar",
     "clickMap": "(ou clicar no mapa)",
     "contact": "Contato",
@@ -38,7 +38,7 @@
     "minNumCharactersDescription": "no minimo 10 caracteres",
     "invalidLatitude": "Grau de latitude inválido",
     "invalidLongitude": "Grau de longitude inválido",
-    "invalidCategory": "Categoria inválida",
+    "invalidCategory": "Tipo inválida",
     "invalidTags": "Palavra-chave inválida",
     "minNumCharactersTags": "no minimo 3 caracteres",
     "acceptLicense": "A aprovação da licença é necessário",
