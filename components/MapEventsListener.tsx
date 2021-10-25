@@ -3,9 +3,9 @@ import { useRouter } from 'next/router'
 import { LatLng, LeafletEvent, LeafletMouseEvent } from 'leaflet'
 import { useMapEvents } from 'react-leaflet'
 import { updateRoutingQuery } from '../utils/utils'
-import { createSlugPathFromQueryAndRemoveSlug, getRootSlugActionFromQuery } from '../utils/slug'
-import { RootSlugEntity, SlugVerb } from '../utils/types'
+import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 import { convertLatLngToString } from '../utils/geolocation'
+import { setNewPinMarkerOnMapIfCreateOrEdit } from '../utils/map'
 
 
 // just this component has access to the map attributes, so only this one can make the search
@@ -42,29 +42,7 @@ const MapEventsListener: FC = () => {
     click: ((event: LeafletMouseEvent) => {
       const { latlng } = event
 
-      const slugAction = getRootSlugActionFromQuery(query)
-      const { subSlugAction } = slugAction
-      if (
-        (subSlugAction !== null) &&
-        (subSlugAction.entity === RootSlugEntity.EVENT || subSlugAction.entity === RootSlugEntity.ENTRY) &&
-        (subSlugAction.verb === SlugVerb.CREATE || subSlugAction.verb === SlugVerb.EDIT)
-      ) {
-        const paramsToUpdate = {
-          pinCenter: convertLatLngToString(latlng),
-        }
-
-        const newQueryParams = updateRoutingQuery(query, paramsToUpdate)
-        const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
-
-        router.replace(
-          {
-            pathname: `/m/${newPath}`,
-            query: newQueryWithoutSlug,
-          },
-          undefined,
-          { shallow: true },
-        )
-      }
+      setNewPinMarkerOnMapIfCreateOrEdit(router, latlng)
     }),
 
   })

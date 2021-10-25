@@ -20,7 +20,7 @@ import { eventsActions } from '../slices'
 import Point from '../dtos/Point'
 import {
   ExtendedGeocodeAddress,
-  flyToFormAddressIfPinIsNotSet,
+  flyToFormAddressAndSetNewPin,
   getCityFromAddress,
   reverseGeocode,
 } from '../utils/geolocation'
@@ -290,7 +290,7 @@ const EventForm: FC<EventFormProps> = (props) => {
               placeholder={t('entryForm.city')}
               onBlur={() => {
                 addTouchedAddressFieldName(setTouchedAddressFields, 'city')
-                flyToFormAddressIfPinIsNotSet(router, form).then()
+                flyToFormAddressAndSetNewPin(router, form).then()
               }}
             />
           </Form.Item>
@@ -303,7 +303,7 @@ const EventForm: FC<EventFormProps> = (props) => {
               placeholder={t('entryForm.zip')}
               onBlur={() => {
                 addTouchedAddressFieldName(setTouchedAddressFields, 'zip')
-                flyToFormAddressIfPinIsNotSet(router, form).then()
+                flyToFormAddressAndSetNewPin(router, form).then()
               }}
             />
           </Form.Item>
@@ -319,7 +319,7 @@ const EventForm: FC<EventFormProps> = (props) => {
           placeholder={t('entryForm.street')}
           onBlur={() => {
             addTouchedAddressFieldName(setTouchedAddressFields, 'street')
-            flyToFormAddressIfPinIsNotSet(router, form).then()
+            flyToFormAddressAndSetNewPin(router, form).then()
           }}
         />
       </Form.Item>

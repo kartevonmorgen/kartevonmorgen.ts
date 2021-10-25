@@ -11,7 +11,7 @@ import { convertFloatToString, convertStringToFloat, SEP } from './utils'
 import { GeoLocationStructuredAddress } from '../dtos/GeoLocationStructuredAddress'
 import { FormInstance } from 'antd'
 import { NextRouter } from 'next/router'
-import { getLatLngFromRouterWithParamName, isLatLngValid, setCenterAndZoom } from './router'
+import { setCenterAndZoomAndNewPin } from './map'
 import { DEFAULTS } from '../consts/map'
 
 
@@ -93,13 +93,7 @@ const getStructuredAddressFromForm = (
   return structuredAddressExtractedFromForm
 }
 
-export const flyToFormAddressIfPinIsNotSet = async (router: NextRouter, form: FormInstance) => {
-  const markedPinLatLng: LatLng = getLatLngFromRouterWithParamName(router, 'pinCenter')
-  const isNewMarkerPinOnMap = isLatLngValid(markedPinLatLng)
-  if (isNewMarkerPinOnMap) {
-    return
-  }
-
+export const flyToFormAddressAndSetNewPin = async (router: NextRouter, form: FormInstance) => {
   const structuredAddressFromForm: GeoLocationStructuredAddress = getStructuredAddressFromForm(form)
   const geoLocationRequest: GeocodeRequest = {
     street: structuredAddressFromForm.street,
@@ -128,5 +122,5 @@ export const flyToFormAddressIfPinIsNotSet = async (router: NextRouter, form: Fo
     lng: convertStringToFloat(location.lon),
   }
 
-  setCenterAndZoom(router, newCenter, DEFAULTS.close_zoom)
+  setCenterAndZoomAndNewPin(router, newCenter, DEFAULTS.close_zoom)
 }

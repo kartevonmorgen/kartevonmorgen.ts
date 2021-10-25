@@ -5,14 +5,11 @@ import {
   convertQueryParamToString,
   convertStringToFloat,
   SEP,
-  updateRoutingQuery,
 } from './utils'
 import { RouterQueryParam } from './types'
-import { convertLatLngToString, LatLng } from './geolocation'
+import { LatLng } from './geolocation'
 import { knownCategoryNames } from '../dtos/Categories'
 import moment, { Moment } from 'moment'
-import { DEFAULTS } from '../consts/map'
-import { createSlugPathFromQueryAndRemoveSlug } from './slug'
 
 
 export const isRouterInitialized = (router: NextRouter): boolean => {
@@ -57,30 +54,6 @@ export const getCenterLatLngFromRouter = (router: NextRouter): LatLng => {
   return centerLatLng
 }
 
-export const setCenterAndZoom = (
-  router: NextRouter,
-  center: LatLng,
-  zoom: number = DEFAULTS.default_zoom,
-) => {
-  const { query } = router
-
-  const paramsToUpdate = {
-    c: convertLatLngToString(center),
-    z: zoom.toFixed(2),
-  }
-
-  const newQueryParams = updateRoutingQuery(query, paramsToUpdate)
-  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
-
-  router.replace(
-    {
-      pathname: `/m/${newPath}`,
-      query: newQueryWithoutSlug,
-    },
-    undefined,
-    { shallow: true },
-  )
-}
 
 export const getTypeNamesFromRouter = (router: NextRouter): string[] => {
   // type refers to the `type` from query params

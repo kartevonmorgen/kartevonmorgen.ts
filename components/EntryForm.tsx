@@ -24,7 +24,7 @@ import Point from '../dtos/Point'
 import { RouterQueryParam, SlugVerb } from '../utils/types'
 import {
   ExtendedGeocodeAddress,
-  flyToFormAddressIfPinIsNotSet,
+  flyToFormAddressAndSetNewPin,
   getCityFromAddress,
   reverseGeocode,
 } from '../utils/geolocation'
@@ -374,7 +374,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
               placeholder={t('entryForm.city')}
               onBlur={() => {
                 addTouchedAddressFieldName(setTouchedAddressFields, 'city')
-                flyToFormAddressIfPinIsNotSet(router, form).then()
+                flyToFormAddressAndSetNewPin(router, form).then()
               }}
             />
           </Form.Item>
@@ -388,7 +388,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
               placeholder={t('entryForm.zip')}
               onBlur={() => {
                 addTouchedAddressFieldName(setTouchedAddressFields, 'zip')
-                flyToFormAddressIfPinIsNotSet(router, form).then()
+                flyToFormAddressAndSetNewPin(router, form).then()
               }}
             />
           </Form.Item>
@@ -404,7 +404,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
           placeholder={t('entryForm.street')}
           onBlur={() => {
             addTouchedAddressFieldName(setTouchedAddressFields, 'street')
-            flyToFormAddressIfPinIsNotSet(router, form).then()
+            flyToFormAddressAndSetNewPin(router, form).then()
           }}
         />
       </Form.Item>
