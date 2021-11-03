@@ -101,6 +101,8 @@ const transformFormFields = (entry: EntryFormType): EntryFormType => {
       if (email === '') {
         return null
       }
+
+      return email
     },
   }
 
