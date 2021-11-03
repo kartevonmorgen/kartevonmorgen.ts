@@ -7,6 +7,7 @@ import { convertQueryParamToString, removeRoutingQueryParams, updateRoutingQuery
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 import { isRouterInitialized } from '../utils/router'
 import SidebarStatus, { isSidebarStatusShown } from '../dtos/SidebarStatus'
+import useMobileDetect from '../hooks/useMobileDetect'
 
 
 export enum SidebarState {
@@ -84,10 +85,13 @@ const CollapseSidebarButton: FC = () => {
   const { sidebar: sidebarParam } = query
   const isSidebarOpen = isSidebarStatusShown(convertQueryParamToString(sidebarParam))
 
+  const device = useMobileDetect()
+  const sidebarWidth: string = device.isMobile() ? '60vw' : '32vw'
+
   return (
     <TweenOne
       reverse={!isSidebarOpen}
-      animation={{ x: '32vw', duration: 300 }}
+      animation={{ x: sidebarWidth, duration: 300 }}
       style={{
         position: 'fixed',
         top: 90,
