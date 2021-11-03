@@ -96,7 +96,7 @@ const SearchTags: FC = (_props) => {
   const [selectedTags, setSelectedTags] = useState<string[]>([''])
   useEffect(() => {
     setSelectedTags(tagsFromURL)
-  }, [tagsFromURL])
+  }, [])
 
 
   return (
@@ -109,7 +109,7 @@ const SearchTags: FC = (_props) => {
         >
           <TagsSelect
             placeholder="Search for tags"
-            value={selectedTags}
+            defaultValue={selectedTags}
             onSelect={searchTag(router)}
             onDeselect={removeTagFromRouter(router)}
             onClear={removeAllTagsFromRouter(router)}
