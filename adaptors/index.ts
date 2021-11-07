@@ -1,10 +1,13 @@
 import { ParsedUrlQuery } from 'querystring'
 import { SearchEventsRequest as SearchEventsRequestDTO } from '../dtos/SearchEventsRequest'
 import { convertQueryParamToInt, convertQueryParamToString } from '../utils/utils'
+import { EventTimeBoundaries, getEventTimeBoundariesFromQuery } from '../utils/router'
 
 
-export const convertQueryToEventRequest = (query: ParsedUrlQuery): SearchEventsRequestDTO => {
+export const convertQueryToEventRequestAndSetTimeBoundaries = (query: ParsedUrlQuery): SearchEventsRequestDTO => {
   // todo: can be used for searching for the result list
+
+  const eventTimeBoundaries: EventTimeBoundaries = getEventTimeBoundariesFromQuery(query)
 
   return {
     tag: query.tag ? convertQueryParamToString(query.tag) : undefined,
@@ -12,7 +15,6 @@ export const convertQueryToEventRequest = (query: ParsedUrlQuery): SearchEventsR
     text: query.text ? convertQueryParamToString(query.text) : undefined,
     bbox: query.bbox ? convertQueryParamToString(query.bbox) : undefined,
     created_by: query.created_by ? convertQueryParamToString(query.created_by) : undefined,
-    start_max: query.start_max ? convertQueryParamToInt(query.start_max) : undefined,
-    start_min: query.start_min ? convertQueryParamToInt(query.start_min) : undefined,
+    ...eventTimeBoundaries,
   }
 }

@@ -16,12 +16,16 @@ import { SearchEntryID } from '../dtos/SearchEntry'
 import { EventID } from '../dtos/Event'
 import { NextRouter } from 'next/router'
 import {
+  convertBBoxToString,
   convertQueryParamToArray,
   convertQueryParamToString,
   removeRoutingQueryParams,
   updateRoutingQuery,
 } from './utils'
 import Category from '../dtos/Categories'
+import { LatLngBounds } from 'leaflet'
+import { TableViewQueryParams } from '../dtos/TableViewQueryParams'
+import { EventTimeBoundaries, getEventTimeBoundariesFromQuery } from './router'
 
 
 export const getProjectNameFromQuery = (query: ParsedUrlQuery): string => {
@@ -188,4 +192,51 @@ export const createSlugPathFromQueryAndRemoveSlug = (query: ParsedUrlQuery):
 
 
   return [slugPath, queryWithoutSlug]
+}
+
+export const convertMapURLTOTableViewURL = (
+  mapURL: string,
+  mapViewQueryParams: ParsedUrlQuery,
+  bbox: LatLngBounds,
+): string => {
+  const mapViewURL = new URL(mapURL)
+  const { pathname: mapViewPathname, origin } = mapViewURL
+
+  const tableViewPathname = mapViewPathname.replace('/m/', '/t/')
+  const tableViewQueryParams = convertMapQueryParamsToTableViewQueryParams(mapViewQueryParams, bbox)
+
+  const tableViewURL = new URL(origin)
+  tableViewURL.pathname = tableViewPathname
+  Object.keys(tableViewQueryParams).forEach(query => {
+    tableViewURL.searchParams.append(query, tableViewQueryParams[query])
+  })
+
+  return tableViewURL.toString()
+}
+
+export const convertMapQueryParamsToTableViewQueryParams = (
+  query: ParsedUrlQuery,
+  bbox: LatLngBounds,
+): TableViewQueryParams => {
+  // todo: introduce a type for the map view and the table view query params
+
+  const { search, type } = query
+  const eventTimeBoundaries: EventTimeBoundaries = getEventTimeBoundariesFromQuery(query)
+
+  const tableViewQueryParams = {
+    text: convertQueryParamToString(search),
+    tag: convertQueryParamToString(type),
+    bbox: convertBBoxToString(bbox),
+    start_min: eventTimeBoundaries.startMin.unix(),
+    start_max: eventTimeBoundaries.startMax?.unix(),
+    end_min: eventTimeBoundaries.endMin.unix(),
+  }
+
+  Object.keys(tableViewQueryParams).forEach(query => {
+    if (tableViewQueryParams[query] === undefined) {
+      delete tableViewQueryParams[query]
+    }
+  })
+
+  return tableViewQueryParams
 }

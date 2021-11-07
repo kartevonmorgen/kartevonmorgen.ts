@@ -6,14 +6,14 @@ import Table from './components/Table'
 import { SearchEventsRequest as SearchEventsRequestDTO } from '../../dtos/SearchEventsRequest'
 import { Events } from '../../dtos/Event'
 import { GetServerSideProps } from 'next'
-import { convertQueryToEventRequest } from '../../adaptors'
+import { convertQueryToEventRequestAndSetTimeBoundaries } from '../../adaptors'
 
 
 const IFrameTable = () => {
   const router = useRouter()
   const { query } = router
 
-  const searchEventsRequestDTO: SearchEventsRequestDTO = convertQueryToEventRequest(query)
+  const searchEventsRequestDTO: SearchEventsRequestDTO = convertQueryToEventRequestAndSetTimeBoundaries(query)
 
   const { data, error } = useRequest<Events>({
     url: API_ENDPOINTS.searchEvents(),

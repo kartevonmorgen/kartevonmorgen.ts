@@ -10,6 +10,7 @@ import { RouterQueryParam } from './types'
 import { LatLng } from './geolocation'
 import { knownCategoryNames } from '../dtos/Categories'
 import moment, { Moment } from 'moment'
+import { ParsedUrlQuery } from 'querystring'
 
 
 export const isRouterInitialized = (router: NextRouter): boolean => {
@@ -76,35 +77,42 @@ export const getTypeNamesFromRouterOrKnownCategoryNamesIfEmpty = (router: NextRo
   return typeNameFromRouter
 }
 
-export interface MapTimes {
+export interface EventTimeBoundaries {
   startMin?: Moment
   startMax?: Moment
   endMin?: Moment
 }
 
-export const getMapTimesFromRouter = (router: NextRouter): MapTimes => {
-  const { query } = router
+export const getEventTimeBoundariesFromQuery = (query: ParsedUrlQuery): EventTimeBoundaries => {
   const {
     start_min: startMinParam,
     start_max: startMaxParam,
     end_min: endMinParam,
   } = query
 
-  const mapTimes: MapTimes = {}
+  const eventTimeBoundaries: EventTimeBoundaries = {}
 
-  mapTimes.startMin = moment().startOf('day')
+  eventTimeBoundaries.startMin = moment().startOf('day')
   if (startMinParam) {
-    mapTimes.startMin = moment.unix(convertQueryParamToInt(startMinParam))
+    eventTimeBoundaries.startMin = moment.unix(convertQueryParamToInt(startMinParam))
   }
 
   if (startMaxParam) {
-    mapTimes.startMax = moment.unix(convertQueryParamToInt(startMaxParam))
+    eventTimeBoundaries.startMax = moment.unix(convertQueryParamToInt(startMaxParam))
   }
 
-  mapTimes.endMin = moment().endOf('day')
+  eventTimeBoundaries.endMin = moment().endOf('day')
   if (endMinParam) {
-    mapTimes.endMin = moment.unix(convertQueryParamToInt(endMinParam))
+    eventTimeBoundaries.endMin = moment.unix(convertQueryParamToInt(endMinParam))
   }
 
-  return mapTimes
+  return eventTimeBoundaries
+}
+
+export const getEventTimeBoundariesFromRouter = (router: NextRouter): EventTimeBoundaries => {
+  const { query } = router
+
+  const eventTimeBoundaries: EventTimeBoundaries = getEventTimeBoundariesFromQuery(query)
+
+  return eventTimeBoundaries
 }

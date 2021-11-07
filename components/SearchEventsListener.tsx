@@ -11,7 +11,11 @@ import { convertBBoxToString, convertQueryParamToInt, convertQueryParamToString 
 import { SearchEntriesRequest as SearchEntriesRequestDTO } from '../dtos/SearchEntriesRequest'
 import Category, { CategoryNameToIdMapper, CategoryToNameMapper, isEntryCategory } from '../dtos/Categories'
 import { SearchEventsRequest as SearchEventsRequestDTO } from '../dtos/SearchEventsRequest'
-import { getMapTimesFromRouter, getTypeNamesFromRouterOrKnownCategoryNamesIfEmpty, MapTimes } from '../utils/router'
+import {
+  EventTimeBoundaries,
+  getEventTimeBoundariesFromRouter,
+  getTypeNamesFromRouterOrKnownCategoryNamesIfEmpty,
+} from '../utils/router'
 
 
 const SearchEventsListener: FC = () => {
@@ -79,7 +83,7 @@ const SearchEventsListener: FC = () => {
     // search events
     if (typeNames.includes(CategoryToNameMapper[Category.EVENT])) {
 
-      const mapTimes: MapTimes = getMapTimesFromRouter(router)
+      const mapTimes: EventTimeBoundaries = getEventTimeBoundariesFromRouter(router)
 
       const searchEventsRequestDTO: SearchEventsRequestDTO = {
         bbox: bbox,
