@@ -9,12 +9,22 @@ export const convertQueryToEventRequestAndSetTimeBoundaries = (query: ParsedUrlQ
 
   const eventTimeBoundaries: EventTimeBoundaries = getEventTimeBoundariesFromQuery(query)
 
-  return {
+  const searchEventsRequest: SearchEventsRequestDTO = {
     tag: query.tag ? convertQueryParamToString(query.tag) : undefined,
     limit: query.limit ? convertQueryParamToInt(query.limit) : undefined,
     text: query.text ? convertQueryParamToString(query.text) : undefined,
     bbox: query.bbox ? convertQueryParamToString(query.bbox) : undefined,
     created_by: query.created_by ? convertQueryParamToString(query.created_by) : undefined,
-    ...eventTimeBoundaries,
+    start_min: eventTimeBoundaries.startMin.unix(),
+    start_max: eventTimeBoundaries.startMax?.unix(),
+    end_min: eventTimeBoundaries.endMin.unix(),
   }
+
+  Object.keys(searchEventsRequest).forEach(key => {
+    if (searchEventsRequest[key] === undefined) {
+      delete searchEventsRequest[key]
+    }
+  })
+
+  return searchEventsRequest
 }
