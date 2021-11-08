@@ -50,6 +50,7 @@ const Menu: FC = () => {
                 href={linkWithIcon.link}
                 target={LinkPolicyToTargetAttributeMapper[linkWithIcon.policy]}
                 rel="noopener noreferrer"
+                style={{ color: 'black' }}
               >
                 <Row
                   justify="space-between"
