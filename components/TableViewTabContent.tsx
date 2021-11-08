@@ -13,7 +13,7 @@ Lowlight.registerLanguage('xml', xmlSyntax)
 
 const generateIframeCode = (url: string): string => (
   `<div style="text-align: center;">
-    <iframe id="kvm" name="kvm" style="display: inline-block; border: none" src="${url}" width="100%" height="580">
+    <iframe id="kvm" name="kvm" style="display: inline-block; border: none" src="${url}" width="100%" height="620">
       <a href="${url}" target="_blank">zur karte</a>
     </iframe>
   </div>
