@@ -5,10 +5,8 @@ import store from '../store'
 import '../utils/icons/font-awesome'
 import Layout from '../components/Layout'
 import GlobalLocale from '../components/GlobalLocale'
-
-// it's not a mistake. because we benefit from the next-plugin-antd-less
-// the less files should be imported with require
-require('../styles/globals.less')
+import 'antd/dist/antd.min.css'
+import '../styles/globals.css'
 
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
