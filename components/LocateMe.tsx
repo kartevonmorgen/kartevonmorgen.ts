@@ -60,14 +60,14 @@ interface LocateMeProps extends ButtonProps {
 }
 
 const LocateMe: FC<LocateMeProps> = (props) => {
-  const { shouldIncludeDefaultProjectName } = props
+  const { shouldIncludeDefaultProjectName, ...buttonProps } = props
 
   const router = useRouter()
 
 
   return (
     <Button
-      {...props}
+      {...buttonProps}
       icon={<AimOutlined/>}
       onClick={setQueryParamsToCurrentLocation(shouldIncludeDefaultProjectName, router)}
     />
