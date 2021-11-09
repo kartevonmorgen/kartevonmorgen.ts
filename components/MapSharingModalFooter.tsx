@@ -1,4 +1,5 @@
 import React, { FC } from 'react'
+import useTranslation from 'next-translate/useTranslation'
 import { Button, message, Typography } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
@@ -15,6 +16,8 @@ interface MapSharingModalFooterProps {
 const MapSharingModalFooter: FC<MapSharingModalFooterProps> = (props) => {
 
   const { onOk, onCancel, iframeCode } = props
+
+  const { t } = useTranslation('map')
 
   return (
     <div
@@ -36,7 +39,7 @@ const MapSharingModalFooter: FC<MapSharingModalFooterProps> = (props) => {
         }
 
       >
-        Close
+        {t('modal.events.close')}
       </Button>
 
       <Link
@@ -44,14 +47,14 @@ const MapSharingModalFooter: FC<MapSharingModalFooterProps> = (props) => {
         target="_blank"
         rel="noopener noreferrer"
       >
-        Find Out More
+        {t('modal.embed.findOutMore')}
       </Link>
 
       <CopyToClipboard
         onCopy={
           () => {
             onOk()
-            message.success('Iframe code copied to clipboard', 3)
+            message.success(t('growler.iframeCopied'), 3)
           }
         }
         text={iframeCode}
@@ -68,7 +71,7 @@ const MapSharingModalFooter: FC<MapSharingModalFooterProps> = (props) => {
             />
           }
         >
-          Copy
+          {t('copy')}
         </Button>
       </CopyToClipboard>
     </div>

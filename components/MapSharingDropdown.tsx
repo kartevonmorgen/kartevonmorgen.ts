@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import useTranslation from 'next-translate/useTranslation'
 import { Button, Dropdown, Menu } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import CopyURLToClipboardButton from './CopyURLToClipboardButton'
@@ -36,6 +37,9 @@ const menu = (
 )
 
 const MapSharingDropdown: FC = () => {
+
+  const { t } = useTranslation('map')
+
   return (
     <Dropdown
       overlay={menu}
@@ -55,7 +59,7 @@ const MapSharingDropdown: FC = () => {
           width: 88,
         }}
       >
-        Share
+        {t('share')}
       </Button>
     </Dropdown>
   )

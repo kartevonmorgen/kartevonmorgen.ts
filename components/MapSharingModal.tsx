@@ -1,10 +1,14 @@
 import { FC, Fragment } from 'react'
+import useTranslation from 'next-translate/useTranslation'
 import { Button, Modal } from 'antd'
 import { useBoolean } from 'ahooks'
 import SharingModalTabs from './SharingModalTabs'
 
 
 const MapSharingModal: FC = () => {
+
+  const { t } = useTranslation('map')
+
   const [isModalVisible, { setTrue: showModal, setFalse: hideModal }] = useBoolean()
 
   return (
@@ -16,7 +20,7 @@ const MapSharingModal: FC = () => {
         }}
         onClick={showModal}
       >
-        Embed
+        {t('embed')}
       </Button>
 
       <Modal
