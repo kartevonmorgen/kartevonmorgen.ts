@@ -7,11 +7,12 @@ import useTranslation from 'next-translate/useTranslation'
 import { validate as validateEmail } from 'isemail'
 import { isWebUri } from 'valid-url'
 import { Button, Checkbox, Divider, Form, FormInstance, Input, Select, Spin, Typography } from 'antd'
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons/lib'
+import MinusCircleOutlined from '@ant-design/icons/lib/icons/MinusCircleOutlined'
+import PlusOutlined from '@ant-design/icons/lib/icons/PlusOutlined'
 import isString from 'lodash/isString'
 import isArray from 'lodash/isArray'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { redirectToEntityDetail } from '../utils/slug'
+import { redirectToEntityDetailAndFlyToLocation } from '../utils/slug'
 import { AxiosInstance } from '../api'
 import useRequest from '../api/useRequest'
 import API_ENDPOINTS from '../api/endpoints'
@@ -141,7 +142,7 @@ const redirectToEntry = (router: NextRouter, entryId: SearchEntryID, isEdit: boo
 
   const slugLevelsToIgnore = isEdit ? 3 : 2
 
-  redirectToEntityDetail(
+  redirectToEntityDetailAndFlyToLocation(
     router,
     entryId,
     Category.INITIATIVE,

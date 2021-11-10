@@ -3,7 +3,7 @@ import { useToggle } from 'ahooks'
 import { Button, Col, Row } from 'antd'
 import SearchFilters from './SearchFilters'
 import SearchInput from './SearchInput'
-import { FilterOutlined } from '@ant-design/icons/lib'
+import FilterOutlined from '@ant-design/icons/lib/icons/FilterOutlined'
 
 
 const onShowFilters = (toggleShowFilters) => () => (toggleShowFilters())

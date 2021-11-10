@@ -11,7 +11,7 @@ import { AxiosInstance } from '../api'
 import API_ENDPOINTS from '../api/endpoints'
 import { NextRouter, useRouter } from 'next/router'
 import useRequest from '../api/useRequest'
-import { redirectToEntityDetail } from '../utils/slug'
+import { redirectToEntityDetailAndFlyToLocation } from '../utils/slug'
 import { SlugVerb } from '../utils/types'
 import Category from '../dtos/Categories'
 import { onReceiveAdapter, onSendAdapter } from '../adaptors/EventForm'
@@ -79,7 +79,7 @@ const redirectToEvent = (router: NextRouter, eventId: EventID, isEdit: boolean) 
 
   const slugLevelsToIgnore = isEdit ? 3 : 2
 
-  redirectToEntityDetail(
+  redirectToEntityDetailAndFlyToLocation(
     router,
     eventId,
     Category.EVENT,

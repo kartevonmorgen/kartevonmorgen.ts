@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import useTranslation from 'next-translate/useTranslation'
 import { Col, Layout, Menu, Row } from 'antd'
-import { GlobalOutlined } from '@ant-design/icons/lib'
+import GlobalOutlined from '@ant-design/icons/lib/icons/GlobalOutlined'
 
 
 const { Header } = Layout

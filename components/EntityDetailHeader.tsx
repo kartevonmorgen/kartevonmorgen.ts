@@ -1,7 +1,7 @@
 import { NextRouter, useRouter } from 'next/router'
 import produce from 'immer'
 import { Button, PageHeader } from 'antd'
-import { EditOutlined } from '@ant-design/icons/lib'
+import EditOutlined from '@ant-design/icons/lib/icons/EditOutlined'
 import { convertQueryParamToArray } from '../utils/utils'
 import { SlugVerb } from '../utils/types'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'

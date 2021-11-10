@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import { Button, ButtonProps } from 'antd'
 import { updateRoutingQuery } from '../utils/utils'
-import { AimOutlined } from '@ant-design/icons'
+import AimOutlined from '@ant-design/icons/lib/icons/AimOutlined'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 import { convertLatLngToString, LatLng } from '../utils/geolocation'
 

@@ -4,7 +4,7 @@ import { List, Space, Tag } from 'antd'
 import { SearchResult } from '../dtos/SearchResult'
 import { SearchEntryID } from '../dtos/SearchEntry'
 import { CompactEvent, EventID } from '../dtos/Event'
-import { redirectToEntityDetail } from '../utils/slug'
+import { redirectToEntityDetailAndFlyToLocation } from '../utils/slug'
 import toString from 'lodash/toString'
 import Category, { CategoryToNameMapper } from '../dtos/Categories'
 import { formatDuration } from '../utils/time'
@@ -24,7 +24,7 @@ const onResultClick = (
   type: Category,
   id: SearchEntryID | EventID,
 ) => () => {
-  redirectToEntityDetail(
+  redirectToEntityDetailAndFlyToLocation(
     router,
     id,
     type,
