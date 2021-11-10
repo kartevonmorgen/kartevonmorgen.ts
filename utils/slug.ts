@@ -140,7 +140,7 @@ export const getRootSlugActionFromQuery = (query: ParsedUrlQuery): SlugAction =>
 }
 
 
-export const redirectToEntityDetail = (
+export const redirectToEntityDetailAndFlyToLocation = (
   router: NextRouter,
   id: SearchEntryID | EventID,
   category: Category,
