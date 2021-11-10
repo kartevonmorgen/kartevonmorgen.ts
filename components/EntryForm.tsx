@@ -350,12 +350,25 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       <Form.Item
         name="description"
         rules={[
-          { required: true, message: t('entryForm.requiredField') },
-          { max: 250, message: t('entryForm.descriptionTooLong') },
-          { min: 10, message: t('entryForm.descriptionTooShort') },
+          {
+            required: true,
+            message: t('entryForm.requiredField'),
+          },
+          {
+            max: 250,
+            message: `${t('entryForm.descriptionTooLong')} ${t('entryForm.maxNumCharactersDescription')}`,
+            warningOnly: true,
+          },
+          {
+            min: 10,
+            message: `${t('entryForm.descriptionTooShort')} ${t('entryForm.minNumCharactersDescription')}`,
+          },
         ]}
       >
-        <TextArea placeholder={t('entryForm.description')}/>
+        <TextArea
+          showCount
+          placeholder={t('entryForm.description')}
+        />
       </Form.Item>
 
       {/*add validation for the three tags*/}
