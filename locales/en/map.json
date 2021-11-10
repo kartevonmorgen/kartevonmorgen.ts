@@ -17,7 +17,7 @@
     "start": "Start",
     "end": "End",
     "description": "Description",
-    "keepDescriptionShort": "Keept it short! Users don't like to read that much. Max. 250 characters are visible by default.",
+    "keepDescriptionShort": "Keep it short! Users don't like to read that much. Max. {{limit}} characters are visible by default.",
     "tags": "Tags to find this place",
     "newTag": "New:",
     "noTagSuggestion": "Type for suggestions.",

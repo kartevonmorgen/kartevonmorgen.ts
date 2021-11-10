@@ -17,7 +17,7 @@
     "start": "Comienzo",
     "end": "Final",
     "description": "Descripción",
-    "keepDescriptionShort": "¡Sé breve! A los usuarios no les gusta leer tanto. En un principio solo serán visibles un máximo de 250 caracteres.",
+    "keepDescriptionShort": "¡Sé breve! A los usuarios no les gusta leer tanto. En un principio solo serán visibles un máximo de {{limit}} caracteres.",
     "tags": "Etiquetas para encontrar este lugar",
     "newTag": "Nueva:",
     "noTagSuggestion": "Escribe tus sugerencias.",

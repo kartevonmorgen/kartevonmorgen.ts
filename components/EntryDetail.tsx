@@ -21,6 +21,7 @@ import TypeTag from './TypeTag'
 import EntryRatingFlower from './EntryRatingFlower'
 import Category, { CategoryToNameMapper } from '../dtos/Categories'
 import EntityImageWithLink from './EntityImageWithLink'
+import EntityDescription from './EntityDescription'
 
 
 const { Title, Paragraph } = Typography
@@ -95,7 +96,9 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
         style={{ marginBottom: 12 }}
       />
 
-      <Paragraph>{entry.description}</Paragraph>
+      <EntityDescription
+        text={entry.description}
+      />
 
       <Divider/>
 

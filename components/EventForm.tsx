@@ -26,6 +26,7 @@ import {
 } from '../utils/geolocation'
 import TagsSelect from './TagsSelect'
 import { prependWebProtocol } from '../utils/utils'
+import { ENTITY_DETAIL_DESCRIPTION_LIMIT } from '../consts/texts'
 
 
 const { useForm } = Form
@@ -271,7 +272,7 @@ const EventForm: FC<EventFormProps> = (props) => {
           },
           {
             max: 250,
-            message: `${t('entryForm.descriptionTooLong')} ${t('entryForm.maxNumCharactersDescription')}`,
+            message: t('entryForm.keepDescriptionShort', { limit: ENTITY_DETAIL_DESCRIPTION_LIMIT }),
             warningOnly: true,
           },
           {

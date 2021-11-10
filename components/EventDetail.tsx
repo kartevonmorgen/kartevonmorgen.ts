@@ -12,8 +12,9 @@ import API_ENDPOINTS from '../api/endpoints'
 import useRequest from '../api/useRequest'
 import { RootSlugEntity } from '../utils/types'
 import EntityImageWithLink from './EntityImageWithLink'
+import EntityDescription from './EntityDescription'
 
-const { Title, Paragraph, Text } = Typography
+const { Title, Text } = Typography
 
 
 interface EventDetailProps {
@@ -77,7 +78,9 @@ const EventDetail: FC<EventDetailProps> = (props) => {
 
       <Tag color={RootSlugEntity.EVENT} style={{ marginBottom: 12 }}>{RootSlugEntity.EVENT}</Tag>
 
-      <Paragraph>{event.description}</Paragraph>
+      <EntityDescription
+        text={event.description}
+      />
 
       <Divider/>
 
