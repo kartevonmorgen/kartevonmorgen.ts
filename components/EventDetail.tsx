@@ -13,6 +13,7 @@ import useRequest from '../api/useRequest'
 import { RootSlugEntity } from '../utils/types'
 import EntityImageWithLink from './EntityImageWithLink'
 import EntityDescription from './EntityDescription'
+import { formatDuration } from '../utils/time'
 
 const { Title, Text } = Typography
 
@@ -73,7 +74,12 @@ const EventDetail: FC<EventDetailProps> = (props) => {
       <Text
         type="secondary"
       >
-        {`${moment.unix(event.start).format('llll')}`} - {`${moment.unix(event.end).format('llll')}`}
+        {
+          formatDuration({
+            start: moment.unix(event.start),
+            end: moment.unix(event.end),
+          })
+        }
       </Text>
 
       <Tag color={RootSlugEntity.EVENT} style={{ marginBottom: 12 }}>{RootSlugEntity.EVENT}</Tag>

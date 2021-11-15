@@ -37,7 +37,7 @@ const columns = [
       return (
         <Fragment key={`column-description-${record.id}`}>
           <Text>
-            {formatDuration(start, end)}
+            {formatDuration({ start, end })}
           </Text>
         </Fragment>
       )

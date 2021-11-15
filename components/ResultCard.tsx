@@ -43,7 +43,7 @@ const getTimeDescriptionForEvent = (entity: SearchResult, type: Category): strin
   const start = moment.unix(event.start)
   const end = moment.unix(event.end)
 
-  return formatDuration(start, end)
+  return formatDuration({ start, end })
 }
 
 const getSubstringOfDescription = (description: string, maxLength: number) => {

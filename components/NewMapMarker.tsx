@@ -1,7 +1,7 @@
 import { FC } from 'react'
-import { getBalloonIcon } from './MapMarkers'
+import { getBalloonIcon } from './MapMarker'
 import Category from '../dtos/Categories'
-import { Marker } from 'react-leaflet'
+import { Marker as LeafletMarker } from 'react-leaflet'
 import { useRouter } from 'next/router'
 import { LatLng } from '../utils/geolocation'
 import { getLatLngFromRouterWithParamName, isLatLngValid } from '../utils/router'
@@ -18,7 +18,7 @@ const NewMapMarker: FC = () => {
   }
 
   return (
-    <Marker
+    <LeafletMarker
       position={markedPinLatLng}
       icon={getBalloonIcon(Category.UNKNOWN)}
     />
