@@ -1,5 +1,5 @@
 import { NextRouter } from 'next/router'
-import { convertLatLngToString, LatLng } from './geolocation'
+import { convertLatLngToString, isValidLatLng, LatLng } from './geolocation'
 import { DEFAULTS } from '../consts/map'
 import { updateRoutingQuery } from './utils'
 import { createSlugPathFromQueryAndRemoveSlug, getRootSlugActionFromQuery } from './slug'
@@ -11,6 +11,12 @@ export const setCenterAndZoom = async (
   center: LatLng,
   zoom: number = DEFAULTS.default_zoom,
 ) => {
+
+  if (!isValidLatLng(center)) {
+    console.warn('invalid center', center)
+    return
+  }
+
   const { query } = router
 
   const paramsToUpdate = {

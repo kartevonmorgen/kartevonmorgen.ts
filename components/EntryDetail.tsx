@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import isString from 'lodash/isString'
 import isArray from 'lodash/isArray'
@@ -22,9 +22,12 @@ import EntryRatingFlower from './EntryRatingFlower'
 import Category, { CategoryToNameMapper } from '../dtos/Categories'
 import EntityImageWithLink from './EntityImageWithLink'
 import EntityDescription from './EntityDescription'
+import { isValidLatLng, LatLng, PartialLatLng } from '../utils/geolocation'
+import { setCenterAndZoom } from '../utils/map'
+import { DEFAULTS } from '../consts/map'
 
 
-const { Title, Paragraph } = Typography
+const { Title } = Typography
 
 
 interface EntryDetailProps {
@@ -55,6 +58,19 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
 
   const foundEntry: boolean = isArray(entries) && entries.length !== 0
   const entry: Entry = foundEntry ? entries[0] : null
+  const partialEntryLatLng: PartialLatLng = {
+    lat: entry?.lat,
+    lng: entry?.lng,
+  }
+
+  useEffect(() => {
+    if (!isValidLatLng(partialEntryLatLng)) {
+      return
+    }
+
+    setCenterAndZoom(router, partialEntryLatLng as LatLng, DEFAULTS.close_zoom)
+
+  }, [partialEntryLatLng.lat, partialEntryLatLng.lng])
 
   if (entriesError) {
     //  todo: show error notification, redirect to the search result view

@@ -1,5 +1,6 @@
 import toString from 'lodash/toString'
 import isUndefined from 'lodash/isUndefined'
+import isNumber from 'lodash/isNumber'
 import {
   geocode,
   GeocodeAddress,
@@ -21,6 +22,18 @@ export interface LatLng {
   lat: number
   lng: number
 }
+
+export type PartialLatLng = Partial<LatLng>
+
+
+export const isValidLatLng = (latLng: PartialLatLng): boolean => {
+  const { lat, lng } = latLng
+
+  const isValid: boolean = isNumber(lat) && isNumber(lng)
+
+  return isValid
+}
+
 
 export interface ExtendedGeocodeAddress extends GeocodeAddress {
   town?: string
