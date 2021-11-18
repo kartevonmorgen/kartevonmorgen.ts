@@ -23,6 +23,8 @@ module.exports = nextTranslate(
         }),
       )
 
+      config.resolve.fallback = { fs: false }
+
       return config
     },
 
