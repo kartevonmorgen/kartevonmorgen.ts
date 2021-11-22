@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC } from 'react'
 import { useRouter } from 'next/router'
 import moment from 'moment'
 import { Divider, Spin, Tag, Typography } from 'antd'
@@ -14,9 +14,8 @@ import { RootSlugEntity } from '../utils/types'
 import EntityImageWithLink from './EntityImageWithLink'
 import EntityDescription from './EntityDescription'
 import { formatDuration } from '../utils/time'
-import { isValidLatLng, LatLng, PartialLatLng } from '../utils/geolocation'
-import { setCenterAndZoom } from '../utils/map'
-import { DEFAULTS } from '../consts/map'
+import { PartialLatLng } from '../utils/geolocation'
+import useFly from '../hooks/useFly'
 
 const { Title, Text } = Typography
 
@@ -42,15 +41,7 @@ const EventDetail: FC<EventDetailProps> = (props) => {
     lng: event?.lng,
   }
 
-  useEffect(() => {
-
-    if (!isValidLatLng(partialEventLatLng)) {
-      return
-    }
-
-    setCenterAndZoom(router, partialEventLatLng as LatLng, DEFAULTS.close_zoom)
-
-  }, [partialEventLatLng.lat, partialEventLatLng.lng])
+  useFly(partialEventLatLng)
 
   if (eventError) {
     //  todo: show error notification, redirect to the search result view
