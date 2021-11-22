@@ -1,4 +1,6 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { highlightSelector } from '../selectors/view'
 import Category, { CategoryToNameMapper } from '../dtos/Categories'
 import { DivIcon, divIcon, Icon, IconOptions, Point } from 'leaflet'
 import { NextRouter, useRouter } from 'next/router'
@@ -12,6 +14,9 @@ import { SearchResult } from '../dtos/SearchResult'
 import { Marker as LeafletMarker } from 'react-leaflet'
 import MapMarkerTooltip from './MapMarkerTooltip'
 import moment from 'moment'
+import { RootState } from '../slices'
+import { HighlightIDOrNull } from '../slices/viewSlice'
+import { VIEW } from '../consts/view'
 
 
 const balloonIcons: Record<Category, Icon<IconOptions> | DivIcon | null> = {
@@ -140,7 +145,31 @@ const MapMarker: FC<MapMarkerProps> = (props) => {
 
   const { searchResult } = props
 
+  const { id: searchResultId } = searchResult
+
+  const [opacity, setOpacity] = useState<number>(VIEW.highlight.dark)
+
   const router = useRouter()
+  const highlightId: HighlightIDOrNull = useSelector(
+    (state: RootState) => (highlightSelector(state)),
+  )
+
+  useEffect(() => {
+
+    if (!highlightId) {
+      setOpacity(VIEW.highlight.dark)
+
+      return
+    }
+
+    if (searchResultId === highlightId) {
+      setOpacity(VIEW.highlight.dark)
+    } else {
+      setOpacity(VIEW.highlight.light)
+    }
+
+  }, [highlightId])
+
 
   const possibleEvent = searchResult as CompactEvent
 
@@ -151,6 +180,7 @@ const MapMarker: FC<MapMarkerProps> = (props) => {
       eventHandlers={{
         click: onClickOnPin(router, searchResult),
       }}
+      opacity={opacity}
     >
       <MapMarkerTooltip
         text={searchResult.title}

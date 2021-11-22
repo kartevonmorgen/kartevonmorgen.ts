@@ -1,5 +1,6 @@
 import React, { CSSProperties, FC } from 'react'
 import { NextRouter, useRouter } from 'next/router'
+import { useDispatch } from 'react-redux'
 import { List, Space, Tag } from 'antd'
 import { SearchResult } from '../dtos/SearchResult'
 import { SearchEntryID } from '../dtos/SearchEntry'
@@ -9,6 +10,7 @@ import toString from 'lodash/toString'
 import Category, { CategoryToNameMapper } from '../dtos/Categories'
 import { formatDuration } from '../utils/time'
 import moment from 'moment'
+import { viewActions } from '../slices'
 
 
 const { Item } = List
@@ -59,6 +61,8 @@ const ResultCard: FC<ResultCardProps> = (props) => {
   const { searchResult } = props
   const { id, title, tags, categories } = searchResult
 
+  const dispatch = useDispatch()
+
   // found some events with undefined description so a default value is mandatory
   let { description } = searchResult
   description = toString(description)
@@ -74,6 +78,18 @@ const ResultCard: FC<ResultCardProps> = (props) => {
     <Item
       className={`${typeName}-result-card`}
       onClick={onResultClick(router, type, id)}
+      onMouseEnter={() => {
+        dispatch(viewActions.setHighlight(id))
+      }}
+      onMouseLeave={() => {
+        dispatch(viewActions.unsetHighlight())
+      }}
+      onFocus={() => {
+        dispatch(viewActions.setHighlight(id))
+      }}
+      onBlur={() => {
+        dispatch(viewActions.unsetHighlight())
+      }}
     >
       <Item.Meta
         title={title}
