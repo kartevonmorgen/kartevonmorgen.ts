@@ -33,7 +33,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
   let fileContent: string = JSON.stringify([])
   try {
     fileContent = fs.readFileSync(
-      path.resolve(`./public/dropdowns/${group}/regions.csv`),
+      path.resolve(`./public/projects/${group}/dropdowns/regions.csv`),
       'utf8',
     )
 

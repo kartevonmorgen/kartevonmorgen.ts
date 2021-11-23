@@ -2,10 +2,17 @@ import fs from 'fs'
 import path from 'path'
 import { NextApiRequest, NextApiResponse } from 'next'
 import parseCSV from 'csv-parse/lib/sync'
-import {
-  convertNotEmptyCSVRecordsToSelectOptionsAndGroupByHeader,
-  CSVToOptionDataResponse,
-} from '../../../../../utils/csv'
+
+
+export interface LabelValue {
+  label: string
+  value: string
+}
+
+export interface MainCheckboxesResponse {
+  data: LabelValue[]
+  hasData: boolean
+}
 
 
 export default (req: NextApiRequest, res: NextApiResponse) => {
@@ -25,38 +32,34 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
   }
 
 
-  const response: CSVToOptionDataResponse = {
+  const response: MainCheckboxesResponse = {
     data: [],
     hasData: false,
   }
 
-  let fileContent: string = JSON.stringify([])
+  let records: LabelValue[] = []
   try {
-    fileContent = fs.readFileSync(
-      path.resolve(`./public/projects/${group}/dropdowns/categories.csv`),
+    const fileContent = fs.readFileSync(
+      path.resolve(`./public/projects/${group}/checkboxes/main-checkboxes.csv`),
       'utf8',
     )
 
-    response.hasData = true
-
-    const records = parseCSV(
+    records = parseCSV(
       fileContent, {
         columns: true,
         skip_empty_lines: true,
       },
     )
-
-
-    const optionData = convertNotEmptyCSVRecordsToSelectOptionsAndGroupByHeader(records)
-
-    response.data = optionData
-    response.hasData = true
-
   } catch (e) {
-
+    return res
+      .status(200)
+      .json(response)
   }
 
-  res
+  response.hasData = true
+  response.data = records
+
+  return res
     .status(200)
     .json(response)
 
