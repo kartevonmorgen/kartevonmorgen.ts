@@ -51,14 +51,30 @@ const HomeHeader: FC = () => {
           <Menu
             mode="horizontal"
           >
-            <Menu.Item><Link href={'/m/main'}>{t('landingPage.menu.map')}</Link></Menu.Item>
-            <Menu.Item><Link href="https://blog.vonmorgen.org/">{t('landingPage.menu.infos')}</Link></Menu.Item>
-            <Menu.Item><Link href={'/contact'}>{t('landingPage.menu.contact')}</Link></Menu.Item>
-            <Menu.Item><Link href="https://blog.vonmorgen.org/spenden">{t('landingPage.menu.donate')}</Link></Menu.Item>
-            <Menu.Item><Link href={'/login'}>{t('landingPage.menu.login')}</Link></Menu.Item>
+            <Menu.Item key="home-header-menu-item-map">
+              <Link href={'/m/main'}>{t('landingPage.menu.map')}</Link>
+            </Menu.Item>
+
+            <Menu.Item key="home-header-menu-item-infos">
+              <Link href="https://blog.vonmorgen.org/">{t('landingPage.menu.infos')}</Link>
+            </Menu.Item>
+
+            <Menu.Item key="home-header-menu-item-contact">
+              <Link href={'/contact'}>{t('landingPage.menu.contact')}</Link>
+            </Menu.Item>
+
+            <Menu.Item key="home-header-menu-item-donate">
+              <Link href="https://blog.vonmorgen.org/spenden">{t('landingPage.menu.donate')}</Link>
+            </Menu.Item>
+
+            <Menu.Item key="home-header-menu-item-login">
+              <Link href={'/login'}>{t('landingPage.menu.login')}</Link>
+            </Menu.Item>
+
             <Menu.SubMenu
               icon={<GlobalOutlined/>}
               title="Language"
+              key="home-header-sub-menu-locales"
             >
               {
                 locales.map(locale => (
