@@ -23,12 +23,14 @@ const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
 
   const { verb, entityId } = props
 
-  const [category, setCategory] = useState<Category>(null)
+  const [category, setCategory] = useState<Category>(Category.INITIATIVE)
   const shouldCreateANewEntity = verb === SlugVerb.CREATE
   const shouldEditAnExistingEntity = verb === SlugVerb.EDIT
 
   useEffect(() => {
-    setCategory(props.category)
+    if (props.category) {
+      setCategory(props.category)
+    }
   }, [props.category])
 
   return (
