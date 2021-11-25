@@ -18,4 +18,5 @@ export const BASICS_ENDPOINTS = {
   getCategories: (group: string): string => `${SELF_API_URL}/dropdowns/${group}/categories`,
   getRegions: (group: string): string => `${SELF_API_URL}/dropdowns/${group}/regions`,
   postEntryRating: (): string => `${BASICS_API_URL}/ratings`,
+  getMainCheckboxes: (group: string): string => `${SELF_API_URL}/checkboxes/${group}/main-checkboxes`,
 }

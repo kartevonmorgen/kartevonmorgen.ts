@@ -16,7 +16,9 @@ const searchTag = (router: NextRouter) => (tag: string) => {
   const { tag: optionalTagsFromQuery } = query
   const optionalTags = convertQueryParamToArray(optionalTagsFromQuery)
 
-  const newQueryParams = updateRoutingQuery(query, { tag: convertArrayToQueryParam([...optionalTags, tag]) })
+  const newTags = !optionalTags.includes(tag) ? [...optionalTags, tag] : optionalTags
+
+  const newQueryParams = updateRoutingQuery(query, { tag: convertArrayToQueryParam(newTags) })
   const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
 
   router.replace(
