@@ -24,9 +24,9 @@ import {
   getCityFromAddress,
   reverseGeocode,
 } from '../utils/geolocation'
-import TagsSelect from './TagsSelect'
 import { prependWebProtocol } from '../utils/utils'
 import { ENTITY_DETAIL_DESCRIPTION_LIMIT } from '../consts/texts'
+import EntityTagsFormSection from './EntityTagsFormSection'
 
 
 const { useForm } = Form
@@ -287,9 +287,7 @@ const EventForm: FC<EventFormProps> = (props) => {
         />
       </Form.Item>
 
-      <Form.Item name="tags">
-        <TagsSelect placeholder={t('entryForm.tags')}/>
-      </Form.Item>
+      <EntityTagsFormSection form={form}/>
 
       <Divider orientation="left">{t('entryForm.location')}</Divider>
 

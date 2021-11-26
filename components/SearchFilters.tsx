@@ -3,7 +3,8 @@ import { Collapse } from 'antd'
 import TypeChooser from './TypeChooser'
 import SearchTags from './SearchTags'
 import SearchRegion from './SearchRegion'
-import TagsCheckboxGroup from './TagsCheckboxGroup'
+import SearchCheckboxGroup from './SearchCheckboxGroup'
+
 
 const { Panel } = Collapse
 
@@ -31,7 +32,7 @@ const SearchFilters: FC<FiltersProps> = (props) => (
 
       <SearchRegion/>
 
-      <TagsCheckboxGroup/>
+      <SearchCheckboxGroup/>
 
     </Panel>
   </Collapse>

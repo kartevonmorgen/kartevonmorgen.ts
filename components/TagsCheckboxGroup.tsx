@@ -1,62 +1,31 @@
 import { FC } from 'react'
-import { NextRouter, useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { Checkbox, Space } from 'antd'
 import { CheckboxChangeEvent } from 'antd/lib/checkbox'
 import useRequest from '../api/useRequest'
 import { MainCheckboxesResponse } from '../pages/api/v0/checkboxes/[group]/main-checkboxes'
 import API_ENDPOINTS from '../api/endpoints'
-import { createSlugPathFromQueryAndRemoveSlug, getProjectNameFromQuery } from '../utils/slug'
-import { convertArrayToQueryParam, convertQueryParamToArray, updateRoutingQuery } from '../utils/utils'
+import { getProjectNameFromQuery } from '../utils/slug'
 
 
 const SEP = ','
 
-
-const addOrRemoveTagsFromQuery = (router: NextRouter) => (event: CheckboxChangeEvent) => {
-  const { query } = router
-  const { tag } = query
-
-  const {
-    target: {
-      checked: isCheckboxChecked,
-      value: tagsFromCheckbox,
-    },
-  } = event
-
-  //
-  const oldQueryTags: string[] = convertQueryParamToArray(tag)
-
-  let newQueryTags: string[] = []
-  if (isCheckboxChecked) {
-    newQueryTags = [...oldQueryTags]
-    tagsFromCheckbox.forEach(tag => {
-      if (!oldQueryTags.includes(tag)) {
-        newQueryTags.push(tag)
-      }
-    })
-  } else {
-    newQueryTags = oldQueryTags.filter(tag => !tagsFromCheckbox.includes(tag))
-  }
-
-  const newQueryParams = updateRoutingQuery(query, { tag: convertArrayToQueryParam(newQueryTags) })
-  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
-
-  router.replace(
-    {
-      pathname: `/m/${newPath}`,
-      query: newQueryWithoutSlug,
-    },
-    undefined,
-    { shallow: true },
+const areCheckboxValuesSelected = (valuesFromParent: string[], checkboxValues: string[]): boolean => {
+  const allCheckboxValuesAreSelectedByParent: boolean = checkboxValues.every(
+    value => valuesFromParent.includes(value),
   )
 
+  return allCheckboxValuesAreSelectedByParent
 }
 
 interface TagsCheckboxGroup {
-
+  onChange: (e: CheckboxChangeEvent) => void
+  selectedValues: string[]
 }
 
-const TagsCheckboxGroup: FC<TagsCheckboxGroup> = (_props) => {
+const TagsCheckboxGroup: FC<TagsCheckboxGroup> = (props) => {
+
+  const { onChange, selectedValues: valuesFromParent } = props
 
   const router = useRouter()
   const { query } = router
@@ -81,31 +50,42 @@ const TagsCheckboxGroup: FC<TagsCheckboxGroup> = (_props) => {
   const { data: labelValues } = data
 
   return (
-
     <div
       style={{
         marginTop: 4,
+        marginBottom: 8,
       }}
     >
       <Space
-        size="middle"
+        size="large"
         wrap
       >
         {
-          labelValues.map((labelValue) => (
-            <Checkbox
-              key={`tags-checkbox-${labelValue.label}`}
-              value={labelValue.value.split(SEP)}
-              onChange={addOrRemoveTagsFromQuery(router)}
-            >
-              {labelValue.label}
-            </Checkbox>
-          ))
+          labelValues.map((labelValue) => {
+            const checkboxValues = labelValue.value.split(SEP)
+
+            return (
+              <Checkbox
+                key={`tags-checkbox-${labelValue.label}`}
+                value={checkboxValues}
+                onChange={onChange}
+                checked={areCheckboxValuesSelected(valuesFromParent, checkboxValues)}
+              >
+                {labelValue.label}
+              </Checkbox>
+            )
+          })
         }
       </Space>
     </div>
   )
 }
 
+
+TagsCheckboxGroup.defaultProps = {
+  onChange: (e) => {
+  },
+  selectedValues: [],
+}
 
 export default TagsCheckboxGroup

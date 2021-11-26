@@ -32,9 +32,9 @@ import {
 import Category from '../dtos/Categories'
 import { entriesActions } from '../slices'
 import { renameProperties, setValuesToDefaultOrNull, transformObject } from '../utils/objects'
-import TagsSelect from './TagsSelect'
 import { prependWebProtocol } from '../utils/utils'
 import { ENTITY_DETAIL_DESCRIPTION_LIMIT } from '../consts/texts'
+import EntityTagsFormSection from './EntityTagsFormSection'
 
 
 const { useForm } = Form
@@ -266,6 +266,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
 
   const effectDeps = [...newPoint.toArray()]
 
+
   // set address information if the map marker/pin moves
   useEffect(() => {
     if (!newPoint.isEmpty()) {
@@ -373,10 +374,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
         />
       </Form.Item>
 
-      {/*add validation for the three tags*/}
-      <Form.Item name="tags">
-        <TagsSelect placeholder={t('entryForm.tags')}/>
-      </Form.Item>
+      <EntityTagsFormSection form={form}/>
 
       <Divider orientation="left">{t('entryForm.location')}</Divider>
 
