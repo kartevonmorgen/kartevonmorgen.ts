@@ -5,6 +5,10 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import MapPageConfigs from '../../../../../../dtos/MapPageConfigs'
 
 
+const getPath = (project: string = 'main'): string => {
+  return `./public/projects/${project}/config.json`
+}
+
 export default (req: NextApiRequest, res: NextApiResponse) => {
   const {
     query: { project },
@@ -21,10 +25,19 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
 
   // todo: eighter move it to env or consts
   // todo: catch the error if the file is not found
-  const fileContent = fs.readFileSync(
-    path.resolve(`./public/projects/${project}/config.json`),
-    'utf8',
-  )
+
+  let fileContent: string = ''
+  try {
+    fileContent = fs.readFileSync(
+      path.resolve(getPath(project as string)),
+      'utf8',
+    )
+  } catch (e) {
+    fileContent = fs.readFileSync(
+      path.resolve(getPath()),
+      'utf8',
+    )
+  }
   const mapPageConfigs: MapPageConfigs = JSON.parse(fileContent.toString())
 
   res
