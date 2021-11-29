@@ -4,5 +4,5 @@ export enum AvailableProjects {
 }
 
 export const config = {
-  project: AvailableProjects.DEFAULT,
-}
+    project: AvailableProjects.CO_MAP,
+};

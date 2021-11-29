@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import DefaultHomePage from '../components/HomePage'
-import CoMapHomePage from '../projects/co-map/components/HomePage'
+import CoMapHomePage from '../projects/co-map/components/CoMapHomePage'
 import { AvailableProjects, config as projectConfig } from '../project.config'
 
 

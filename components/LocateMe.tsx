@@ -5,55 +5,57 @@ import { updateRoutingQuery } from '../utils/utils'
 import AimOutlined from '@ant-design/icons/lib/icons/AimOutlined'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 import { convertLatLngToString, LatLng } from '../utils/geolocation'
+import {config} from '../project.config';
 
+export const getCurrentPosition = async (): Promise<GeolocationPosition> => {
+    return new Promise((resolve, reject) => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    resolve(position);
+                },
+                (err) => {
+                    reject(err);
+                },
+            );
+        }
+    });
+};
 
-const getCurrentPosition = async (): Promise<GeolocationPosition> => {
-  return new Promise((resolve, reject) => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          resolve(position)
-        },
-        (err) => {
-          reject(err)
-        },
-      )
-    }
-  })
-}
+export const setQueryParamsToCurrentLocation =
+    (shouldIncludeDefaultProjectName: boolean, router: NextRouter) =>
+    async () => {
+        const {query} = router;
 
+        try {
+            const currentPosition = await getCurrentPosition();
+            const center: LatLng = {
+                lat: currentPosition.coords.latitude,
+                lng: currentPosition.coords.longitude,
+            };
+            const paramsToUpdate = {
+                c: convertLatLngToString(center),
+            };
 
-const setQueryParamsToCurrentLocation = (shouldIncludeDefaultProjectName: boolean, router: NextRouter) => async () => {
-  const { query } = router
+            const newQueryParams = updateRoutingQuery(query, paramsToUpdate);
+            const [newPath, newQueryWithoutSlug] =
+                createSlugPathFromQueryAndRemoveSlug(newQueryParams);
 
-  try {
-    const currentPosition = await getCurrentPosition()
-    const center: LatLng = {
-      lat: currentPosition.coords.latitude,
-      lng: currentPosition.coords.longitude,
-    }
-    const paramsToUpdate = {
-      c: convertLatLngToString(center),
-    }
-
-    const newQueryParams = updateRoutingQuery(query, paramsToUpdate)
-    const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
-
-    const pathname: string = `/m/${shouldIncludeDefaultProjectName ? 'main' : ''}${newPath}`
-    console.log(pathname)
-
-    router.replace(
-      {
-        pathname,
-        query: newQueryWithoutSlug,
-      },
-      undefined,
-      { shallow: true },
-    )
-  } catch (e) {
-    console.error('failed to get current location: ', e)
-  }
-}
+            const pathname: string = `/m/${
+                shouldIncludeDefaultProjectName ? 'main' : config.project
+            }${newPath}`;
+            router.replace(
+                {
+                    pathname,
+                    query: newQueryWithoutSlug,
+                },
+                undefined,
+                {shallow: true},
+            );
+        } catch (e) {
+            console.error('failed to get current location: ', e);
+        }
+    };
 
 interface LocateMeProps extends ButtonProps {
   shouldIncludeDefaultProjectName?: boolean

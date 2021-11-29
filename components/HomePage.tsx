@@ -18,13 +18,9 @@ const HomePage: FC = () => {
   return (
     <div>
       <HomeEntityRedirector/>
-
       <Layout>
-
         <HomeHeader/>
-
         <Banner/>
-
         <Content
           style={{
             backgroundColor: 'white',
@@ -33,29 +29,17 @@ const HomePage: FC = () => {
           }}
         >
           <HomeContent/>
-
           <HomeDivider/>
-
           <Tutorial/>
-
           <Vision/>
-
           <HomeDivider/>
-
           <Team/>
-
           <HomeDivider/>
-
           <Creators/>
-
           <HomeDivider/>
-
           <Partners/>
-
         </Content>
-
         <Footer/>
-
       </Layout>
     </div>
   )

@@ -17,7 +17,7 @@ function ChooseDirectionSearch() {
     }
 
 
-    router.push('/maps/main?isSidebarOpen=true&' + tagsList)
+    router.push('/m/main?isSidebarOpen=true&' + tagsList)
     return
   }
 

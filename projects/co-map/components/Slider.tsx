@@ -19,14 +19,11 @@ const Slider: FC<{ API_URL: string }> = (props: { API_URL: string }) => {
   const [card, setCard] = useState([] as CardType[])
 
   useEffect(() => {
-    AxiosInstance.GetRequest(API_URL).then(res => {
-      console.log(res.data)
-      // @ts-ignore
-      setCard(res.data)
-    })
-  }, [])
-
-  console.log(card)
+      AxiosInstance.GetRequest(API_URL).then((res) => {
+          // @ts-ignore
+          setCard(res.data);
+      });
+  }, []);
 
   return (
     <div className='carousel'>

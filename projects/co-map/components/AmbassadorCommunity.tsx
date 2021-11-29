@@ -10,13 +10,19 @@ const AmbassadorCommunity: FC = () => {
     'ambassadors_count': '',
   })
 
-  if (communityParams.cities_count === '' || communityParams.ambassadors_count === '') {
-    AxiosInstance.GetRequest<{ 'cities_count': string, ambassadors_count: string }>(CO_MAP_BASICS_ENDPOINTS.getAmbassadorCommunityParams()).then(response => {
-      setCommunityParams(response.data)
-    })
+  if (
+      communityParams.cities_count === '' ||
+      communityParams.ambassadors_count === ''
+  ) {
+      AxiosInstance.GetRequest<{
+          cities_count: string;
+          ambassadors_count: string;
+      }>(CO_MAP_BASICS_ENDPOINTS.getAmbassadorCommunityParams()).then(
+          (response) => {
+              setCommunityParams(response.data);
+          },
+      );
   }
-
-  console.log(communityParams)
 
   let circleSize = 40 + 10 * Math.max(communityParams.ambassadors_count.length, communityParams.cities_count.length)
 

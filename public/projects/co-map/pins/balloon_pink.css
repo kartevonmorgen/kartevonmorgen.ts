@@ -1,0 +1,16 @@
+@charset "utf-8";
+.st0 {
+    background: -moz-linear-gradient(50% 104.5% 90deg, rgba(251, 228, 237, 1) 0%, rgba(246, 196, 215, 1) 12.85%, rgba(241, 161, 192, 1) 29.77%, rgba(236, 134, 173, 1) 46.96%, rgba(233, 115, 160, 1) 64.3%, rgba(232, 103, 152, 1) 81.86%, rgba(231, 99, 149, 1) 100%);
+    background: -webkit-linear-gradient(90deg, rgba(251, 228, 237, 1) 0%, rgba(246, 196, 215, 1) 12.85%, rgba(241, 161, 192, 1) 29.77%, rgba(236, 134, 173, 1) 46.96%, rgba(233, 115, 160, 1) 64.3%, rgba(232, 103, 152, 1) 81.86%, rgba(231, 99, 149, 1) 100%);
+    background: -webkit-gradient(linear, 50% 104.5%, 50% 4.5%, color-stop(0, rgba(251, 228, 237, 1)), color-stop(0.1285, rgba(246, 196, 215, 1)), color-stop(0.2977, rgba(241, 161, 192, 1)), color-stop(0.4696, rgba(236, 134, 173, 1)), color-stop(0.643, rgba(233, 115, 160, 1)), color-stop(0.8186, rgba(232, 103, 152, 1)), color-stop(1, rgba(231, 99, 149, 1)));
+    background: -o-linear-gradient(90deg, rgba(251, 228, 237, 1) 0%, rgba(246, 196, 215, 1) 12.85%, rgba(241, 161, 192, 1) 29.77%, rgba(236, 134, 173, 1) 46.96%, rgba(233, 115, 160, 1) 64.3%, rgba(232, 103, 152, 1) 81.86%, rgba(231, 99, 149, 1) 100%);
+    background: -ms-linear-gradient(90deg, rgba(251, 228, 237, 1) 0%, rgba(246, 196, 215, 1) 12.85%, rgba(241, 161, 192, 1) 29.77%, rgba(236, 134, 173, 1) 46.96%, rgba(233, 115, 160, 1) 64.3%, rgba(232, 103, 152, 1) 81.86%, rgba(231, 99, 149, 1) 100%);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#FBE4ED', endColorstr='#E76395' ,GradientType=0)";
+    background: linear-gradient(0deg, rgba(251, 228, 237, 1) 0%, rgba(246, 196, 215, 1) 12.85%, rgba(241, 161, 192, 1) 29.77%, rgba(236, 134, 173, 1) 46.96%, rgba(233, 115, 160, 1) 64.3%, rgba(232, 103, 152, 1) 81.86%, rgba(231, 99, 149, 1) 100%);
+    position: absolute;
+    left: 46pt;
+    top: 27pt;
+    width: 56pt;
+    height: 84pt;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E76395', endColorstr='#FBE4ED', GradientType=0);
+}

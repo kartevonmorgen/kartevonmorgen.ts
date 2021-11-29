@@ -21,55 +21,50 @@ export interface MapLocationProps {
 }
 
 const Map: FC = () => {
-
   return (
-    <MapContainer
-      center={[50.826, 10.92]}
-      zoom={7}
-      scrollWheelZoom={true}
-      style={{ height: '100%', width: '100%' }}
-      zoomControl={false}
-    >
+      <MapContainer
+          center={[50.826, 10.92]}
+          zoom={7}
+          scrollWheelZoom={true}
+          style={{height: '100%', width: '100%'}}
+          zoomControl={false}
+      >
+          <MapLocationInitializer />
 
-      <MapLocationInitializer/>
+          <MapEventsListener />
 
-      <MapEventsListener/>
+          <MapQueryParamsListener />
 
-      <MapQueryParamsListener/>
+          <SearchEventsListener />
 
-      <SearchEventsListener/>
+          <CollapseSidebarButton />
 
-      <CollapseSidebarButton/>
+          <div id="map-bottom-right-above-controller">
+              <LocateMe />
+          </div>
 
-      <div id="map-bottom-right-above-controller">
-        <LocateMe/>
-      </div>
+          <div id="map-top-right">
+              <BurgerMenu />
+          </div>
 
-      <div id="map-top-right">
-        <BurgerMenu/>
-      </div>
+          <div id="map-bottom-right-below-controller">
+              <MapSharingDropdown />
 
-      <div id="map-bottom-right-below-controller">
-        <MapSharingDropdown/>
+              <AddEntryButton shortTitle/>
+          </div>
 
-        <AddEntryButton
-          shortTitle
-        />
-      </div>
+          <ZoomControl position="bottomright" />
 
-      <ZoomControl position="bottomright"/>
+          <TileLayer
+              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
 
-      <TileLayer
-        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
+          <MapMarkers />
 
-      <MapMarkers/>
-
-      <NewMapMarker/>
-
-    </MapContainer>
-  )
+          <NewMapMarker />
+      </MapContainer>
+  );
 }
 
 

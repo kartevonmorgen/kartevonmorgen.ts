@@ -2,6 +2,7 @@ import { FC } from 'react'
 import { Button } from 'antd'
 import { NextRouter, useRouter } from 'next/router'
 import { convertQueryParamToFloat, updateRoutingQuery } from '../utils/utils'
+import useTranslation from 'next-translate/useTranslation'
 
 
 const zoomOut = (divisionFactor: number, router: NextRouter) => () => {
@@ -34,31 +35,33 @@ const SidebarZoomOutButton: FC<SidebarZoomOutButtonProps> = (props) => {
 
   const router = useRouter()
 
+  const {t} = useTranslation('map');
+  
   if (!visible) {
     return null
   }
 
   return (
-    <div
-      style={{
-        width: '100%',
-        paddingLeft: 16,
-        paddingRight: 16,
-        marginTop: 16,
-        marginBottom: 16,
-      }}
-    >
-      <Button
-        type="primary"
-        onClick={zoomOut(divisionFactor, router)}
-        style={{
-          width: '100%',
-        }}
+      <div
+          style={{
+              width: '100%',
+              paddingLeft: 16,
+              paddingRight: 16,
+              marginTop: 16,
+              marginBottom: 16,
+          }}
       >
-        Zoom Out
-      </Button>
-    </div>
-  )
+          <Button
+              type="primary"
+              onClick={zoomOut(divisionFactor, router)}
+              style={{
+                  width: '100%',
+              }}
+          >
+        {t('zoomButton')}
+          </Button>
+      </div>
+  );
 }
 
 
