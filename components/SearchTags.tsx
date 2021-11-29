@@ -1,6 +1,7 @@
-import React, { FC, Fragment, useEffect, useState } from 'react'
+import React, { FC, Fragment, useEffect, useRef, useState } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import produce from 'immer'
+import lodashIsEqual from 'lodash/isEqual'
 import {
   convertArrayToQueryParam,
   convertQueryParamToArray,
@@ -11,7 +12,7 @@ import TagsSelect from './TagsSelect'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 
 
-const searchTag = (router: NextRouter) => (tag: string) => {
+const addTagToRouter = (router: NextRouter) => (tag: string) => {
   const { query } = router
   const { tag: optionalTagsFromQuery } = query
   const optionalTags = convertQueryParamToArray(optionalTagsFromQuery)
@@ -89,6 +90,7 @@ const SearchTags: FC = (_props) => {
 
   const tagsFromURL: string[] = convertQueryParamToArray(tagQueryParam)
 
+
   // the ant select uses useLayout internally and we need to be sure it's mounted on the browser
   const [showSelect, setShowSelect] = useState<boolean>(false)
   useEffect(() => {
@@ -96,9 +98,13 @@ const SearchTags: FC = (_props) => {
   }, [])
 
   const [selectedTags, setSelectedTags] = useState<string[]>([''])
+  const selectedTagsRef = useRef<string[]>([''])
   useEffect(() => {
-    setSelectedTags(tagsFromURL)
-  }, [])
+    if (!lodashIsEqual(selectedTagsRef.current, tagsFromURL)) {
+      selectedTagsRef.current = tagsFromURL
+      setSelectedTags(tagsFromURL)
+    }
+  }, [tagsFromURL])
 
 
   return (
@@ -111,8 +117,8 @@ const SearchTags: FC = (_props) => {
         >
           <TagsSelect
             placeholder="Search for tags"
-            defaultValue={selectedTags}
-            onSelect={searchTag(router)}
+            value={selectedTags}
+            onSelect={addTagToRouter(router)}
             onDeselect={removeTagFromRouter(router)}
             onClear={removeAllTagsFromRouter(router)}
           />

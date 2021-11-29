@@ -28,11 +28,11 @@ const SearchFilters: FC<FiltersProps> = (props) => (
 
       <TypeChooser/>
 
+      <SearchCheckboxGroup/>
+
       <SearchTags/>
 
       <SearchRegion/>
-
-      <SearchCheckboxGroup/>
 
     </Panel>
   </Collapse>
