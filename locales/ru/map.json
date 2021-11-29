@@ -5,6 +5,8 @@
             "event": "Событие",
             "company": "Организация"
         },
+        "addField": "Добавить поле",
+        "removeField": "Удалить",
         "duration": "Выберите необходимую продолжительность",
         "chooseCategory": "Выберите категорию",
         "location": "Расположение",
@@ -15,11 +17,11 @@
         "licenseAccepted": ".",
         "license": "Лицензия",
         "title": "Заголовок",
-        "start": "Начать",
+        "start": "Начало",
         "end": "Конец",
         "description": "Описание",
         "keepDescriptionShort": "Сокращайте! Пользователи не любят так много читать. По умолчанию отображается 250 символов максимум.",
-        "tags": "Теги, чтобы найти это место",
+        "tags": "Тэги, чтобы найти это место",
         "newTag": "Новый:",
         "noTagSuggestion": "Ввод предложений.",
         "tagsLoading": "Загрузка предложений ...",
@@ -57,10 +59,10 @@
         "invalidLatitude": "Неверная широта",
         "invalidLongitude": "Неверная долгота",
         "invalidCategory": "Недействительная категория",
-        "invalidTags": "Недействительные теги",
+        "invalidTags": "Недействительные тэги",
         "invalidTelephone": "Неверный номер телефона",
         "invalidEmail": "Недействительный адрес электронной почты",
-        "minNumCharactersTags": "пожалуйста, предоставьте теги минимум из 3 символов",
+        "minNumCharactersTags": "пожалуйста, предоставьте тэги минимум из 3 символов",
         "acceptLicense": "Пожалуйста, примите лицензию",
         "invalidLicenseAgreement": "Недействительное лицензионное соглашение",
         "invalidURL": "неправильный адрес",
@@ -278,12 +280,12 @@
         "serverVersion": "Версия сервера:"
     },
     "category": {
-        "initiative": "Инициатива",
+        "initiative": "Проект",
         "event": "Событие",
-        "company": "Предприятие"
+        "company": "Организация"
     },
     "searchbar": {
-        "placeholder": "Что вы ищете? (# для тегов)"
+        "placeholder": "Что вы ищете? (# для тэгов)"
     },
     "searchFilters": {
         "selectRegion": "Искать в регионе",
@@ -354,7 +356,7 @@
         "subscribe": {
             "enterEmail": "Пожалуйста введите ваш Email",
             "errorEmail": "Введеный email не действителен",
-            "enterTags": "Пожалуйста выберите теги которые вы хотите отслеживать",
+            "enterTags": "Пожалуйста выберите тэги которые вы хотите отслеживать",
             "errorTags": "Выберите как минимум один тег",
             "enterFrequency": {
                 "question": "Пожалуйста выберите частоту обновлений",
@@ -389,5 +391,8 @@
     },
     "searchPlaceholder": "введите текст для поиска",
     "zoomButton": "Отдалить карту",
-    "addEntry": "Добавить"
+    "addEntry": "Добавить",
+    "categoryPlaceholder": "Выберите категорию",
+    "searchForTagsPlaceholder": "Искать по тэгам",
+    "searchForRegionPlaceholder": "Искать по региону"
 }

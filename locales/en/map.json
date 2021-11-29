@@ -5,6 +5,8 @@
             "event": "Event",
             "company": "Enterprise (shops, services & needs)"
         },
+        "addField": "Add Field",
+        "removeField": "Remove",
         "chooseCategory": "Select category",
         "location": "Location",
         "clickMap": "(click on the map)",
@@ -357,5 +359,8 @@
     },
     "searchPlaceholder": "input search text",
     "zoomButton": "Zoom Out",
-    "addEntry": "Add"
+    "addEntry": "Add",
+    "categoryPlaceholder": "Category",
+    "searchForTagsPlaceholder": "Search for tags",
+    "searchForRegionPlaceholder": "Search for region"
 }
