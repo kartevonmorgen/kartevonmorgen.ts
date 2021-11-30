@@ -53,7 +53,7 @@ const AddEntryButton: FC<AddEntryButtonProps> = (props) => {
   const router = useRouter()
 
   const { t } = useTranslation('map')
-  const title: string = shortTitle ? 'Add' : t('resultlist.addEntry')
+  const title: string = shortTitle ? t('addEntry') : t('resultlist.addEntry');
 
 
   return (

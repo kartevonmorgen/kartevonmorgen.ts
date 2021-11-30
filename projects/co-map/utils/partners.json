@@ -1,0 +1,51 @@
+[
+  {
+    "imageURL": "/projects/co-map/assets/img/partners_co_map/AIESEC-New-Logo1.png",
+    "siteURL": "https://aiesec.ru/",
+    "w": "120",
+    "h": "0",
+    "alt": "AIESEC"
+  },
+  {
+    "imageURL": "/projects/co-map/assets/img/partners_co_map/RED-Moscow-Up-and-Running-DG-3.png",
+    "siteURL": "https://impacthub.net/",
+    "w": "170",
+    "h": "50",
+    "alt": "Impact hub"
+  },
+  {
+    "imageURL": "/projects/co-map/assets/img/partners_co_map/gladway.png",
+    "siteURL": "http://www.gladway.ru/",
+    "w": "180",
+    "h": "70",
+    "alt": "Gladway"
+  },
+  {
+    "imageURL": "/projects/co-map/assets/img/partners_co_map/kvm_logo.png",
+    "siteURL": "https://kartevonmorgen.org",
+    "w": "180",
+    "h": "70",
+    "alt": "Kartevonmorgen"
+  },
+  {
+    "imageURL": "/projects/co-map/assets/img/partners_co_map/big-catalog-16212842451.png",
+    "siteURL": "https://xn----htbbc4anafbkmm.xn--p1ai/",
+    "w": "70",
+    "h": "50",
+    "alt": "Простое Дело"
+  },
+  {
+    "imageURL": "/projects/co-map/assets/img/partners_co_map/SOLlogo-SMALL.jpg",
+    "siteURL": "http://s-ol.ru",
+    "w": "120",
+    "h": "80",
+    "alt": "Цсио"
+  },
+  {
+    "imageURL": "/projects/co-map/assets/img/partners_co_map/weChange.png",
+    "siteURL": "https://wechange.de/",
+    "w": "140",
+    "h": "0",
+    "alt": "weChange"
+  }
+]

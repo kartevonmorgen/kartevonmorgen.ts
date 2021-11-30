@@ -1,0 +1,20 @@
+[
+    {
+        "link": "/",
+        "title": "home",
+        "icon": "home",
+        "policy": "self"
+    },
+    {
+        "link": "/mappinginstructions/",
+        "title": "docs",
+        "icon": "info-circle",
+        "policy": "newTab"
+    },
+    {
+        "link": "/?moveToId=team_co_map",
+        "title": "contact",
+        "icon": "headset",
+        "policy": "newTab"
+    }
+]

@@ -1,0 +1,16 @@
+@charset "utf-8";
+.st0 {
+    background: -moz-linear-gradient(50% 104.5% 90deg, rgba(240, 246, 223, 1) 0%, rgba(240, 246, 222, 1) 0.25%, rgba(216, 232, 172, 1) 14.01%, rgba(195, 220, 129, 1) 28.01%, rgba(179, 210, 93, 1) 42.1%, rgba(166, 203, 66, 1) 56.28%, rgba(156, 197, 47, 1) 70.57%, rgba(151, 194, 35, 1) 85.05%, rgba(149, 193, 31, 1) 100%, rgba(0, 0, 0, 1) 100%);
+    background: -webkit-linear-gradient(90deg, rgba(240, 246, 223, 1) 0%, rgba(240, 246, 222, 1) 0.25%, rgba(216, 232, 172, 1) 14.01%, rgba(195, 220, 129, 1) 28.01%, rgba(179, 210, 93, 1) 42.1%, rgba(166, 203, 66, 1) 56.28%, rgba(156, 197, 47, 1) 70.57%, rgba(151, 194, 35, 1) 85.05%, rgba(149, 193, 31, 1) 100%, rgba(0, 0, 0, 1) 100%);
+    background: -webkit-gradient(linear, 50% 104.5%, 50% 4.5%, color-stop(0, rgba(240, 246, 223, 1)), color-stop(0.0025, rgba(240, 246, 222, 1)), color-stop(0.1401, rgba(216, 232, 172, 1)), color-stop(0.2801, rgba(195, 220, 129, 1)), color-stop(0.421, rgba(179, 210, 93, 1)), color-stop(0.5628, rgba(166, 203, 66, 1)), color-stop(0.7057, rgba(156, 197, 47, 1)), color-stop(0.8505, rgba(151, 194, 35, 1)), color-stop(1, rgba(149, 193, 31, 1)), color-stop(1, rgba(0, 0, 0, 1)));
+    background: -o-linear-gradient(90deg, rgba(240, 246, 223, 1) 0%, rgba(240, 246, 222, 1) 0.25%, rgba(216, 232, 172, 1) 14.01%, rgba(195, 220, 129, 1) 28.01%, rgba(179, 210, 93, 1) 42.1%, rgba(166, 203, 66, 1) 56.28%, rgba(156, 197, 47, 1) 70.57%, rgba(151, 194, 35, 1) 85.05%, rgba(149, 193, 31, 1) 100%, rgba(0, 0, 0, 1) 100%);
+    background: -ms-linear-gradient(90deg, rgba(240, 246, 223, 1) 0%, rgba(240, 246, 222, 1) 0.25%, rgba(216, 232, 172, 1) 14.01%, rgba(195, 220, 129, 1) 28.01%, rgba(179, 210, 93, 1) 42.1%, rgba(166, 203, 66, 1) 56.28%, rgba(156, 197, 47, 1) 70.57%, rgba(151, 194, 35, 1) 85.05%, rgba(149, 193, 31, 1) 100%, rgba(0, 0, 0, 1) 100%);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#F0F6DF', endColorstr='#000000' ,GradientType=0)";
+    background: linear-gradient(0deg, rgba(240, 246, 223, 1) 0%, rgba(240, 246, 222, 1) 0.25%, rgba(216, 232, 172, 1) 14.01%, rgba(195, 220, 129, 1) 28.01%, rgba(179, 210, 93, 1) 42.1%, rgba(166, 203, 66, 1) 56.28%, rgba(156, 197, 47, 1) 70.57%, rgba(151, 194, 35, 1) 85.05%, rgba(149, 193, 31, 1) 100%, rgba(0, 0, 0, 1) 100%);
+    position: absolute;
+    left: 46pt;
+    top: 27pt;
+    width: 56pt;
+    height: 84pt;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#F0F6DF', GradientType=0);
+}

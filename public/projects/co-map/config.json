@@ -1,0 +1,12 @@
+{
+    "map": {
+        "location": {
+            "lat": 55.81,
+            "lng": 37.03,
+            "zoom": 7
+        }
+    },
+    "popularTags": {
+        "min_count": 50
+    }
+}

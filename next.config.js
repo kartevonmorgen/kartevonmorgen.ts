@@ -6,68 +6,57 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 
 module.exports = nextTranslate(
-  withBundleAnalyzer({
-    future: {
-      webpack5: true,
-    },
+    withBundleAnalyzer({
+        future: {
+            webpack5: true,
+        },
 
-    webpack: (config, _options) => {
-      config.plugins.push(
-        new MomentLocalesPlugin({
-          localesToKeep: [
-            'en',
-            'de',
-            'es',
-            'pt',
-          ],
-        }),
-      )
+        webpack: (config, _options) => {
+            config.plugins.push(
+                new MomentLocalesPlugin({
+                    localesToKeep: ['en', 'de', 'es', 'pt', 'ru'],
+                }),
+            );
 
-      return config
-    },
+            config.resolve.fallback = {fs: false};
 
-    redirects: async () => ([
-      {
-        source: '/maps',
-        destination: '/m/main',
-        permanent: true,
-      },
-      {
-        source: '/m',
-        destination: '/m/main',
-        permanent: true,
-      },
-      {
-        source: '/t',
-        destination: '/t/main',
-        permanent: true,
-      },
-      {
-        source: '/tables',
-        destination: '/t/main',
-        permanent: true,
-      },
-      {
-        source: '/tables/:path*',
-        destination: '/t/:path*',
-        permanent: true,
-      },
-    ]),
+            return config;
+        },
 
-    i18n: {
-      locales: [
-        'en',
-        'de',
-        'fr',
-        'nl',
-        'es',
-        'ru',
-      ],
+        redirects: async () => [
+            {
+                source: '/maps',
+                destination: '/m/main',
+                permanent: true,
+            },
+            {
+                source: '/m',
+                destination: '/m/main',
+                permanent: true,
+            },
+            {
+                source: '/t',
+                destination: '/t/main',
+                permanent: true,
+            },
+            {
+                source: '/tables',
+                destination: '/t/main',
+                permanent: true,
+            },
+            {
+                source: '/tables/:path*',
+                destination: '/t/:path*',
+                permanent: true,
+            },
+        ],
 
-      defaultLocale: 'de',
-    },
+        i18n: {
+            locales: ['en', 'de', 'fr', 'nl', 'es', 'ru'],
 
-    cssModules: true,
+            defaultLocale: 'ru',
+        },
 
-  }),
-)
+        cssModules: true,
+    }),
+);
