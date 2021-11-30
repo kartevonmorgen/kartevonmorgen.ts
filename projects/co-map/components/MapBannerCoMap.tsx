@@ -9,7 +9,7 @@ const { Title } = Typography
 
 const openMapByClickingOnTheBackground = (router: NextRouter) => (e: MouseEvent<HTMLDivElement>) => {
   if (e.currentTarget === e.target) {
-    router.push('/maps/main')
+    router.push('/m/co-map')
   }
 }
 

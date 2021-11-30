@@ -10,6 +10,7 @@ import {
 } from '../utils/utils'
 import TagsSelect from './TagsSelect'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
+import useTranslation from 'next-translate/useTranslation'
 
 
 const addTagToRouter = (router: NextRouter) => (tag: string) => {
@@ -88,6 +89,8 @@ const SearchTags: FC = (_props) => {
     },
   } = router
 
+  const {t} = useTranslation('map');
+  
   const tagsFromURL: string[] = convertQueryParamToArray(tagQueryParam)
 
 
@@ -108,24 +111,26 @@ const SearchTags: FC = (_props) => {
 
 
   return (
-    <Fragment>
-      {showSelect && (
-        <div
-          style={{
-            marginTop: 8,
-          }}
-        >
-          <TagsSelect
-            placeholder="Search for tags"
-            value={selectedTags}
-            onSelect={addTagToRouter(router)}
-            onDeselect={removeTagFromRouter(router)}
-            onClear={removeAllTagsFromRouter(router)}
-          />
-        </div>
-      )}
-    </Fragment>
-  )
+      <Fragment>
+          {showSelect && (
+              <div
+                  style={{
+                      marginTop: 8,
+                  }}
+              >
+                  <TagsSelect
+                      placeholder={
+                          t('searchForTagsPlaceholder') || 'Search for tags'
+                      }
+                      value={selectedTags}
+                      onSelect={addTagToRouter(router)}
+                      onDeselect={removeTagFromRouter(router)}
+                      onClear={removeAllTagsFromRouter(router)}
+                  />
+              </div>
+          )}
+      </Fragment>
+  );
 }
 
 SearchTags.defaultProps = {

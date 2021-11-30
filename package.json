@@ -58,6 +58,7 @@
     "react-redux": "^7.2.2",
     "react-virtualized": "^9.22.3",
     "redux": "^4.0.5",
+    "sass": "^1.43.5",
     "sqlite3": "^5.0.2",
     "styled-components": "^5.2.3",
     "styled-jsx": "^3.4.4",
