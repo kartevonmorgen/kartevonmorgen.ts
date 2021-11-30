@@ -83,8 +83,4 @@ export default css.global`
     .event-circle-marker {
         fill: ${EVENT_COLOR};
     }
-    .leaflet-div-icon {
-        border: none;
-        background: none;
-    }
 `;

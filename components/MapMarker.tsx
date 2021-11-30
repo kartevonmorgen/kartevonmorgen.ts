@@ -53,8 +53,9 @@ const getCircleIcon = (typeId: Category): Icon<IconOptions> | DivIcon => {
   const categoryName = CategoryToNameMapper[typeId]
 
   const icon = divIcon({
-    iconSize: new Point(20, 20),
-    html: `
+      iconSize: new Point(20, 20),
+      className: '.leaflet-div-icon.transparent',
+      html: `
           <svg height="20" width="20">
              <circle
                class="${categoryName}-circle-marker"
@@ -67,7 +68,7 @@ const getCircleIcon = (typeId: Category): Icon<IconOptions> | DivIcon => {
              />
           </svg>
         `,
-  })
+  });
 
   return icon
 }
