@@ -27,6 +27,7 @@ import {
 import { prependWebProtocol } from '../utils/utils'
 import { ENTITY_DETAIL_DESCRIPTION_LIMIT } from '../consts/texts'
 import EntityTagsFormSection from './EntityTagsFormSection'
+import TagsSelect from './TagsSelect'
 
 
 const { useForm } = Form
@@ -234,7 +235,6 @@ const EventForm: FC<EventFormProps> = (props) => {
               <Input disabled />
           </Form.Item>
 
-      <EntityTagsFormSection form={form}/>
           <Form.Item
               name="title"
               rules={[
