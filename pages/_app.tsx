@@ -6,7 +6,7 @@ import '../utils/icons/font-awesome'
 import Layout from '../components/Layout'
 import GlobalLocale from '../components/GlobalLocale'
 import 'antd/dist/antd.min.css'
-import '../styles/globals.scss'
+import '../styles/globals.css'
 
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => {

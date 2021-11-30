@@ -27,7 +27,6 @@ import {
 import { prependWebProtocol } from '../utils/utils'
 import { ENTITY_DETAIL_DESCRIPTION_LIMIT } from '../consts/texts'
 import EntityTagsFormSection from './EntityTagsFormSection'
-import TagsSelect from './TagsSelect'
 
 
 const { useForm } = Form
@@ -222,290 +221,284 @@ const EventForm: FC<EventFormProps> = (props) => {
 
 
   return (
-      <Form
-          size="middle"
-          style={{
-              marginTop: 8,
-          }}
-          initialValues={formInitialValues}
-          onFinish={onFinish(router, dispatch, isEdit)}
-          form={form}
+    <Form
+      size="middle"
+      style={{
+        marginTop: 8,
+      }}
+      initialValues={formInitialValues}
+      onFinish={onFinish(
+        router,
+        dispatch,
+        isEdit,
+      )}
+      form={form}
+    >
+
+      <Form.Item name="id" hidden>
+        <Input disabled/>
+      </Form.Item>
+
+      <Form.Item
+        name="title"
+        rules={[
+          { required: true, message: t('entryForm.requiredField') },
+          { min: 3, message: t('entryForm.titleTooShort') },
+        ]}
       >
-          <Form.Item name="id" hidden>
-              <Input disabled />
-          </Form.Item>
+        <Input placeholder={t('entryForm.title')}/>
+      </Form.Item>
 
+      <Form.Item
+        name="duration"
+        rules={[
+          { required: true, message: t('entryForm.requiredField') },
+        ]}
+      >
+        <RangePicker
+          showTime={{ format: 'HH:mm' }}
+          format="YYYY-MM-DD HH:mm"
+          style={{ width: '100%' }}
+          placeholder={[t('entryForm.start'), t('entryForm.end')]}
+        />
+      </Form.Item>
+
+      <Form.Item
+        name="description"
+        rules={[
+          {
+            required: true,
+            message: t('entryForm.requiredField'),
+          },
+          {
+            max: 250,
+            message: t('entryForm.keepDescriptionShort', { limit: ENTITY_DETAIL_DESCRIPTION_LIMIT }),
+            warningOnly: true,
+          },
+          {
+            min: 10,
+            message: `${t('entryForm.descriptionTooShort')} ${t('entryForm.minNumCharactersDescription')}`,
+          },
+        ]}
+      >
+        <TextArea
+          showCount
+          placeholder={t('entryForm.description')}
+        />
+      </Form.Item>
+
+      <EntityTagsFormSection form={form}/>
+
+      <Divider orientation="left">{t('entryForm.location')}</Divider>
+
+      <Form.Item>
+        <Input.Group compact>
           <Form.Item
-              name="title"
-              rules={[
-                  {required: true, message: t('entryForm.requiredField')},
-                  {min: 3, message: t('entryForm.titleTooShort')},
-              ]}
+            name={'city'}
+            noStyle
           >
-              <Input placeholder={t('entryForm.title')} />
-          </Form.Item>
-
-          <Form.Item
-              name="duration"
-              rules={[{required: true, message: t('entryForm.requiredField')}]}
-          >
-              <RangePicker
-                  showTime={{format: 'HH:mm'}}
-                  format="YYYY-MM-DD HH:mm"
-                  style={{width: '100%'}}
-                  placeholder={[t('entryForm.start'), t('entryForm.end')]}
-              />
-          </Form.Item>
-
-          <Form.Item
-              name="description"
-              rules={[
-                  {
-                      required: true,
-                      message: t('entryForm.requiredField'),
-                  },
-                  {
-                      max: 250,
-                      message: t('entryForm.keepDescriptionShort', {
-                          limit: ENTITY_DETAIL_DESCRIPTION_LIMIT,
-                      }),
-                      warningOnly: true,
-                  },
-                  {
-                      min: 10,
-                      message: `${t('entryForm.descriptionTooShort')} ${t(
-                          'entryForm.minNumCharactersDescription',
-                      )}`,
-                  },
-              ]}
-          >
-              <TextArea showCount placeholder={t('entryForm.description')} />
-          </Form.Item>
-
-          <Form.Item name="tags">
-              <TagsSelect placeholder={t('entryForm.tags')} />
-          </Form.Item>
-
-          <Divider orientation="left">{t('entryForm.location')}</Divider>
-
-          <Form.Item>
-              <Input.Group compact>
-                  <Form.Item name={'city'} noStyle>
-                      <Input
-                          style={{width: '50%'}}
-                          placeholder={t('entryForm.city')}
-                          onBlur={() => {
-                              addTouchedAddressFieldName(
-                                  setTouchedAddressFields,
-                                  'city',
-                              );
-                              flyToFormAddressAndSetNewPin(router, form).then();
-                          }}
-                      />
-                  </Form.Item>
-                  <Form.Item name={'zip'} noStyle>
-                      <Input
-                          style={{width: '50%'}}
-                          placeholder={t('entryForm.zip')}
-                          onBlur={() => {
-                              addTouchedAddressFieldName(
-                                  setTouchedAddressFields,
-                                  'zip',
-                              );
-                              flyToFormAddressAndSetNewPin(router, form).then();
-                          }}
-                      />
-                  </Form.Item>
-              </Input.Group>
-          </Form.Item>
-
-          <Form.Item name="country" hidden />
-
-          <Form.Item name="state" hidden />
-
-          <Form.Item name="street">
-              <Input
-                  placeholder={t('entryForm.street')}
-                  onBlur={() => {
-                      addTouchedAddressFieldName(
-                          setTouchedAddressFields,
-                          'street',
-                      );
-                      flyToFormAddressAndSetNewPin(router, form).then();
-                  }}
-              />
-          </Form.Item>
-
-          <Form.Item
-              name="lat"
-              style={{
-                  display: 'inline-block',
-                  width: '50%',
+            <Input
+              style={{ width: '50%' }}
+              placeholder={t('entryForm.city')}
+              onBlur={() => {
+                addTouchedAddressFieldName(setTouchedAddressFields, 'city')
+                flyToFormAddressAndSetNewPin(router, form).then()
               }}
-          >
-              <Input placeholder="Latitude" disabled />
+            />
           </Form.Item>
-
           <Form.Item
-              name="lng"
-              style={{
-                  display: 'inline-block',
-                  width: '50%',
+            name={'zip'}
+            noStyle
+          >
+            <Input
+              style={{ width: '50%' }}
+              placeholder={t('entryForm.zip')}
+              onBlur={() => {
+                addTouchedAddressFieldName(setTouchedAddressFields, 'zip')
+                flyToFormAddressAndSetNewPin(router, form).then()
               }}
-          >
-              <Input placeholder="Longitude" disabled />
+            />
           </Form.Item>
+        </Input.Group>
+      </Form.Item>
 
-          <Divider orientation="left">{t('entryForm.contact')}</Divider>
+      <Form.Item name="country" hidden/>
 
-          <Form.Item name="contact">
-              <Input
-                  placeholder={t('entryForm.contactPerson')}
-                  prefix={<FontAwesomeIcon icon="user" />}
-              />
-          </Form.Item>
+      <Form.Item name="state" hidden/>
 
-          <Form.Item name="telephone">
-              <Input
-                  placeholder={t('entryForm.phone')}
-                  prefix={<FontAwesomeIcon icon="phone" />}
-              />
-          </Form.Item>
+      <Form.Item name="street">
+        <Input
+          placeholder={t('entryForm.street')}
+          onBlur={() => {
+            addTouchedAddressFieldName(setTouchedAddressFields, 'street')
+            flyToFormAddressAndSetNewPin(router, form).then()
+          }}
+        />
+      </Form.Item>
 
-          <Form.Item
-              name="email"
-              rules={[
-                  {
-                      validator: (_, value) => {
-                          if (!value) {
-                              return Promise.resolve();
-                          }
+      <Form.Item
+        name="lat"
+        style={{
+          display: 'inline-block',
+          width: '50%',
+        }}
+      >
+        <Input placeholder="Latitude" disabled/>
+      </Form.Item>
 
-                          const trimmedValue: string = value.trim();
+      <Form.Item
+        name="lng"
+        style={{
+          display: 'inline-block',
+          width: '50%',
+        }}
+      >
+        <Input placeholder="Longitude" disabled/>
+      </Form.Item>
 
-                          if (validateEmail(trimmedValue)) {
-                              return Promise.resolve();
-                          }
+      <Divider orientation="left">{t('entryForm.contact')}</Divider>
 
-                          return Promise.reject(new Error('not a valid email'));
-                      },
-                  },
-              ]}
-          >
-              <Input
-                  placeholder={t('entryForm.email')}
-                  prefix={<FontAwesomeIcon icon="envelope" />}
-              />
-          </Form.Item>
+      <Form.Item name="contact">
+        <Input
+          placeholder={t('entryForm.contactPerson')}
+          prefix={<FontAwesomeIcon icon="user"/>}
+        />
+      </Form.Item>
 
-          <Form.Item
-              name="homepage"
-              rules={[
-                  {
-                      validator: (_, value) => {
-                          if (!value) {
-                              return Promise.resolve();
-                          }
+      <Form.Item name="telephone">
+        <Input
+          placeholder={t('entryForm.phone')}
+          prefix={<FontAwesomeIcon icon="phone"/>}
+        />
+      </Form.Item>
 
-                          const trimmedValue: string = value.trim();
-                          const valueWithWebProtocol: string =
-                              prependWebProtocol(trimmedValue);
+      <Form.Item
+        name="email"
+        rules={[
+          {
+            validator: (_, value) => {
+              if (!value) {
+                return Promise.resolve()
+              }
 
-                          if (isWebUri(valueWithWebProtocol)) {
-                              return Promise.resolve();
-                          }
+              const trimmedValue: string = value.trim()
 
-                          return Promise.reject(new Error('not a valid url'));
-                      },
-                  },
-              ]}
-          >
-              <Input
-                  placeholder={t('entryForm.homepage')}
-                  prefix={<FontAwesomeIcon icon="globe" />}
-              />
-          </Form.Item>
+              if (validateEmail(trimmedValue)) {
+                return Promise.resolve()
+              }
 
-          <Form.Item name="created_by" hidden>
-              <Input disabled />
-          </Form.Item>
+              return Promise.reject(new Error('not a valid email'))
+            },
+          },
+        ]}
+      >
+        <Input
+          placeholder={t('entryForm.email')}
+          prefix={<FontAwesomeIcon icon="envelope"/>}
+        />
+      </Form.Item>
 
-          <Form.Item name="organizer">
-              <Input
-                  placeholder={t('entryForm.contactPerson')}
-                  prefix={<FontAwesomeIcon icon="user" />}
-              />
-          </Form.Item>
+      <Form.Item
+        name="homepage"
+        rules={[
+          {
+            validator: (_, value) => {
+              if (!value) {
+                return Promise.resolve()
+              }
 
-          <Form.Item name="registration" hidden>
-              <Input disabled />
-          </Form.Item>
+              const trimmedValue: string = value.trim()
+              const valueWithWebProtocol: string = prependWebProtocol(trimmedValue)
 
-          <Divider orientation="left">{t('entryForm.entryImage')}</Divider>
+              if (isWebUri(valueWithWebProtocol)) {
+                return Promise.resolve()
+              }
 
-          <Form.Item name="image_url">
-              <Input
-                  placeholder={t('entryForm.imageUrl')}
-                  prefix={<FontAwesomeIcon icon="camera" />}
-              />
-          </Form.Item>
+              return Promise.reject(new Error('not a valid url'))
+            },
+          },
+        ]}
+      >
+        <Input
+          placeholder={t('entryForm.homepage')}
+          prefix={<FontAwesomeIcon icon="globe"/>}
+        />
+      </Form.Item>
 
-          <Form.Item name="image_link_url">
-              <Input
-                  placeholder={t('entryForm.imageLink')}
-                  prefix={<FontAwesomeIcon icon="link" />}
-              />
-          </Form.Item>
+      <Form.Item name="created_by" hidden>
+        <Input disabled/>
+      </Form.Item>
 
-          <Divider orientation="left">{t('entryForm.license')}</Divider>
+      <Form.Item name="organizer">
+        <Input
+          placeholder={t('entryForm.contactPerson')}
+          prefix={<FontAwesomeIcon icon="user"/>}
+        />
+      </Form.Item>
 
-          <Form.Item
-              name="license"
-              rules={[{required: true, message: t('entryForm.requiredField')}]}
-              valuePropName="value"
-          >
-              {/*it's necessary to catch the value of the checkbox, but the out come will be a list*/}
-              {/*so we should grab the first element*/}
-              <Checkbox.Group
-                  options={[
-                      {
-                          label: (
-                              <Fragment>
-                                  {t('entryForm.iHaveRead')}&nbsp;
-                                  <Link
-                                      href={
-                                          process.env
-                                              .NEXT_PUBLIC_SELF_DOMAIN ===
-                                          'https://co-map.ru'
-                                              ? process.env
-                                                    .NEXT_PUBLIC_CC_LINK_RU
-                                              : process.env.NEXT_PUBLIC_CC_LINK
-                                      }
-                                      target="_blank"
-                                  >
-                                      {t('entryForm.creativeCommonsLicense')}
-                                      &nbsp;
-                                  </Link>
-                                  {t('entryForm.licenseAccepted')}
-                              </Fragment>
-                          ),
-                          value: 'CC0-1.0',
-                      },
-                  ]}
-              />
-          </Form.Item>
+      <Form.Item name="registration" hidden>
+        <Input disabled/>
+      </Form.Item>
 
-          <Button
-              type="primary"
-              htmlType="submit"
-              style={{
-                  width: '100%',
-              }}
-          >
-              {t('entryForm.save')}
-          </Button>
-      </Form>
-  );
+      <Divider orientation="left">{t('entryForm.entryImage')}</Divider>
+
+      <Form.Item name="image_url">
+        <Input
+          placeholder={t('entryForm.imageUrl')}
+          prefix={<FontAwesomeIcon icon="camera"/>}
+        />
+      </Form.Item>
+
+      <Form.Item name="image_link_url">
+        <Input
+          placeholder={t('entryForm.imageLink')}
+          prefix={<FontAwesomeIcon icon="link"/>}
+        />
+      </Form.Item>
+
+      <Divider orientation="left">{t('entryForm.license')}</Divider>
+
+      <Form.Item
+        name="license"
+        rules={[
+          { required: true, message: t('entryForm.requiredField') },
+        ]}
+        valuePropName="value"
+      >
+        {/*it's necessary to catch the value of the checkbox, but the out come will be a list*/}
+        {/*so we should grab the first element*/}
+        <Checkbox.Group
+          options={[
+            {
+              label: <Fragment>
+                {t('entryForm.iHaveRead')}&nbsp;
+                <Link
+                  href={process.env.NEXT_PUBLIC_CC_LINK}
+                  target="_blank"
+                >
+                  {t('entryForm.creativeCommonsLicense')}&nbsp;
+                </Link>
+                {t('entryForm.licenseAccepted')}
+              </Fragment>,
+              value: 'CC0-1.0',
+            },
+          ]}
+        />
+      </Form.Item>
+
+
+      <Button
+        type="primary"
+        htmlType="submit"
+        style={{
+          width: '100%',
+        }}
+      >
+        {t('entryForm.save')}
+      </Button>
+
+    </Form>
+  )
 }
 
 export default EventForm

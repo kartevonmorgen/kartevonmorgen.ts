@@ -1,307 +1,299 @@
 {
-    "entryForm": {
-        "addField": "Add Field",
-        "removeField": "Remove",
-        "chooseCategory": "Escolher categoria",
-        "location": "Lugar",
-        "clickMap": "(ou clicar no mapa)",
-        "contact": "Contato",
-        "iHaveRead": "Eu li",
-        "creativeCommonsLicense": "os regulamentos de licença Creative-Commons CC0",
-        "openDatabaseLicense": "Regulamentos de licença OpenDatabase ",
-        "licenseAccepted": "eu aceito",
-        "license": "Licença",
-        "title": "Titúlo",
-        "description": "Descrição",
-        "tags": "Palavra-Chave(vírgula separada)",
-        "homepage": "Website",
-        "phone": "Telefone",
-        "street": "Rua & Numero",
-        "city": "Cidade",
-        "zip": "CEP",
-        "email": "Email",
-        "clickOnMap": "ou, clicar no mapa...",
-        "optionalContact": "Contato (opcional)",
-        "cancel": "Cancelar",
-        "save": "Salvar",
-        "editEntryHeading": "Editar item",
-        "newEntryHeading": "Novo item",
-        "savingError": "o item não pode ser salvo",
-        "valueError": "Por favor, verifique o requerimento.",
-        "requiredField": "Campo obrigatório",
-        "titleTooLong": "Título muito longo",
-        "titleTooShort": "Título muito curto",
-        "maxNumCharactersTitle": "no máximo 50 caracteres",
-        "minNumCharactersTitle": "no minimo 3 caracteres",
-        "invalidValues": "Dados inválidos",
-        "descriptionTooLong": "Descrição muito longa",
-        "descriptionTooShort": "Descrição muito curta",
-        "maxNumCharactersDescription": "no máximo 250 caracteres",
-        "minNumCharactersDescription": "no minimo 10 caracteres",
-        "invalidLatitude": "Grau de latitude inválido",
-        "invalidLongitude": "Grau de longitude inválido",
-        "invalidCategory": "Categoria inválida",
-        "invalidTags": "Palavra-chave inválida",
-        "minNumCharactersTags": "no minimo 3 caracteres",
-        "acceptLicense": "A aprovação da licença é necessário",
-        "invalidLicenseAgreement": "Aprovação inválida",
-        "invalidURL": "URL inválido",
-        "httpMissing": "\"http://\" ou \"https://\" faltam)"
+  "entryForm": {
+    "chooseCategory": "Escolher categoria",
+    "location": "Lugar",
+    "clickMap": "(ou clicar no mapa)",
+    "contact": "Contato",
+    "iHaveRead": "Eu li",
+    "creativeCommonsLicense": "os regulamentos de licença Creative-Commons CC0",
+    "openDatabaseLicense": "Regulamentos de licença OpenDatabase ",
+    "licenseAccepted": "eu aceito",
+    "license": "Licença",
+    "title": "Titúlo",
+    "description": "Descrição",
+    "tags": "Palavra-Chave(vírgula separada)",
+    "homepage": "Website",
+    "phone": "Telefone",
+    "street": "Rua & Numero",
+    "city": "Cidade",
+    "zip": "CEP",
+    "email": "Email",
+    "clickOnMap": "ou, clicar no mapa...",
+    "optionalContact": "Contato (opcional)",
+    "cancel": "Cancelar",
+    "save": "Salvar",
+    "editEntryHeading": "Editar item",
+    "newEntryHeading": "Novo item",
+    "savingError": "o item não pode ser salvo",
+    "valueError": "Por favor, verifique o requerimento.",
+    "requiredField": "Campo obrigatório",
+    "titleTooLong": "Título muito longo",
+    "titleTooShort": "Título muito curto",
+    "maxNumCharactersTitle": "no máximo 50 caracteres",
+    "minNumCharactersTitle": "no minimo 3 caracteres",
+    "invalidValues": "Dados inválidos",
+    "descriptionTooLong": "Descrição muito longa",
+    "descriptionTooShort": "Descrição muito curta",
+    "maxNumCharactersDescription": "no máximo 250 caracteres",
+    "minNumCharactersDescription": "no minimo 10 caracteres",
+    "invalidLatitude": "Grau de latitude inválido",
+    "invalidLongitude": "Grau de longitude inválido",
+    "invalidCategory": "Categoria inválida",
+    "invalidTags": "Palavra-chave inválida",
+    "minNumCharactersTags": "no minimo 3 caracteres",
+    "acceptLicense": "A aprovação da licença é necessário",
+    "invalidLicenseAgreement": "Aprovação inválida",
+    "invalidURL": "URL inválido",
+    "httpMissing": "\"http://\" ou \"https://\" faltam)"
+  },
+  "entryDetails": {
+    "loadingEntry": "Item à ser aberto...",
+    "back": "Voltar"
+  },
+  "login": {
+    "requiredField": "Campo obrigatório",
+    "loginFailed": "Ocorreu um erro com o login",
+    "invalidValues": "Dados incorretos",
+    "invalidUsername": "Nome de usuario incorreto",
+    "invalidPassword": "Senha incorreta",
+    "invalidPasswordOrUsername": "Senha ou nome de usuário incorretos.",
+    "emailUnconfirmed": "Email não verificado. Olhar a caixa de entrada do email, possivelmente a caixa de Spam.",
+    "minNumCharactersUsername": "no minimo 3 caracteres",
+    "minNumCharactersPassword": "no minimo 3 caracteres",
+    "username": "Nome de usuário",
+    "password": "Senha",
+    "loginButton": "Log In",
+    "registerText": "Você ainda não tem uma conta? Registra-se",
+    "registerLink": "aqui gratuitamente."
+  },
+  "register": {
+    "heading": "Registrar",
+    "genericError": "Houve um erro no registro. Nome de usuário ou email já estão registrados.",
+    "username": "Nome de usuário",
+    "email": "Email",
+    "password1": "Senha",
+    "password2": "Repetir a senha",
+    "submitButton": "Registrar-se",
+    "loginText": "Você já tem uma conta? Então ",
+    "loginLink": "entre aqui",
+    "requiredField": "Campo obrigatório",
+    "invalidValues": "Dados incorretos",
+    "invalidUsername": "Nome de usuário incorreto",
+    "invalidPassword": "Senha Incorreta",
+    "minNumCharactersUsername": "no minimo 3 caracteres",
+    "minNumCharactersPassword": "no minimo 3 caracteres",
+    "invalidEmail": "Email inválido",
+    "repeatPassword": " Por favor repita a senha para verificação.",
+    "passwordsDontAgree": "Senhas não compatíveis"
+  },
+  "ratings": {
+    "requiredField": "Campo obrigatório",
+    "rating": "Avalição",
+    "rating-heading": "Avaliação",
+    "ratings": "Avaliação",
+    "heading": "Avaliação",
+    "noRatingsYet": "Nenhuma avaliação foi feita para este item ainda.",
+    "giveFirstRating": "Avaliar agora",
+    "newRating": "Enviar avaliação",
+    "contextName": {
+      "diversity": "Diversidade biológica",
+      "renewable": "Recurso circular",
+      "fairness": "Equidade",
+      "humanity": "Humanidade",
+      "transparency": "Transparencia",
+      "solidarity": "Solidariedade"
     },
-    "entryDetails": {
-        "loadingEntry": "Item à ser aberto...",
-        "back": "Voltar"
+    "contextExplanation": {
+      "diversity": "Diversidade biológica, orgânico, sem químicas etc.",
+      "renewable": "Proteção ambiental,produtos regionais, eficiente/baixo uso de materia prima e energia, economia circular etc.",
+      "fairness": "Condições seguras e justas  de trabalho em todos os processos.",
+      "humanity": "Opotunidade de partipação democratica e desenvolvimento individual, inclusão, espaço para idéias próprias, diversidade cultural, etc...",
+      "transparency": "Sind Produktions-, Finanzierungs- und Handelsketten öffentlich nachvollziehbar? ",
+      "solidarity": "Kooperative Arbeitsweise, Finanzierung und Investitionen nachhaltig und ethisch, zugänglich für jeden Geldbeutel etc."
     },
-    "login": {
-        "requiredField": "Campo obrigatório",
-        "loginFailed": "Ocorreu um erro com o login",
-        "invalidValues": "Dados incorretos",
-        "invalidUsername": "Nome de usuario incorreto",
-        "invalidPassword": "Senha incorreta",
-        "invalidPasswordOrUsername": "Senha ou nome de usuário incorretos.",
-        "emailUnconfirmed": "Email não verificado. Olhar a caixa de entrada do email, possivelmente a caixa de Spam.",
-        "minNumCharactersUsername": "no minimo 3 caracteres",
-        "minNumCharactersPassword": "no minimo 3 caracteres",
-        "username": "Nome de usuário",
-        "password": "Senha",
-        "loginButton": "Log In",
-        "registerText": "Você ainda não tem uma conta? Registra-se",
-        "registerLink": "aqui gratuitamente."
+    "valueName": {
+      "minusOne": "von gestern",
+      "zero": "von heute",
+      "one": "von morgen",
+      "two": "visionär"
     },
-    "register": {
-        "heading": "Registrar",
-        "genericError": "Houve um erro no registro. Nome de usuário ou email já estão registrados.",
-        "username": "Nome de usuário",
-        "email": "Email",
-        "password1": "Senha",
-        "password2": "Repetir a senha",
-        "submitButton": "Registrar-se",
-        "loginText": "Você já tem uma conta? Então ",
-        "loginLink": "entre aqui",
-        "requiredField": "Campo obrigatório",
-        "invalidValues": "Dados incorretos",
-        "invalidUsername": "Nome de usuário incorreto",
-        "invalidPassword": "Senha Incorreta",
-        "minNumCharactersUsername": "no minimo 3 caracteres",
-        "minNumCharactersPassword": "no minimo 3 caracteres",
-        "invalidEmail": "Email inválido",
-        "repeatPassword": " Por favor repita a senha para verificação.",
-        "passwordsDontAgree": "Senhas não compatíveis"
+    "valueNameExplanation": {
+      "minusOne": "einige Kritikpunkte",
+      "zero": "nicht besonders nachhaltig",
+      "one": "zukunftsweisend",
+      "two": "besser geht's nicht!"
+    }
+  },
+  "ratingForm": {
+    "newRatingFor": "Neue Bewertung für",
+    "newRating": "Neue Bewertung",
+    "introText": "Positivfaktoren entscheiden darüber, wie sichtbar ein Eintrag auf der Karte von morgen ist. Je größer der Anteil positiver Aspekte einer Organisation ist, desto höher steigt der Pin in den Suchergebnissen.",
+    "moreInfoLink": "weitere Infos",
+    "savingError": "Die Bewertung konnte nicht gespeichert werden",
+    "valuesError": "Bitte überprüfe deine Eingaben.",
+    "chooseContext": "Wähle einen Aspekt der Nachhaltigkeit für deine Bewertung",
+    "title": "Überschrift",
+    "comment": "Kommentar/Erklärung",
+    "reference": "Quelle (z.B. einen Link oder 'ich arbeite da' etc.)",
+    "ratingHeading": "Bewertung",
+    "cancel": "abbrechen",
+    "save": "bewerten",
+    "requiredField": "Pflichtangabe",
+    "titleTooLong": "Zu langer Titel",
+    "titleTooShort": "Zu kurzer Titel",
+    "maxNumCharactersTitle": "statt max. 40 Zeichen",
+    "minNumCharactersTitle": "von mind. 3 Zeichen",
+    "invalidRatingContext": "Ungültiger Bewertungskontext",
+    "invalidRating": "Ungültige Bewertung",
+    "commentTooLong": "Zu langer Kommentar",
+    "commentTooShort": "Zu wenig Text",
+    "maxNumCharactersComment": "statt max. 500 Zeichen",
+    "minNumCharactersComment": "von mind. 10 Zeichen"
+  },
+  "subscribeToBbox": {
+    "changeSubscription": {
+      "heading": "Dein Abonnement",
+      "text1": "Du hast einen Kartenausschnitt abonniert und wirst bei neuen Einträgen und Änderungen in diesem Bereich per Email benachrichtigt.",
+      "text2": "Wenn du den abonnierten Kartenausschnitt ändern möchtest navigiere zu dem Kartenausschnitt der dich interessiert und klicke dann auf \"ändern\""
     },
-    "ratings": {
-        "requiredField": "Campo obrigatório",
-        "rating": "Avalição",
-        "rating-heading": "Avaliação",
-        "ratings": "Avaliação",
-        "heading": "Avaliação",
-        "noRatingsYet": "Nenhuma avaliação foi feita para este item ainda.",
-        "giveFirstRating": "Avaliar agora",
-        "newRating": "Enviar avaliação",
-        "contextName": {
-            "diversity": "Diversidade biológica",
-            "renewable": "Recurso circular",
-            "fairness": "Equidade",
-            "humanity": "Humanidade",
-            "transparency": "Transparencia",
-            "solidarity": "Solidariedade"
-        },
-        "contextExplanation": {
-            "diversity": "Diversidade biológica, orgânico, sem químicas etc.",
-            "renewable": "Proteção ambiental,produtos regionais, eficiente/baixo uso de materia prima e energia, economia circular etc.",
-            "fairness": "Condições seguras e justas  de trabalho em todos os processos.",
-            "humanity": "Opotunidade de partipação democratica e desenvolvimento individual, inclusão, espaço para idéias próprias, diversidade cultural, etc...",
-            "transparency": "Sind Produktions-, Finanzierungs- und Handelsketten öffentlich nachvollziehbar? ",
-            "solidarity": "Kooperative Arbeitsweise, Finanzierung und Investitionen nachhaltig und ethisch, zugänglich für jeden Geldbeutel etc."
-        },
-        "valueName": {
-            "minusOne": "von gestern",
-            "zero": "von heute",
-            "one": "von morgen",
-            "two": "visionär"
-        },
-        "valueNameExplanation": {
-            "minusOne": "einige Kritikpunkte",
-            "zero": "nicht besonders nachhaltig",
-            "one": "zukunftsweisend",
-            "two": "besser geht's nicht!"
-        }
+    "newSubscription": {
+      "heading": "Kartenausschnitt abonnieren",
+      "text1": "Navigiere zu dem Kartenausschnitt, der dich interessiert und klicke auf \"abonnieren\". Dann wirst du per Email über neue Einträge und Änderungen an Einträgen in dieser Region auf dem Laufenden gehalten.",
+      "text2": "Du kannst das Abonnement jederzeit wieder hier abbestellen oder ändern."
     },
-    "ratingForm": {
-        "newRatingFor": "Neue Bewertung für",
-        "newRating": "Neue Bewertung",
-        "introText": "Positivfaktoren entscheiden darüber, wie sichtbar ein Eintrag auf der Karte von morgen ist. Je größer der Anteil positiver Aspekte einer Organisation ist, desto höher steigt der Pin in den Suchergebnissen.",
-        "moreInfoLink": "weitere Infos",
-        "savingError": "Die Bewertung konnte nicht gespeichert werden",
-        "valuesError": "Bitte überprüfe deine Eingaben.",
-        "chooseContext": "Wähle einen Aspekt der Nachhaltigkeit für deine Bewertung",
-        "title": "Überschrift",
-        "comment": "Kommentar/Erklärung",
-        "reference": "Quelle (z.B. einen Link oder 'ich arbeite da' etc.)",
-        "ratingHeading": "Bewertung",
-        "cancel": "abbrechen",
-        "save": "bewerten",
-        "requiredField": "Pflichtangabe",
-        "titleTooLong": "Zu langer Titel",
-        "titleTooShort": "Zu kurzer Titel",
-        "maxNumCharactersTitle": "statt max. 40 Zeichen",
-        "minNumCharactersTitle": "von mind. 3 Zeichen",
-        "invalidRatingContext": "Ungültiger Bewertungskontext",
-        "invalidRating": "Ungültige Bewertung",
-        "commentTooLong": "Zu langer Kommentar",
-        "commentTooShort": "Zu wenig Text",
-        "maxNumCharactersComment": "statt max. 500 Zeichen",
-        "minNumCharactersComment": "von mind. 10 Zeichen"
+    "cancel": "abbrechen",
+    "edit": "ändern",
+    "unsubscribe": "Abonnement abbestellen",
+    "back": "abbrechen",
+    "subscribe": "abonnieren"
+  },
+  "search-results": {
+    "cities": "Städte",
+    "results-out-of-bbox": "Weitere Ergebnisse außerhalb des sichtbaren Bereichs der Karte:"
+  },
+  "loading-entries": {
+    "cancel": "abbrechen"
+  },
+  "io-error": {
+    "message": " Server nicht erreichbar. Bitte prüfe deine Internetverbindung oder versuche es später nochmal. ",
+    "close": "schließen"
+  },
+  "donate": {
+    "heading": "Etwas Gutes für morgen tun.",
+    "text": {
+      "1": "Die Plattform von morgen finanziert sich über Fördermittel verschiedener Programme und Wettbewerbe, als auch über Spenden. Wir, das Team von morgen, arbeiten ehrenamtlich.",
+      "2": "Die Beiträge möchten wir für die Weiterentwicklung der Plattform verwenden. Verschieden Features sind in Planung.",
+      "3": "Hier geht es zu unserer Crowdfunding-Kampagne: ",
+      "4": "Wir freuen uns über jeden kleinen und großen Beitrag und hoffen auch bald in deiner Stadt verfügbar zu sein."
     },
-    "subscribeToBbox": {
-        "changeSubscription": {
-            "heading": "Dein Abonnement",
-            "text1": "Du hast einen Kartenausschnitt abonniert und wirst bei neuen Einträgen und Änderungen in diesem Bereich per Email benachrichtigt.",
-            "text2": "Wenn du den abonnierten Kartenausschnitt ändern möchtest navigiere zu dem Kartenausschnitt der dich interessiert und klicke dann auf \"ändern\""
-        },
-        "newSubscription": {
-            "heading": "Kartenausschnitt abonnieren",
-            "text1": "Navigiere zu dem Kartenausschnitt, der dich interessiert und klicke auf \"abonnieren\". Dann wirst du per Email über neue Einträge und Änderungen an Einträgen in dieser Region auf dem Laufenden gehalten.",
-            "text2": "Du kannst das Abonnement jederzeit wieder hier abbestellen oder ändern."
-        },
-        "cancel": "abbrechen",
-        "edit": "ändern",
-        "unsubscribe": "Abonnement abbestellen",
-        "back": "abbrechen",
-        "subscribe": "abonnieren"
+    "ending": "Lieben Dank, das Team von morgen"
+  },
+  "join": {
+    "heading": {
+      "1": "Werde Teil unseres Teams",
+      "2": "Werde Regional- oder Themenpilot*in"
     },
-    "search-results": {
-        "cities": "Städte",
-        "results-out-of-bbox": "Weitere Ergebnisse außerhalb des sichtbaren Bereichs der Karte:"
+    "text": {
+      "1": "Wir sind ein deutschlandweites Team und immer auf der Suche nach neuen Mitgliedern! Unsere aktuellen Ausschreibungen findest du hier:",
+      "2": "Wir suchen Regional- und Themenpilot*innen: als direkte*r Ansprechpartner*in vor Ort, sicherst du die Qualität der Karteneinträge, organisierst z.B. Aktionen und Workshops und zeigst deine Stadt von ihrer besten Seite!",
+      "3": "Du hast Fragen oder Interesse? Wir freuen uns von dir zu hören:"
+    }
+  },
+  "info": {
+    "heading1": "Das Projekt",
+    "facebook": "Neuigkeiten und aktuelles auf",
+    "betterplace": "Fortschrittsberichte auf",
+    "betterplace-link": "unserem Blog auf Betterplace",
+    "text1": {
+      "1": "Unsere interaktive Karte zeigt dir Orte in deiner Umgebung, an denen man sich schon heute für eine Welt von morgen einsetzt.",
+      "2": "Du hast eine Initiative, für die du Mitstreiter*innen suchst?",
+      "3": "Du kennst ein Unternehmen, das nachhaltig wirtschaftet?",
+      "4": "Auf unserer Website kannst du andere darauf aufmerksam machen – und dich so für einen von Menschen gestalteten Ort einsetzen, der dir persönlich am Herzen liegt.",
+      "5": "Wir sind auf der Suche nach vielfältigen Ideen, Initiativen und Unternehmen, die den aktuellen sozialen, ökologischen und ökonomischen Umbrüchen alternativ entgegen wirken. Diese möchten wir vernetzten und ihnen möchten wir einen gemeinsamen Online-Auftritt und damit eine erhöhte Aufmerksamkeit ermöglichen.",
+      "6": "Nach dem Wiki-Prinzip können alle Nutzer*innen, Initiativen und Unternehmen sich und andere auf der Karte eintragen und so ihre Mitmenschen erreichen. Doch von morgen ist mehr als eine Onlineplattform: Regionalpilot*innen sichern vor Ort die Qualität der Karteneinträge und haben neben einer redaktionellen Funktion die Aufgabe durch Bildungsveranstaltungen und Aktionen den regionalen Austausch zwischen Bürger*innen, Initiativen und Unternehmen zu stärken.",
+      "7": "von morgen fragt nach Werten, die unsere Gesellschaft fundieren und bewegen. Wir zeigen Menschen, die Guten tun, wo es Gutes gibt."
     },
-    "loading-entries": {
-        "cancel": "abbrechen"
+    "heading2": "Hintergründe und Visionen",
+    "text2": {
+      "goalLink": "Was will die Karte von morgen?",
+      "ratingsLink": "Was sind die Positivfaktoren?",
+      "regionalpilotLink": "Was sind Regionalpilot*innen bzw. Themenpilot*innen?",
+      "embedMapLink": "Wie kann ich die Karte auf meiner Homepage einbetten?",
+      "joinLink": "Wie kann ich mitmachen oder die Karte von morgen unterstützen?"
     },
-    "io-error": {
-        "message": " Server nicht erreichbar. Bitte prüfe deine Internetverbindung oder versuche es später nochmal. ",
-        "close": "schließen"
+    "heading3": "Wir lieben Open Source!",
+    "text3": "Wir wollen mit gutem Beispiel vorangehen und entwickeln daher die Software transparent und offen. Den Quellcode des Gemeinschaftsprojekts findest du unter:",
+    "heading4": "Workshops und Aktionen von morgen",
+    "text4": "Gemeinsam mit unserem Partner, dem gemeinnützigen Verein Ideen³ e.V. und der \"Ideenwerkstatt Bildungsagenten\", bieten wir Workshops zu verschiedenen Themen an, um die sozial-ökologische Transformation zu unterstützen.",
+    "clientVersion": "Version dieses Clients:",
+    "serverVersion": "Version des Servers:"
+  },
+  "category": {
+    "initiative": "Initiative",
+    "event": "Event",
+    "company": "Unternehmen"
+  },
+  "searchbar": {
+    "placeholder": "Wonach suchst du? (# für Tags)"
+  },
+  "resultlist": {
+    "showMoreEntries": "mehr Einträge anzeigen...",
+    "entriesLoading": "Einträge werden geladen...",
+    "noEntriesFound": "Es konnten keine Einträge gefunden werden.",
+    "addEntry": "Eintrag hinzufügen"
+  },
+  "growler": {
+    "INFO FOR TRANSLATORS": "Growler is the green or red bar that appears at the top of the screen for example when saving an entry",
+    "genericError": "Ups! Es ist ein Fehler aufgetreten...",
+    "subscriptionChanged": "Abonnement wurde geändert.",
+    "subscriptionAdded": "Kartenausschnitt wurde abonniert.",
+    "unsubscribingSuccessfull": "Abonnement wurde abbestellt",
+    "entrySaved": "Eintrag wurde gespeichert.",
+    "ratingSaved": "Bewertung wurde gespeichert."
+  },
+  "contact": {
+    "heading": "Kontakt",
+    "text1": "Das Team von morgen, vertreten durch",
+    "showOnKVM": "Ort auf der Karte von morgen"
+  },
+  "imprint": {
+    "contact": "Kontakt",
+    "imprint": "Impressum",
+    "heading1": "Rechtlicher Träger im Sinne der Gemeinnützigkeit",
+    "representedByChair": "Vertreten durch den Vorstand",
+    "kvmTeamRepresentedBy": "Das Team von morgen, vertreten durch",
+    "heading2": "Konzept",
+    "heading3": "Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV",
+    "heading4": "Design",
+    "heading5": "Illustrationen",
+    "heading6": "Umsetzung & Programmierung"
+  },
+  "businesscardWidget": {
+    "showOnMap": "Auf der Karte anzeigen..."
+  },
+  "mapWidget": {
+    "showLargeMap": "Große Karte öffnen..."
+  },
+  "modal": {
+    "locate": {
+      "inProgress": "Dein aktueller Standort wird gesucht...",
+      "cancel": "abbrechen",
+      "failed": "Der Standort kann nicht ermittelt werden. Die Standortbestimmung ist in den Browser- oder System-Einstellungen deaktiviert, oder das GPS hat keinen Empfang.",
+      "close": "schließen",
+      "tryAgain": "nochmal versuchen"
     },
-    "donate": {
-        "heading": "Etwas Gutes für morgen tun.",
-        "text": {
-            "1": "Die Plattform von morgen finanziert sich über Fördermittel verschiedener Programme und Wettbewerbe, als auch über Spenden. Wir, das Team von morgen, arbeiten ehrenamtlich.",
-            "2": "Die Beiträge möchten wir für die Weiterentwicklung der Plattform verwenden. Verschieden Features sind in Planung.",
-            "3": "Hier geht es zu unserer Crowdfunding-Kampagne: ",
-            "4": "Wir freuen uns über jeden kleinen und großen Beitrag und hoffen auch bald in deiner Stadt verfügbar zu sein."
-        },
-        "ending": "Lieben Dank, das Team von morgen"
-    },
-    "join": {
-        "heading": {
-            "1": "Werde Teil unseres Teams",
-            "2": "Werde Regional- oder Themenpilot*in"
-        },
-        "text": {
-            "1": "Wir sind ein deutschlandweites Team und immer auf der Suche nach neuen Mitgliedern! Unsere aktuellen Ausschreibungen findest du hier:",
-            "2": "Wir suchen Regional- und Themenpilot*innen: als direkte*r Ansprechpartner*in vor Ort, sicherst du die Qualität der Karteneinträge, organisierst z.B. Aktionen und Workshops und zeigst deine Stadt von ihrer besten Seite!",
-            "3": "Du hast Fragen oder Interesse? Wir freuen uns von dir zu hören:"
-        }
-    },
-    "info": {
-        "heading1": "Das Projekt",
-        "facebook": "Neuigkeiten und aktuelles auf",
-        "betterplace": "Fortschrittsberichte auf",
-        "betterplace-link": "unserem Blog auf Betterplace",
-        "text1": {
-            "1": "Unsere interaktive Karte zeigt dir Orte in deiner Umgebung, an denen man sich schon heute für eine Welt von morgen einsetzt.",
-            "2": "Du hast eine Initiative, für die du Mitstreiter*innen suchst?",
-            "3": "Du kennst ein Unternehmen, das nachhaltig wirtschaftet?",
-            "4": "Auf unserer Website kannst du andere darauf aufmerksam machen – und dich so für einen von Menschen gestalteten Ort einsetzen, der dir persönlich am Herzen liegt.",
-            "5": "Wir sind auf der Suche nach vielfältigen Ideen, Initiativen und Unternehmen, die den aktuellen sozialen, ökologischen und ökonomischen Umbrüchen alternativ entgegen wirken. Diese möchten wir vernetzten und ihnen möchten wir einen gemeinsamen Online-Auftritt und damit eine erhöhte Aufmerksamkeit ermöglichen.",
-            "6": "Nach dem Wiki-Prinzip können alle Nutzer*innen, Initiativen und Unternehmen sich und andere auf der Karte eintragen und so ihre Mitmenschen erreichen. Doch von morgen ist mehr als eine Onlineplattform: Regionalpilot*innen sichern vor Ort die Qualität der Karteneinträge und haben neben einer redaktionellen Funktion die Aufgabe durch Bildungsveranstaltungen und Aktionen den regionalen Austausch zwischen Bürger*innen, Initiativen und Unternehmen zu stärken.",
-            "7": "von morgen fragt nach Werten, die unsere Gesellschaft fundieren und bewegen. Wir zeigen Menschen, die Guten tun, wo es Gutes gibt."
-        },
-        "heading2": "Hintergründe und Visionen",
-        "text2": {
-            "goalLink": "Was will die Karte von morgen?",
-            "ratingsLink": "Was sind die Positivfaktoren?",
-            "regionalpilotLink": "Was sind Regionalpilot*innen bzw. Themenpilot*innen?",
-            "embedMapLink": "Wie kann ich die Karte auf meiner Homepage einbetten?",
-            "joinLink": "Wie kann ich mitmachen oder die Karte von morgen unterstützen?"
-        },
-        "heading3": "Wir lieben Open Source!",
-        "text3": "Wir wollen mit gutem Beispiel vorangehen und entwickeln daher die Software transparent und offen. Den Quellcode des Gemeinschaftsprojekts findest du unter:",
-        "heading4": "Workshops und Aktionen von morgen",
-        "text4": "Gemeinsam mit unserem Partner, dem gemeinnützigen Verein Ideen³ e.V. und der \"Ideenwerkstatt Bildungsagenten\", bieten wir Workshops zu verschiedenen Themen an, um die sozial-ökologische Transformation zu unterstützen.",
-        "clientVersion": "Version dieses Clients:",
-        "serverVersion": "Version des Servers:"
-    },
-    "category": {
-        "initiative": "Initiative",
-        "event": "Event",
-        "company": "Unternehmen"
-    },
-    "searchbar": {
-        "placeholder": "Wonach suchst du? (# für Tags)"
-    },
-    "resultlist": {
-        "showMoreEntries": "mehr Einträge anzeigen...",
-        "entriesLoading": "Einträge werden geladen...",
-        "noEntriesFound": "Es konnten keine Einträge gefunden werden.",
-        "addEntry": "Eintrag hinzufügen"
-    },
-    "growler": {
-        "INFO FOR TRANSLATORS": "Growler is the green or red bar that appears at the top of the screen for example when saving an entry",
-        "genericError": "Ups! Es ist ein Fehler aufgetreten...",
-        "subscriptionChanged": "Abonnement wurde geändert.",
-        "subscriptionAdded": "Kartenausschnitt wurde abonniert.",
-        "unsubscribingSuccessfull": "Abonnement wurde abbestellt",
-        "entrySaved": "Eintrag wurde gespeichert.",
-        "ratingSaved": "Bewertung wurde gespeichert."
-    },
-    "contact": {
-        "heading": "Kontakt",
-        "text1": "Das Team von morgen, vertreten durch",
-        "showOnKVM": "Ort auf der Karte von morgen"
-    },
-    "imprint": {
-        "contact": "Kontakt",
-        "imprint": "Impressum",
-        "heading1": "Rechtlicher Träger im Sinne der Gemeinnützigkeit",
-        "representedByChair": "Vertreten durch den Vorstand",
-        "kvmTeamRepresentedBy": "Das Team von morgen, vertreten durch",
-        "heading2": "Konzept",
-        "heading3": "Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV",
-        "heading4": "Design",
-        "heading5": "Illustrationen",
-        "heading6": "Umsetzung & Programmierung"
-    },
-    "businesscardWidget": {
-        "showOnMap": "Auf der Karte anzeigen..."
-    },
-    "mapWidget": {
-        "showLargeMap": "Große Karte öffnen..."
-    },
-    "modal": {
-        "locate": {
-            "inProgress": "Dein aktueller Standort wird gesucht...",
-            "cancel": "abbrechen",
-            "failed": "Der Standort kann nicht ermittelt werden. Die Standortbestimmung ist in den Browser- oder System-Einstellungen deaktiviert, oder das GPS hat keinen Empfang.",
-            "close": "schließen",
-            "tryAgain": "nochmal versuchen"
-        },
-        "events": {
-            "text": "Events werden zur Zeit noch nicht unterstützt.\n\n Ob Tagung, Konferenz oder Festival - auf der Karte von morgen sollen auch bald Events eingetragen werden. Wir planen außerdem einen Veranstaltungskalender, der die Ergebnisse anzeigt und exportiert.\n\n Helfe mit, damit diese Funktion schon bald verfügbar ist und beteilige Dich an der Spendenaktion auf betterplace.org!",
-            "close": "schließen",
-            "donate": "spenden"
-        }
-    },
-    "burgerMenu": {
-        "home": "Home",
-        "join": "Join",
-        "loginForPilots": "Login",
-        "contact": "Contact",
-        "aboutUs": "About",
-        "privacy": "Privacy"
-    },
-    "searchPlaceholder": "input search text",
-    "zoomButton": "Zoom Out",
-    "addEntry": "Add",
-    "categoryPlaceholder": "Category",
-    "searchForTagsPlaceholder": "Search for tags",
-    "searchForRegionPlaceholder": "Search for region"
+    "events": {
+      "text": "Events werden zur Zeit noch nicht unterstützt.\n\n Ob Tagung, Konferenz oder Festival - auf der Karte von morgen sollen auch bald Events eingetragen werden. Wir planen außerdem einen Veranstaltungskalender, der die Ergebnisse anzeigt und exportiert.\n\n Helfe mit, damit diese Funktion schon bald verfügbar ist und beteilige Dich an der Spendenaktion auf betterplace.org!",
+      "close": "schließen",
+      "donate": "spenden"
+    }
+  },
+  "burgerMenu": {
+    "home": "Home",
+    "join": "Join",
+    "loginForPilots": "Login",
+    "contact": "Contact",
+    "aboutUs": "About",
+    "privacy": "Privacy"
+  }
 }

@@ -3,10 +3,9 @@
     "en",
     "de",
     "es",
-    "pt",
-    "ru"
+    "pt"
   ],
-  "defaultLocale": "ru",
+  "defaultLocale": "de",
   "pages": {
     "/[[...slug]]": [
       "home"
