@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import {NextApiRequest, NextApiResponse} from 'next';
 import parseCSV from 'csv-parse/lib/sync';
-import {CSVToOptionDataResponse} from '../../../../../utils/csv';
+import {CSVToOptionDataResponse} from '../../../../utils/csv';
 
 export default (req: NextApiRequest, res: NextApiResponse) => {
     const {method} = req;
