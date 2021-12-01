@@ -39,7 +39,7 @@
     "moment": "^2.29.1",
     "next": "^12.0.3",
     "next-plugin-antd-less": "^1.0.6",
-    "next-translate": "^1.0.6",
+    "next-translate": "1.0.1",
     "nominatim-browser": "^2.1.0",
     "opening_hours": "^3.6.0",
     "qs": "^6.9.6",
