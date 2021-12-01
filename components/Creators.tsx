@@ -33,7 +33,6 @@ const creators: Creator[] = [
 ]
 
 const Creators: FC = () => {
-
   const { t } = useTranslation('home')
 
   return (

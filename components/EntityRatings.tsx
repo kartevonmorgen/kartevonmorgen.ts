@@ -28,7 +28,7 @@ interface EntityCommentsProps {
 
 const redirectToNewRatingForm = (router: NextRouter) => () => {
   const { query } = router
-  const newQueryParams = produce(query, draftState => {
+  const newQueryParams = produce(query, (draftState) => {
     const { slug } = draftState
     const slugArray = convertQueryParamToArray(slug)
 
@@ -51,7 +51,7 @@ const redirectToNewRatingForm = (router: NextRouter) => () => {
 
 const redirectToRatingCommentForm = (router: NextRouter, ratingId: RatingID) => () => {
   const { query } = router
-  const newQueryParams = produce(query, draftState => {
+  const newQueryParams = produce(query, (draftState) => {
     const { slug } = draftState
     const slugArray = convertQueryParamToArray(slug)
 

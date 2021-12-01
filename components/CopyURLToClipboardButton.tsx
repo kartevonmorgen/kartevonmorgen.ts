@@ -10,7 +10,6 @@ interface CopyURLToClipboardButtonProps {
 }
 
 const CopyURLToClipboardButton: FC<CopyURLToClipboardButtonProps> = (props) => {
-
   const { icon } = props
 
   const router = useRouter()

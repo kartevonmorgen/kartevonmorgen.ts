@@ -19,7 +19,7 @@ const onSearch = (router) => (searchTerm, _event) => {
   // it's an empty string so let's remove the param from the URL
   // because we have added that from the update so we are sure the key exists
   if (searchTerm.length === 0) {
-    newQueryParams = produce(newQueryParams, draftState => {
+    newQueryParams = produce(newQueryParams, (draftState) => {
       delete draftState[searchURLParamKey]
     })
   }

@@ -36,7 +36,7 @@ const Menu: FC = () => {
     <AntMenu>
       {
         linksWithIcon.map(
-          linkWithIcon => (
+          (linkWithIcon) => (
             <AntMenu.Item
               key={`burger-menu-item-${linkWithIcon.title}`}
               style={{
@@ -70,10 +70,10 @@ const Menu: FC = () => {
         )
       }
 
-      {/*todo: we have a similiar component on the home, we could make it a component*/}
+      {/* todo: we have a similiar component on the home, we could make it a component*/}
       <Space>
         {
-          locales.map(locale => (
+          locales.map((locale) => (
             <Button
               key={`locale-${locale}`}
               type="link"
@@ -89,7 +89,6 @@ const Menu: FC = () => {
 }
 
 const BurgerMenu: FC = () => {
-
   return (
     <Dropdown
       overlay={<Menu/>}

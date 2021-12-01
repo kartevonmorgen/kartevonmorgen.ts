@@ -25,11 +25,9 @@ const MapQueryParamsListener: FC = () => {
   ]
 
   useEffect(() => {
-
     const latlng: LatLngExpression = [lat, lng]
 
     map.flyTo(latlng, zoom)
-
   }, effectDependencies)
 
   return null

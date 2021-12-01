@@ -51,7 +51,6 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
 
     response.data = optionData
     response.hasData = true
-
   } catch (e) {
 
   }
@@ -59,5 +58,4 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
   res
     .status(200)
     .json(response)
-
 }

@@ -6,7 +6,6 @@ import SharingModalTabs from './SharingModalTabs'
 
 
 const MapSharingModal: FC = () => {
-
   const { t } = useTranslation('map')
 
   const [isModalVisible, { setTrue: showModal, setFalse: hideModal }] = useBoolean()

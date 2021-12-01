@@ -5,7 +5,6 @@ import { convertQueryParamToFloat, updateRoutingQuery } from '../utils/utils'
 
 
 const zoomOut = (divisionFactor: number, router: NextRouter) => () => {
-
   const { query } = router
   const { z: zoom } = query
 

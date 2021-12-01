@@ -54,14 +54,14 @@ const adaptParams = async (_entry: string, query: ParsedUrlQuery): Promise<Parse
 
   const [lat, lng] = convertQueryParamToString(center).split(SEP)
   const centerCoord = { lat, lng }
-  Object.keys(centerCoord).forEach(k => {
+  Object.keys(centerCoord).forEach((k) => {
     if (!isEmpty(centerCoord)) {
       newParams[k] = centerCoord[k]
     }
   })
 
   const paramsToArray = ['fixedTags']
-  paramsToArray.forEach(p => {
+  paramsToArray.forEach((p) => {
     if (!isEmpty(newParams[p])) {
       const stringQueryParam = convertQueryParamToString(newParams[p])
       newParams[p] = stringQueryParam.split(SEP)
@@ -152,8 +152,6 @@ const HomeEntityRedirector: FC = () => {
         )
       })
     }
-
-
   }, [path])
 
   return null

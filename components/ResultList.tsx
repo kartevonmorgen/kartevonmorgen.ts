@@ -16,8 +16,6 @@ interface ResultListProps {
 }
 
 const ResultList: FC<ResultListProps> = (_props) => {
-
-
   const sortedSearchResults: SearchResults = useSelector(
     (state: RootState) => sortedSearchResultSelector(state),
   )
@@ -32,13 +30,11 @@ const ResultList: FC<ResultListProps> = (_props) => {
   ] = useBoolean()
 
   useEffect(() => {
-
     if (numberOfSearchResults < MIN_REQUIRED_RESULTS) {
       showSidebarZoomOutButton()
     } else {
       hideSidebarZoomOutButton()
     }
-
   }, [sortedSearchResults.length])
 
   if (numberOfSearchResults === 0) {
@@ -55,7 +51,7 @@ const ResultList: FC<ResultListProps> = (_props) => {
       }}
     >
       {
-        sortedSearchResults.map(searchResult => (
+        sortedSearchResults.map((searchResult) => (
           <ResultCard
             key={searchResult.id}
             searchResult={searchResult}

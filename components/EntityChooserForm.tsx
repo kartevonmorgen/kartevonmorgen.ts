@@ -20,7 +20,6 @@ interface EntityChooserFormProps {
 }
 
 const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
-
   const { verb, entityId } = props
 
   const [category, setCategory] = useState<Category>(Category.INITIATIVE)

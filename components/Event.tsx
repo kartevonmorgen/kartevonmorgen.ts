@@ -11,7 +11,6 @@ interface EventProps {
 
 
 const Event: FC<EventProps> = (props) => {
-
   const { slugAction } = props
 
   switch (slugAction.verb) {

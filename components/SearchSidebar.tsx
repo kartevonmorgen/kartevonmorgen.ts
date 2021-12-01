@@ -5,7 +5,6 @@ import AddEntryButton from './AddEntryButton'
 
 
 const SearchSidebar: FC = () => {
-
   return (
     <Fragment>
       <SearchControllers/>

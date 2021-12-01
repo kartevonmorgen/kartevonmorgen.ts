@@ -49,7 +49,6 @@ export const getBalloonIcon = (typeId: Category): Icon<IconOptions> | DivIcon =>
 // however a better idea would be to use CircleMarker from leaflet
 // https://leafletjs.com/reference-1.7.1.html#circlemarker
 const getCircleIcon = (typeId: Category): Icon<IconOptions> | DivIcon => {
-
   const categoryName = CategoryToNameMapper[typeId]
 
   const icon = divIcon({
@@ -74,7 +73,6 @@ const getCircleIcon = (typeId: Category): Icon<IconOptions> | DivIcon => {
 
 
 const getIcon = (entity: SearchResult): Icon<IconOptions> | DivIcon => {
-
   const { categories: types } = entity
 
   // the reason we define types as array is because backend sends us an array of categories
@@ -109,7 +107,7 @@ const onClickOnPin = (router: NextRouter, searchResult: SearchResult) => () => {
   const category = searchResult.categories[0]
   const briefEntityName = mapTypeIdToBriefEntityName[category]
 
-  const newQueryParams = produce(query, draftState => {
+  const newQueryParams = produce(query, (draftState) => {
     const { slug } = draftState
     const slugArray = convertQueryParamToArray(slug)
 
@@ -142,7 +140,6 @@ export interface MapMarkerProps {
 }
 
 const MapMarker: FC<MapMarkerProps> = (props) => {
-
   const { searchResult } = props
 
   const { id: searchResultId } = searchResult
@@ -155,7 +152,6 @@ const MapMarker: FC<MapMarkerProps> = (props) => {
   )
 
   useEffect(() => {
-
     if (!highlightId) {
       setOpacity(VIEW.highlight.dark)
 
@@ -167,7 +163,6 @@ const MapMarker: FC<MapMarkerProps> = (props) => {
     } else {
       setOpacity(VIEW.highlight.light)
     }
-
   }, [highlightId])
 
 

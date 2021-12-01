@@ -21,7 +21,6 @@ export interface MapLocationProps {
 }
 
 const Map: FC = () => {
-
   return (
     <MapContainer
       center={[50.826, 10.92]}

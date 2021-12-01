@@ -55,12 +55,11 @@ const setAddressDetailsIfAddressFieldsAreNotTouched = async (
     zip: address.postcode,
   }
 
-  touchedAddressFieldNames.forEach(touchedFieldName => {
+  touchedAddressFieldNames.forEach((touchedFieldName) => {
     delete fieldsToSetInForm[touchedFieldName]
   })
 
   form.setFieldsValue(fieldsToSetInForm)
-
 }
 
 const addEventToState = (dispatch: AppDispatch, event: EventDTO) => {
@@ -76,7 +75,6 @@ const addEventToStateOnCreate = (dispatch: AppDispatch, event: EventDTO, isEdit:
 }
 
 const redirectToEvent = (router: NextRouter, eventId: EventID, isEdit: boolean) => {
-
   const slugLevelsToIgnore = isEdit ? 3 : 2
 
   redirectToEntityDetailAndFlyToLocation(
@@ -153,8 +151,8 @@ const onFinish = (
 
 // todo: any is not a suitable type for dispatch, it should be string[]
 const addTouchedAddressFieldName = (setTouchedAddressFields: Dispatch<any>, fieldName: string) => {
-  setTouchedAddressFields(prevTouchedAddressFields =>
-    produce(prevTouchedAddressFields, draft => {
+  setTouchedAddressFields((prevTouchedAddressFields) =>
+    produce(prevTouchedAddressFields, (draft) => {
       draft.push(fieldName)
     }),
   )
@@ -168,7 +166,6 @@ interface EventFormProps {
 
 
 const EventForm: FC<EventFormProps> = (props) => {
-
   const { verb, eventId } = props
 
   const dispatch = useDispatch()
@@ -193,7 +190,6 @@ const EventForm: FC<EventFormProps> = (props) => {
     if (!newPoint.isEmpty()) {
       setAddressDetailsIfAddressFieldsAreNotTouched(form, newPoint, touchedAddressFields).then()
     }
-
   }, effectDeps)
 
   const { data: event, error: eventError } = useRequest<EventDTO>(isEdit && {
@@ -465,8 +461,8 @@ const EventForm: FC<EventFormProps> = (props) => {
         ]}
         valuePropName="value"
       >
-        {/*it's necessary to catch the value of the checkbox, but the out come will be a list*/}
-        {/*so we should grab the first element*/}
+        {/* it's necessary to catch the value of the checkbox, but the out come will be a list*/}
+        {/* so we should grab the first element*/}
         <Checkbox.Group
           options={[
             {

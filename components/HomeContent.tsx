@@ -7,7 +7,6 @@ const { Title, Paragraph } = Typography
 
 
 const HomeContent: FC = () => {
-
   const { t } = useTranslation('home')
 
   return (

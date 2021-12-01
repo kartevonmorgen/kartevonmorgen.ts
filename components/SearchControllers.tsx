@@ -19,7 +19,7 @@ const SearchControllers: FC = (_props) => {
         marginTop: 8,
       }}
     >
-      {/*todo: make the search component a separate component to prevent unnecessary renders*/}
+      {/* todo: make the search component a separate component to prevent unnecessary renders*/}
       <Row
         align="middle"
         justify="space-around"

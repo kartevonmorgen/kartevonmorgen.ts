@@ -15,7 +15,6 @@ const MapEventsListener: FC = () => {
 
   const map = useMapEvents({
     moveend: ((_event: LeafletEvent) => {
-
       const mapCenter: LatLng = map.getCenter()
 
       const zoom = map.getZoom()

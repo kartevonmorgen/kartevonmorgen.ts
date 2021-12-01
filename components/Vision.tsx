@@ -8,7 +8,6 @@ const { Title, Paragraph } = Typography
 
 
 const Vision: FC = () => {
-
   const { t } = useTranslation('home')
 
   return (

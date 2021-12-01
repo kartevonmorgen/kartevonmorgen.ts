@@ -10,7 +10,6 @@ interface EntryRatingProps {
 
 
 const EntryRating: FC<EntryRatingProps> = (props) => {
-
   const { slugAction } = props
   const { subSlugAction } = slugAction
 

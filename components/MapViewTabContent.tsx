@@ -26,7 +26,6 @@ interface MapViewTabContentProps {
 }
 
 const MapViewTabContent: FC<MapViewTabContentProps> = (props) => {
-
   const { onOk, onCancel } = props
 
   const iframeCode = generateIframeCode(window.location.href)

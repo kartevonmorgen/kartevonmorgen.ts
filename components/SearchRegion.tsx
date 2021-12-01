@@ -61,7 +61,6 @@ const changeLatAndLngFromRegionName = (router: NextRouter) => async (regionName:
       undefined,
       { shallow: true },
     )
-
   } catch (e) {
 
   }

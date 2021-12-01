@@ -9,7 +9,6 @@ interface EntryAddressProps extends EntryAddressDTO {
 }
 
 const EntityAddress: FC<EntryAddressProps> = (props) => {
-
   return (
     <Row
       key={`contact-address`}

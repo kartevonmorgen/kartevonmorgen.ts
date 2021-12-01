@@ -52,7 +52,7 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
     const newQueryParams = updateRoutingQuery(query, paramsToUpdate)
     const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
 
-    //todo: how about having other params like fixedTags but not zoom or things like that
+    // todo: how about having other params like fixedTags but not zoom or things like that
     router.replace(
       {
         pathname: `/m/${newPath}`,

@@ -15,7 +15,6 @@ const TypeTag: FC<TypeTagProps> = ({ type, ...tagProps }) => {
       {type}
     </Tag>
   )
-
 }
 
 

@@ -7,8 +7,6 @@ import MapMarker from './MapMarker'
 
 
 const MapMarkers: FC = () => {
-
-
   const searchResults: SearchResults = useSelector(
     (state: RootState) => searchResultSelector(state),
   )

@@ -78,7 +78,7 @@ const EventDetail: FC<EventDetailProps> = (props) => {
         {event.title}
       </Title>
 
-      {/*todo: allow newline*/}
+      {/* todo: allow newline*/}
       <Text
         type="secondary"
       >

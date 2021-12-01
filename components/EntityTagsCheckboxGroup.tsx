@@ -11,7 +11,6 @@ interface EntityTagsCheckboxGroupProps {
 }
 
 const addOrRemoveTagsFromTagsSelect = (form: FormInstance, setSelectedValues: Dispatch<string[]>) => (e: CheckboxChangeEvent) => {
-
   const checkboxTags: string[] = e.target.value
   const oldTags: string[] = form.getFieldValue('tags')
 
@@ -27,7 +26,6 @@ const addOrRemoveTagsFromTagsSelect = (form: FormInstance, setSelectedValues: Di
 }
 
 const EntityTagsCheckboxGroup: FC<EntityTagsCheckboxGroupProps> = (props) => {
-
   const { form, selectedValues: selectedValuesFromForm } = props
 
   const [selectedValues, setSelectedValues] = useState<string[]>([])

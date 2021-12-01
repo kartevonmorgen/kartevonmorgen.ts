@@ -22,7 +22,6 @@ const showFullDescriptionAndHideReadMoreButton = (
 }
 
 const EntityDescription: FC<EntityDescriptionProps> = (props) => {
-
   const { text } = props
 
   const { t } = useTranslation('map')
@@ -55,7 +54,6 @@ const EntityDescription: FC<EntityDescriptionProps> = (props) => {
       }
     </Paragraph>
   )
-
 }
 
 export default EntityDescription

@@ -17,7 +17,6 @@ const EntryRatingChild: FC<EntryRatingChild> = (props) => {
     default:
       return null
   }
-
 }
 
 

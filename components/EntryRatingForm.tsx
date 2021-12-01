@@ -25,7 +25,7 @@ interface EntryRatingFormProps {
 
 const redirectToEntryDetail = (router: NextRouter) => () => {
   const { query } = router
-  const newQueryParams = produce(query, draftState => {
+  const newQueryParams = produce(query, (draftState) => {
     const { slug } = draftState
     const slugArray = convertQueryParamToArray(slug)
 

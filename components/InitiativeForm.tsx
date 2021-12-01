@@ -12,7 +12,6 @@ interface InitiativeFormProps {
 
 
 const InitiativeForm: FC<InitiativeFormProps> = (props) => {
-
   const { verb, initiativeId } = props
 
   return (

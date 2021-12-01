@@ -18,7 +18,7 @@ const onAddEntity = (router: NextRouter) => () => {
     return
   }
 
-  const newQueryParams = produce(query, draftState => {
+  const newQueryParams = produce(query, (draftState) => {
     const { slug } = query
     const slugArray = convertQueryParamToArray(slug)
     slugArray.push(BriefRootSlugEntity.ENTRIES, SlugVerb.CREATE)
@@ -47,7 +47,6 @@ interface AddEntryButtonProps extends ButtonProps {
 
 
 const AddEntryButton: FC<AddEntryButtonProps> = (props) => {
-
   const { style, shortTitle, type } = props
 
   const router = useRouter()

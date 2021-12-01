@@ -13,7 +13,6 @@ interface MapMarkerTooltipProps extends LeafletTooltipProps {
 }
 
 const MapMarkerTooltip: FC<MapMarkerTooltipProps> = (props) => {
-
   const { text, duration, ...leafletTooltipProps } = props
 
   return (

@@ -54,7 +54,6 @@ const tutorials: Tutorial[] = [
 ]
 
 const HomeTutorial: FC = () => {
-
   const { t } = useTranslation('home')
 
   return (

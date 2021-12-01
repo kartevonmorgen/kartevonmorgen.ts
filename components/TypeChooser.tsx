@@ -15,7 +15,6 @@ const handleChange = (
   selectedTypes: string[],
   router: NextRouter,
 ) => {
-
   const { query } = router
 
   let nextSelectedTypes = [] as string[]
@@ -30,7 +29,7 @@ const handleChange = (
     if (checked) {
       nextSelectedTypes = [...selectedTypes, typeName]
     } else {
-      nextSelectedTypes = selectedTypes.filter(tName => tName !== typeName)
+      nextSelectedTypes = selectedTypes.filter((tName) => tName !== typeName)
     }
   }
 
@@ -61,7 +60,7 @@ const TypeChooser: FC = () => {
 
   return (
     <Row gutter={8}>
-      {knownCategories.map(category => {
+      {knownCategories.map((category) => {
         const categoryName = CategoryToNameMapper[category]
         const isChecked = selectedTypes.indexOf(categoryName) > -1
 
@@ -70,7 +69,7 @@ const TypeChooser: FC = () => {
             <CheckableTag
               className={isChecked && `${categoryName}-tag`}
               checked={isChecked}
-              onChange={checked => handleChange(categoryName, checked, selectedTypes, router)}
+              onChange={(checked) => handleChange(categoryName, checked, selectedTypes, router)}
               style={{
                 width: '100%',
                 textAlign: 'center',

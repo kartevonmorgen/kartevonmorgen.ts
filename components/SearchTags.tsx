@@ -54,7 +54,7 @@ const removeTagFromRouter = (router: NextRouter) => (tagToRemove: string) => {
   const { tag: optionalTagsFromQuery } = query
   const optionalTags = convertQueryParamToArray(optionalTagsFromQuery)
 
-  const newTagsParameter = produce(optionalTags, draft => {
+  const newTagsParameter = produce(optionalTags, (draft) => {
     const indexOfTagToRemove = draft.indexOf(tagToRemove)
     if (indexOfTagToRemove !== -1) {
       draft.splice(indexOfTagToRemove, 1)

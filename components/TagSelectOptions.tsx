@@ -12,7 +12,6 @@ interface TagSelectOptionsProps {
 }
 
 const TagSelectOptions: FC<TagSelectOptionsProps> = (props) => {
-
   const { token } = props
 
   const tagMatcherParams: MostPopularTagsParams = {
@@ -32,7 +31,7 @@ const TagSelectOptions: FC<TagSelectOptionsProps> = (props) => {
   return (
     <Fragment>
       {
-        matchedTagsWithFrequency.map(tagWithFrequency => (
+        matchedTagsWithFrequency.map((tagWithFrequency) => (
           <Option
             key={`tag-input-${tagWithFrequency.tag}`}
             value={tagWithFrequency.tag}

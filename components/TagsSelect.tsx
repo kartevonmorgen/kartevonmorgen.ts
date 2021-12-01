@@ -9,7 +9,6 @@ const { Option } = Select
 
 
 const TagsSelect: FC<SelectProps<any>> = (props) => {
-
   const {
     onSearch: onSearchCallback,
     onSelect: onSelectCallback,
@@ -53,7 +52,7 @@ const TagsSelect: FC<SelectProps<any>> = (props) => {
     >
       {
         matchedTagsWithFrequency && (
-          matchedTagsWithFrequency.map(tagWithFrequency => (
+          matchedTagsWithFrequency.map((tagWithFrequency) => (
             <Option
               key={`tag-input-${tagWithFrequency.tag}`}
               value={tagWithFrequency.tag}

@@ -51,11 +51,10 @@ interface TableProps {
 }
 
 const Table: FC<TableProps> = (props) => {
-
   const { t } = useTranslation('tables')
 
   const { dataSource } = props
-  const translatedColumns = columns.map(c => ({ ...c, 'title': t(c.title) }))
+  const translatedColumns = columns.map((c) => ({ ...c, 'title': t(c.title) }))
 
   if (!dataSource) {
     return <AntTable bordered loading columns={translatedColumns}/>

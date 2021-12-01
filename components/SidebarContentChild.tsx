@@ -22,7 +22,6 @@ const renderSideBarContentChild = (slugAction: SlugAction): ReactNode => {
 
 
 const SidebarContentChild: FC<SidebarContentChildProps> = (props) => {
-
   const { slugAction } = props
 
   return (
@@ -35,7 +34,6 @@ const SidebarContentChild: FC<SidebarContentChildProps> = (props) => {
       {renderSideBarContentChild(slugAction)}
     </div>
   )
-
 }
 
 

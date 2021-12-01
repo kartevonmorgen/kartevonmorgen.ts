@@ -40,7 +40,6 @@ const partners: Partner[] = [
 ]
 
 const Partners: FC = () => {
-
   const { t } = useTranslation('home')
 
   return (
