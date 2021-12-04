@@ -16,13 +16,43 @@ from sqlalchemy import String, Integer, Column
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-# TODO: move to args
-MAX_NUMBER_OF_TAGS_TO_REQUEST = 1000
+LIMIT_OF_TAGS = 1000
+DEFAULT_LAST_N_TAGS = 200
 DB_CHUNK_SIZE = 200
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--dev', action='store_true')
-parser.add_argument('--sync-once', action='store_true')
+parser.add_argument(
+    '--fetch-all-on-start',
+    action='store_true'
+)
+parser.add_argument(
+    '--interval-for-all-tags',
+    '--ia',
+    type=int,
+    default=60,
+    help="interval of fetching all tags in seconds"
+)
+parser.add_argument(
+    '--interval-for-least-used-tags',
+    '--iln',
+    type=int,
+    default=60,
+    help="interval of fetching least used tags in seconds"
+)
+parser.add_argument(
+    '--n-least-used-tags',
+    '--n',
+    type=int,
+    default=DEFAULT_LAST_N_TAGS,
+)
+parser.add_argument(
+    '--dev',
+    action='store_true'
+)
+parser.add_argument(
+    '--sync-once',
+    action='store_true'
+)
 parser.add_argument(
     '--log-level',
     choices=[
@@ -88,23 +118,23 @@ def count_tags() -> int:
     responses = grequests.map((request,), exception_handler=request_exception_handler)
     response = responses[0]
 
-    return response.json()
+    number_of_tags = response.json()
+    logger.debug(f"total number of tags: {number_of_tags}")
+
+    return number_of_tags
 
 
-def fetch_tags_frequencies() -> List[TagFrequencyDTO]:
+def fetch_tags_frequencies(number_of_tags: int, base_offset: int = 0) -> List[TagFrequencyDTO]:
     try:
-        number_of_tags = count_tags()
+        logger.info(f"start fetching tag frequencies: {number_of_tags}, offset: {base_offset}")
 
-        logger.info(f"start fetching tag frequencies: {number_of_tags}")
-
-        number_of_required_iterations: int = ceil(number_of_tags / MAX_NUMBER_OF_TAGS_TO_REQUEST)
-        most_popular_tags_url = f"{config['NEXT_PUBLIC_BASICS_API']}/{urls.MOST_POPULAR_TAGS}"
+        number_of_required_iterations: int = ceil(number_of_tags / LIMIT_OF_TAGS)
+        most_popular_tags_url = f"{config['NEXT_PUBLIC_BASICS_API']}{urls.MOST_POPULAR_TAGS}"
 
         tag_frequency_urls = []
         for i in range(number_of_required_iterations):
-            tag_frequency_urls.append(
-                f"{most_popular_tags_url}?limit={MAX_NUMBER_OF_TAGS_TO_REQUEST}&offset={i * MAX_NUMBER_OF_TAGS_TO_REQUEST}"
-            )
+            url = f"{most_popular_tags_url}?limit={LIMIT_OF_TAGS}&offset={i * LIMIT_OF_TAGS + base_offset}"
+            tag_frequency_urls.append(url)
 
         requests = (grequests.get(tag_frequency_url) for tag_frequency_url in tag_frequency_urls)
         responses = grequests.map(requests, exception_handler=request_exception_handler)
@@ -126,6 +156,12 @@ def fetch_tags_frequencies() -> List[TagFrequencyDTO]:
         return []
 
     return aggregated_responses
+
+
+def fetch_all_tags_frequencies():
+    number_of_tags = count_tags()
+
+    return fetch_tags_frequencies(number_of_tags)
 
 
 def chunk_tags_frequencies(tag_frequencies: List[TagFrequencyDTO]) -> Generator[List[TagFrequencyDTO], None, None]:
@@ -167,13 +203,22 @@ async def update_or_insert_tags_frequencies(tag_frequencies: List[TagFrequencyDT
         logger.success("upserting tags frequencies completed")
 
     except Exception as e:
-        logger.error("DB failed: {e}")
+        logger.error(f"DB failed: {e}")
 
 
-async def fetch_and_store_tags_frequencies():
-    logger.info("start fetching and upserting tags frequencies")
+async def fetch_and_store_all_tags_frequencies():
+    logger.info("start fetching and upserting all tags frequencies")
 
-    tags_frequencies = fetch_tags_frequencies()
+    tags_frequencies = fetch_all_tags_frequencies()
+    await update_or_insert_tags_frequencies(tags_frequencies)
+
+
+async def fetch_and_store_last_n_tags_frequencies():
+    logger.info(f"start fetching and upserting last {args.n_least_used_tags} tags frequencies")
+
+    number_of_tags = count_tags()
+    offset = max(0, number_of_tags - args.n_least_used_tags)
+    tags_frequencies = fetch_tags_frequencies(number_of_tags, offset)
     await update_or_insert_tags_frequencies(tags_frequencies)
 
 
@@ -190,19 +235,25 @@ async def initialize_db():
 
 async def async_main():
     await initialize_db()
-    await fetch_and_store_tags_frequencies()
+
+    if args.fetch_all_on_start:
+        await fetch_and_store_all_tags_frequencies()
 
     if args.sync_once:
         return
 
-    schedule\
-        .every(int(config["CRON_INTERVAL_TO_SYNC_POPULAR_TAGS_IN_MINUTES"]))\
-        .minutes\
-        .do(fetch_and_store_tags_frequencies)
+    schedule \
+        .every(args.interval_for_all_tags) \
+        .seconds \
+        .do(fetch_and_store_all_tags_frequencies)
 
-    loop = asyncio.get_event_loop()
+    schedule \
+        .every(args.interval_for_least_used_tags) \
+        .seconds \
+        .do(fetch_and_store_last_n_tags_frequencies)
+
     while True:
-        loop.run_until_complete(schedule.run_pending())
+        await schedule.run_pending()
         time.sleep(1)
 
 
