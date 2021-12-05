@@ -12,7 +12,6 @@ interface FlowerProps {
 
 
 const Flower: FC<FlowerProps> = (props) => {
-
   const { radius, ratings, showTooltip } = props
 
   return (

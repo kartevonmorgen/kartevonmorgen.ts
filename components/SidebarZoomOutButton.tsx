@@ -6,7 +6,6 @@ import useTranslation from 'next-translate/useTranslation'
 
 
 const zoomOut = (divisionFactor: number, router: NextRouter) => () => {
-
   const { query } = router
   const { z: zoom } = query
 

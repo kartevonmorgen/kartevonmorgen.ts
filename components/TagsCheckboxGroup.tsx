@@ -12,7 +12,7 @@ const SEP = ','
 
 const areCheckboxValuesSelected = (valuesFromParent: string[], checkboxValues: string[]): boolean => {
   const allCheckboxValuesAreSelectedByParent: boolean = checkboxValues.every(
-    value => valuesFromParent.includes(value),
+    (value) => valuesFromParent.includes(value),
   )
 
   return allCheckboxValuesAreSelectedByParent
@@ -24,7 +24,6 @@ interface TagsCheckboxGroup {
 }
 
 const TagsCheckboxGroup: FC<TagsCheckboxGroup> = (props) => {
-
   const { onChange, selectedValues: valuesFromParent } = props
 
   const router = useRouter()

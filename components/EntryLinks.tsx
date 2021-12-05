@@ -24,18 +24,17 @@ type EnrichedLinkDetails = EnrichedLinkDetail[]
 
 
 const addTagDetailsToCustomLinks = (links: CustomLinkList): EnrichedLinkDetails => {
-  const enrichedLinkDetails = links.map(link => {
-    return update(link, draft => {
+  const enrichedLinkDetails = links.map((link) => {
+    return update(link, (draft) => {
       const domain = getDomainFromLink(draft.url)
       let tagDetail: TagDetail = domainToTagDetailMapper.default
       if (has(domainToTagDetailMapper, domain)) {
         tagDetail = domainToTagDetailMapper[domain]
       }
 
-      Object.keys(tagDetail).forEach(k => {
+      Object.keys(tagDetail).forEach((k) => {
         draft[k] = tagDetail[k]
       })
-
     })
   })
 
@@ -152,7 +151,7 @@ const EntryLinks: FC<EntryLinksProps> = (props) => {
 
   const enrichedLinks = addTagDetailsToCustomLinks(links)
 
-  //since enrichedLinks is a copy from immer we are safe to sort in place
+  // since enrichedLinks is a copy from immer we are safe to sort in place
   enrichedLinks.sort(enrichedLinkDetailsSortFunc)
 
   return (

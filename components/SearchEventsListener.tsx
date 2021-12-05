@@ -66,7 +66,7 @@ const SearchEventsListener: FC = () => {
 
     // search entries
     // if no entry category is there, we should set the entries state to an empty array
-    const entryCategories = typeNames.filter(t => isEntryCategory(t)).map(tName => CategoryNameToIdMapper[tName])
+    const entryCategories = typeNames.filter((t) => isEntryCategory(t)).map((tName) => CategoryNameToIdMapper[tName])
     if (entryCategories.length !== 0) {
       const searchEntriesRequestDTO: SearchEntriesRequestDTO = {
         bbox: bbox,
@@ -82,7 +82,6 @@ const SearchEventsListener: FC = () => {
 
     // search events
     if (typeNames.includes(CategoryToNameMapper[Category.EVENT])) {
-
       const mapTimes: EventTimeBoundaries = getEventTimeBoundariesFromRouter(router)
 
       const searchEventsRequestDTO: SearchEventsRequestDTO = {
@@ -98,7 +97,6 @@ const SearchEventsListener: FC = () => {
     } else {
       dispatch(emptyEvents())
     }
-
   }, searchEffectDependencies)
 
 

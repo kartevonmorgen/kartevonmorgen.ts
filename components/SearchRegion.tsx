@@ -1,15 +1,18 @@
-import { FC, useState } from 'react'
-import { useDebounce } from 'ahooks'
-import { Select } from 'antd'
-import useRegionRecommender from '../hooks/useRegionRecommender'
-import { NextRouter, useRouter } from 'next/router'
-import { convertQueryParamToString, convertStringToFloat, updateRoutingQuery } from '../utils/utils'
-import { GeoLocations } from '../dtos/GeoLocatoinResponse'
-import { AxiosInstance } from '../api'
-import API_ENDPOINTS from '../api/endpoints'
-import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
-import { convertLatLngToString, LatLng } from '../utils/geolocation'
-import useTranslation from 'next-translate/useTranslation';
+import {FC, useState} from 'react';
+import {useDebounce} from 'ahooks';
+import {Select} from 'antd';
+import useRegionRecommender from '../hooks/useRegionRecommender';
+import {NextRouter, useRouter} from 'next/router';
+import {
+    convertQueryParamToString,
+    convertStringToFloat,
+    updateRoutingQuery,
+} from '../utils/utils';
+import {GeoLocations} from '../dtos/GeoLocatoinResponse';
+import {AxiosInstance} from '../api';
+import API_ENDPOINTS from '../api/endpoints';
+import {createSlugPathFromQueryAndRemoveSlug} from '../utils/slug';
+import {convertLatLngToString, LatLng} from '../utils/geolocation';
 
 const fetchLocationFromRegionName = async (
     regionName: string,
@@ -70,7 +73,6 @@ const changeLatAndLngFromRegionName =
 const SearchRegion: FC = () => {
     const router = useRouter();
     const {query} = router;
-    const {t} = useTranslation('map');
 
     const {dropdowns} = query;
     const regionsGroup = convertQueryParamToString(dropdowns, 'main');
@@ -100,9 +102,7 @@ const SearchRegion: FC = () => {
             onClear={() => {
                 setRegionNameToSearch('');
             }}
-            placeholder={
-                t('searchForRegionPlaceholder') || 'Search for a region'
-            }
+            placeholder="Search for a region"
             style={{
                 width: '100%',
                 marginTop: 8,
@@ -111,5 +111,4 @@ const SearchRegion: FC = () => {
     );
 };
 
-
-export default SearchRegion
+export default SearchRegion;

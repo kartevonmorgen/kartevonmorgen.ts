@@ -2,13 +2,9 @@ import { FC, Fragment } from 'react'
 import ResultList from './ResultList'
 import SearchControllers from './SearchControllers'
 import AddEntryButton from './AddEntryButton'
-import useTranslation from 'next-translate/useTranslation'
 
 
 const SearchSidebar: FC = () => {
-
-  const {t} = useTranslation('map');
-  
   return (
       <Fragment>
           <SearchControllers />

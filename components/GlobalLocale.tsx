@@ -7,11 +7,9 @@ const GlobalLocale: FC = (_props) => {
   const router = useRouter()
   const { locale } = router
 
-  //todo: check for the existence of the locale before supplying to packages
+  // todo: check for the existence of the locale before supplying to packages
   useEffect(() => {
-
     moment.locale(locale)
-
   }, [locale])
 
   return null

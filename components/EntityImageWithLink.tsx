@@ -7,12 +7,11 @@ interface EntityImageWithLinkProps extends EntityImageProps {
 }
 
 const EntityImageWithLink: FC<EntityImageWithLinkProps> = (props) => {
-
   const { link, title, src } = props
 
   if (link) {
     return (
-      <a href={link} target="_blank">
+      <a href={link} target="_blank" rel="noreferrer">
         <EntityImage
           title={title}
           src={src}

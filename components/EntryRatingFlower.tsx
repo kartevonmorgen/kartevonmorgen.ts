@@ -11,7 +11,6 @@ interface EntryRatingFlowerProps {
 }
 
 const EntryRatingFlower: FC<EntryRatingFlowerProps> = (props) => {
-
   const { entryId } = props
 
   const { t } = useTranslation('map')
@@ -51,7 +50,6 @@ const EntryRatingFlower: FC<EntryRatingFlowerProps> = (props) => {
       </div>
     </Fragment>
   )
-
 }
 
 

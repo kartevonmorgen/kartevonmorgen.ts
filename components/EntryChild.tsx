@@ -9,7 +9,6 @@ interface EntryChildProps {
 
 
 const EntryChild: FC<EntryChildProps> = (props) => {
-
   const { slugAction } = props
 
   // note: i know it's a switch with only one case but i developed that to make further developments easy

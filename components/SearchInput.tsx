@@ -11,33 +11,31 @@ import useTranslation from 'next-translate/useTranslation';
 const {Search} = Input;
 
 const onSearch = (router) => (searchTerm, _event) => {
-    const {query} = router;
+  const { query } = router
 
-    const searchURLParamKey = 'search';
+  const searchURLParamKey = 'search'
 
-    let newQueryParams = updateRoutingQuery(query, {
-        [searchURLParamKey]: searchTerm,
-    });
-    // it's an empty string so let's remove the param from the URL
-    // because we have added that from the update so we are sure the key exists
-    if (searchTerm.length === 0) {
-        newQueryParams = produce(newQueryParams, (draftState) => {
-            delete draftState[searchURLParamKey];
-        });
-    }
+  let newQueryParams = updateRoutingQuery(query, { [searchURLParamKey]: searchTerm })
+  // it's an empty string so let's remove the param from the URL
+  // because we have added that from the update so we are sure the key exists
+  if (searchTerm.length === 0) {
+    newQueryParams = produce(newQueryParams, (draftState) => {
+      delete draftState[searchURLParamKey]
+    })
+  }
 
-    const [newPath, newQueryWithoutSlug] =
-        createSlugPathFromQueryAndRemoveSlug(newQueryParams);
+  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
 
-    router.replace(
-        {
-            pathname: `/m/${newPath}`,
-            query: newQueryWithoutSlug,
-        },
-        undefined,
-        {shallow: true},
-    );
-};
+  router.replace(
+    {
+      pathname: `/m/${newPath}`,
+      query: newQueryWithoutSlug,
+    },
+    undefined,
+    { shallow: true },
+  )
+}
+
 
 const SearchInput: FC = () => {
     const router = useRouter();

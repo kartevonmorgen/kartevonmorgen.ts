@@ -15,24 +15,21 @@ const handleChange = (
     selectedTypes: string[],
     router: NextRouter,
 ) => {
-    const {query} = router;
+  const { query } = router
 
-    let nextSelectedTypes = [] as string[];
-    if (selectedTypes.length === knownCategories.length) {
-        // if all are selected -> disable others
-        nextSelectedTypes = [typeName];
-    } else if (selectedTypes.length === 1 && selectedTypes[0] === typeName) {
-        // if this type is the only active type -> select all types to prevent non-selection
-        nextSelectedTypes = Object.values(knownCategories);
+  let nextSelectedTypes = [] as string[]
+  if (selectedTypes.length === knownCategories.length) {
+    // if all are selected -> disable others
+    nextSelectedTypes = [typeName]
+  } else if (selectedTypes.length === 1 && selectedTypes[0] === typeName) {
+    // if this type is the only active type -> select all types to prevent non-selection
+    nextSelectedTypes = Object.values(knownCategories)
+  } else {
+    // everything is normal
+    if (checked) {
+      nextSelectedTypes = [...selectedTypes, typeName]
     } else {
-        // everything is normal
-        if (checked) {
-            nextSelectedTypes = [...selectedTypes, typeName];
-        } else {
-            nextSelectedTypes = selectedTypes.filter(
-                (tName) => tName !== typeName,
-            );
-        }
+      nextSelectedTypes = selectedTypes.filter((tName) => tName !== typeName)
     }
 
     let newQueryParams = {};

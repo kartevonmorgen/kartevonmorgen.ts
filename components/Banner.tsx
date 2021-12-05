@@ -8,7 +8,6 @@ const { Title } = Typography
 
 
 const Banner: FC = () => {
-
   const { t } = useTranslation('home')
 
   return (

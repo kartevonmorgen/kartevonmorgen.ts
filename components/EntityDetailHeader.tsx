@@ -9,7 +9,7 @@ import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 
 const onBack = (router: NextRouter) => () => {
   const { query } = router
-  const newQueryParams = produce(query, draftState => {
+  const newQueryParams = produce(query, (draftState) => {
     const { slug } = draftState
     const slugArray = convertQueryParamToArray(slug)
 
@@ -31,7 +31,7 @@ const onBack = (router: NextRouter) => () => {
 
 const onEdit = (router: NextRouter) => () => {
   const { query } = router
-  const newQueryParams = produce(query, draftState => {
+  const newQueryParams = produce(query, (draftState) => {
     const { slug } = draftState
     const slugArray = convertQueryParamToArray(slug)
     slugArray.push(SlugVerb.EDIT)

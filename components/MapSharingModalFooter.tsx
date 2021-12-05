@@ -14,7 +14,6 @@ interface MapSharingModalFooterProps {
 }
 
 const MapSharingModalFooter: FC<MapSharingModalFooterProps> = (props) => {
-
   const { onOk, onCancel, iframeCode } = props
 
   const { t } = useTranslation('map')

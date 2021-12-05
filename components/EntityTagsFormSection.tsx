@@ -11,7 +11,6 @@ interface EntityTagsFormSectionProps {
 
 
 const EntityTagsFormSection: FC<EntityTagsFormSectionProps> = (props) => {
-
   const { form } = props
 
   const { t } = useTranslation('map')
@@ -28,7 +27,7 @@ const EntityTagsFormSection: FC<EntityTagsFormSectionProps> = (props) => {
         selectedValues={selectedTags}
       />
 
-      {/*todo: add validation for the three tags*/}
+      {/* todo: add validation for the three tags*/}
       <Form.Item name="tags">
         <TagsSelect
           placeholder={t('entryForm.tags')}

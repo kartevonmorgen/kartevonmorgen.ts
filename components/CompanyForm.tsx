@@ -12,7 +12,6 @@ interface CompanyFormProps {
 
 
 const CompanyForm: FC<CompanyFormProps> = (props) => {
-
   const { verb, companyId } = props
 
   return (

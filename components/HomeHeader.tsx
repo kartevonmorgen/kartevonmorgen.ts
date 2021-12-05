@@ -77,7 +77,7 @@ const HomeHeader: FC = () => {
               key="home-header-sub-menu-locales"
             >
               {
-                locales.map(locale => (
+                locales.map((locale) => (
                   <Menu.Item key={`locale-${locale}`}>
                     <Link href={'/'} locale={locale}>{locale}</Link>
                   </Menu.Item>

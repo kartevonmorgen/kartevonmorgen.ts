@@ -11,7 +11,6 @@ interface SharingModalTabsProps {
 }
 
 const SharingModalTabs: FC<SharingModalTabsProps> = (props) => {
-
   const { hideModal } = props
 
   return (

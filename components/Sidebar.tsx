@@ -35,7 +35,7 @@ const Sidebar: FC = () => {
       }}
     >
 
-    {isSidebarOpen && <SidebarContent/>}
+      {isSidebarOpen && <SidebarContent/>}
 
     </Drawer>
   )

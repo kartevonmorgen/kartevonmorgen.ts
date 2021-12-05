@@ -57,7 +57,6 @@ const getSubstringOfDescription = (description: string, maxLength: number) => {
 }
 
 const ResultCard: FC<ResultCardProps> = (props) => {
-
   const { searchResult } = props
   const { id, title, tags, categories } = searchResult
 

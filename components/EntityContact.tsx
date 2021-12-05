@@ -20,7 +20,7 @@ const propToIcon = [
 const EntityContact: FC<EntryContactProps> = (props) => {
   return (
     <Fragment>
-      {/*general contact*/}
+      {/* general contact*/}
       {
         propToIcon.map(([attribute, iconName]) => {
           if (!props[attribute]) {

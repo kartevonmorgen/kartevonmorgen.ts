@@ -68,7 +68,6 @@ interface CollapseSidebarButtonIcon {
 }
 
 const CollapseSidebarButtonIcon: FC<CollapseSidebarButtonIcon> = (props) => {
-
   const { showOpenIcon } = props
 
   if (showOpenIcon) {
@@ -79,7 +78,6 @@ const CollapseSidebarButtonIcon: FC<CollapseSidebarButtonIcon> = (props) => {
 }
 
 const CollapseSidebarButton: FC = () => {
-
   const router = useRouter()
   const { query } = router
   const { sidebar: sidebarParam } = query

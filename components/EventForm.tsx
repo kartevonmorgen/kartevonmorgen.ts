@@ -56,12 +56,11 @@ const setAddressDetailsIfAddressFieldsAreNotTouched = async (
     zip: address.postcode,
   }
 
-  touchedAddressFieldNames.forEach(touchedFieldName => {
+  touchedAddressFieldNames.forEach((touchedFieldName) => {
     delete fieldsToSetInForm[touchedFieldName]
   })
 
   form.setFieldsValue(fieldsToSetInForm)
-
 }
 
 const addEventToState = (dispatch: AppDispatch, event: EventDTO) => {
@@ -77,7 +76,6 @@ const addEventToStateOnCreate = (dispatch: AppDispatch, event: EventDTO, isEdit:
 }
 
 const redirectToEvent = (router: NextRouter, eventId: EventID, isEdit: boolean) => {
-
   const slugLevelsToIgnore = isEdit ? 3 : 2
 
   redirectToEntityDetailAndFlyToLocation(
@@ -154,8 +152,8 @@ const onFinish = (
 
 // todo: any is not a suitable type for dispatch, it should be string[]
 const addTouchedAddressFieldName = (setTouchedAddressFields: Dispatch<any>, fieldName: string) => {
-  setTouchedAddressFields(prevTouchedAddressFields =>
-    produce(prevTouchedAddressFields, draft => {
+  setTouchedAddressFields((prevTouchedAddressFields) =>
+    produce(prevTouchedAddressFields, (draft) => {
       draft.push(fieldName)
     }),
   )
@@ -169,7 +167,6 @@ interface EventFormProps {
 
 
 const EventForm: FC<EventFormProps> = (props) => {
-
   const { verb, eventId } = props
 
   const dispatch = useDispatch()
@@ -194,7 +191,6 @@ const EventForm: FC<EventFormProps> = (props) => {
     if (!newPoint.isEmpty()) {
       setAddressDetailsIfAddressFieldsAreNotTouched(form, newPoint, touchedAddressFields).then()
     }
-
   }, effectDeps)
 
   const { data: event, error: eventError } = useRequest<EventDTO>(isEdit && {
@@ -323,187 +319,176 @@ const EventForm: FC<EventFormProps> = (props) => {
 
           <Form.Item name="state" hidden />
 
-          <Form.Item name="street">
-              <Input
-                  placeholder={t('entryForm.street')}
-                  onBlur={() => {
-                      addTouchedAddressFieldName(
-                          setTouchedAddressFields,
-                          'street',
-                      );
-                      flyToFormAddressAndSetNewPin(router, form).then();
-                  }}
-              />
-          </Form.Item>
+      <Form.Item name="street">
+        <Input
+          placeholder={t('entryForm.street')}
+          onBlur={() => {
+            addTouchedAddressFieldName(setTouchedAddressFields, 'street')
+            flyToFormAddressAndSetNewPin(router, form).then()
+          }}
+        />
+      </Form.Item>
 
-          <Form.Item
-              name="lat"
-              style={{
-                  display: 'inline-block',
-                  width: '50%',
-              }}
-          >
-              <Input placeholder="Latitude" disabled />
-          </Form.Item>
+      <Form.Item
+        name="lat"
+        style={{
+          display: 'inline-block',
+          width: '50%',
+        }}
+      >
+        <Input placeholder="Latitude" disabled/>
+      </Form.Item>
 
-          <Form.Item
-              name="lng"
-              style={{
-                  display: 'inline-block',
-                  width: '50%',
-              }}
-          >
-              <Input placeholder="Longitude" disabled />
-          </Form.Item>
+      <Form.Item
+        name="lng"
+        style={{
+          display: 'inline-block',
+          width: '50%',
+        }}
+      >
+        <Input placeholder="Longitude" disabled/>
+      </Form.Item>
 
-          <Divider orientation="left">{t('entryForm.contact')}</Divider>
+      <Divider orientation="left">{t('entryForm.contact')}</Divider>
 
-          <Form.Item name="contact">
-              <Input
-                  placeholder={t('entryForm.contactPerson')}
-                  prefix={<FontAwesomeIcon icon="user" />}
-              />
-          </Form.Item>
+      <Form.Item name="contact">
+        <Input
+          placeholder={t('entryForm.contactPerson')}
+          prefix={<FontAwesomeIcon icon="user"/>}
+        />
+      </Form.Item>
 
-          <Form.Item name="telephone">
-              <Input
-                  placeholder={t('entryForm.phone')}
-                  prefix={<FontAwesomeIcon icon="phone" />}
-              />
-          </Form.Item>
+      <Form.Item name="telephone">
+        <Input
+          placeholder={t('entryForm.phone')}
+          prefix={<FontAwesomeIcon icon="phone"/>}
+        />
+      </Form.Item>
 
-          <Form.Item
-              name="email"
-              rules={[
-                  {
-                      validator: (_, value) => {
-                          if (!value) {
-                              return Promise.resolve();
-                          }
+      <Form.Item
+        name="email"
+        rules={[
+          {
+            validator: (_, value) => {
+              if (!value) {
+                return Promise.resolve()
+              }
 
-                          const trimmedValue: string = value.trim();
+              const trimmedValue: string = value.trim()
 
-                          if (validateEmail(trimmedValue)) {
-                              return Promise.resolve();
-                          }
+              if (validateEmail(trimmedValue)) {
+                return Promise.resolve()
+              }
 
-                          return Promise.reject(new Error('not a valid email'));
-                      },
-                  },
-              ]}
-          >
-              <Input
-                  placeholder={t('entryForm.email')}
-                  prefix={<FontAwesomeIcon icon="envelope" />}
-              />
-          </Form.Item>
+              return Promise.reject(new Error('not a valid email'))
+            },
+          },
+        ]}
+      >
+        <Input
+          placeholder={t('entryForm.email')}
+          prefix={<FontAwesomeIcon icon="envelope"/>}
+        />
+      </Form.Item>
 
-          <Form.Item
-              name="homepage"
-              rules={[
-                  {
-                      validator: (_, value) => {
-                          if (!value) {
-                              return Promise.resolve();
-                          }
+      <Form.Item
+        name="homepage"
+        rules={[
+          {
+            validator: (_, value) => {
+              if (!value) {
+                return Promise.resolve()
+              }
 
-                          const trimmedValue: string = value.trim();
-                          const valueWithWebProtocol: string =
-                              prependWebProtocol(trimmedValue);
+              const trimmedValue: string = value.trim()
+              const valueWithWebProtocol: string = prependWebProtocol(trimmedValue)
 
-                          if (isWebUri(valueWithWebProtocol)) {
-                              return Promise.resolve();
-                          }
+              if (isWebUri(valueWithWebProtocol)) {
+                return Promise.resolve()
+              }
 
-                          return Promise.reject(new Error('not a valid url'));
-                      },
-                  },
-              ]}
-          >
-              <Input
-                  placeholder={t('entryForm.homepage')}
-                  prefix={<FontAwesomeIcon icon="globe" />}
-              />
-          </Form.Item>
+              return Promise.reject(new Error('not a valid url'))
+            },
+          },
+        ]}
+      >
+        <Input
+          placeholder={t('entryForm.homepage')}
+          prefix={<FontAwesomeIcon icon="globe"/>}
+        />
+      </Form.Item>
 
-          <Form.Item name="created_by" hidden>
-              <Input disabled />
-          </Form.Item>
+      <Form.Item name="created_by" hidden>
+        <Input disabled/>
+      </Form.Item>
 
-          <Form.Item name="organizer">
-              <Input
-                  placeholder={t('entryForm.contactPerson')}
-                  prefix={<FontAwesomeIcon icon="user" />}
-              />
-          </Form.Item>
+      <Form.Item name="organizer">
+        <Input
+          placeholder={t('entryForm.contactPerson')}
+          prefix={<FontAwesomeIcon icon="user"/>}
+        />
+      </Form.Item>
 
-          <Form.Item name="registration" hidden>
-              <Input disabled />
-          </Form.Item>
+      <Form.Item name="registration" hidden>
+        <Input disabled/>
+      </Form.Item>
 
-          <Divider orientation="left">{t('entryForm.entryImage')}</Divider>
+      <Divider orientation="left">{t('entryForm.entryImage')}</Divider>
 
-          <Form.Item name="image_url">
-              <Input
-                  placeholder={t('entryForm.imageUrl')}
-                  prefix={<FontAwesomeIcon icon="camera" />}
-              />
-          </Form.Item>
+      <Form.Item name="image_url">
+        <Input
+          placeholder={t('entryForm.imageUrl')}
+          prefix={<FontAwesomeIcon icon="camera"/>}
+        />
+      </Form.Item>
 
-          <Form.Item name="image_link_url">
-              <Input
-                  placeholder={t('entryForm.imageLink')}
-                  prefix={<FontAwesomeIcon icon="link" />}
-              />
-          </Form.Item>
+      <Form.Item name="image_link_url">
+        <Input
+          placeholder={t('entryForm.imageLink')}
+          prefix={<FontAwesomeIcon icon="link"/>}
+        />
+      </Form.Item>
 
-          <Divider orientation="left">{t('entryForm.license')}</Divider>
+      <Divider orientation="left">{t('entryForm.license')}</Divider>
 
-          <Form.Item
-              name="license"
-              rules={[{required: true, message: t('entryForm.requiredField')}]}
-              valuePropName="value"
-          >
-              {/*it's necessary to catch the value of the checkbox, but the out come will be a list*/}
-              {/*so we should grab the first element*/}
-              <Checkbox.Group
-                  options={[
-                      {
-                          label: (
-                              <Fragment>
-                                  {t('entryForm.iHaveRead')}&nbsp;
-                                  <Link
-                                      href={
-                                          process.env
-                                              .NEXT_PUBLIC_SELF_DOMAIN ===
-                                          'https://co-map.ru'
-                                              ? process.env
-                                                    .NEXT_PUBLIC_CC_LINK_RU
-                                              : process.env.NEXT_PUBLIC_CC_LINK
-                                      }
-                                      target="_blank"
-                                  >
-                                      {t('entryForm.creativeCommonsLicense')}
-                                      &nbsp;
-                                  </Link>
-                                  {t('entryForm.licenseAccepted')}
-                              </Fragment>
-                          ),
-                          value: 'CC0-1.0',
-                      },
-                  ]}
-              />
-          </Form.Item>
+      <Form.Item
+        name="license"
+        rules={[
+          { required: true, message: t('entryForm.requiredField') },
+        ]}
+        valuePropName="value"
+      >
+        {/* it's necessary to catch the value of the checkbox, but the out come will be a list*/}
+        {/* so we should grab the first element*/}
+        <Checkbox.Group
+          options={[
+            {
+              label: <Fragment>
+                {t('entryForm.iHaveRead')}&nbsp;
+                <Link
+                  href={process.env.NEXT_PUBLIC_CC_LINK}
+                  target="_blank"
+                >
+                  {t('entryForm.creativeCommonsLicense')}&nbsp;
+                </Link>
+                {t('entryForm.licenseAccepted')}
+              </Fragment>,
+              value: 'CC0-1.0',
+            },
+          ]}
+        />
+      </Form.Item>
 
-          <Button
-              type="primary"
-              htmlType="submit"
-              style={{
-                  width: '100%',
-              }}
-          >
-              {t('entryForm.save')}
-          </Button>
+
+      <Button
+        type="primary"
+        htmlType="submit"
+        style={{
+          width: '100%',
+        }}
+      >
+        {t('entryForm.save')}
+      </Button>
       </Form>
   );
 }

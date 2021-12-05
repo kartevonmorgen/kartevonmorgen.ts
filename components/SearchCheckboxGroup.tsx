@@ -28,13 +28,13 @@ const addOrRemoveTagsFromQuery = (router: NextRouter) => (event: CheckboxChangeE
   let newQueryTags: string[] = []
   if (isCheckboxChecked) {
     newQueryTags = [...oldQueryTags]
-    tagsFromCheckbox.forEach(tag => {
+    tagsFromCheckbox.forEach((tag) => {
       if (!oldQueryTags.includes(tag)) {
         newQueryTags.push(tag)
       }
     })
   } else {
-    newQueryTags = oldQueryTags.filter(tag => !tagsFromCheckbox.includes(tag))
+    newQueryTags = oldQueryTags.filter((tag) => !tagsFromCheckbox.includes(tag))
   }
 
   const newTags = convertArrayToQueryParam(newQueryTags)
@@ -53,11 +53,9 @@ const addOrRemoveTagsFromQuery = (router: NextRouter) => (event: CheckboxChangeE
     undefined,
     { shallow: true },
   )
-
 }
 
 const SearchCheckboxGroup: FC = () => {
-
   const router = useRouter()
   const { query } = router
   const { tag } = query

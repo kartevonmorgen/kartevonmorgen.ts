@@ -41,6 +41,7 @@ This graph shows you, how the whole Map of tomorrow system interacts with each o
     1. `pip3 install -r requirements.txt`
     1. `python3 tag-frequency-cron.py --dev --sync-once --log-level debug` for development
     or `python3 tag-frequency-cron.py` for production
+    1. **full list of options are available on [Wiki](https://github.com/kartevonmorgen/kartevonmorgen.ts/wiki/How-to-deploy:-tags-synchronizer)**
 
 ## Development
 The general pattern is:

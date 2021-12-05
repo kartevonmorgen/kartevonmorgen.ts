@@ -31,7 +31,6 @@ const getFlowerLeafTransformation = ({ offset, scale, space }: TransformationPar
 
 
 const getFlowerLeafTooltip = (ratingFactor: string, t: Translate): ReactNode => {
-
   const factor = t('ratings.contextName.' + ratingFactor)
   const description = t('ratings.contextExplanation.' + ratingFactor)
 
@@ -49,7 +48,6 @@ const getFlowerLeafTooltip = (ratingFactor: string, t: Translate): ReactNode => 
 
 
 const getRatingFactorColorOrDefaultColorBasedOnRating = (factor: RatingFactor, rating: number = 0) => {
-
   if (rating === 0) {
     return RatingFactorColors.default
   }
@@ -78,7 +76,6 @@ interface FlowerLeafsProps {
 }
 
 const FlowerLeafs: FC<FlowerLeafsProps> = (props) => {
-
   const { showTooltip, radius, ratings } = props
 
   const size = radius * 2
@@ -92,7 +89,6 @@ const FlowerLeafs: FC<FlowerLeafsProps> = (props) => {
     <Fragment>
       {
         Object.keys(RatingFactor).map((ratingFactor: RatingFactor, i: number) => {
-
           const flowerLeafTooltip: ReactNode = showTooltip ? getFlowerLeafTooltip(ratingFactor, t) : null
           const rating: number = ratings[ratingFactor]
           const flowerLeafScale: number = getScale(rating)

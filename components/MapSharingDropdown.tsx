@@ -37,7 +37,6 @@ const menu = (
 )
 
 const MapSharingDropdown: FC = () => {
-
   const { t } = useTranslation('map')
 
   return (

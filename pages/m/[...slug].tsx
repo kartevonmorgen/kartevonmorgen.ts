@@ -85,7 +85,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const mapLocationProps = pageConfigs.map.location
 
 
-  //todo: move the re-validate value to constants
+  // todo: move the re-validate value to constants
   return {
     props: {
       mapLocationProps,

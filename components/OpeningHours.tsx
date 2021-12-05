@@ -44,7 +44,7 @@ const getCalendar = (openingHours: string): Calendar => {
   const localeWeekDays = moment.weekdays(true)
   const calendar: Calendar = moment
     .weekdays(false)
-    .map(day => ({ idx: localeWeekDays.indexOf(day), name: day, intervals: [] }))
+    .map((day) => ({ idx: localeWeekDays.indexOf(day), name: day, intervals: [] }))
 
   const startOfWeek = moment().startOf('week').toDate()
   const endOfWeek = moment().endOf('week').toDate()
@@ -136,7 +136,6 @@ const convertIntervalsToReadableString = (intervals: Intervals): string => {
 
 
 const renderDayRecord = (dayRecord: DayRecord): ReactElement => {
-
   const readableString: string = convertIntervalsToReadableString(dayRecord.intervals)
 
   return (
@@ -206,7 +205,6 @@ const OpeningHours: FC<OpeningHoursProps> = (props) => {
 
     </Fragment>
   )
-
 }
 
 

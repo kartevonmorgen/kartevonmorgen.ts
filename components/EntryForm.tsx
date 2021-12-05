@@ -66,12 +66,11 @@ const setAddressDetailsIfAddressFieldsAreNotTouched = async (
     zip: address.postcode,
   }
 
-  touchedAddressFieldNames.forEach(touchedFieldName => {
+  touchedAddressFieldNames.forEach((touchedFieldName) => {
     delete fieldsToSetInForm[touchedFieldName]
   })
 
   form.setFieldsValue(fieldsToSetInForm)
-
 }
 
 const setFieldsToDefaultOrNull = (entry: EntryFormType): EntryFormType => {
@@ -119,7 +118,7 @@ const transformFormFields = (entry: EntryFormType): EntryFormType => {
   const transformedEntryWithRenamedAndDeletedOptionalFields = produce(
     transformedEntryWithRenamedFields,
     (draft) => {
-      optionalFieldsToDelete.forEach(optionalField => {
+      optionalFieldsToDelete.forEach((optionalField) => {
         if (!draft[optionalField]) {
           delete draft[optionalField]
         }
@@ -229,8 +228,8 @@ const onFinish = (
 
 // todo: any is not a suitable type for dispatch, it should be string[]
 const addTouchedAddressFieldName = (setTouchedAddressFields: Dispatch<any>, fieldName: string) => {
-  setTouchedAddressFields(prevTouchedAddressFields =>
-    produce(prevTouchedAddressFields, draft => {
+  setTouchedAddressFields((prevTouchedAddressFields) =>
+    produce(prevTouchedAddressFields, (draft) => {
       draft.push(fieldName)
     }),
   )
@@ -272,7 +271,6 @@ const EntryForm: FC<EntryFormProps> = (props) => {
     if (!newPoint.isEmpty()) {
       setAddressDetailsIfAddressFieldsAreNotTouched(form, newPoint, touchedAddressFields).then()
     }
-
   }, effectDeps)
 
   const isEdit = verb === SlugVerb.EDIT
@@ -291,7 +289,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
 
   const foundEntry: boolean = isArray(entries) && entries.length !== 0
   const entry: Entry = foundEntry ? entries[0] : {} as Entry
-  //it's an overwrite to be sure it's not empty for the new entries
+  // it's an overwrite to be sure it's not empty for the new entries
   entry.categories = [category]
 
 

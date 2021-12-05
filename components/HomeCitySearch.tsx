@@ -34,7 +34,6 @@ const onSelect = (router: NextRouter) => (value: string) => {
 
 const convertGeoLocationsToOptions = (geoLocations: GeoLocations): Option[] => {
   const options: Option[] = geoLocations.map((geoLocation) => {
-
       const { lat, lon, display_name } = geoLocation
 
       return ({

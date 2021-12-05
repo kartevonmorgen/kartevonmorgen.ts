@@ -20,16 +20,16 @@ const searchResult = (query) => {
               justifyContent: 'space-between',
             }}
           >
-      <span>
+              <span>
         Found {query} on{' '}
-        <a
-          href={`https://s.taobao.com/search?q=${query}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-        {category}
-        </a>
-        </span>
+                <a
+                  href={`https://s.taobao.com/search?q=${query}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {category}
+                </a>
+              </span>
             <span>{getRandomInt(200, 100)} results</span>
           </div>
         ),

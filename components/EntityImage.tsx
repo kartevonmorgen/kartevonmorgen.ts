@@ -7,7 +7,6 @@ export interface EntityImageProps {
 }
 
 const EntityImage: FC<EntityImageProps> = (props) => {
-
   const { src, title } = props
 
   if (!src) {

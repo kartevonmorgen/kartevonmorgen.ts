@@ -12,7 +12,6 @@ interface EntryProps {
 
 
 const Entry: FC<EntryProps> = (props) => {
-
   const { slugAction } = props
   const { subSlugAction } = slugAction
 

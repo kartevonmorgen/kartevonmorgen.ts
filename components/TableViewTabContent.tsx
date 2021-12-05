@@ -29,7 +29,6 @@ interface TableViewTabContentProps {
 }
 
 const TableViewTabContent: FC<TableViewTabContentProps> = (props) => {
-
   const { onOk, onCancel } = props
 
   const router = useRouter()
