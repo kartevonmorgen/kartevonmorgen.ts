@@ -2,8 +2,8 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "next/core-web-vitals",
-    "google"
+    "next/core-web-vitals"
+    "google",
   ],
   "rules": {
     "semi": "off"
