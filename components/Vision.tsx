@@ -7,7 +7,7 @@ import { Typography } from 'antd'
 const { Title, Paragraph } = Typography
 
 
-const Vision: FC = () => {
+const Vision: FC = (_props) => {
   const { t } = useTranslation('home')
 
   return (

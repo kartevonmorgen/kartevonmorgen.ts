@@ -15,52 +15,50 @@ import Footer from '../components/HomeFooter'
 
 const { Content } = Layout
 
-const Home: FC = () => {
-  return (
-    <div>
-      <HomeEntityRedirector/>
+const Home: FC = () => (
+  <div>
+    <HomeEntityRedirector/>
 
-      <Layout>
+    <Layout>
 
-        <HomeHeader/>
+      <HomeHeader/>
 
-        <Banner/>
+      <Banner/>
 
-        <Content
-          style={{
-            backgroundColor: 'white',
-            padding: 60,
-            paddingTop: 24,
-          }}
-        >
-          <HomeContent/>
+      <Content
+        style={{
+          backgroundColor: 'white',
+          padding: 60,
+          paddingTop: 24,
+        }}
+      >
+        <HomeContent/>
 
-          <HomeDivider/>
+        <HomeDivider/>
 
-          <Tutorial/>
+        <Tutorial/>
 
-          <Vision/>
+        <Vision/>
 
-          <HomeDivider/>
+        <HomeDivider/>
 
-          <Team/>
+        <Team/>
 
-          <HomeDivider/>
+        <HomeDivider/>
 
-          <Creators/>
+        <Creators/>
 
-          <HomeDivider/>
+        <HomeDivider/>
 
-          <Partners/>
+        <Partners/>
 
-        </Content>
+      </Content>
 
-        <Footer/>
+      <Footer/>
 
-      </Layout>
-    </div>
-  )
-}
+    </Layout>
+  </div>
+)
 
 
 export default Home
