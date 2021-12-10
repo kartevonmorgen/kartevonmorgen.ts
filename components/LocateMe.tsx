@@ -42,7 +42,6 @@ const setQueryParamsToCurrentLocation = (shouldIncludeDefaultProjectName: boolea
     const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
 
     const pathname: string = `/m/${shouldIncludeDefaultProjectName ? 'main' : ''}${newPath}`
-    console.log(pathname)
 
     router.replace(
       {
