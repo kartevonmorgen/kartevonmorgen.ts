@@ -2,6 +2,7 @@ import produce from 'immer'
 import isString from 'lodash/isString'
 import isEmpty from 'lodash/isEmpty'
 import toString from 'lodash/toString'
+import toInteger from 'lodash/toInteger'
 import { ParsedUrlQuery } from 'querystring'
 import { LatLngBounds } from 'leaflet'
 import { RouterQueryParam } from './types'
@@ -24,7 +25,7 @@ export const convertUnknownToBoolean = (value: unknown): boolean => {
 }
 
 export const convertUnknownToInt = (value: unknown): number => {
-  return convertStringToInt(toString(value))
+  return toInteger(value)
 }
 
 export const convertQueryParamToBoolean = (param: RouterQueryParam): boolean => {

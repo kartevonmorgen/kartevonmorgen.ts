@@ -4,7 +4,7 @@ import { Drawer } from 'antd'
 import SidebarContent from './SidebarContent'
 import { convertQueryParamToString } from '../utils/utils'
 import { isSidebarStatusShown } from '../dtos/SidebarStatus'
-import useMobileDetect from '../hooks/useMobileDetect'
+import { useSidebar } from '../hooks/useResponsive'
 
 
 const Sidebar: FC = () => {
@@ -17,8 +17,7 @@ const Sidebar: FC = () => {
 
   const isSidebarOpen = isSidebarStatusShown(convertQueryParamToString(sidebarParam))
 
-  const device = useMobileDetect()
-  const sidebarWidth: string = device.isMobile() ? '60vw' : '32vw'
+  const { width: sidebarWidth } = useSidebar()
 
 
   return (
@@ -27,12 +26,12 @@ const Sidebar: FC = () => {
       placement="left"
       closable={false}
       mask={false}
-      width={sidebarWidth}
       bodyStyle={{
         padding: 0,
         display: 'flex',
         flexDirection: 'column',
       }}
+      width={sidebarWidth}
     >
 
       {isSidebarOpen && <SidebarContent/>}
