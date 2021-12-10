@@ -20,7 +20,6 @@ const ResultList: FC<ResultListProps> = (_props) => {
     (state: RootState) => sortedSearchResultSelector(state),
   )
   const { length: numberOfSearchResults } = sortedSearchResults
-  console.log(numberOfSearchResults)
 
   const [
     isSidebarZoomOutButtonVisible,
