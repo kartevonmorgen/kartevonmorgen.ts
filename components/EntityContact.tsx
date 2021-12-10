@@ -82,7 +82,7 @@ const EntityContact: FC<EntryContactProps> = (props) => {
           </Col>
 
           <Col>
-            {homepage}
+            <Link target="_blank" href={homepage} rel="noopener noreferrer">{homepage}</Link>
           </Col>
         </Row>
       )
