@@ -20,6 +20,7 @@ const ResultList: FC<ResultListProps> = (_props) => {
     (state: RootState) => sortedSearchResultSelector(state),
   )
   const { length: numberOfSearchResults } = sortedSearchResults
+  console.log(numberOfSearchResults)
 
   const [
     isSidebarZoomOutButtonVisible,
@@ -35,10 +36,14 @@ const ResultList: FC<ResultListProps> = (_props) => {
     } else {
       hideSidebarZoomOutButton()
     }
-  }, [sortedSearchResults.length])
+  }, [numberOfSearchResults])
 
   if (numberOfSearchResults === 0) {
-    return null
+    return (
+      <SidebarZoomOutButton
+        visible
+      />
+    )
   }
 
   return (
