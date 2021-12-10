@@ -59,7 +59,7 @@ const EventDetail: FC<EventDetailProps> = (props) => {
 
 
   return (
-    <div>
+    <div id="entity-detail">
 
       <EntityDetailHeader/>
 

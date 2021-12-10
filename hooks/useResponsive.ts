@@ -26,7 +26,7 @@ export const useSidebar = (): Size => {
 
   const responsive = useResponsive()
   if (!responsive) {
-    return calculateSidebarSize(sidebarSizes.default)
+    return sidebarSizes.default
   }
 
   for (let i = ORDERED_RESPONSIVE_KEYS.length - 1; i !== -1; i--) {

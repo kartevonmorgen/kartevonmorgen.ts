@@ -88,7 +88,7 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
   const typeName: string = CategoryToNameMapper[type]
 
   return (
-    <div>
+    <div id="entity-detail">
       <EntityDetailHeader/>
 
       <EntityImageWithLink

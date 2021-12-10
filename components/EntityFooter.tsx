@@ -1,10 +1,11 @@
-import React, { FC, Fragment } from 'react'
+import React, { FC, Fragment, useEffect, useState } from 'react'
 import { Col, Divider, Layout, Row, Tooltip, Typography } from 'antd'
 import moment from 'moment'
 import { RootSlugEntity } from '../utils/types'
 import { mapEntityToOFDB } from '../api/endpoints'
 import createMailToHref from '../utils/mailto'
 import { gold } from '@ant-design/colors'
+import { useSize } from 'ahooks'
 
 
 const { Footer } = Layout
@@ -31,8 +32,32 @@ const EntityFooter: FC<EntityFooterProps> = (props) => {
     version,
   } = props
 
+  const footerSize = useSize(document.getElementById('entity-footer'))
+  const footerHeight = footerSize?.height
+
+  const entryDetailSize = useSize(document.getElementById('entity-detail'))
+  const entityDetailHeight = entryDetailSize?.height
+
+  const bodySize = useSize(document.querySelector('body'))
+  const bodyHeight = bodySize?.height
+
+  const [shouldStickAtBottom, setShouldStickAtBottom] = useState<boolean>(true)
+
+
+  useEffect(() => {
+    if (entityDetailHeight && footerHeight && bodyHeight) {
+      if (entityDetailHeight + footerHeight > bodyHeight) {
+        setShouldStickAtBottom(false)
+      } else {
+        setShouldStickAtBottom(true)
+      }
+    }
+  }, [footerHeight, entityDetailHeight, bodyHeight])
+
+
   return (
     <Footer
+      id="entity-footer"
       style={{
         paddingLeft: 8,
         paddingRight: 8,
@@ -41,6 +66,9 @@ const EntityFooter: FC<EntityFooterProps> = (props) => {
         marginLeft: -16,
         marginRight: -16,
         marginTop: 16,
+        position: shouldStickAtBottom ? 'absolute' : undefined,
+        bottom: shouldStickAtBottom ? 0 : undefined,
+        width: shouldStickAtBottom ? '100%' : undefined,
       }}
     >
       <Row
