@@ -37,13 +37,6 @@ const ResultList: FC<ResultListProps> = (_props) => {
     }
   }, [numberOfSearchResults])
 
-  if (numberOfSearchResults === 0) {
-    return (
-      <SidebarZoomOutButton
-        visible
-      />
-    )
-  }
 
   return (
     <List
