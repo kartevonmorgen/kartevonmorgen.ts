@@ -1,16 +1,22 @@
 import { NextRouter } from 'next/router'
 import {
+  convertArrayToQueryParam,
   convertQueryParamToArray,
   convertQueryParamToInt,
   convertQueryParamToString,
   convertStringToFloat,
+  removeRoutingQueryParams,
   SEP,
+  updateRoutingQuery,
 } from './utils'
 import { RouterQueryParam } from './types'
 import { LatLng } from './geolocation'
 import { knownCategoryNames } from '../dtos/Categories'
 import moment, { Moment } from 'moment'
 import { ParsedUrlQuery } from 'querystring'
+import { createSlugPathFromQueryAndRemoveSlug } from './slug'
+import produce from 'immer'
+import Tag from '../dtos/Tag'
 
 
 export const isRouterInitialized = (router: NextRouter): boolean => {
@@ -115,4 +121,98 @@ export const getEventTimeBoundariesFromRouter = (router: NextRouter): EventTimeB
   const eventTimeBoundaries: EventTimeBoundaries = getEventTimeBoundariesFromQuery(query)
 
   return eventTimeBoundaries
+}
+
+export const deleteSlugLevelsFromRouter = (numberOfLevels: number, router: NextRouter): ParsedUrlQuery => {
+  const { query } = router
+  const newQueryParams = produce(query, (draftState) => {
+    const { slug } = draftState
+    const slugArray = convertQueryParamToArray(slug)
+
+    slugArray.splice(slugArray.length - numberOfLevels, numberOfLevels)
+    draftState.slug = slugArray
+  })
+
+  return newQueryParams
+}
+
+export const addTagToRouter = (router: NextRouter) => (tag: string) => {
+  const { query } = router
+  const { tag: optionalTagsFromQuery } = query
+  const optionalTags = convertQueryParamToArray(optionalTagsFromQuery)
+
+  const newTags = !optionalTags.includes(tag) ? [...optionalTags, tag] : optionalTags
+
+  const newQueryParams = updateRoutingQuery(query, { tag: convertArrayToQueryParam(newTags) })
+  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
+
+  router.replace(
+    {
+      pathname: `/m/${newPath}`,
+      query: newQueryWithoutSlug,
+    },
+    undefined,
+    { shallow: true },
+  )
+}
+
+export const removeAllTagsFromRouter = (router: NextRouter) => () => {
+  const { query } = router
+  const newQueryParams = removeRoutingQueryParams(query, ['tag'])
+  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
+
+  router.replace(
+    {
+      pathname: `/m/${newPath}`,
+      query: newQueryWithoutSlug,
+    },
+    undefined,
+    { shallow: true },
+  )
+}
+
+export const removeTagFromRouter = (router: NextRouter) => (tagToRemove: string) => {
+  const { query } = router
+  const { tag: optionalTagsFromQuery } = query
+  const optionalTags = convertQueryParamToArray(optionalTagsFromQuery)
+
+  const newTagsParameter = produce(optionalTags, (draft) => {
+    const indexOfTagToRemove = draft.indexOf(tagToRemove)
+    if (indexOfTagToRemove !== -1) {
+      draft.splice(indexOfTagToRemove, 1)
+    }
+  })
+
+  let newQueryParams = {}
+  if (newTagsParameter.length !== 0) {
+    newQueryParams = updateRoutingQuery(query, { tag: convertArrayToQueryParam(newTagsParameter) })
+  } else {
+    newQueryParams = removeRoutingQueryParams(query, ['tag'])
+  }
+  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
+
+  router.replace(
+    {
+      pathname: `/m/${newPath}`,
+      query: newQueryWithoutSlug,
+    },
+    undefined,
+    { shallow: true },
+  )
+}
+
+export const setTagToRouterAndRedirectToMap = (tag: Tag, router: NextRouter) => {
+
+  let newQueryParams = deleteSlugLevelsFromRouter(2, router)
+  newQueryParams = updateRoutingQuery(newQueryParams, { tag })
+  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
+
+  router.replace(
+    {
+      pathname: `/m/${newPath}`,
+      query: newQueryWithoutSlug,
+    },
+    undefined,
+    { shallow: true },
+  )
 }

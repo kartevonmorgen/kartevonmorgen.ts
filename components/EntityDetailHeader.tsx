@@ -5,18 +5,11 @@ import EditOutlined from '@ant-design/icons/lib/icons/EditOutlined'
 import { convertQueryParamToArray } from '../utils/utils'
 import { SlugVerb } from '../utils/types'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
+import { deleteSlugLevelsFromRouter } from '../utils/router'
 
 
 const onBack = (router: NextRouter) => () => {
-  const { query } = router
-  const newQueryParams = produce(query, (draftState) => {
-    const { slug } = draftState
-    const slugArray = convertQueryParamToArray(slug)
-
-    slugArray.splice(slugArray.length - 2, 2)
-    draftState.slug = slugArray
-  })
-
+  const newQueryParams = deleteSlugLevelsFromRouter(2, router)
   const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
 
   router.replace(

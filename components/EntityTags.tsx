@@ -1,6 +1,8 @@
 import React, { FC, Fragment } from 'react'
 import { TagArray } from '../dtos/Tag'
 import { Divider, Space, Tag } from 'antd'
+import { useRouter } from 'next/router'
+import { setTagToRouterAndRedirectToMap } from '../utils/router'
 
 
 interface EntryTagsProps {
@@ -9,6 +11,8 @@ interface EntryTagsProps {
 
 const EntityTags: FC<EntryTagsProps> = (props) => {
   const { tags } = props
+
+  const router = useRouter()
 
   return (
     <Fragment>
@@ -19,7 +23,17 @@ const EntityTags: FC<EntryTagsProps> = (props) => {
         wrap
       >
         {
-          tags.map((t) => (<Tag key={t}>{t}</Tag>))
+          tags.map((tag) => (
+            <Tag
+              key={tag}
+              onClick={() => setTagToRouterAndRedirectToMap(tag, router)}
+              style={{
+                cursor: 'pointer',
+              }}
+            >
+              {tag}
+            </Tag>),
+          )
         }
       </Space>
     </Fragment>
