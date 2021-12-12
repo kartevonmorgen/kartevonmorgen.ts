@@ -16,6 +16,7 @@ import EntityDescription from './EntityDescription'
 import { formatDuration } from '../utils/time'
 import { PartialLatLng } from '../utils/geolocation'
 import useFly from '../hooks/useFly'
+import EntityRouteLink from './EntityRouteLink'
 
 const { Title, Text } = Typography
 
@@ -111,6 +112,20 @@ const EventDetail: FC<EventDetailProps> = (props) => {
         state={event.state}
         street={event.street}
         zip={event.zip}
+      />
+
+      <EntityRouteLink
+        latLng={{
+          lat: event.lat,
+          lng: event.lng,
+        }}
+        address={{
+          city: event.city,
+          country: event.country,
+          state: event.state,
+          street: event.street,
+          zip: event.zip,
+        }}
       />
 
       <EntityTags tags={event.tags}/>

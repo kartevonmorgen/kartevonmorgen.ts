@@ -2,10 +2,10 @@ import { TagArray } from './Tag'
 import { Categories } from './Categories'
 import { CustomLinkList } from './CustomLink'
 import { EntryContact } from './EntryContact'
-import { EntryAddress } from './EntryAddress'
+import { EntityAddress } from './EntityAddress'
 
 
-export interface NewEntry extends EntryContact, EntryAddress {
+export interface NewEntry extends EntryContact, EntityAddress {
   title: string
   description: string
   lat: number
