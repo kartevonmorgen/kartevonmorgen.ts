@@ -35,6 +35,7 @@ import { renameProperties, setValuesToDefaultOrNull, transformObject } from '../
 import { prependWebProtocol } from '../utils/utils'
 import { ENTITY_DETAIL_DESCRIPTION_LIMIT } from '../consts/texts'
 import EntityTagsFormSection from './EntityTagsFormSection'
+import useSetTagsFromRouterToForm from '../hooks/useSetTagsFromRouterToForm'
 
 
 const { useForm } = Form
@@ -261,10 +262,11 @@ const EntryForm: FC<EntryFormProps> = (props) => {
 
   const [form] = useForm<EntryFormType>()
 
+  useSetTagsFromRouterToForm(form)
+
   const newPoint = new Point().fromQuery(query)
 
   const effectDeps = [...newPoint.toArray()]
-
 
   // set address information if the map marker/pin moves
   useEffect(() => {
