@@ -9,35 +9,42 @@ import { createSlugPathFromQueryAndRemoveSlug, getRootSlugActionFromQuery } from
 import { BriefRootSlugEntity, RootSlugEntity, SlugVerb } from '../utils/types'
 
 
-const onAddEntity = (router: NextRouter) => () => {
-  const { query } = router
+export const onAddEntity = (router: NextRouter, isHomePage?: boolean) => () => {
+    const {query} = router;
 
-  // be sure the state is not in the edit or create mode
-  const slugAction = getRootSlugActionFromQuery(query)
-  if (slugAction.entity !== RootSlugEntity.RESULT || slugAction.subSlugAction !== null) {
-    return
-  }
+    // be sure the state is not in the edit or create mode
+    const slugAction = getRootSlugActionFromQuery(query);
 
-  const newQueryParams = produce(query, (draftState) => {
-    const { slug } = query
-    const slugArray = convertQueryParamToArray(slug)
-    slugArray.push(BriefRootSlugEntity.ENTRIES, SlugVerb.CREATE)
+    if (
+        slugAction.entity !== RootSlugEntity.RESULT ||
+        slugAction.subSlugAction !== null
+    ) {
+        return;
+    }
 
-    delete draftState.sidebar
-    draftState.slug = slugArray
-  })
+    const newQueryParams = produce(query, (draftState) => {
+        const {slug} = query;
+        const slugArray = convertQueryParamToArray(slug);
+        slugArray.push(BriefRootSlugEntity.ENTRIES, SlugVerb.CREATE);
 
-  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
+        delete draftState.sidebar;
+        draftState.slug = slugArray;
+    });
 
-  router.replace(
-    {
-      pathname: `/m/${newPath}`,
-      query: newQueryWithoutSlug,
-    },
-    undefined,
-    { shallow: true },
-  )
-}
+    const [newPath, newQueryWithoutSlug] =
+        createSlugPathFromQueryAndRemoveSlug(newQueryParams);
+
+    // refactor this part so that we use condition in getRootSlugActionFromQuery instead of here
+  
+    router.replace(
+        {
+            pathname: isHomePage ? `/m/co-map/${newPath}` : `/m/${newPath}`,
+            query: newQueryWithoutSlug,
+        },
+        undefined,
+        {shallow: true},
+    );
+};
 
 
 interface AddEntryButtonProps extends ButtonProps {
