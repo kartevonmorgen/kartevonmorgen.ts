@@ -39,8 +39,8 @@ This graph shows you, how the whole Map of tomorrow system interacts with each o
     1. `python3 -m venv venv`
     1. `. ./venv/bin/activate`
     1. `pip3 install -r requirements.txt`
-    1. `python3 tag-frequency-cron.py --dev --sync-once --log-level debug` for development
-    or `python3 tag-frequency-cron.py` for production
+    1. `python3 tag-frequency-cron.py --dev --fetch-all-on-start --sync-once --log-level debug` (development)
+    or `python3 tag-frequency-cron.py --fetch-all-on-start --interval-for-all-tags 300 --interval-for-least-used-tags 60` (production)
     1. **full list of options are available on [Wiki](https://github.com/kartevonmorgen/kartevonmorgen.ts/wiki/How-to-deploy:-tags-synchronizer)**
 
 ## Development
