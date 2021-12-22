@@ -9,16 +9,15 @@ import 'antd/dist/antd.min.css'
 import '../styles/globals.scss'
 
 
-const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
-  return (
-    <Layout project={pageProps.project}>
-      <Provider store={store}>
-        <Component {...pageProps} />
-      </Provider>
+const MyApp: FC<AppProps> = ({ Component, pageProps }) => (
+  <Layout project={pageProps.project}>
+    <Provider store={store}>
+      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+      <Component {...pageProps} />
+    </Provider>
 
-      <GlobalLocale/>
-    </Layout>
-  )
-}
+    <GlobalLocale/>
+  </Layout>
+)
 
 export default MyApp

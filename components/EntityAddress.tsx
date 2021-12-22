@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { Col, Row } from 'antd'
 import addressFormatter from '@fragaria/address-formatter'
-import { EntryAddress as EntryAddressDTO } from '../dtos/EntryAddress'
+import { EntityAddress as EntryAddressDTO } from '../dtos/EntityAddress'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 

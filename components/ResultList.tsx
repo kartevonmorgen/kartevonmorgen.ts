@@ -35,11 +35,8 @@ const ResultList: FC<ResultListProps> = (_props) => {
     } else {
       hideSidebarZoomOutButton()
     }
-  }, [sortedSearchResults.length])
+  }, [numberOfSearchResults])
 
-  if (numberOfSearchResults === 0) {
-    return null
-  }
 
   return (
     <List

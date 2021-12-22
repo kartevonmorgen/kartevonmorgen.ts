@@ -3,11 +3,11 @@ import { NextRouter, useRouter } from 'next/router'
 import { Button } from 'antd'
 import TweenOne from 'rc-tween-one'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useSidebar } from '../hooks/useResponsive'
 import { convertQueryParamToString, removeRoutingQueryParams, updateRoutingQuery } from '../utils/utils'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 import { isRouterInitialized } from '../utils/router'
 import SidebarStatus, { isSidebarStatusShown } from '../dtos/SidebarStatus'
-import useMobileDetect from '../hooks/useMobileDetect'
 
 
 export enum SidebarState {
@@ -83,8 +83,7 @@ const CollapseSidebarButton: FC = () => {
   const { sidebar: sidebarParam } = query
   const isSidebarOpen = isSidebarStatusShown(convertQueryParamToString(sidebarParam))
 
-  const device = useMobileDetect()
-  const sidebarWidth: string = device.isMobile() ? '60vw' : '32vw'
+  const { width: sidebarWidth } = useSidebar()
 
   return (
     <TweenOne

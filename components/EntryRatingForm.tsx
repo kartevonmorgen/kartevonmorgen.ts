@@ -5,12 +5,11 @@ import { NextRouter, useRouter } from 'next/router'
 import { Button, Form, Input, PageHeader, Radio, Space, Typography } from 'antd'
 import useTranslation from 'next-translate/useTranslation'
 import { NewRating } from '../dtos/NewRating'
-import produce from 'immer'
-import { convertQueryParamToArray } from '../utils/utils'
 import { AxiosInstance } from '../api'
 import API_ENDPOINTS from '../api/endpoints'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 import { RatingFactor } from '../dtos/RatingFactor'
+import { deleteSlugLevelsFromRouter } from '../utils/router'
 
 
 const { useForm } = Form
@@ -24,14 +23,7 @@ interface EntryRatingFormProps {
 }
 
 const redirectToEntryDetail = (router: NextRouter) => () => {
-  const { query } = router
-  const newQueryParams = produce(query, (draftState) => {
-    const { slug } = draftState
-    const slugArray = convertQueryParamToArray(slug)
-
-    slugArray.splice(slugArray.length - 2, 2)
-    draftState.slug = slugArray
-  })
+  const newQueryParams = deleteSlugLevelsFromRouter(2, router)
 
   const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
 

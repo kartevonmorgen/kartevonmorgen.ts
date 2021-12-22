@@ -17,8 +17,6 @@ const EntityTagsFormSection: FC<EntityTagsFormSectionProps> = (props) => {
 
   const [selectedTags, setSelectedTags] = useState<string[]>([])
 
-  console.log(selectedTags)
-
   return (
     <Fragment>
 

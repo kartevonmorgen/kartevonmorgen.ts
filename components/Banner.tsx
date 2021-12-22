@@ -7,7 +7,7 @@ const { Content } = Layout
 const { Title } = Typography
 
 
-const Banner: FC = () => {
+const Banner: FC = (_props) => {
   const { t } = useTranslation('home')
 
   return (

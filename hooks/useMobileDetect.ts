@@ -2,7 +2,16 @@
 import { useEffect } from 'react'
 
 
-const getMobileDetect = (userAgent: NavigatorID['userAgent']) => {
+export type GetMobileDetect = Record<'isAndroid' |
+  'isIos' |
+  'isOpera' |
+  'isWindows' |
+  'isSSR' |
+  'isMobile' |
+  'isDesktop'
+  , () => boolean>
+
+const getMobileDetect = (userAgent: NavigatorID['userAgent']): GetMobileDetect => {
   const isAndroid = () => Boolean(userAgent.match(/Android/i))
   const isIos = () => Boolean(userAgent.match(/iPhone|iPad|iPod/i))
   const isOpera = () => Boolean(userAgent.match(/Opera Mini/i))
@@ -10,12 +19,15 @@ const getMobileDetect = (userAgent: NavigatorID['userAgent']) => {
   const isSSR = () => Boolean(userAgent.match(/SSR/i))
   const isMobile = () => Boolean(isAndroid() || isIos() || isOpera() || isWindows())
   const isDesktop = () => Boolean(!isMobile() && !isSSR())
+
   return {
-    isMobile,
-    isDesktop,
     isAndroid,
     isIos,
+    isOpera,
+    isWindows,
     isSSR,
+    isMobile,
+    isDesktop,
   }
 }
 const useMobileDetect = () => {

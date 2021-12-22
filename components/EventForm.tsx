@@ -28,6 +28,7 @@ import { prependWebProtocol } from '../utils/utils'
 import { ENTITY_DETAIL_DESCRIPTION_LIMIT } from '../consts/texts'
 import EntityTagsFormSection from './EntityTagsFormSection'
 import TagsSelect from './TagsSelect'
+import useSetTagsFromRouterToForm from '../hooks/useSetTagsFromRouterToForm'
 
 
 const { useForm } = Form
@@ -178,9 +179,9 @@ const EventForm: FC<EventFormProps> = (props) => {
 
   const [touchedAddressFields, setTouchedAddressFields] = useState<string[]>([])
 
-  const isEdit = verb === SlugVerb.EDIT
-
   const [form] = useForm<object>()
+
+  useSetTagsFromRouterToForm(form)
 
   const newPoint = new Point().fromQuery(query)
 
@@ -192,6 +193,8 @@ const EventForm: FC<EventFormProps> = (props) => {
       setAddressDetailsIfAddressFieldsAreNotTouched(form, newPoint, touchedAddressFields).then()
     }
   }, effectDeps)
+
+  const isEdit = verb === SlugVerb.EDIT
 
   const { data: event, error: eventError } = useRequest<EventDTO>(isEdit && {
     url: `${API_ENDPOINTS.getEvent()}/${eventId}`,

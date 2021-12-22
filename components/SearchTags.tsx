@@ -1,84 +1,10 @@
 import React, { FC, Fragment, useEffect, useRef, useState } from 'react'
-import { NextRouter, useRouter } from 'next/router'
-import produce from 'immer'
+import { useRouter } from 'next/router'
 import lodashIsEqual from 'lodash/isEqual'
-import {
-  convertArrayToQueryParam,
-  convertQueryParamToArray,
-  removeRoutingQueryParams,
-  updateRoutingQuery,
-} from '../utils/utils'
+import { convertQueryParamToArray } from '../utils/utils'
 import TagsSelect from './TagsSelect'
-import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
+import { addTagToRouter, removeAllTagsFromRouter, removeTagFromRouter } from '../utils/router'
 import useTranslation from 'next-translate/useTranslation'
-
-
-const addTagToRouter = (router: NextRouter) => (tag: string) => {
-  const { query } = router
-  const { tag: optionalTagsFromQuery } = query
-  const optionalTags = convertQueryParamToArray(optionalTagsFromQuery)
-
-  const newTags = !optionalTags.includes(tag) ? [...optionalTags, tag] : optionalTags
-
-  const newQueryParams = updateRoutingQuery(query, { tag: convertArrayToQueryParam(newTags) })
-  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
-
-  router.replace(
-    {
-      pathname: `/m/${newPath}`,
-      query: newQueryWithoutSlug,
-    },
-    undefined,
-    { shallow: true },
-  )
-}
-
-
-const removeAllTagsFromRouter = (router: NextRouter) => () => {
-  const { query } = router
-  const newQueryParams = removeRoutingQueryParams(query, ['tag'])
-  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
-
-  router.replace(
-    {
-      pathname: `/m/${newPath}`,
-      query: newQueryWithoutSlug,
-    },
-    undefined,
-    { shallow: true },
-  )
-}
-
-
-const removeTagFromRouter = (router: NextRouter) => (tagToRemove: string) => {
-  const { query } = router
-  const { tag: optionalTagsFromQuery } = query
-  const optionalTags = convertQueryParamToArray(optionalTagsFromQuery)
-
-  const newTagsParameter = produce(optionalTags, (draft) => {
-    const indexOfTagToRemove = draft.indexOf(tagToRemove)
-    if (indexOfTagToRemove !== -1) {
-      draft.splice(indexOfTagToRemove, 1)
-    }
-  })
-
-  let newQueryParams = {}
-  if (newTagsParameter.length !== 0) {
-    newQueryParams = updateRoutingQuery(query, { tag: convertArrayToQueryParam(newTagsParameter) })
-  } else {
-    newQueryParams = removeRoutingQueryParams(query, ['tag'])
-  }
-  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
-
-  router.replace(
-    {
-      pathname: `/m/${newPath}`,
-      query: newQueryWithoutSlug,
-    },
-    undefined,
-    { shallow: true },
-  )
-}
 
 
 const SearchTags: FC = (_props) => {

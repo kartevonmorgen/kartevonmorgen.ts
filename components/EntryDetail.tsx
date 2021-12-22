@@ -24,6 +24,7 @@ import EntityImageWithLink from './EntityImageWithLink'
 import EntityDescription from './EntityDescription'
 import { PartialLatLng } from '../utils/geolocation'
 import useFly from '../hooks/useFly'
+import EntityRouteLink from './EntityRouteLink'
 
 
 const { Title } = Typography
@@ -88,7 +89,7 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
   const typeName: string = CategoryToNameMapper[type]
 
   return (
-    <div>
+    <div id="entity-detail">
       <EntityDetailHeader/>
 
       <EntityImageWithLink
@@ -123,6 +124,20 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
         state={entry.state}
         street={entry.street}
         zip={entry.zip}
+      />
+
+      <EntityRouteLink
+        latLng={{
+          lat: entry.lat,
+          lng: entry.lng,
+        }}
+        address={{
+          city: entry.city,
+          country: entry.country,
+          state: entry.state,
+          street: entry.street,
+          zip: entry.zip,
+        }}
       />
 
       <OpeningHours openingHours={entry.opening_hours}/>
