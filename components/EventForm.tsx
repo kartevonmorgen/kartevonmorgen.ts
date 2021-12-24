@@ -24,10 +24,9 @@ import {
   getCityFromAddress,
   reverseGeocode,
 } from '../utils/geolocation'
-import { prependWebProtocol } from '../utils/utils'
+import { convertQueryParamToArray, prependWebProtocol } from '../utils/utils'
 import { ENTITY_DETAIL_DESCRIPTION_LIMIT } from '../consts/texts'
 import EntityTagsFormSection from './EntityTagsFormSection'
-import useSetTagsFromRouterToForm from '../hooks/useSetTagsFromRouterToForm'
 
 
 const { useForm } = Form
@@ -176,11 +175,14 @@ const EventForm: FC<EventFormProps> = (props) => {
   const router = useRouter()
   const { query } = router
 
+  const { tag: tagParam } = query
+  const tagsFromQuery = convertQueryParamToArray(tagParam)
+
   const [touchedAddressFields, setTouchedAddressFields] = useState<string[]>([])
 
   const [form] = useForm<object>()
 
-  useSetTagsFromRouterToForm(form)
+  // useSetTagsFromRouterToForm(form)
 
   const newPoint = new Point().fromQuery(query)
 
@@ -216,6 +218,9 @@ const EventForm: FC<EventFormProps> = (props) => {
     }
 
     formInitialValues = onReceiveAdapter(event)
+    formInitialValues = produce(formInitialValues, (draft) => {
+      draft['tags'].push(...tagsFromQuery)
+    })
   }
 
 

@@ -32,10 +32,9 @@ import {
 import Category from '../dtos/Categories'
 import { entriesActions } from '../slices'
 import { renameProperties, setValuesToDefaultOrNull, transformObject } from '../utils/objects'
-import { prependWebProtocol } from '../utils/utils'
+import { convertQueryParamToArray, prependWebProtocol } from '../utils/utils'
 import { ENTITY_DETAIL_DESCRIPTION_LIMIT } from '../consts/texts'
 import EntityTagsFormSection from './EntityTagsFormSection'
-import useSetTagsFromRouterToForm from '../hooks/useSetTagsFromRouterToForm'
 
 
 const { useForm } = Form
@@ -258,11 +257,13 @@ const EntryForm: FC<EntryFormProps> = (props) => {
   const router = useRouter()
   const { query } = router
 
+  const { tag: tagParam } = query
+  const tagsFromQuery = convertQueryParamToArray(tagParam)
+
   const [touchedAddressFields, setTouchedAddressFields] = useState<string[]>([])
 
   const [form] = useForm<EntryFormType>()
 
-  useSetTagsFromRouterToForm(form)
 
   const newPoint = new Point().fromQuery(query)
 
@@ -314,6 +315,10 @@ const EntryForm: FC<EntryFormProps> = (props) => {
     return null
   }
 
+  const formInitialValues = produce(entry, (draft) => {
+    draft['tags'].push(...tagsFromQuery)
+  })
+
   return (
     <Form
       layout="vertical"
@@ -321,7 +326,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       style={{
         marginTop: 8,
       }}
-      initialValues={entry}
+      initialValues={formInitialValues}
       onFinish={onFinish(router, dispatch, isEdit, entryId)}
       form={form}
     >
