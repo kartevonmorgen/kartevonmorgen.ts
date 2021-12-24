@@ -1,16 +1,15 @@
 import { FC, useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
+import { NextRouter, useRouter } from 'next/router'
 import produce from 'immer'
 import { AutoComplete, Input } from 'antd'
 import { useDebounce } from 'ahooks'
-import { convertQueryParamToString, updateRoutingQuery } from '../utils/utils'
+import useTranslation from 'next-translate/useTranslation'
 import useSearchRecommender from '../hooks/useSearchRecommender'
+import { convertQueryParamToString, updateRoutingQuery } from '../utils/utils'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 
-const { Search } = Input
 
-
-const onSearch = (router) => (searchTerm, _event) => {
+const onSearch = (router: NextRouter, searchTerm: string) => {
   const { query } = router
 
   const searchURLParamKey = 'search'
@@ -47,13 +46,19 @@ const SearchInput: FC = () => {
   const categoryGroup = convertQueryParamToString(dropdowns, 'main')
 
   const [searchTerm, setSearchTerm] = useState<string>('')
-  const debouncedTokenToSearch = useDebounce(searchTerm, { wait: 100 })
+  const debouncedTokenToSearch = useDebounce(searchTerm, { wait: 500 })
+
+  const { t } = useTranslation('map')
 
   useEffect(() => {
     setSearchTerm(searchTermFromURL)
   }, [])
 
   const searchOptions = useSearchRecommender(debouncedTokenToSearch, categoryGroup)
+
+  useEffect(() => {
+    onSearch(router, debouncedTokenToSearch)
+  }, [debouncedTokenToSearch])
 
   return (
     <AutoComplete
@@ -62,15 +67,16 @@ const SearchInput: FC = () => {
       style={{
         width: '100%',
       }}
-      onSearch={(term: string) => setSearchTerm(term)}
-      onSelect={(value: string) => setSearchTerm(value)}
+      onSearch={(term: string) => {
+        setSearchTerm(term)
+      }}
+      onSelect={(value: string) => {
+        setSearchTerm((searchTerm) => `${searchTerm} ${value}`)
+      }}
     >
-      <Search
-        placeholder="input search text"
+      <Input
+        placeholder={t('searchbar.placeholder')}
         allowClear
-        enterButton
-        onSearch={onSearch(router)}
-        className="primary-btn"
       />
     </AutoComplete>
   )
