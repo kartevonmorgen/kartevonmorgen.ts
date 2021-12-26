@@ -45,19 +45,37 @@ export default css.global`
  border-color: #666;
 }
 
-.initiative-tag {
+.initiative-checkable-tag {
  background-color: ${INITIATIVE_COLOR};
  color: white;
 }
 
-.company-tag {
+.company-checkable-tag {
  background-color: ${COMPANY_COLOR};
  color: white;
 }
 
-.event-tag {
+.event-checkable-tag {
  background-color: ${EVENT_COLOR};
  color: white;
+}
+
+.initiative-tag {
+ color: ${INITIATIVE_COLOR};
+ background-color: white;
+ border: none;
+}
+
+.company-tag {
+ color: ${COMPANY_COLOR};
+ background-color: white;
+ border: none;
+}
+
+.event-tag {
+ color: ${EVENT_COLOR};
+ background-color: white;
+ border: none;
 }
 
 .initiative-result-card {
