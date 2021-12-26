@@ -203,6 +203,19 @@ a.ant-typography {
   color: inherit;
 }
 
+.ant-btn-primary {
+  font-weight: bold;
+  font-size: 1.2em;
+  border: none;
+}
+
+.ant-btn-primary:hover {
+  border-bottom: 4px solid rgb(255, 255, 255);
+  background-color: rgb(26, 26, 26);
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
 .ant-comment-actions {
   margin-top: 4px !important;
 }
