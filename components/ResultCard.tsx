@@ -96,10 +96,22 @@ const ResultCard: FC<ResultCardProps> = (props) => {
       />
       <div>{getSubstringOfDescription(description, 70)}</div>
       <div style={{ marginTop: 4 }}>
-        <Space size="small" wrap>
+        <Space
+          size="small"
+          wrap
+        >
           {
             tags.slice(0, 3).map(
-              (tag: string) => (<Tag key={tag}>{tag}</Tag>),
+              (tag: string) => (
+                <Tag
+                  key={tag}
+                  style={{
+                    whiteSpace: 'normal',
+                  }}
+                >
+                  {tag}
+                </Tag>
+              ),
             )
           }
         </Space>
