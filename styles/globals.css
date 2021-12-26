@@ -199,8 +199,8 @@ a {
   z-index: 400;
 }
 
-.map-sharing-dropdown-item {
-
+a.ant-typography {
+  color: inherit;
 }
 
 .ant-comment-actions {
