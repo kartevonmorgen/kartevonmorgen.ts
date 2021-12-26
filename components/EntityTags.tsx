@@ -29,6 +29,7 @@ const EntityTags: FC<EntryTagsProps> = (props) => {
               onClick={() => setTagToRouterAndRedirectToMap(tag, router)}
               style={{
                 cursor: 'pointer',
+                whiteSpace: 'normal',
               }}
             >
               {tag}
