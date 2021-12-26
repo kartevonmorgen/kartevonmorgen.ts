@@ -75,7 +75,7 @@ const ResultCard: FC<ResultCardProps> = (props) => {
   // todo: bug maybe here is the place we should touch to have the cells measures correctly
   return (
     <Item
-      className={`${typeName}-result-card`}
+      className={`${typeName}-result-card result-card`}
       onClick={onResultClick(router, type, id)}
       onMouseEnter={() => {
         dispatch(viewActions.setHighlight(id))

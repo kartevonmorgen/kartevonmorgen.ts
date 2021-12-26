@@ -145,18 +145,22 @@ a {
 }
 
 .transparency {
-  color: #597ef7 !important;
+    color: #597ef7 !important;
+}
+
+.result-card:hover {
+    background-color: rgb(255, 255, 255);
 }
 
 .leaflet-div-icon.transparent {
-  background: none;
-  border: none;
+    background: none;
+    border: none;
 }
 
 .leaflet-bar.leaflet-control.leaflet-control-zoom {
-  position: absolute;
-  right: 10px;
-  bottom: 104px;
+    position: absolute;
+    right: 10px;
+    bottom: 104px;
   margin: 0;
 }
 
