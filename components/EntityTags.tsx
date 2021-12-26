@@ -26,10 +26,10 @@ const EntityTags: FC<EntryTagsProps> = (props) => {
           tags.map((tag) => (
             <Tag
               key={tag}
+              className="kvm-tag"
               onClick={() => setTagToRouterAndRedirectToMap(tag, router)}
               style={{
                 cursor: 'pointer',
-                whiteSpace: 'normal',
               }}
             >
               {`#${tag}`}

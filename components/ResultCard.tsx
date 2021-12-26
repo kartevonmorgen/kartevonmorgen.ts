@@ -105,9 +105,7 @@ const ResultCard: FC<ResultCardProps> = (props) => {
               (tag: string) => (
                 <Tag
                   key={tag}
-                  style={{
-                    whiteSpace: 'normal',
-                  }}
+                  className="kvm-tag"
                 >
                   {`#${tag}`}
                 </Tag>
