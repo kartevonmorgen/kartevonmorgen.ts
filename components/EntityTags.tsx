@@ -32,7 +32,7 @@ const EntityTags: FC<EntryTagsProps> = (props) => {
                 whiteSpace: 'normal',
               }}
             >
-              {tag}
+              {`#${tag}`}
             </Tag>),
           )
         }

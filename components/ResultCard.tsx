@@ -109,7 +109,7 @@ const ResultCard: FC<ResultCardProps> = (props) => {
                     whiteSpace: 'normal',
                   }}
                 >
-                  {tag}
+                  {`#${tag}`}
                 </Tag>
               ),
             )
