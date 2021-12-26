@@ -97,6 +97,7 @@ const SearchRegion: FC = () => {
       style={{
         width: '100%',
         marginTop: 8,
+        marginBottom: 8,
       }}
     />
   )

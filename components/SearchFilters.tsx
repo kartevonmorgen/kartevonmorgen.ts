@@ -20,6 +20,10 @@ const SearchFilters: FC<FiltersProps> = (props) => (
     expandIconPosition="right"
     ghost
     activeKey={props.showFilters}
+    style={{
+      paddingLeft: 4,
+      paddingRight: 4,
+    }}
   >
     <Panel
       header={null}

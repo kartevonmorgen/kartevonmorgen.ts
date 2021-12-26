@@ -56,7 +56,7 @@ const TagsCheckboxGroup: FC<TagsCheckboxGroup> = (props) => {
       }}
     >
       <Space
-        size="large"
+        size="small"
         wrap
       >
         {

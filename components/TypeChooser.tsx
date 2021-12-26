@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Col, Row, Tag } from 'antd'
+import { Tag } from 'antd'
 import { CategoryToNameMapper, knownCategories } from '../dtos/Categories'
 import { NextRouter, useRouter } from 'next/router'
 import { convertArrayToQueryParam, removeRoutingQueryParams, updateRoutingQuery } from '../utils/utils'
@@ -59,28 +59,32 @@ const TypeChooser: FC = () => {
   const selectedTypes = getTypeNamesFromRouterOrKnownCategoryNamesIfEmpty(router)
 
   return (
-    <Row gutter={8}>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'space-evenly',
+      }}
+    >
       {knownCategories.map((category) => {
         const categoryName = CategoryToNameMapper[category]
         const isChecked = selectedTypes.indexOf(categoryName) > -1
 
         return (
-          <Col key={category} span={8}>
-            <CheckableTag
-              className={isChecked && `${categoryName}-tag`}
-              checked={isChecked}
-              onChange={(checked) => handleChange(categoryName, checked, selectedTypes, router)}
-              style={{
-                width: '100%',
-                textAlign: 'center',
-              }}
-            >
-              {categoryName}
-            </CheckableTag>
-          </Col>
+          <CheckableTag
+            className={isChecked && `${categoryName}-tag`}
+            checked={isChecked}
+            onChange={(checked) => handleChange(categoryName, checked, selectedTypes, router)}
+            style={{
+              width: '30%',
+              textAlign: 'center',
+              margin: 0,
+            }}
+          >
+            {categoryName}
+          </CheckableTag>
         )
       })}
-    </Row>
+    </div>
   )
 }
 
