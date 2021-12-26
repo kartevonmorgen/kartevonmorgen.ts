@@ -5,6 +5,7 @@ import { AutoComplete, Input } from 'antd'
 import { useDebounce } from 'ahooks'
 import useTranslation from 'next-translate/useTranslation'
 import useSearchRecommender from '../hooks/useSearchRecommender'
+import SearchOutlined from '@ant-design/icons/SearchOutlined'
 import { convertQueryParamToString, updateRoutingQuery } from '../utils/utils'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 
@@ -77,6 +78,7 @@ const SearchInput: FC = () => {
       <Input
         placeholder={t('searchbar.placeholder')}
         allowClear
+        addonBefore={<SearchOutlined/>}
       />
     </AutoComplete>
   )
