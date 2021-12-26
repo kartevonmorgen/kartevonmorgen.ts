@@ -65,7 +65,7 @@ const SearchInput: FC = () => {
       value={searchTerm}
       options={searchOptions}
       style={{
-        width: '100%',
+        flexGrow: 1,
       }}
       onSearch={(term: string) => {
         setSearchTerm(term)
