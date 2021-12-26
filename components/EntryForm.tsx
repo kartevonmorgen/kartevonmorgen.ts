@@ -293,7 +293,9 @@ const EntryForm: FC<EntryFormProps> = (props) => {
   const foundEntry: boolean = isArray(entries) && entries.length !== 0
   const entry: Entry = foundEntry ? entries[0] : {} as Entry
   // it's an overwrite to be sure it's not empty for the new entries
-  entry.categories = [category]
+  if (!entry.categories) {
+    entry.categories = [category]
+  }
 
 
   if (entriesError) {
@@ -316,7 +318,12 @@ const EntryForm: FC<EntryFormProps> = (props) => {
   }
 
   const formInitialValues = produce(entry, (draft) => {
-    draft['tags'].push(...tagsFromQuery)
+    if (draft) {
+      if (!draft['tags']) {
+        draft['tags'] = []
+      }
+      draft['tags'].push(...tagsFromQuery)
+    }
   })
 
   return (

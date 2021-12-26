@@ -219,7 +219,12 @@ const EventForm: FC<EventFormProps> = (props) => {
 
     formInitialValues = onReceiveAdapter(event)
     formInitialValues = produce(formInitialValues, (draft) => {
-      draft['tags'].push(...tagsFromQuery)
+      if (draft) {
+        if (!draft['tags']) {
+          draft['tags'] = []
+        }
+        draft['tags'].push(...tagsFromQuery)
+      }
     })
   }
 
