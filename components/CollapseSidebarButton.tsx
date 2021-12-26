@@ -100,9 +100,9 @@ const CollapseSidebarButton: FC = () => {
           <CollapseSidebarButtonIcon showOpenIcon={!isSidebarOpen}/>
         }
         onClick={toggleSidebarState(router, isSidebarOpen)}
-        size="small"
+        size="middle"
         style={{
-          height: 40,
+          height: 55,
         }}
       />
     </TweenOne>
