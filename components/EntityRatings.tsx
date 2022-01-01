@@ -1,8 +1,6 @@
-import React, { FC, Fragment } from 'react'
+import React, { FC } from 'react'
 import toString from 'lodash/toString'
 import groupBy from 'lodash/groupBy'
-import isEmpty from 'lodash/isEmpty'
-import { isWebUri } from 'valid-url'
 import { Comment, Divider, Typography } from 'antd'
 import useTranslation from 'next-translate/useTranslation'
 import { Rating } from '../dtos/Rating'
@@ -10,14 +8,14 @@ import { RatingsRequest } from '../dtos/RatingsRequest'
 import useRequest from '../api/useRequest'
 import API_ENDPOINTS from '../api/endpoints'
 import { RatingComment } from '../dtos/RatingComment'
-import { mapRatingValueToKey } from '../utils/ratings'
 import FlowerLeafWithCanvas from './FlowerLeafWithCanvas'
 import { RatingFactor } from '../dtos/RatingFactor'
 import AddEntityRatingButton from './AddEntityRatingButton'
 import AddEntityRatingCommentButton from './AddEntityRatingCommentButton'
+import EntityRatingContent from './EntityRatingContent'
 
 
-const { Title, Link, Text, Paragraph } = Typography
+const { Title, Text } = Typography
 
 
 interface EntityCommentsProps {
@@ -94,7 +92,6 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
               {
                 contextRatings.map((contextRating: Rating) => {
                   const [rootComment, ...replies] = contextRating.comments
-                  const ratingValueName = t(`ratings.valueName.${mapRatingValueToKey(contextRating.value)}`)
 
                   return (
                     <Comment
@@ -104,39 +101,12 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
                       }}
                       actions={[<AddEntityRatingCommentButton ratingId={contextRating.id}/>]}
                       content={
-                        <Fragment>
-                          <Text>{`${ratingValueName}: `}</Text>
-                          <Text strong>{contextRating.title}</Text>
-                          <Paragraph
-                            style={{
-                              marginBottom: '0.01em',
-                            }}
-                          >
-
-                            {rootComment.text}
-
-                            {
-                              !isEmpty(contextRating.source) &&
-                              <Fragment>
-                                <Divider type="vertical"/>
-
-                                {
-                                  isWebUri(contextRating.source) ? (
-                                    <Link
-                                      href={contextRating.source}
-                                      target="_blank"
-                                    >
-                                      {t('ratings.sourceWebsite')}
-                                    </Link>
-                                  ) : (
-                                    <Text type="secondary">{contextRating.source}</Text>
-                                  )
-                                }
-                              </Fragment>
-                            }
-
-                          </Paragraph>
-                        </Fragment>
+                        <EntityRatingContent
+                          title={contextRating.title}
+                          value={contextRating.value}
+                          text={rootComment.text}
+                          source={contextRating.source}
+                        />
                       }
                     >
                       {
