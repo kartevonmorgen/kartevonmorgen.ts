@@ -16,6 +16,8 @@ import { convertQueryParamToArray } from '../utils/utils'
 import { EntrySlugEntity, mapSingularEntityNameToBrief, RatingSlugEntity, SlugVerb } from '../utils/types'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 import { mapRatingValueToKey } from '../utils/ratings'
+import FlowerLeafWithCanvas from './FlowerLeafWithCanvas'
+import { RatingFactor } from '../dtos/RatingFactor'
 
 
 const { Title, Link, Text, Paragraph } = Typography
@@ -115,7 +117,7 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
   }
 
   const groupedRatings = groupBy(ratings, 'context')
-  const sortedContexts = Object.keys(groupedRatings).sort()
+  const sortedContexts = Object.keys(groupedRatings).sort() as RatingFactor[]
 
   return (
     <div>
@@ -131,13 +133,29 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
       </Button>
 
       {
-        sortedContexts.map((context: string, i: number) => {
+        sortedContexts.map((context, _i) => {
           const contextRatings: Rating[] = groupedRatings[context]
-          const isLastContext = i === sortedContexts.length - 1
 
           return (
             <div key={`groupRatings-${context}`}>
-              <Title className={context} level={5}>{t(`ratings.contextName.${context}`)}</Title>
+              <Title
+                className={context}
+                style={{
+                  marginBottom: 0,
+                }}
+                level={5}
+              >
+                {t(`ratings.contextName.${context}`)}
+              </Title>
+              <Divider
+                className="kvm-rating-divider"
+                style={{
+                  borderTopColor: 'rgb(221, 221, 221)',
+                }}
+                orientation="right"
+              >
+                <FlowerLeafWithCanvas ratingFactor={context}/>
+              </Divider>
 
               {
                 contextRatings.map((contextRating: Rating) => {
@@ -147,6 +165,9 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
                   return (
                     <Comment
                       key={`comment-${rootComment.id}`}
+                      style={{
+                        marginBottom: 8,
+                      }}
                       content={
                         <Fragment>
                           <Text>{`${ratingValueName}: `}</Text>
@@ -207,11 +228,6 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
                 })
               }
 
-              {
-                !isLastContext && (
-                  <Divider dashed/>
-                )
-              }
             </div>
           )
         })

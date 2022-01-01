@@ -45,11 +45,11 @@ const leafShape = ({ width, height }) => {
 
 
 interface FlowerLeafProps {
-  color: string
-  height: number
-  width: number
-  tooltip: ReactNode
-  transform: string
+  color?: string
+  height?: number
+  width?: number
+  tooltip?: ReactNode
+  transform?: string
 }
 
 

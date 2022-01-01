@@ -47,13 +47,19 @@ const getFlowerLeafTooltip = (ratingFactor: string, t: Translate): ReactNode => 
 }
 
 
+export const getRatingFactorColorOrDefaultColor = (factor: RatingFactor) => {
+  return RatingFactorColors[factor]
+}
+
 const getRatingFactorColorOrDefaultColorBasedOnRating = (factor: RatingFactor, rating: number = 0) => {
   if (rating === 0) {
     return RatingFactorColors.default
   }
 
 
-  return RatingFactorColors[factor]
+  const ratingFactorColor = getRatingFactorColorOrDefaultColor(factor)
+
+  return ratingFactorColor
 }
 
 const getScale = (rating: number): number => {

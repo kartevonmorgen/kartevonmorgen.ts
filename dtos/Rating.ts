@@ -1,4 +1,5 @@
 import { RatingComments } from './RatingComment'
+import { RatingFactor } from './RatingFactor'
 
 
 export type RatingID = string
@@ -9,7 +10,7 @@ export interface Rating {
   title: string
   created: number
   value: number
-  context: string
+  context: RatingFactor
   source: string
   comments: RatingComments
 }
