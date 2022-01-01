@@ -7,15 +7,15 @@ import { Rating } from '../dtos/Rating'
 import { RatingsRequest } from '../dtos/RatingsRequest'
 import useRequest from '../api/useRequest'
 import API_ENDPOINTS from '../api/endpoints'
-import { RatingComment } from '../dtos/RatingComment'
 import FlowerLeafWithCanvas from './FlowerLeafWithCanvas'
 import { RatingFactor } from '../dtos/RatingFactor'
 import AddEntityRatingButton from './AddEntityRatingButton'
 import AddEntityRatingCommentButton from './AddEntityRatingCommentButton'
 import EntityRatingContent from './EntityRatingContent'
+import EntityRatingComments from './EntityRatingComments'
 
 
-const { Title, Text } = Typography
+const { Title } = Typography
 
 
 interface EntityCommentsProps {
@@ -91,7 +91,7 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
 
               {
                 contextRatings.map((contextRating: Rating) => {
-                  const [rootComment, ...replies] = contextRating.comments
+                  const [rootComment, ...comments] = contextRating.comments
 
                   return (
                     <Comment
@@ -109,16 +109,8 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
                         />
                       }
                     >
-                      {
-                        replies.map((reply: RatingComment) => {
-                          return (
-                            <Comment
-                              key={`comment-${reply.id}`}
-                              content={<Text>{reply.text}</Text>}
-                            />
-                          )
-                        })
-                      }
+
+                      <EntityRatingComments comments={comments}/>
                     </Comment>
                   )
                 })
