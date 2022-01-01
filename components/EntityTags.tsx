@@ -19,7 +19,7 @@ const EntityTags: FC<EntryTagsProps> = (props) => {
       <Divider/>
 
       <Space
-        size="small"
+        size={3}
         wrap
       >
         {

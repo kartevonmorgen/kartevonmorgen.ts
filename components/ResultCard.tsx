@@ -97,7 +97,7 @@ const ResultCard: FC<ResultCardProps> = (props) => {
       <div>{getSubstringOfDescription(description, 70)}</div>
       <div style={{ marginTop: 4 }}>
         <Space
-          size="small"
+          size={3}
           wrap
         >
           {
