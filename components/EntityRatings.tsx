@@ -1,24 +1,20 @@
 import React, { FC, Fragment } from 'react'
-import { NextRouter, useRouter } from 'next/router'
 import toString from 'lodash/toString'
 import groupBy from 'lodash/groupBy'
 import isEmpty from 'lodash/isEmpty'
 import { isWebUri } from 'valid-url'
-import { Button, Comment, Divider, Typography } from 'antd'
+import { Comment, Divider, Typography } from 'antd'
 import useTranslation from 'next-translate/useTranslation'
-import { Rating, RatingID } from '../dtos/Rating'
+import { Rating } from '../dtos/Rating'
 import { RatingsRequest } from '../dtos/RatingsRequest'
 import useRequest from '../api/useRequest'
 import API_ENDPOINTS from '../api/endpoints'
 import { RatingComment } from '../dtos/RatingComment'
-import produce from 'immer'
-import { convertQueryParamToArray } from '../utils/utils'
-import { EntrySlugEntity, mapSingularEntityNameToBrief, RatingSlugEntity, SlugVerb } from '../utils/types'
-import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 import { mapRatingValueToKey } from '../utils/ratings'
 import FlowerLeafWithCanvas from './FlowerLeafWithCanvas'
 import { RatingFactor } from '../dtos/RatingFactor'
 import AddEntityRatingButton from './AddEntityRatingButton'
+import AddEntityRatingCommentButton from './AddEntityRatingCommentButton'
 
 
 const { Title, Link, Text, Paragraph } = Typography
@@ -29,39 +25,10 @@ interface EntityCommentsProps {
 }
 
 
-const redirectToRatingCommentForm = (router: NextRouter, ratingId: RatingID) => () => {
-  const { query } = router
-  const newQueryParams = produce(query, (draftState) => {
-    const { slug } = draftState
-    const slugArray = convertQueryParamToArray(slug)
-
-    slugArray.push(
-      mapSingularEntityNameToBrief[EntrySlugEntity.RATING],
-      ratingId,
-      mapSingularEntityNameToBrief[RatingSlugEntity.COMMENT],
-      SlugVerb.CREATE,
-    )
-    draftState.slug = slugArray
-  })
-
-  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
-
-  router.replace(
-    {
-      pathname: `/m/${newPath}`,
-      query: newQueryWithoutSlug,
-    },
-    undefined,
-    { shallow: true },
-  )
-}
-
-
 const EntityRatings: FC<EntityCommentsProps> = (props) => {
   const { ratingsIds } = props
   const hasRatings = ratingsIds.length !== 0
 
-  const router = useRouter()
 
   const { t } = useTranslation('map')
 
@@ -135,6 +102,7 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
                       style={{
                         marginBottom: 8,
                       }}
+                      actions={[<AddEntityRatingCommentButton ratingId={contextRating.id}/>]}
                       content={
                         <Fragment>
                           <Text>{`${ratingValueName}: `}</Text>
@@ -170,15 +138,6 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
                           </Paragraph>
                         </Fragment>
                       }
-                      actions={[
-                        <Button
-                          type="text"
-                          size="small"
-                          onClick={redirectToRatingCommentForm(router, contextRating.id)}
-                        >
-                          <Text type="secondary">{t('ratings.newComment')}</Text>
-                        </Button>,
-                      ]}
                     >
                       {
                         replies.map((reply: RatingComment) => {
