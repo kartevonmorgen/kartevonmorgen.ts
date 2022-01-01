@@ -159,6 +159,23 @@ a {
   border-radius: 0.3em;
 }
 
+.without-border {
+  border: none;
+}
+
+.without-border:hover {
+  border: none;
+}
+
+.without-border:focus {
+  border: none;
+}
+
+.transparent-addon > .ant-input-group > .ant-input-group-addon {
+  background-color: transparent !important;
+  border: none;
+}
+
 .leaflet-div-icon.transparent {
   background: none;
   border: none;

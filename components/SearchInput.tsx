@@ -68,6 +68,8 @@ const SearchInput: FC = () => {
       style={{
         flexGrow: 1,
         marginBottom: 4,
+        marginTop: 4,
+        marginLeft: 4,
       }}
       onSearch={(term: string) => {
         setSearchTerm(term)
@@ -77,6 +79,8 @@ const SearchInput: FC = () => {
       }}
     >
       <Input
+        className="transparent-addon"
+        bordered={false}
         placeholder={t('searchbar.placeholder')}
         allowClear
         addonBefore={<SearchOutlined/>}
