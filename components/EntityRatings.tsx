@@ -121,17 +121,6 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
 
   return (
     <div>
-      <Button
-        type="primary"
-        onClick={redirectToNewRatingForm(router)}
-        style={{
-          width: '100%',
-          marginBottom: 16,
-        }}
-      >
-        {t('ratings.newRating')}
-      </Button>
-
       {
         sortedContexts.map((context, _i) => {
           const contextRatings: Rating[] = groupedRatings[context]
@@ -232,6 +221,17 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
           )
         })
       }
+
+      <Button
+        type="primary"
+        onClick={redirectToNewRatingForm(router)}
+        style={{
+          width: '100%',
+          marginBottom: 16,
+        }}
+      >
+        {t('ratings.newRating')}
+      </Button>
     </div>
   )
 }
