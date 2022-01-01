@@ -18,6 +18,7 @@ import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 import { mapRatingValueToKey } from '../utils/ratings'
 import FlowerLeafWithCanvas from './FlowerLeafWithCanvas'
 import { RatingFactor } from '../dtos/RatingFactor'
+import AddEntityRatingButton from './AddEntityRatingButton'
 
 
 const { Title, Link, Text, Paragraph } = Typography
@@ -25,29 +26,6 @@ const { Title, Link, Text, Paragraph } = Typography
 
 interface EntityCommentsProps {
   ratingsIds: string[]
-}
-
-
-const redirectToNewRatingForm = (router: NextRouter) => () => {
-  const { query } = router
-  const newQueryParams = produce(query, (draftState) => {
-    const { slug } = draftState
-    const slugArray = convertQueryParamToArray(slug)
-
-    slugArray.push(mapSingularEntityNameToBrief[EntrySlugEntity.RATING], SlugVerb.CREATE)
-    draftState.slug = slugArray
-  })
-
-  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
-
-  router.replace(
-    {
-      pathname: `/m/${newPath}`,
-      query: newQueryWithoutSlug,
-    },
-    undefined,
-    { shallow: true },
-  )
 }
 
 
@@ -222,16 +200,7 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
         })
       }
 
-      <Button
-        type="primary"
-        onClick={redirectToNewRatingForm(router)}
-        style={{
-          width: '100%',
-          marginBottom: 16,
-        }}
-      >
-        {t('ratings.newRating')}
-      </Button>
+      <AddEntityRatingButton/>
     </div>
   )
 }
