@@ -243,6 +243,10 @@ a.ant-typography {
   margin-top: 4px !important;
 }
 
+.ant-comment-actions > li {
+  float: right;
+}
+
 .ant-comment-inner {
   padding-top: 4px !important;
   padding-bottom: 4px !important;

@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import toString from 'lodash/toString'
 import groupBy from 'lodash/groupBy'
 import { Comment, Divider, Typography } from 'antd'
