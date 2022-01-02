@@ -1,7 +1,7 @@
 import React, { CSSProperties, FC } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
-import { List, Space, Tag } from 'antd'
+import { List, Space, Tag, Typography } from 'antd'
 import { SearchResult } from '../dtos/SearchResult'
 import { SearchEntryID } from '../dtos/SearchEntry'
 import { CompactEvent, EventID } from '../dtos/Event'
@@ -14,6 +14,7 @@ import { viewActions } from '../slices'
 
 
 const { Item } = List
+const { Text } = Typography
 
 
 interface ResultCardProps {
@@ -91,7 +92,7 @@ const ResultCard: FC<ResultCardProps> = (props) => {
       }}
     >
       <Item.Meta
-        title={title}
+        title={<Text strong style={{ fontSize: '1.2rem' }}>{title}</Text>}
         description={getTimeDescriptionForEvent(searchResult, type)}
       />
       <div>{getSubstringOfDescription(description, 70)}</div>
