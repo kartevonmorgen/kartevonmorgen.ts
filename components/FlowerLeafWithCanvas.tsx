@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import FlowerLeaf from './FlowerLeaf'
 import { RatingFactor } from '../dtos/RatingFactor'
-import { getRatingFactorColorOrDefaultColor, getRatingFactorColorOrDefaultColorBasedOnRating } from './FlowerLeafs'
+import { getRatingFactorColorOrDefaultColor } from './FlowerLeafs'
 
 
 const LEAF_HEIGHT = 40
