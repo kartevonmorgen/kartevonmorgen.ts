@@ -60,6 +60,10 @@ export const getCityFromAddress = (extendedAddress: ExtendedGeocodeAddress): str
     'hamlet',
   ]
 
+  if (!extendedAddress) {
+    return ''
+  }
+
   for (const possibleRegion of regionPriorities) {
     if (!isUndefined(extendedAddress[possibleRegion])) {
       return extendedAddress[possibleRegion]
