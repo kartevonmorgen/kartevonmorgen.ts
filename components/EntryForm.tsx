@@ -59,11 +59,11 @@ const setAddressDetailsIfAddressFieldsAreNotTouched = async (
   const fieldsToSetInForm = {
     lat: newPoint.lat,
     lng: newPoint.lng,
-    country: address.country,
+    country: address?.country,
     city: getCityFromAddress(address),
-    state: address.state,
-    street: [address.road, address.house_number].join(' ').trim(),
-    zip: address.postcode,
+    state: address?.state,
+    street: [address?.road, address?.house_number].join(' ').trim(),
+    zip: address?.postcode,
   }
 
   touchedAddressFieldNames.forEach((touchedFieldName) => {
@@ -76,7 +76,7 @@ const setAddressDetailsIfAddressFieldsAreNotTouched = async (
 const setFieldsToDefaultOrNull = (entry: EntryFormType): EntryFormType => {
   const defaultFieldValues = {
     tags: [],
-    custom_links: [],
+    custom: [],
     version: 0,
   }
 
@@ -108,7 +108,7 @@ const transformFormFields = (entry: EntryFormType): EntryFormType => {
   }
 
   const fieldsToRename = {
-    custom_links: 'links',
+    custom: 'links',
   }
 
   const transformedEntry = transformObject(entry, rules)
@@ -551,13 +551,31 @@ const EntryForm: FC<EntryFormProps> = (props) => {
                   {...field}
                   name={[field.name, 'url']}
                   fieldKey={[field.fieldKey, 'url']}
+                  rules={[
+                    {
+                      validator: (_, value) => {
+                        const trimmedValue: string = value.trim()
+                        const valueWithWebProtocol: string = prependWebProtocol(trimmedValue)
+
+                        if (isWebUri(valueWithWebProtocol)) {
+                          return Promise.resolve()
+                        }
+
+                        return Promise.reject(new Error('not a valid url'))
+                      },
+                    },
+                  ]}
                 >
-                  <Input placeholder={t('entryForm.url')}/>
+                  <Input placeholder={t('entryForm.linkUrl')}/>
                 </Form.Item>
                 <Form.Item
                   {...field}
                   name={[field.name, 'title']}
                   fieldKey={[field.fieldKey, 'title']}
+                  rules={[
+                    { min: 3, message: t('entryForm.minNumCharactersTitle') },
+                    { max: 50, message: t('entryForm.maxNumCharactersTitle') },
+                  ]}
                 >
                   <Input placeholder={t('entryForm.linkTitle')}/>
                 </Form.Item>

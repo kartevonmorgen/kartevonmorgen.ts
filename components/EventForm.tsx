@@ -48,11 +48,11 @@ const setAddressDetailsIfAddressFieldsAreNotTouched = async (
   const fieldsToSetInForm = {
     lat: newPoint.lat,
     lng: newPoint.lng,
-    country: address.country,
+    country: address?.country,
     city: getCityFromAddress(address),
     state: address.state,
-    street: [address.road, address.house_number].join(' ').trim(),
-    zip: address.postcode,
+    street: [address?.road, address?.house_number].join(' ').trim(),
+    zip: address?.postcode,
   }
 
   touchedAddressFieldNames.forEach((touchedFieldName) => {
