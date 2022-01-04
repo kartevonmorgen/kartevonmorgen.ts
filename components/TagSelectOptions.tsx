@@ -1,4 +1,4 @@
-import React, { FC, Fragment } from 'react'
+import { FC, Fragment } from 'react'
 import { Select } from 'antd'
 import { MostPopularTagsParams } from '../pages/api/v0/entries/most-popular-tags'
 import useTagMatcher from '../hooks/useTagMatcher'

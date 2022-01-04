@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import useTranslation from 'next-translate/useTranslation'
 import { AutoComplete, Input } from 'antd'

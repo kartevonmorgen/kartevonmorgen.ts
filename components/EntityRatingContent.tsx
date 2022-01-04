@@ -1,4 +1,4 @@
-import React, { FC, Fragment } from 'react'
+import { FC, Fragment } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import { Divider, Typography } from 'antd'
 import { isWebUri } from 'valid-url'

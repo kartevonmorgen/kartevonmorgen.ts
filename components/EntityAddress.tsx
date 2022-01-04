@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import addressFormatter from '@fragaria/address-formatter'
 import { EntityAddress as EntryAddressDTO } from '../dtos/EntityAddress'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

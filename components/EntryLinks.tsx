@@ -1,4 +1,4 @@
-import React, { FC, Fragment, ReactElement } from 'react'
+import { FC, Fragment, ReactElement } from 'react'
 import update from 'immer'
 import has from 'lodash/has'
 import { Divider, Space, Tag, Tooltip } from 'antd'

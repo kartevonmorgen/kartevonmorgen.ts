@@ -1,4 +1,4 @@
-import React, { FC, Fragment } from 'react'
+import { FC, Fragment } from 'react'
 import { RatingComment } from '../dtos/RatingComment'
 import { Comment, Typography } from 'antd'
 

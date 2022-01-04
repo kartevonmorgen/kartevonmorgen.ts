@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import { Button } from 'antd'
 import TweenOne from 'rc-tween-one'

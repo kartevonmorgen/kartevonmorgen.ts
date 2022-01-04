@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useEffect, useRef, useState } from 'react'
+import { FC, Fragment, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import lodashIsEqual from 'lodash/isEqual'
 import { convertQueryParamToArray } from '../utils/utils'

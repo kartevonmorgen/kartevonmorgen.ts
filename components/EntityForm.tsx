@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import Category from '../dtos/Categories'
 import EventForm from './EventForm'
 import InitiativeForm from './InitiativeForm'

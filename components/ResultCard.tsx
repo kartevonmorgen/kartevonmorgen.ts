@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC } from 'react'
+import { CSSProperties, FC } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 import { List, Space, Tag, Typography } from 'antd'

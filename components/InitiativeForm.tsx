@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import EntryForm from './EntryForm'
 import Category from '../dtos/Categories'
 import { SearchEntryID } from '../dtos/SearchEntry'

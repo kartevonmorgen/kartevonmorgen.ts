@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { Typography } from 'antd'
 import useTranslation from 'next-translate/useTranslation'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

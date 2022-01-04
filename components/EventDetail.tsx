@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { useRouter } from 'next/router'
 import moment from 'moment'
 import { Divider, Spin, Tag, Typography } from 'antd'
