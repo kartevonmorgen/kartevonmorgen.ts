@@ -8,6 +8,7 @@ import useSearchRecommender from '../hooks/useSearchRecommender'
 import SearchOutlined from '@ant-design/icons/SearchOutlined'
 import { convertQueryParamToString, updateRoutingQuery } from '../utils/utils'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
+import { isRouterInitialized } from '../utils/router'
 
 
 const onSearch = (router: NextRouter, searchTerm: string) => {
@@ -26,14 +27,14 @@ const onSearch = (router: NextRouter, searchTerm: string) => {
 
   const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
 
-  router.replace(
-    {
-      pathname: `/m/${newPath}`,
-      query: newQueryWithoutSlug,
-    },
-    undefined,
-    { shallow: true },
-  )
+  // router.replace(
+  //   {
+  //     pathname: `/m/${newPath}`,
+  //     query: newQueryWithoutSlug,
+  //   },
+  //   undefined,
+  //   { shallow: true },
+  // )
 }
 
 
@@ -58,7 +59,9 @@ const SearchInput: FC = () => {
   const searchOptions = useSearchRecommender(debouncedTokenToSearch, categoryGroup)
 
   useEffect(() => {
-    onSearch(router, debouncedTokenToSearch)
+    if (isRouterInitialized(router)) {
+      onSearch(router, debouncedTokenToSearch)
+    }
   }, [debouncedTokenToSearch])
 
   return (
