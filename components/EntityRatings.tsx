@@ -45,7 +45,7 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
 
   // has no comment at all
   if (!hasRatings) {
-    return null
+    return <AddEntityRatingButton/>
   }
 
   if (ratingsError) {
