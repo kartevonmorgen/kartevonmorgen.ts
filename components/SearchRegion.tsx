@@ -1,6 +1,6 @@
 import { FC, useState } from 'react'
 import { useDebounce } from 'ahooks'
-import { Select } from 'antd'
+import { AutoComplete, Input } from 'antd'
 import useRegionRecommender from '../hooks/useRegionRecommender'
 import { NextRouter, useRouter } from 'next/router'
 import { convertQueryParamToString, convertStringToFloat, updateRoutingQuery } from '../utils/utils'
@@ -41,7 +41,9 @@ const fetchLocationFromRegionName = async (regionName: string): Promise<LatLng> 
   return regionLatLng
 }
 
-const changeLatAndLngFromRegionName = (router: NextRouter) => async (regionName: string) => {
+const changeLatAndLngFromRegionName = async (router: NextRouter, regionName: string) => {
+  console.log('in change lat function')
+
   try {
     const regionCenter = await fetchLocationFromRegionName(regionName)
 
@@ -74,24 +76,24 @@ const SearchRegion: FC = () => {
   const regionsGroup = convertQueryParamToString(dropdowns, 'main')
 
   const [regionNameToSearch, setRegionNameToSearch] = useState<string>('')
-  const debouncedNameRegionToSearch = useDebounce(regionNameToSearch, { wait: 50 })
+  const debouncedNameRegionToSearch = useDebounce(regionNameToSearch, { wait: 1000 })
 
   const regionsOptions = useRegionRecommender(debouncedNameRegionToSearch, regionsGroup)
 
   return (
-    <Select
+    <AutoComplete
       allowClear
       defaultActiveFirstOption={false}
       showArrow={false}
       filterOption={false}
       showSearch
       options={regionsOptions}
-      onSearch={(term: string) => {
-        setRegionNameToSearch(term)
+      onSearch={(value: string) => {
+        setRegionNameToSearch(value)
       }}
-      onSelect={changeLatAndLngFromRegionName(router)}
-      onClear={() => {
-        setRegionNameToSearch('')
+      onSelect={async (value) => {
+        setRegionNameToSearch(value)
+        await changeLatAndLngFromRegionName(router, value)
       }}
       placeholder="Search for a region"
       style={{
@@ -99,7 +101,13 @@ const SearchRegion: FC = () => {
         marginTop: 8,
         marginBottom: 8,
       }}
-    />
+    >
+      <Input
+        onPressEnter={async () => {
+          await changeLatAndLngFromRegionName(router, debouncedNameRegionToSearch)
+        }}
+      />
+    </AutoComplete>
   )
 }
 
