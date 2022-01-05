@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import React, { FC } from 'react'
 import Image from 'next/image'
 import { Button } from 'antd'
 import Link from 'next/link'
@@ -8,9 +8,27 @@ import data from '../utils/partners.json'
 const Partners: FC = () => {
   return (
     <div className={'partners_main_block'}>
-      <h1 className={'co_map_title'}>
-        Партнёры
-      </h1>
+      <div className={'ambassadors_container'}>
+        <div className={'ambassadors_container-info'}>
+          <div> 
+            <img
+              src={'/projects/co-map/assets/img/comap.component.white.svg'}
+              className={'comap_component_image'}
+            />
+          </div>
+          <div>start@s-ol.ru</div>
+        </div>
+        <Button>
+          <a 
+            // target={'_blank'}
+            href={'#'}>
+            <p>
+              Стать амбассадором
+            </p>
+          </a>
+        </Button>
+      </div>
+
       <div className={'partners_container'}>
         {data.map(p => {
           return <div>
@@ -27,14 +45,6 @@ const Partners: FC = () => {
           </div>
         })}
       </div>
-      <Button>
-        <a target={'_blank'}
-           href={'/projects/co-map/co-map.ru%20для%20профессионалов.pdf'}>
-          <p>
-            Стать партнёром
-          </p>
-        </a>
-      </Button>
     </div>
   )
 }

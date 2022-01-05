@@ -34,9 +34,11 @@ const Main: FC = () => {
         <div className={'bounding_element'}>
           <ChooseDirectionSearch/>
           <HowToUseMap/>
-          <TeamCoMap/>
-          <Partners/>
         </div>
+      </div>
+      <div>
+        <TeamCoMap/>
+        <Partners/>
       </div>
     </>
   )
