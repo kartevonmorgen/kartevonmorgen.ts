@@ -313,20 +313,21 @@
   width: 100% !important;
 }
 
+//// ChooseDirectionSearch
+
 .choose-direction-img-container {
   width: 50px;
   height: 50px;
-  border-radius: 50%;
-  background-color: black;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 10px;
+  margin-bottom: 35px;
 }
 
 .direction-tag-icon {
-  width: 40px;
-  height: 40px;
+  width: 62px;
+  height: 62px;
 }
 
 #choose-direction-container {
@@ -356,22 +357,22 @@
   .item-container {
     display: flex;
     justify-content: center;
+    flex-direction: row;
     padding: 0 0 5% 0;
     width: 100%;
-    flex-wrap: wrap;
+    // flex-wrap: wrap;
 
     .item-direction {
       cursor: pointer;
       text-align: center;
       padding: 20px 15px 20px 15px;
-      margin: 25px 15px 25px 15px;
+      margin: 80px 30px 25px 15px;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 27%;
+      flex-direction: column;
+      width: 250px;
       height: 6em;
-      border: 2px solid black;
-      border-radius: 25px;
       min-width: 200px;
 
       .text {
@@ -380,13 +381,13 @@
 
     }
 
-    .item-direction:hover {
-      box-shadow: 2px 3px black, -.4em 0 0.4em gray;
-    }
+    // .item-direction:hover {
+    //   box-shadow: 2px 3px black, -.4em 0 0.4em gray;
+    // }
 
-    .item-direction:active {
-      box-shadow: none;
-    }
+    // .item-direction:active {
+    //   box-shadow: none;
+    // }
 
     @media (max-width: 1000px) {
       .item-direction {
@@ -417,6 +418,7 @@
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
     font-size: 1.6vw;
+    margin-bottom: 100px;
   }
 
   @media (max-width: 1000px) {

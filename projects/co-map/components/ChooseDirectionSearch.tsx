@@ -23,7 +23,7 @@ function ChooseDirectionSearch() {
 
   return (
     <div id={'choose-direction-container'}>
-      <div className={'co_map_title'}>Выбрать направление поиска</div>
+      <div className={'co_map_title'}>Фильтры</div>
       <div className={'item-container'}>
         {tagsDescriptions.map(({ icon, description, title }) => {
           return <ItemDirection link={'https://ssr.kartevonmorgen.org/'} icon={icon} text={description} onClick={() => {
