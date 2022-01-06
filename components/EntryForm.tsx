@@ -458,7 +458,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
 
       <Divider orientation="left">{t('entryForm.contact')}</Divider>
 
-      <Form.Item name="contact">
+      <Form.Item name="contact_name">
         <Input
           placeholder={t('entryForm.contactPerson')}
           prefix={<FontAwesomeIcon icon="user"/>}
