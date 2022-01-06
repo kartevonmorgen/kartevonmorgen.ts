@@ -64,16 +64,8 @@ export const fetchAllEvents = (bbox: BoundingBox): AppThunk => async (dispatch) 
     bbox: bbox,
   }
 
-  const searchEventsReq = await AxiosInstance.GetRequest<Events>(
-    API_ENDPOINTS.searchEvents(),
-    {
-      params: searchEventsRequestDTO,
-    },
-  )
 
-  const searchEvents = AxiosInstance.GetSuccessData(searchEventsReq)
-
-  dispatch(setEvents(searchEvents))
+  dispatch(fetchEvents(searchEventsRequestDTO))
 }
 
 ///////////////////////////////

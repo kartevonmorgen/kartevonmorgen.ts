@@ -69,16 +69,8 @@ export const fetchAllEntries = (bbox: BoundingBox): AppThunk => async (dispatch)
     bbox,
   }
 
-  const searchEntriesReq = await AxiosInstance.GetRequest<SearchEntriesResponseDTO>(
-    API_ENDPOINTS.searchEntries(),
-    {
-      params: searchEntriesRequestDTO,
-    },
-  )
 
-  const searchEntries = AxiosInstance.GetSuccessData(searchEntriesReq)
-
-  dispatch(setEntries(searchEntries.visible))
+  dispatch(fetchEntries(searchEntriesRequestDTO))
 }
 
 ///////////////////////////////
