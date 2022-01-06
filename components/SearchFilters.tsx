@@ -4,6 +4,7 @@ import TypeChooser from './TypeChooser'
 import SearchTags from './SearchTags'
 import SearchRegion from './SearchRegion'
 import SearchCheckboxGroup from './SearchCheckboxGroup'
+import SearchLimitSelect from './SearchLimitSelect'
 
 
 const { Panel } = Collapse
@@ -37,6 +38,8 @@ const SearchFilters: FC<FiltersProps> = (props) => (
       <SearchTags/>
 
       <SearchRegion/>
+
+      <SearchLimitSelect/>
 
     </Panel>
   </Collapse>
