@@ -4,6 +4,7 @@ import { SearchEventsRequest as SearchEventsRequestDTO } from '../dtos/SearchEve
 import { AppThunk } from '../store'
 import { AxiosInstance } from '../api'
 import API_ENDPOINTS from '../api/endpoints'
+import { BoundingBox } from '../dtos/BoundingBox'
 
 
 const eventsSlice = createSlice({
@@ -44,6 +45,24 @@ export const { actions } = eventsSlice
 export const fetchEvents = (
   searchEventsRequestDTO: SearchEventsRequestDTO,
 ): AppThunk => async dispatch => {
+
+  const searchEventsReq = await AxiosInstance.GetRequest<Events>(
+    API_ENDPOINTS.searchEvents(),
+    {
+      params: searchEventsRequestDTO,
+    },
+  )
+
+  const searchEvents = AxiosInstance.GetSuccessData(searchEventsReq)
+
+  dispatch(setEvents(searchEvents))
+}
+
+export const fetchAllEvents = (bbox: BoundingBox): AppThunk => async (dispatch) => {
+
+  const searchEventsRequestDTO: SearchEventsRequestDTO = {
+    bbox: bbox,
+  }
 
   const searchEventsReq = await AxiosInstance.GetRequest<Events>(
     API_ENDPOINTS.searchEvents(),

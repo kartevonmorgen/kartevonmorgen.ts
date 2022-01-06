@@ -38,8 +38,10 @@ export const getSingularFormOfEntity = (briefEntityName: BriefEntityName): Singu
   return mapBriefEntityNameToSingular[briefEntityName]
 }
 
-// is responsible for creating {action, entity, id} from query: (e.g {'show', 'event', '322'} )
-// for more details read slugs.test.ts
+export const isSlugPartCreateOrEdit = (slugPart: string): boolean => {
+  return (slugPart === SlugVerb.CREATE) || (slugPart === SlugVerb.EDIT)
+}
+
 export const getRootSlugActionFromQuery = (query: ParsedUrlQuery): SlugAction => {
   const { slug } = query
 
@@ -138,7 +140,6 @@ export const getRootSlugActionFromQuery = (query: ParsedUrlQuery): SlugAction =>
 
   return rootAction
 }
-
 
 export const redirectToEntityDetailAndFlyToLocation = (
   router: NextRouter,

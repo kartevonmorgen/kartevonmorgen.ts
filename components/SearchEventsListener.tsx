@@ -5,8 +5,8 @@ import { useDispatch } from 'react-redux'
 import { useMap } from 'react-leaflet'
 import toString from 'lodash/toString'
 import toNumber from 'lodash/toNumber'
-import { emptyEntries, fetchEntries } from '../slices/entriesSlice'
-import { emptyEvents, fetchEvents } from '../slices/eventsSlice'
+import { emptyEntries, fetchAllEntries, fetchEntries } from '../slices/entriesSlice'
+import { emptyEvents, fetchAllEvents, fetchEvents } from '../slices/eventsSlice'
 import { convertBBoxToString, convertQueryParamToInt, convertQueryParamToString } from '../utils/utils'
 import { SearchEntriesRequest as SearchEntriesRequestDTO } from '../dtos/SearchEntriesRequest'
 import Category, { CategoryNameToIdMapper, CategoryToNameMapper, isEntryCategory } from '../dtos/Categories'
@@ -16,6 +16,7 @@ import {
   getEventTimeBoundariesFromRouter,
   getTypeNamesFromRouterOrKnownCategoryNamesIfEmpty,
 } from '../utils/router'
+import { isSlugPartCreateOrEdit } from '../utils/slug'
 
 
 const SearchEventsListener: FC = () => {
@@ -31,6 +32,9 @@ const SearchEventsListener: FC = () => {
     start_max: startMaxParam,
     end_min: endMinParam,
   } = query
+
+  const { slug } = query
+  const lastSlugPart: string = slug[slug.length - 1]
 
   const dispatch = useDispatch()
   const map = useMap()
@@ -51,11 +55,19 @@ const SearchEventsListener: FC = () => {
     toNumber(startMinParam),
     toNumber(startMaxParam),
     toNumber(endMinParam),
+    lastSlugPart,
   ]
 
 
   // todo: separate the searching functionalities to a class for reusability
   useEffect(() => {
+    if (isSlugPartCreateOrEdit(lastSlugPart)) {
+      dispatch(fetchAllEntries(bbox))
+      dispatch(fetchAllEvents(bbox))
+
+      return
+    }
+
     const searchTerm: string = convertQueryParamToString(searchParam)
 
     // should not include limit if it's zero or not convertable to a number
