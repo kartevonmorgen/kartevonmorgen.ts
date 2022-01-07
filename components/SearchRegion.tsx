@@ -98,8 +98,6 @@ const SearchRegion: FC = () => {
       placeholder="Search for a region"
       style={{
         width: '100%',
-        marginTop: 8,
-        marginBottom: 8,
       }}
     >
       <Input

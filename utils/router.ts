@@ -89,7 +89,7 @@ export interface EventTimeBoundaries {
   endMin?: Moment
 }
 
-export const getEventTimeBoundariesFromQuery = (query: ParsedUrlQuery): EventTimeBoundaries => {
+export const getEventTimeBoundariesFromQueryOrDefaults = (query: ParsedUrlQuery): EventTimeBoundaries => {
   const {
     start_min: startMinParam,
     start_max: startMaxParam,
@@ -118,7 +118,7 @@ export const getEventTimeBoundariesFromQuery = (query: ParsedUrlQuery): EventTim
 export const getEventTimeBoundariesFromRouter = (router: NextRouter): EventTimeBoundaries => {
   const { query } = router
 
-  const eventTimeBoundaries: EventTimeBoundaries = getEventTimeBoundariesFromQuery(query)
+  const eventTimeBoundaries: EventTimeBoundaries = getEventTimeBoundariesFromQueryOrDefaults(query)
 
   return eventTimeBoundaries
 }

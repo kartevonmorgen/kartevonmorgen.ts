@@ -25,7 +25,7 @@ import {
 import Category from '../dtos/Categories'
 import { LatLngBounds } from 'leaflet'
 import { TableViewQueryParams } from '../dtos/TableViewQueryParams'
-import { EventTimeBoundaries, getEventTimeBoundariesFromQuery } from './router'
+import { EventTimeBoundaries, getEventTimeBoundariesFromQueryOrDefaults } from './router'
 
 
 export const getProjectNameFromQuery = (query: ParsedUrlQuery): string => {
@@ -222,7 +222,7 @@ export const convertMapQueryParamsToTableViewQueryParams = (
   // todo: introduce a type for the map view and the table view query params
 
   const { search, type } = query
-  const eventTimeBoundaries: EventTimeBoundaries = getEventTimeBoundariesFromQuery(query)
+  const eventTimeBoundaries: EventTimeBoundaries = getEventTimeBoundariesFromQueryOrDefaults(query)
 
   const tableViewQueryParams = {
     text: convertQueryParamToString(search),

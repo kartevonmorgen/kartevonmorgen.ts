@@ -36,11 +36,7 @@ const SearchTags: FC = (_props) => {
   return (
     <Fragment>
       {showSelect && (
-        <div
-          style={{
-            marginTop: 8,
-          }}
-        >
+        <div>
           <TagsSelect
             placeholder="Search for tags"
             value={selectedTags}
