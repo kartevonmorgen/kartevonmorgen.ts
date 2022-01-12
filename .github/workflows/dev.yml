@@ -26,4 +26,4 @@ jobs:
     - run: npm install -g yarn
     - run: yarn install
     - run: node server.build.dev.js
-    - run: pm2 restart pm2.config.json
+    - run: pm2 restart pm2.config.js
