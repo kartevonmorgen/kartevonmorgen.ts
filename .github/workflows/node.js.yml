@@ -22,6 +22,8 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
+        cache: 'yarn'
     - run: npm install -g yarn
     - run: yarn install
     - run: node server.build.dev.js
+    - run: node server.start.dev.js
