@@ -19,9 +19,15 @@ jobs:
         with:
           node-version: lts/*
           cache: 'yarn'
-            - run: npm install -g yarn
-            - run: yarn install
-            - run: node server.build.dev.js
+          run: |
+            npm install -g yarn
+            yarn install
+            node server.build.dev.js
       - name: start
-                - run: yarn add pm2
-                - run: pm2 restart pm2.config.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: lts/*
+          cache: 'yarn'
+          run: |
+            yarn add pm2
+            pm2 restart pm2.config.js
