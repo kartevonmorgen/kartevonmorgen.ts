@@ -68,6 +68,9 @@ parser.add_argument(
 )
 args = parser.parse_args()
 
+logger.remove()
+logger.add(sys.stdout, level=args.log_level.upper())
+
 default_config = dotenv_values('../../.env')
 customized_config = {
     'DB_NAME': 'kartevonmorgen.sqlite'
@@ -84,10 +87,13 @@ config = {
     **os.environ
 }
 
+logger.debug(f'current working directory: {os.getcwd()}', )
+logger.debug(f'default_config: {default_config}')
+logger.debug(f'customized_config: {customized_config}')
+logger.debug(f'config: {config}')
+
 DB_PATH = PurePath('../../db').joinpath(config['DB_NAME'])
 
-logger.remove()
-logger.add(sys.stdout, level=args.log_level.upper())
 
 # initialize database engine and base class
 engine = create_async_engine(f"sqlite+aiosqlite:///{DB_PATH}")
