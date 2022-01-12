@@ -26,7 +26,6 @@ jobs:
           yarn add pm2
       - name: Build front-end
         run: |
-          npm install -g yarn
           yarn install
           yarn build:dev
       - name: Start front-end
