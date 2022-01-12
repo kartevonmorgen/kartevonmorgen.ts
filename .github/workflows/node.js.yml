@@ -26,4 +26,4 @@ jobs:
     - run: npm install -g yarn
     - run: yarn install
     - run: node server.build.dev.js
-    - run: node server.start.dev.js
+    - run: node server.start.dev.js &
