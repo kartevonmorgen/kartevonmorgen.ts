@@ -14,20 +14,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: build
+      - name: Setup node
         uses: actions/setup-node@v2
         with:
           node-version: lts/*
           cache: 'yarn'
+      - name: Build
         run: |
           npm install -g yarn
           yarn install
-          node server.build.dev.js
-      - name: start
-        uses: actions/setup-node@v2
-        with:
-          node-version: lts/*
-          cache: 'yarn'
+          yarn build:dev
+      - name: Start
         run: |
           yarn add pm2
           pm2 restart pm2.config.js
