@@ -19,12 +19,21 @@ jobs:
         with:
           node-version: lts/*
           cache: 'yarn'
-      - name: Build
+      - name: Install front-end dependancies
+        run: |
+          npm install -g yarn
+          yarn install
+          yarn add pm2
+      - name: Build front-end
         run: |
           npm install -g yarn
           yarn install
           yarn build:dev
-      - name: Start
-        run: |
-          yarn add pm2
-          pm2 restart pm2.config.js
+      - name: Start front-end
+        run: pm2 restart pm2.config.js --only kartevonmorgen-dev
+      - name: Setup python
+        uses: actions/setup-python@v2
+      - name: Install tag-synchronizer dependancies
+        run: pip3 install -r scripts/python/requirements.txt
+      - name: Run tag synchronizer
+        run: pm2 restart pm2.config.js --only kartevonmorgen-tag-synchronizer-dev
