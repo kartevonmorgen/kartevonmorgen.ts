@@ -37,4 +37,4 @@ jobs:
         run: pip3 install -r requirements.txt
       - name: Run tag synchronizer
         working-directory: ./scripts/python
-        run: pm2 restart pm2.config.js --only kartevonmorgen-tag-synchronizer-dev
+        run: pm2 restart ../../pm2.config.js --only kartevonmorgen-tag-synchronizer-dev
