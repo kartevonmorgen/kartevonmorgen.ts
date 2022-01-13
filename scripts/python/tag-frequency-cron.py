@@ -22,6 +22,11 @@ DB_CHUNK_SIZE = 200
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
+    '--kvm-path',
+    default='../..',
+    help='path to the kvm project'
+)
+parser.add_argument(
     '--fetch-all-on-start',
     action='store_true'
 )
@@ -68,18 +73,25 @@ parser.add_argument(
 )
 args = parser.parse_args()
 
+BASE_PATH = args.kvm_path
+
 logger.remove()
 logger.add(sys.stdout, level=args.log_level.upper())
 
-default_config = dotenv_values('../../.env')
+
+def get_path(file_path: str) -> PurePath:
+    return PurePath(BASE_PATH).joinpath(file_path)
+
+
+default_config = dotenv_values(str(get_path('.env')))
 customized_config = {
     'DB_NAME': 'kartevonmorgen.sqlite'
 }
-if Path('../../.env.production').exists():
-    customized_config = dotenv_values('../../.env.production')
+if Path(get_path('.env.production')).exists():
+    customized_config = dotenv_values(str(get_path('.env.production')))
 
 if args.dev:
-    customized_config = dotenv_values('../../.env.development')
+    customized_config = dotenv_values(str(get_path('.env.development')))
 
 config = {
     **default_config,
@@ -92,8 +104,7 @@ logger.debug(f'default_config: {default_config}')
 logger.debug(f'customized_config: {customized_config}')
 logger.debug(f'config: {config}')
 
-DB_PATH = PurePath('../../db').joinpath(config['DB_NAME'])
-
+DB_PATH = get_path(str(PurePath('db').joinpath(config['DB_NAME'])))
 
 # initialize database engine and base class
 engine = create_async_engine(f"sqlite+aiosqlite:///{DB_PATH}")
