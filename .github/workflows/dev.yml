@@ -43,7 +43,7 @@ jobs:
 
       #     https://github.com/kartevonmorgen/kartevonmorgen.ts/issues/84
       - name: Delete previous processes
-        run: pm2 detele pm2.config.js
+        run: pm2 delete pm2.config.js
 
       - name: Start front-end
         run: pm2 start pm2.config.js --only kartevonmorgen-dev
