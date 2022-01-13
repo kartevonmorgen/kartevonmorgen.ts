@@ -105,8 +105,6 @@ logger.debug(f'default config: {default_config}')
 logger.debug(f'customized config: {customized_config}')
 
 DB_PATH = get_path(str(PurePath('db').joinpath(config['DB_NAME'])))
-logger.debug(f'database path: {DB_PATH}')
-os._exit(0)
 
 # initialize database engine and base class
 engine = create_async_engine(f"sqlite+aiosqlite:///{DB_PATH}")
