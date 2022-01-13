@@ -1,5 +1,4 @@
-# This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+#  https://github.com/kartevonmorgen/kartevonmorgen.ts/issues/84
 
 name: kartevonmorken-dev
 
@@ -35,9 +34,6 @@ jobs:
           yarn install
           yarn build:dev
 
-      - name: Start front-end
-        run: pm2 restart pm2.config.js --only kartevonmorgen-dev
-
       - name: Setup python
         uses: actions/setup-python@v2
 
@@ -45,5 +41,12 @@ jobs:
         working-directory: ./scripts/python
         run: pip3 install -r requirements.txt
 
+      #     https://github.com/kartevonmorgen/kartevonmorgen.ts/issues/84
+      - name: Delete previous processes
+        run: pm2 detele pm2.config.js
+
+      - name: Start front-end
+          run: pm2 start pm2.config.js --only kartevonmorgen-dev
+
       - name: Run tag synchronizer
-        run: pm2 restart pm2.config.js --only kartevonmorgen-tag-synchronizer-dev
+        run: pm2 start pm2.config.js --only kartevonmorgen-tag-synchronizer-dev
