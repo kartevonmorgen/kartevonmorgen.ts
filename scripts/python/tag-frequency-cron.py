@@ -99,10 +99,11 @@ config = {
     **os.environ
 }
 
-logger.debug(f'current working directory: {os.getcwd()}', )
-logger.debug(f'default_config: {default_config}')
-logger.debug(f'customized_config: {customized_config}')
-logger.debug(f'config: {config}')
+# log configurations
+logger.debug(f'current working directory: {os.getcwd()}')
+logger.debug(f'base path: {BASE_PATH}')
+logger.debug(f'default config: {default_config}')
+logger.debug(f'customized config: {customized_config}')
 
 DB_PATH = get_path(str(PurePath('db').joinpath(config['DB_NAME'])))
 

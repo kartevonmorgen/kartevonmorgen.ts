@@ -25,16 +25,15 @@ jobs:
       - name: Install front-end dependancies
         run: |
           npm install -g yarn
-          yarn install
           yarn add pm2
 
-      - name: Build front-end
-        run: |
-          yarn install
-          yarn build:dev
+      #      - name: Build front-end
+      #        run: |
+      #          yarn install
+      #          yarn build:dev
 
-      - name: Start front-end
-        run: pm2 restart pm2.config.js --only kartevonmorgen-dev
+      #      - name: Start front-end
+      #        run: pm2 restart pm2.config.js --only kartevonmorgen-dev
 
       - name: Setup python
         uses: actions/setup-python@v2
