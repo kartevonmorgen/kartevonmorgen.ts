@@ -6,7 +6,9 @@ module.exports = {
     },
     {
       name: 'kartevonmorgen-tag-synchronizer-dev',
-      script: 'python3 scripts/python/tag-frequency-cron.py --dev --kvm-path . --fetch-all-on-start --sync-once --log-level debug',
+      interpreter: 'python3',
+      script: 'scripts/python/tag-frequency-cron.py',
+      args: '--dev --kvm-path . --fetch-all-on-start --sync-once --log-level debug',
     },
   ],
 }
