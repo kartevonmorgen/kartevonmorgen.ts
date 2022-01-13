@@ -46,7 +46,7 @@ jobs:
         run: pm2 detele pm2.config.js
 
       - name: Start front-end
-          run: pm2 start pm2.config.js --only kartevonmorgen-dev
+        run: pm2 start pm2.config.js --only kartevonmorgen-dev
 
       - name: Run tag synchronizer
         run: pm2 start pm2.config.js --only kartevonmorgen-tag-synchronizer-dev
