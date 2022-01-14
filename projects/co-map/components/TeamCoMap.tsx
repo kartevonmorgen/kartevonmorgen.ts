@@ -1,22 +1,23 @@
 import React, { FC, useState } from 'react'
 import { Col, Row, Typography, Button } from 'antd'
-import data from '../../../public/projects/co-map/team/team.json'
+import data from '../utils/team.json'
 import Image from 'next/image'
-import Slider from './Slider'
+import styles from 'TeamCoMap.module.css'
 import { BASICS_ENDPOINTS as CO_MAP_BASICS_ENDPOINTS } from '../api/endpoints/BasicEndpoints'
 
-const { Title, Paragraph } = Typography
+const { Paragraph } = Typography
 
 enum TeamGroups {
   Managment = 'Managment',
   Develop = 'Develop',
-  Hackaton = 'Hackaton',
+  Hackathon = 'hackathon',
 }
 
 interface TeamMemberProps {
   name: string;
   pictureSrc: string;
   position: string;
+  hackathon: boolean;
 }
 
 interface TeamListProps {
@@ -26,17 +27,29 @@ interface TeamListProps {
 
 const TeamMember = (props: TeamMemberProps) => {
   return (
-    <Col className='team_member'>
-      <Image
-        width={'40px'}
-        height={'40px'}
-        src={props.pictureSrc}
-      />
+    <Col className={'team_member'}>
+      <div>
+        <Image
+          width={'40px'}
+          height={'40px'}
+          src={props.pictureSrc}
+          layout={'fixed'}
+        />
+      </div>
       <div className='team_member-info'>
-        <span className='team_member-name'>
-          {props.name}
-        </span>
-        <span className='team_member-position'>
+        <div>
+          <span className={'team_member-hackathon_label'}>
+            {
+              props.hackathon === true ?
+                <div className={'bg-contrast'}>хакатон</div> :
+                ''
+            }
+          </span>
+          <span className={'team_member-name'}>
+            {props.name}
+          </span>
+        </div>
+        <span className={'team_member-position'}>
           {props.position}
         </span>
       </div>
@@ -45,30 +58,40 @@ const TeamMember = (props: TeamMemberProps) => {
 }
 
 const TeamList: FC<TeamListProps> = (props: TeamListProps) => {
+  const bgClass = () => {
+    switch(props.teamGroup) {
+      case TeamGroups.Managment: {
+        return 'bg-light_yellow';
+      }
+      case TeamGroups.Develop: {
+        return 'bg-light_blue';
+      }
+      case TeamGroups.Hackathon: {
+        return 'bg-light_green';
+      }
+    }
+  }
+
   if (props.isVisible) {
     return (
       <Row justify={'center'}>
         <Col xs={24} sm={21}>
           <Row
-            className={`team_list ${props.teamGroup === TeamGroups.Managment ?
-                                      'bg-light_yellow':
-                                    props.teamGroup === TeamGroups.Develop ?
-                                      'bg-light_blue':
-                                      'bg-light_green'}`}
+            className={`team_list ${bgClass()}`}
             justify={'center'}
             gutter={[19, 25]}
           >
             {
               props.teamGroup === TeamGroups.Managment ?
                 <>{data.Managment.map(e => {
-                  return <TeamMember name={e.name} pictureSrc={e.pic} position={e.position} />
+                  return <TeamMember name={e.name} pictureSrc={e.pic} position={e.position} hackathon={e.hackathon} />
                 })}</> :
               props.teamGroup === TeamGroups.Develop ?
                 <>{data.Develop.map(e => {
-                  return <TeamMember name={e.name} pictureSrc={e.pic} position={e.position} />
+                  return <TeamMember name={e.name} pictureSrc={e.pic} position={e.position} hackathon={e.hackathon} />
                 })}</> :
-                <>{data.Hackaton.map(e => {
-                  return <TeamMember name={e.name} pictureSrc={e.pic} position={e.position} />
+                <>{data.Hackathon.map(e => {
+                  return <TeamMember name={e.name} pictureSrc={e.pic} position={e.position} hackathon={e.hackathon} />
                 })}</>
             }
           </Row>
@@ -94,7 +117,7 @@ export const TeamCoMap: FC = () => {
   return (
     <Col className={'team'}>
       <Row className={'team_description'}>
-        <div className='team_description-title'>Карта создана международной командой</div>
+        <div className={'team_description-title'}>Карта создана международной командой</div>
 
         <Paragraph>
           co-map.ru - это карта устойчивых практик на территории России, созданная для того, чтобы каждый день активист мог создать карту для своих проектов и событий и привлечь новых участниковю
@@ -135,8 +158,8 @@ export const TeamCoMap: FC = () => {
             </button>
 
             <button
-              className={`bg-green ' ${teamGroup === TeamGroups.Hackaton ? 'active' : ''}`}
-              onClick={() => { setTeamGroup(TeamGroups.Hackaton) }}
+              className={`bg-green ' ${teamGroup === TeamGroups.Hackathon ? 'active' : ''}`}
+              onClick={() => { setTeamGroup(TeamGroups.Hackathon) }}
             >
               Хакатон
             </button>
