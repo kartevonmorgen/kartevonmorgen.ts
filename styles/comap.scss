@@ -80,8 +80,9 @@
 }
 
 .bounding_element {
-  width: 55%;
-  min-width: 300px;
+  width: calc(100% - 40px);
+  // min-width: 300px;
+  max-width: 960px;
 }
 
 .info_community {
@@ -225,30 +226,118 @@
 
 // How to use map
 
-.how-to-use-title {
-  margin: 20px 0;
-}
-
-.map-instruction-block {
+#HowToUseMap {
   display: flex;
-  justify-content: space-between;
+  gap: 50px;
+  flex-direction: column;
 
-  & .description-block {
-    width: 50%;
-    align-self: center;
+  margin-bottom: 20px;
+
+  .map-instruction-block {
     display: flex;
-    flex-direction: column;
-    padding: 5px 0;
-
-    & > div {
-      padding: 10px 0;
+    justify-content: space-between;
+    align-items: center;
+    
+    & .description-block {
+      color: #ffffff;
+      width: 100%;
+      align-self: center;
+      display: flex;
+      flex-direction: column;
+      padding: 5px 0;
+      margin-right: 30px;
+      
+      padding: 50px;
+  
+      
+      & > div {
+        padding: 10px 0;
+      }
+  
+      & .co_map_subtitle {
+        font-family: 'Roboto', sans-serif;
+        font-weight: normal;
+        font-size: 30px;
+        text-align: right;
+      }
+      
+      & .description {
+        font-size: 25px;
+        font-family: 'Roboto', sans-serif;
+      }
+    }
+    
+    &.right {
+      flex-direction: row-reverse;
+  
+      & .description-block {
+        margin-left: 30px;
+        margin-right: 0;
+      }
+  
+    }
+    
+    & .image-block {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      width: 220px;
+    }
+    
+    @media (max-width: 768px) {
+      & .description-block {
+        
+        padding: 35px;
+        
+        & .co_map_subtitle {
+          font-size: 25px;
+          text-align: center;
+        }
+  
+        & .description {
+          font-size: 20px;
+        }
+  
+      }
+    }
+    
+    @media (max-width: 480px) {
+      & .image-block {
+        display: none;
+      }
+  
+      &.right {
+        & .description-block {
+          margin-left: 0;
+        }
+      }
+  
+      & .description-block {
+        padding: 20px;
+        margin-right: 0;
+  
+        & .co_map_subtitle {
+          font-size: 20px;
+        }
+  
+        & .description {
+          font-size: 15px;
+        }
+      }
     }
 
-    & .description {
-      font-family: 'Open Sans', sans-serif;
-    }
   }
+  
+  @media (max-width: 768px) {
+    gap: 30px;
+  }
+  
+  @media (max-width: 480px) {
+    gap: 20px;
+  }
+
 }
+
 
 // Ambassador Program
 
