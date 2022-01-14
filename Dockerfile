@@ -17,17 +17,8 @@ COPY . .
 RUN yarn install
 RUN yarn run build:production
 
-# Install tag sync -> Another Container
-#WORKDIR /frontend/scripts/python
-#RUN python3 -m venv venv
-#RUN . ./venv/bin/activate
-#RUN pip3 install -r requirements.txt
-
-#RUN python3 tag-frequency-cron.py --fetch-all-on-start --sync-once
-
 RUN printf "yarn cache clean\nyarn run start:production\n" > entrypoint.sh
 
 EXPOSE 3000
 
-#CMD ["yarn", "cache", "clean", "&&", "yarn", "run", "start:production"]
 CMD ["/bin/sh", "entrypoint.sh"]
