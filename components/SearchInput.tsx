@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { Dispatch, FC, useEffect, useState } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import produce from 'immer'
 import { AutoComplete, Input } from 'antd'
@@ -27,16 +27,32 @@ const onSearch = (router: NextRouter, searchTerm: string) => {
 
   const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
 
-  // router.replace(
-  //   {
-  //     pathname: `/m/${newPath}`,
-  //     query: newQueryWithoutSlug,
-  //   },
-  //   undefined,
-  //   { shallow: true },
-  // )
+  router.replace(
+    {
+      pathname: `/m/${newPath}`,
+      query: newQueryWithoutSlug,
+    },
+    undefined,
+    { shallow: true },
+  )
 }
 
+const onSelect = (setSearchTerm: Dispatch<any>) => (term: string) => {
+  setSearchTerm((prevTerm: string) => {
+    const prevSearchTokens = prevTerm.trim().split(' ')
+    const lastToken = prevSearchTokens[prevSearchTokens.length - 1]
+
+    if (!lastToken) {
+      return term
+    }
+
+    if (term.startsWith(lastToken)) {
+      return [...prevSearchTokens.slice(0, prevSearchTokens.length - 2), term].join(' ')
+    }
+
+    return `${prevTerm} ${term}`
+  })
+}
 
 const SearchInput: FC = () => {
   const router = useRouter()
@@ -77,9 +93,7 @@ const SearchInput: FC = () => {
       onSearch={(term: string) => {
         setSearchTerm(term)
       }}
-      onSelect={(value: string) => {
-        setSearchTerm((searchTerm) => `${searchTerm} ${value}`)
-      }}
+      onSelect={onSelect(setSearchTerm)}
     >
       <Input
         className="transparent-addon"
