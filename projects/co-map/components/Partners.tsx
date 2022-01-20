@@ -19,13 +19,11 @@ const Partners: FC = () => {
           <div>start@s-ol.ru</div>
         </div>
         <Button>
-          <a 
-            // target={'_blank'}
-            href={'#'}>
+          <Link href={'/ambassadors'}>
             <p>
               Стать амбассадором
-            </p>
-          </a>
+          </p>
+          </Link>          
         </Button>
       </div>
 

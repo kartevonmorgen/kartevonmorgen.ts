@@ -327,16 +327,12 @@ a {
     @media (max-width: 576px) {
       Button {
         width: 300px !important;
-
-        a {
           p {
             font-size: 15px;
           }
-        }
       }
 
       .comap_component_image {
-        // width(156px) : height(50px) = 3.12
         width: 100px !important;
         height: 32px !important;
       }
@@ -374,14 +370,12 @@ a {
         color: white;
       }
       
-      a {
         p {
           margin-top: -2px;
           margin-bottom: 0;
           font-size: 25px;
           font-weight: lighter;
         } 
-      }
     }
   }
 
