@@ -591,7 +591,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
                   block
                   icon={<MinusCircleOutlined/>}
                 >
-                  Remove
+                  Удалить
                 </Button>
 
                 <Divider dashed/>
@@ -604,7 +604,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
                 block
                 icon={<PlusOutlined/>}
               >
-                Add field
+                Добавить поле
               </Button>
             </Form.Item>
           </Fragment>
