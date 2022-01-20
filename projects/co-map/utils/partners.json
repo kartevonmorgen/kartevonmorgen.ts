@@ -1,41 +1,41 @@
 [
   {
-    "imageURL": "/projects/co-map/assets/img/partners_co_map/AIESEC-New-Logo1.png",
+    "imageURL": "/projects/co-map/assets/img/partners_co_map/AIESEC-blue.png",
     "siteURL": "https://aiesec.ru/",
-    "w": "120",
-    "h": "0",
+    "w": "195",
+    "h": "40",
     "alt": "AIESEC"
   },
   {
-    "imageURL": "/projects/co-map/assets/img/partners_co_map/RED-Moscow-Up-and-Running-DG-3.png",
+    "imageURL": "/projects/co-map/assets/img/partners_co_map/RED-Moscow-Up-and-Running-DG-3.svg",
     "siteURL": "https://impacthub.net/",
-    "w": "170",
-    "h": "50",
+    "w": "183",
+    "h": "70",
     "alt": "Impact hub"
   },
   {
-    "imageURL": "/projects/co-map/assets/img/partners_co_map/gladway.png",
+    "imageURL": "/projects/co-map/assets/img/partners_co_map/gladway.svg",
     "siteURL": "http://www.gladway.ru/",
-    "w": "180",
+    "w": "57",
     "h": "70",
     "alt": "Gladway"
   },
   {
-    "imageURL": "/projects/co-map/assets/img/partners_co_map/kvm_logo.png",
+    "imageURL": "/projects/co-map/assets/img/partners_co_map/kvm_logo.svg",
     "siteURL": "https://kartevonmorgen.org",
-    "w": "180",
+    "w": "119",
     "h": "70",
     "alt": "Kartevonmorgen"
   },
   {
-    "imageURL": "/projects/co-map/assets/img/partners_co_map/big-catalog-16212842451.png",
+    "imageURL": "/projects/co-map/assets/img/partners_co_map/prostoe_delo.svg",
     "siteURL": "https://xn----htbbc4anafbkmm.xn--p1ai/",
-    "w": "70",
+    "w": "208",
     "h": "50",
     "alt": "Простое Дело"
   },
   {
-    "imageURL": "/projects/co-map/assets/img/partners_co_map/SOLlogo-SMALL.jpg",
+    "imageURL": "/projects/co-map/assets/img/partners_co_map/sol.svg",
     "siteURL": "http://s-ol.ru",
     "w": "120",
     "h": "80",
@@ -44,8 +44,8 @@
   {
     "imageURL": "/projects/co-map/assets/img/partners_co_map/weChange.png",
     "siteURL": "https://wechange.de/",
-    "w": "140",
-    "h": "0",
+    "w": "222",
+    "h": "25",
     "alt": "weChange"
   }
 ]

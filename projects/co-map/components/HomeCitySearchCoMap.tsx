@@ -1,6 +1,8 @@
 import React, {FC, useEffect, useState} from 'react';
 import {NextRouter, useRouter} from 'next/router';
-import {Select} from 'antd';
+import Image from 'next/image'
+import Link from 'next/link'
+import {Select, Row, Col} from 'antd';
 import debounce from 'lodash/debounce';
 import API_ENDPOINTS from '../../../api/endpoints';
 import {GeoLocations} from '../../../dtos/GeoLocatoinResponse';
@@ -32,6 +34,11 @@ const showMapByClickOnButton = (router: NextRouter) => () => {
 const HomeCitySearchCoMap: FC = () => {
     const router = useRouter();
     const [searchTerm, setSearchTerm] = useState<string>('');
+    
+    const [pointTypesVisible, setPointTypesVisible] = useState<boolean>(false);
+    const getPointTypesVisibilityClass = () => {
+        return pointTypesVisible ? 'visible' : '';
+    }
 
     const {data: geoLocations, error: geoLocationError} =
         useRequest<GeoLocations>({
@@ -43,57 +50,66 @@ const HomeCitySearchCoMap: FC = () => {
             },
         });
 
-    const [showMapButton, setShowMapButton] = useState<boolean>(false);
-
-    useEffect(() => {
-        if (searchTerm.length > 0 && geoLocations?.length === 0) {
-            setShowMapButton(true);
-        }
-        if (searchTerm.length === 0 || geoLocations?.length > 0) {
-            setShowMapButton(false);
-        }
-    }, [geoLocations]);
-
     return (
-        <div
-            style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignContent: 'center',
-            }}
-        >
-            <Select
-                showSearch
-                showArrow={false}
-                filterOption={false}
-                notFoundContent={null}
-                dropdownMatchSelectWidth={252}
-                style={{width: 250, textAlign: 'left'}}
-                onSelect={onSelect(router)}
-                onSearch={debounce(setSearchTerm, 400)}
-                placeholder={'где будем искать?'}
-                size="large"
-            >
-                {geoLocations &&
-                    !geoLocationError &&
-                    geoLocations.map(({lat, lon, display_name, place_id}) => (
-                        <Option
-                            key={`geoLocationOption-${place_id}`}
-                            value={[lat, lon].join()}
+        <Row justify={'center'}>
+            {/* <Col span={24}> */}
+                <div className={'city_search-comap'}>
+                    <div className={'city_search-bar'}>
+                        <Select
+                            className={'city_search_bar-select'}
+                            showSearch
+                            showArrow={false}
+                            filterOption={false}
+                            notFoundContent={null}
+                            dropdownMatchSelectWidth={252}
+                            style={{textAlign: 'left'}}
+                            onSelect={onSelect(router)}
+                            onSearch={debounce(setSearchTerm, 400)}
+                            placeholder={'Введите адрес'}
+                            // size="large"
                         >
-                            {display_name}
-                        </Option>
-                    ))}
-            </Select>
-            <div>
-                {showMapButton && (
-                    <ShowMapButton
-                        placeholder={'Показать карту...'}
-                        showMapByClickOnButton={showMapByClickOnButton(router)}
-                    />
-                )}
-            </div>
-        </div>
+                            {geoLocations &&
+                                !geoLocationError &&
+                                geoLocations.map(({lat, lon, display_name, place_id}) =>
+                            (
+                                <Option
+                                    key={`geoLocationOption-${place_id}`}
+                                    value={[lat, lon].join()}
+                                >
+                                    {display_name}
+                                </Option>
+                            ))}
+                        </Select>
+
+                        <button className={'bg-pink'}
+                            onClick={() => {
+                                setPointTypesVisible(!pointTypesVisible);
+                            }}
+                        >
+                            <Image
+                                src={'/projects/co-map/assets/img/add_point.button.svg'}
+                                width={'44px'}
+                                height={'44px'}
+                            />
+                        </button>
+                    </div>
+
+                    <div className={`city_search-point_types_menu ${getPointTypesVisibilityClass()}`}>
+                        <div className={'point_type'}>
+                            <Link href={''}>Проект</Link>
+                        </div>
+
+                        <div className={'point_type'}>
+                            <Link href={''}>Событие</Link>
+                        </div>
+
+                        <div className={'point_type'}>
+                            <Link href={''}>Организация</Link>
+                        </div>
+                    </div>
+                </div>
+            {/* </Col> */}
+        </Row>
     );
 };
 

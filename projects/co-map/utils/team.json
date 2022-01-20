@@ -1,0 +1,134 @@
+{
+    "Managment": [
+        {
+            "name": "Андрей Андрюсов",
+            "pic": "/projects/co-map/assets/img/co-map/andrei_square.JPG",
+            "position": "Куратор проекта",
+            "hackathon": true
+        },
+        {
+            "name": "Полина Мандрик",
+            "pic": "/projects/co-map/assets/img/co-map/polina_mandrik.jpg",
+            "position": "Руководитель проекта",
+            "hackathon": false
+        },
+        {
+            "name": "Дмитрий Апатин",
+            "pic": "/projects/co-map/assets/img/co-map/dmitry-apatin_square.jpg",
+            "position": "Техлид проекта",
+            "hackathon": true
+        }
+    ],
+    "Develop": [
+        {
+            "name": "Никита Горшков",
+            "pic": "/projects/co-map/assets/img/co-map/nikita-gorshkov.jpg",
+            "position": "Фронтенд разработчик",
+            "hackathon": false
+        },
+        {
+            "name": "Мелания Манойлович",
+            "pic": "/projects/co-map/assets/img/co-map/melanie.jpg",
+            "position": "Тимлид IThub",
+            "hackathon": false
+        },
+        {
+            "name": "София Кучмар",
+            "pic": "/projects/co-map/assets/img/co-map/sofiya.jpg",
+            "position": "Дизайнер",
+            "hackathon": false
+        },
+        {
+            "name": "Александра Башиянц",
+            "pic": "/projects/co-map/assets/img/co-map/sasha.jpg",
+            "position": "Дизайнер",
+            "hackathon": false
+        },
+        {
+            "name": "Марат Геворкян",
+            "pic": "/projects/co-map/assets/img/co-map/marat.jpg",
+            "position": "Фронтенд разработчик",
+            "hackathon": false
+        },
+        {
+            "name": "Дмитрий Бельский",
+            "pic": "/projects/co-map/assets/img/co-map/dima.jpg",
+            "position": "Фронтенд разработчик",
+            "hackathon": false
+        }
+    ],
+    "Hackathon": [
+        {
+            "name": "Андрей Андрюсов",
+            "pic": "/projects/co-map/assets/img/co-map/andrei_square.JPG",
+            "position": "Руководитель хакатона",
+            "hackathon": true
+        },
+        {
+            "name": "Дмитрий Апатин",
+            "pic": "/projects/co-map/assets/img/co-map/dmitry-apatin_square.jpg",
+            "position": "Технический директор хакатона",
+            "hackathon": true
+        },
+        {
+            "name": "Дарья Лукошкова",
+            "pic": "/projects/co-map/assets/img/co-map/dasha_square.jpg",
+            "position": "Администратор Хакатона",
+            "hackathon": true
+        },
+        {
+            "name": "Михаил Миронов",
+            "pic": "/projects/co-map/assets/img/co-map/misha.jpg",
+            "position": "Стратег",
+            "hackathon": true
+        },
+        {
+            "name": "Ольга Рехлясова",
+            "pic": "/projects/co-map/assets/img/co-map/olya.jpeg",
+            "position": "Стратег",
+            "hackathon": true
+        },
+        {
+            "name": "Анастасия Варлыгина",
+            "pic": "/projects/co-map/assets/img/co-map/nastia_square.jpg",
+            "position": "Стратег",
+            "hackathon": true
+        },
+        {
+            "name": "Виктория Бакун",
+            "pic": "/projects/co-map/assets/img/co-map/viktoryia-bakun_square.jpeg",
+            "position": "Фронтенд разработчик",
+            "hackathon": true
+        },
+        {
+            "name": "Иван Казак",
+            "pic": "/projects/co-map/assets/img/co-map/ivan-kazak_square.jpg",
+            "position": "Фронтенд разработчик",
+            "hackathon": true
+        },
+        {
+            "name": "Кирилл Кондратьев",
+            "pic": "/projects/co-map/assets/img/co-map/kirill_square.jpg",
+            "position": "Фронтенд разработчик",
+            "hackathon": true
+        },
+        {
+            "name": "Никита Андрусов",
+            "pic": "/projects/co-map/assets/img/co-map/nikita_square.jpg",
+            "position": "Фронтенд разработчик",
+            "hackathon": true
+        },
+        {
+            "name": "Иван Филипчик",
+            "pic": "/projects/co-map/assets/img/co-map/vanya_square.jpg",
+            "position": "Фронтенд разработчик",
+            "hackathon": true
+        },
+        {
+            "name": "Ромиш Куватов",
+            "pic": "/projects/co-map/assets/img/co-map/romish-kuvatov_square.jpg",
+            "position": "Фронтенд разработчик",
+            "hackathon": true
+        }
+    ]
+}
