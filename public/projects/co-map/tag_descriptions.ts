@@ -2,32 +2,32 @@ const tagsDescriptions = [
   {
     title: 'ecology',
     description: 'Сохранение окружающей среды',
-    icon: 'https://svgshare.com/i/Zxm.svg',
+    icon: '/../../icons/derectionTagicon/bg.svg',
   },
   {
     title: 'social',
     description: 'Забота о людях и их здоровье',
-    icon: 'https://svgshare.com/i/ZxT.svg',
+    icon: '/../../icons/derectionTagicon/ikon healthy.svg',
   },
   {
     title: 'culture',
     description: 'Культура и креативные индустрии',
-    icon: 'https://svgshare.com/i/Zvs.svg',
+    icon: '/../../icons/derectionTagicon/ikon culture.svg',
   },
   {
     title: 'communities',
     description: 'Развитие сообществ и территорий',
-    icon: 'https://svgshare.com/i/Zwo.svg',
+    icon: '/../../icons/derectionTagicon/ikon society.svg',
   },
   {
     title: 'education',
     description: 'Образование и развитие человека',
-    icon: 'https://svgshare.com/i/Zxx.svg',
+    icon: '/../../icons/derectionTagicon/ikon education.svg',
   },
   {
     title: 'infrastructure',
     description: 'Инфраструктура поддержки',
-    icon: 'https://svgshare.com/i/Zy8.svg',
+    icon: '/../../icons/derectionTagicon/ikon infrostructure.svg',
   },
 ]
 
