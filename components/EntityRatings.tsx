@@ -1,24 +1,21 @@
-import React, { FC, Fragment } from 'react'
-import { NextRouter, useRouter } from 'next/router'
+import { FC } from 'react'
 import toString from 'lodash/toString'
 import groupBy from 'lodash/groupBy'
-import isEmpty from 'lodash/isEmpty'
-import { isWebUri } from 'valid-url'
-import { Button, Comment, Divider, Typography } from 'antd'
+import { Comment, Divider, Typography } from 'antd'
 import useTranslation from 'next-translate/useTranslation'
-import { Rating, RatingID } from '../dtos/Rating'
+import { Rating } from '../dtos/Rating'
 import { RatingsRequest } from '../dtos/RatingsRequest'
 import useRequest from '../api/useRequest'
 import API_ENDPOINTS from '../api/endpoints'
-import { RatingComment } from '../dtos/RatingComment'
-import produce from 'immer'
-import { convertQueryParamToArray } from '../utils/utils'
-import { EntrySlugEntity, mapSingularEntityNameToBrief, RatingSlugEntity, SlugVerb } from '../utils/types'
-import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
-import { mapRatingValueToKey } from '../utils/ratings'
+import FlowerLeafWithCanvas from './FlowerLeafWithCanvas'
+import { RatingFactor } from '../dtos/RatingFactor'
+import AddEntityRatingButton from './AddEntityRatingButton'
+import AddEntityRatingCommentButton from './AddEntityRatingCommentButton'
+import EntityRatingContent from './EntityRatingContent'
+import EntityRatingComments from './EntityRatingComments'
 
 
-const { Title, Link, Text, Paragraph } = Typography
+const { Title } = Typography
 
 
 interface EntityCommentsProps {
@@ -26,62 +23,10 @@ interface EntityCommentsProps {
 }
 
 
-const redirectToNewRatingForm = (router: NextRouter) => () => {
-  const { query } = router
-  const newQueryParams = produce(query, (draftState) => {
-    const { slug } = draftState
-    const slugArray = convertQueryParamToArray(slug)
-
-    slugArray.push(mapSingularEntityNameToBrief[EntrySlugEntity.RATING], SlugVerb.CREATE)
-    draftState.slug = slugArray
-  })
-
-  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
-
-  router.replace(
-    {
-      pathname: `/m/${newPath}`,
-      query: newQueryWithoutSlug,
-    },
-    undefined,
-    { shallow: true },
-  )
-}
-
-
-const redirectToRatingCommentForm = (router: NextRouter, ratingId: RatingID) => () => {
-  const { query } = router
-  const newQueryParams = produce(query, (draftState) => {
-    const { slug } = draftState
-    const slugArray = convertQueryParamToArray(slug)
-
-    slugArray.push(
-      mapSingularEntityNameToBrief[EntrySlugEntity.RATING],
-      ratingId,
-      mapSingularEntityNameToBrief[RatingSlugEntity.COMMENT],
-      SlugVerb.CREATE,
-    )
-    draftState.slug = slugArray
-  })
-
-  const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
-
-  router.replace(
-    {
-      pathname: `/m/${newPath}`,
-      query: newQueryWithoutSlug,
-    },
-    undefined,
-    { shallow: true },
-  )
-}
-
-
 const EntityRatings: FC<EntityCommentsProps> = (props) => {
   const { ratingsIds } = props
   const hasRatings = ratingsIds.length !== 0
 
-  const router = useRouter()
 
   const { t } = useTranslation('map')
 
@@ -100,7 +45,7 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
 
   // has no comment at all
   if (!hasRatings) {
-    return null
+    return <AddEntityRatingButton/>
   }
 
   if (ratingsError) {
@@ -115,107 +60,68 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
   }
 
   const groupedRatings = groupBy(ratings, 'context')
-  const sortedContexts = Object.keys(groupedRatings).sort()
+  const sortedContexts = Object.keys(groupedRatings).sort() as RatingFactor[]
 
   return (
     <div>
-      <Button
-        type="primary"
-        onClick={redirectToNewRatingForm(router)}
-        style={{
-          width: '100%',
-          marginBottom: 16,
-        }}
-      >
-        {t('ratings.newRating')}
-      </Button>
-
       {
-        sortedContexts.map((context: string, i: number) => {
+        sortedContexts.map((context, _i) => {
           const contextRatings: Rating[] = groupedRatings[context]
-          const isLastContext = i === sortedContexts.length - 1
 
           return (
             <div key={`groupRatings-${context}`}>
-              <Title className={context} level={5}>{t(`ratings.contextName.${context}`)}</Title>
+              <Title
+                className={context}
+                style={{
+                  marginBottom: 0,
+                }}
+                level={5}
+              >
+                {t(`ratings.contextName.${context}`)}
+              </Title>
+              <Divider
+                className="kvm-rating-divider"
+                style={{
+                  borderTopColor: 'rgb(221, 221, 221)',
+                }}
+                orientation="right"
+              >
+                <FlowerLeafWithCanvas ratingFactor={context}/>
+              </Divider>
 
               {
                 contextRatings.map((contextRating: Rating) => {
-                  const [rootComment, ...replies] = contextRating.comments
-                  const ratingValueName = t(`ratings.valueName.${mapRatingValueToKey(contextRating.value)}`)
+                  const [rootComment, ...comments] = contextRating.comments
 
                   return (
                     <Comment
                       key={`comment-${rootComment.id}`}
+                      style={{
+                        marginBottom: 8,
+                      }}
+                      actions={[<AddEntityRatingCommentButton ratingId={contextRating.id}/>]}
                       content={
-                        <Fragment>
-                          <Text>{`${ratingValueName}: `}</Text>
-                          <Text strong>{contextRating.title}</Text>
-                          <Paragraph
-                            style={{
-                              marginBottom: '0.01em',
-                            }}
-                          >
-
-                            {rootComment.text}
-
-                            {
-                              !isEmpty(contextRating.source) &&
-                              <Fragment>
-                                <Divider type="vertical"/>
-
-                                {
-                                  isWebUri(contextRating.source) ? (
-                                    <Link
-                                      href={contextRating.source}
-                                      target="_blank"
-                                    >
-                                      {t('ratings.sourceWebsite')}
-                                    </Link>
-                                  ) : (
-                                    <Text type="secondary">{contextRating.source}</Text>
-                                  )
-                                }
-                              </Fragment>
-                            }
-
-                          </Paragraph>
-                        </Fragment>
+                        <EntityRatingContent
+                          title={contextRating.title}
+                          value={contextRating.value}
+                          text={rootComment.text}
+                          source={contextRating.source}
+                        />
                       }
-                      actions={[
-                        <Button
-                          type="text"
-                          size="small"
-                          onClick={redirectToRatingCommentForm(router, contextRating.id)}
-                        >
-                          <Text type="secondary">{t('ratings.newComment')}</Text>
-                        </Button>,
-                      ]}
                     >
-                      {
-                        replies.map((reply: RatingComment) => {
-                          return (
-                            <Comment
-                              key={`comment-${reply.id}`}
-                              content={<Text>{reply.text}</Text>}
-                            />
-                          )
-                        })
-                      }
+
+                      <EntityRatingComments comments={comments}/>
                     </Comment>
                   )
                 })
               }
 
-              {
-                !isLastContext && (
-                  <Divider dashed/>
-                )
-              }
             </div>
           )
         })
       }
+
+      <AddEntityRatingButton/>
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import React, { FC, Fragment } from 'react'
+import { FC, Fragment } from 'react'
 import { TagArray } from '../dtos/Tag'
 import { Divider, Space, Tag } from 'antd'
 import { useRouter } from 'next/router'
@@ -19,19 +19,20 @@ const EntityTags: FC<EntryTagsProps> = (props) => {
       <Divider/>
 
       <Space
-        size="small"
+        size={3}
         wrap
       >
         {
           tags.map((tag) => (
             <Tag
               key={tag}
+              className="kvm-tag"
               onClick={() => setTagToRouterAndRedirectToMap(tag, router)}
               style={{
                 cursor: 'pointer',
               }}
             >
-              {tag}
+              {`#${tag}`}
             </Tag>),
           )
         }

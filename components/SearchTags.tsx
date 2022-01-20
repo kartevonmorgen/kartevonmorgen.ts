@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useEffect, useRef, useState } from 'react'
+import { FC, Fragment, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import lodashIsEqual from 'lodash/isEqual'
 import { convertQueryParamToArray } from '../utils/utils'
@@ -37,26 +37,22 @@ const SearchTags: FC = (_props) => {
 
 
   return (
-      <Fragment>
-          {showSelect && (
-              <div
-                  style={{
-                      marginTop: 8,
-                  }}
-              >
-                  <TagsSelect
-                      placeholder={
+    <Fragment>
+      {showSelect && (
+        <div>
+          <TagsSelect
+            placeholder={
                           t('searchForTagsPlaceholder') || 'Search for tags'
                       }
-                      value={selectedTags}
-                      onSelect={addTagToRouter(router)}
-                      onDeselect={removeTagFromRouter(router)}
-                      onClear={removeAllTagsFromRouter(router)}
-                  />
-              </div>
-          )}
-      </Fragment>
-  );
+            value={selectedTags}
+            onSelect={addTagToRouter(router)}
+            onDeselect={removeTagFromRouter(router)}
+            onClear={removeAllTagsFromRouter(router)}
+          />
+        </div>
+      )}
+    </Fragment>
+  )
 }
 
 SearchTags.defaultProps = {

@@ -35,52 +35,65 @@ export const RatingFactorColors = {
 
 
 export default css.global`
-    .ant-btn-primary {
-        background-color: #666;
-        border-color: #555;
-    }
+.ant-btn-primary {
+  background-color: rgb(26, 26, 26);
+}
 
-    .ant-btn-primary:hover {
-        background-color: #777;
-        border-color: #666;
-    }
+.initiative-checkable-tag {
+ background-color: ${INITIATIVE_COLOR};
+ color: white;
+}
 
-    .initiative-tag {
-        background-color: ${INITIATIVE_COLOR};
-        color: white;
-    }
+.company-checkable-tag {
+ background-color: ${COMPANY_COLOR};
+ color: white;
+}
 
-    .company-tag {
-        background-color: ${COMPANY_COLOR};
-        color: white;
-    }
+.event-checkable-tag {
+ background-color: ${EVENT_COLOR};
+ color: white;
+}
 
-    .event-tag {
-        background-color: ${EVENT_COLOR};
-        color: white;
-    }
+.initiative-tag {
+ color: ${INITIATIVE_COLOR};
+ background-color: white;
+ border: none;
+}
 
-    .initiative-result-card {
-        border-left: solid 5px ${INITIATIVE_COLOR};
-    }
+.company-tag {
+ color: ${COMPANY_COLOR};
+ background-color: white;
+ border: none;
+}
 
-    .company-result-card {
-        border-left: solid 5px ${COMPANY_COLOR};
-    }
+.event-tag {
+ color: ${EVENT_COLOR};
+ background-color: white;
+ border: none;
+}
 
-    .event-result-card {
-        border-left: solid 5px ${EVENT_COLOR};
-    }
+.initiative-result-card {
+  border-left: solid 5px ${INITIATIVE_COLOR};
+}
 
-    .initiative-circle-marker {
-        fill: ${INITIATIVE_COLOR};
-    }
+.company-result-card {
+  border-left: solid 5px ${COMPANY_COLOR};
+}
 
-    .company-circle-marker {
-        fill: ${COMPANY_COLOR};
-    }
+.event-result-card {
+  border-left: solid 5px ${EVENT_COLOR};
+}
 
-    .event-circle-marker {
-        fill: ${EVENT_COLOR};
-    }
-`;
+.initiative-circle-marker {
+  fill: ${INITIATIVE_COLOR};
+}
+
+.company-circle-marker {
+  fill: ${COMPANY_COLOR};
+}
+
+.event-circle-marker {
+  fill: ${EVENT_COLOR};
+}
+
+`

@@ -1,4 +1,4 @@
-import React, { FC, Fragment } from 'react'
+import { FC, Fragment } from 'react'
 import { SearchResult, SearchResults } from '../dtos/SearchResult'
 import { useSelector } from 'react-redux'
 import { RootState } from '../slices'

@@ -1,4 +1,4 @@
-import React, { FC, Fragment } from 'react'
+import { FC, Fragment } from 'react'
 import Flower from './Flower'
 import { Divider } from 'antd'
 import useTranslation from 'next-translate/useTranslation'

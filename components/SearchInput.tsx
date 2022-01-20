@@ -1,16 +1,17 @@
-import { FC, useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
+import { Dispatch, FC, useEffect, useState } from 'react'
+import { NextRouter, useRouter } from 'next/router'
 import produce from 'immer'
 import { AutoComplete, Input } from 'antd'
 import { useDebounce } from 'ahooks'
-import { convertQueryParamToString, updateRoutingQuery } from '../utils/utils'
+import useTranslation from 'next-translate/useTranslation'
 import useSearchRecommender from '../hooks/useSearchRecommender'
+import SearchOutlined from '@ant-design/icons/SearchOutlined'
+import { convertQueryParamToString, updateRoutingQuery } from '../utils/utils'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
-import useTranslation from 'next-translate/useTranslation';
+import { isRouterInitialized } from '../utils/router'
 
-const {Search} = Input;
 
-const onSearch = (router) => (searchTerm, _event) => {
+const onSearch = (router: NextRouter, searchTerm: string) => {
   const { query } = router
 
   const searchURLParamKey = 'search'
@@ -36,48 +37,73 @@ const onSearch = (router) => (searchTerm, _event) => {
   )
 }
 
+const onSelect = (setSearchTerm: Dispatch<any>) => (term: string) => {
+  setSearchTerm((prevTerm: string) => {
+    const prevSearchTokens = prevTerm.trim().split(' ')
+    const lastToken = prevSearchTokens[prevSearchTokens.length - 1]
+
+    if (!lastToken) {
+      return term
+    }
+
+    if (term.startsWith(lastToken)) {
+      return [...prevSearchTokens.slice(0, prevSearchTokens.length - 2), term].join(' ')
+    }
+
+    return `${prevTerm} ${term}`
+  })
+}
 
 const SearchInput: FC = () => {
-    const router = useRouter();
-    const {query} = router;
-    const {t} = useTranslation('map');
+  const router = useRouter()
+  const { query } = router
 
-    const {dropdowns, search: searchQuery} = query;
-    const searchTermFromURL: string = convertQueryParamToString(searchQuery);
+  const { dropdowns, search: searchQuery } = query
+  const searchTermFromURL: string = convertQueryParamToString(searchQuery)
 
-    const categoryGroup = convertQueryParamToString(dropdowns, 'main');
+  const categoryGroup = convertQueryParamToString(dropdowns, 'main')
 
-    const [searchTerm, setSearchTerm] = useState<string>('');
-    const debouncedTokenToSearch = useDebounce(searchTerm, {wait: 100});
+  const [searchTerm, setSearchTerm] = useState<string>('')
+  const debouncedTokenToSearch = useDebounce(searchTerm, { wait: 500 })
 
-    useEffect(() => {
-        setSearchTerm(searchTermFromURL);
-    }, []);
+  const { t } = useTranslation('map')
 
-    const searchOptions = useSearchRecommender(
-        debouncedTokenToSearch,
-        categoryGroup,
-    );
+  useEffect(() => {
+    setSearchTerm(searchTermFromURL)
+  }, [])
 
-    return (
-        <AutoComplete
-            value={searchTerm}
-            options={searchOptions}
-            style={{
-                width: '100%',
-            }}
-            onSearch={(term: string) => setSearchTerm(term)}
-            onSelect={(value: string) => setSearchTerm(value)}
-        >
-            <Search
-                placeholder={t('searchPlaceholder')}
-                allowClear
-                enterButton
-                onSearch={onSearch(router)}
-                className="primary-btn"
-            />
-        </AutoComplete>
-    );
-};
+  const searchOptions = useSearchRecommender(debouncedTokenToSearch, categoryGroup)
+
+  useEffect(() => {
+    if (isRouterInitialized(router)) {
+      onSearch(router, debouncedTokenToSearch)
+    }
+  }, [debouncedTokenToSearch])
+
+  return (
+    <AutoComplete
+      value={searchTerm}
+      options={searchOptions}
+      style={{
+        flexGrow: 1,
+        marginBottom: 4,
+        marginTop: 4,
+        marginLeft: 4,
+      }}
+      onSearch={(term: string) => {
+        setSearchTerm(term)
+      }}
+      onSelect={onSelect(setSearchTerm)}
+    >
+      <Input
+        className="transparent-addon"
+        bordered={false}
+        placeholder={t('searchbar.placeholder')}
+        allowClear
+        addonBefore={<SearchOutlined/>}
+      />
+    </AutoComplete>
+  )
+}
 
 export default SearchInput

@@ -49,14 +49,9 @@ const TagsCheckboxGroup: FC<TagsCheckboxGroup> = (props) => {
   const { data: labelValues } = data
 
   return (
-    <div
-      style={{
-        marginTop: 4,
-        marginBottom: 8,
-      }}
-    >
+    <div>
       <Space
-        size="large"
+        size="small"
         wrap
       >
         {

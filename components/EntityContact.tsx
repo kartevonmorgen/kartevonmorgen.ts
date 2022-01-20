@@ -1,5 +1,5 @@
-import React, { FC } from 'react'
-import { Col, Row, Typography } from 'antd'
+import { FC } from 'react'
+import { Typography } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { EntryContact as EntryContactDTO, EntryContactKeys } from '../dtos/EntryContact'
@@ -27,64 +27,79 @@ const EntityContact: FC<EntryContactProps> = (props) => {
   } = props
 
   return (
-    <address>
+    <address
+      style={{
+        margin: 0,
+      }}
+    >
       {contact_name && (
-        <Row
+        <div
           key={`contact-${EntryContactKeys.CONTACT_NAME}`}
         >
-          <Col xs={1}>
+          <div
+            style={{
+              display: 'inline-block',
+              marginRight: 4,
+            }}
+          >
             <FontAwesomeIcon icon={propToIcon[EntryContactKeys.CONTACT_NAME] as IconProp}/>
-          </Col>
+          </div>
 
-          <Col>
-            {contact_name}
-          </Col>
-        </Row>
-      )
-      }
+          {contact_name}
+        </div>
+      )}
 
       {telephone && (
-        <Row
+        <div
           key={`contact-${EntryContactKeys.TELEPHONE}`}
         >
-          <Col xs={1}>
+          <div
+            style={{
+              display: 'inline-block',
+              marginRight: 4,
+            }}
+          >
             <FontAwesomeIcon icon={propToIcon[EntryContactKeys.TELEPHONE] as IconProp}/>
-          </Col>
+          </div>
 
-          <Col>
-            {telephone}
-          </Col>
-        </Row>
+          {telephone}
+        </div>
       )
       }
 
       {email && (
-        <Row
+        <div
           key={`contact-${EntryContactKeys.EMAIL}`}
         >
-          <Col xs={1}>
+          <div
+            style={{
+              display: 'inline-block',
+              marginRight: 4,
+            }}
+          >
             <FontAwesomeIcon icon={propToIcon[EntryContactKeys.EMAIL] as IconProp}/>
-          </Col>
+          </div>
 
-          <Col>
-            <Link target="_blank" href={`mailto:${email}`}>{email}</Link>
-          </Col>
-        </Row>
+          <Link target="_blank" href={`mailto:${email}`}>{email}</Link>
+        </div>
       )
       }
 
       {homepage && (
-        <Row
+        <div
           key={`contact-${EntryContactKeys.HOMEPAGE}`}
         >
-          <Col xs={1}>
+          <div
+            style={{
+              display: 'inline-block',
+              marginRight: 4,
+            }}
+          >
             <FontAwesomeIcon icon={propToIcon[EntryContactKeys.HOMEPAGE] as IconProp}/>
-          </Col>
+          </div>
 
-          <Col>
-            <Link target="_blank" href={homepage} rel="noopener noreferrer">{homepage}</Link>
-          </Col>
-        </Row>
+          <Link target="_blank" href={homepage} rel="noopener noreferrer">{homepage}</Link>
+        </div>
       )
       }
     </address>

@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import { FC, useEffect } from 'react'
 import { SearchEntryID } from '../dtos/SearchEntry'
 import { SlugVerb } from '../utils/types'
 import { NextRouter, useRouter } from 'next/router'

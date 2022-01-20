@@ -1,7 +1,7 @@
-import React, { CSSProperties, FC } from 'react'
+import { CSSProperties, FC } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
-import { List, Space, Tag } from 'antd'
+import { List, Space, Tag, Typography } from 'antd'
 import { SearchResult } from '../dtos/SearchResult'
 import { SearchEntryID } from '../dtos/SearchEntry'
 import { CompactEvent, EventID } from '../dtos/Event'
@@ -14,6 +14,7 @@ import { viewActions } from '../slices'
 
 
 const { Item } = List
+const { Text } = Typography
 
 
 interface ResultCardProps {
@@ -75,7 +76,7 @@ const ResultCard: FC<ResultCardProps> = (props) => {
   // todo: bug maybe here is the place we should touch to have the cells measures correctly
   return (
     <Item
-      className={`${typeName}-result-card`}
+      className={`${typeName}-result-card result-card`}
       onClick={onResultClick(router, type, id)}
       onMouseEnter={() => {
         dispatch(viewActions.setHighlight(id))
@@ -91,15 +92,25 @@ const ResultCard: FC<ResultCardProps> = (props) => {
       }}
     >
       <Item.Meta
-        title={title}
+        title={<Text strong style={{ fontSize: '1.2rem' }}>{title}</Text>}
         description={getTimeDescriptionForEvent(searchResult, type)}
       />
       <div>{getSubstringOfDescription(description, 70)}</div>
       <div style={{ marginTop: 4 }}>
-        <Space size="small" wrap>
+        <Space
+          size={3}
+          wrap
+        >
           {
             tags.slice(0, 3).map(
-              (tag: string) => (<Tag key={tag}>{tag}</Tag>),
+              (tag: string) => (
+                <Tag
+                  key={tag}
+                  className="kvm-tag"
+                >
+                  {`#${tag}`}
+                </Tag>
+              ),
             )
           }
         </Space>

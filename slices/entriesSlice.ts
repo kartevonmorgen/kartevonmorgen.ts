@@ -6,6 +6,7 @@ import API_ENDPOINTS from '../api/endpoints'
 import SearchEntry, { SearchEntries } from '../dtos/SearchEntry'
 import SearchEntriesResponseDTO from '../dtos/SearchEntriesResponse'
 import { SearchEntriesRequest as SearchEntriesRequestDTO } from '../dtos/SearchEntriesRequest'
+import { BoundingBox } from '../dtos/BoundingBox'
 
 
 const entriesSlice = createSlice({
@@ -47,7 +48,7 @@ export const { actions } = entriesSlice
 
 export const fetchEntries = (
   searchEntriesRequestDTO: SearchEntriesRequestDTO,
-): AppThunk => async dispatch => {
+): AppThunk => async (dispatch) => {
 
   const searchEntriesReq = await AxiosInstance.GetRequest<SearchEntriesResponseDTO>(
     API_ENDPOINTS.searchEntries(),
@@ -59,6 +60,17 @@ export const fetchEntries = (
   const searchEntries = AxiosInstance.GetSuccessData(searchEntriesReq)
 
   dispatch(setEntries(searchEntries.visible))
+}
+
+
+export const fetchAllEntries = (bbox: BoundingBox): AppThunk => async (dispatch) => {
+
+  const searchEntriesRequestDTO: SearchEntriesRequestDTO = {
+    bbox,
+  }
+
+
+  dispatch(fetchEntries(searchEntriesRequestDTO))
 }
 
 ///////////////////////////////

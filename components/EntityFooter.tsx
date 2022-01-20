@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useEffect, useState } from 'react'
+import { FC, Fragment, useEffect, useState } from 'react'
 import { Col, Divider, Layout, Row, Tooltip, Typography } from 'antd'
 import moment from 'moment'
 import { RootSlugEntity } from '../utils/types'

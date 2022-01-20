@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useEffect } from 'react'
+import { FC, Fragment, useEffect } from 'react'
 import { SearchEntryID } from '../dtos/SearchEntry'
 import { SlugVerb } from '../utils/types'
 import { NextRouter, useRouter } from 'next/router'
@@ -78,7 +78,6 @@ const EntryRatingCommentForm: FC<EntryRatingCommentFormProps> = (props) => {
   const {
     entryId,
     ratingId,
-    verb,
   } = props
 
   const router = useRouter()
@@ -115,7 +114,7 @@ const EntryRatingCommentForm: FC<EntryRatingCommentFormProps> = (props) => {
   }
 
   const parentRating = ratings[0]
-  const comment = parentRating.comments[0]
+  // const comment = parentRating.comments[0]
 
   form.setFieldsValue({
     title: parentRating.title,

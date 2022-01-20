@@ -25,7 +25,7 @@ import {
 import Category from '../dtos/Categories'
 import { LatLngBounds } from 'leaflet'
 import { TableViewQueryParams } from '../dtos/TableViewQueryParams'
-import { EventTimeBoundaries, getEventTimeBoundariesFromQuery } from './router'
+import { EventTimeBoundaries, getEventTimeBoundariesFromQueryOrDefaults } from './router'
 
 
 export const getProjectNameFromQuery = (query: ParsedUrlQuery): string => {
@@ -38,8 +38,10 @@ export const getSingularFormOfEntity = (briefEntityName: BriefEntityName): Singu
   return mapBriefEntityNameToSingular[briefEntityName]
 }
 
-// is responsible for creating {action, entity, id} from query: (e.g {'show', 'event', '322'} )
-// for more details read slugs.test.ts
+export const isSlugPartCreateOrEdit = (slugPart: string): boolean => {
+  return (slugPart === SlugVerb.CREATE) || (slugPart === SlugVerb.EDIT)
+}
+
 export const getRootSlugActionFromQuery = (query: ParsedUrlQuery): SlugAction => {
   const { slug } = query
 
@@ -139,7 +141,6 @@ export const getRootSlugActionFromQuery = (query: ParsedUrlQuery): SlugAction =>
   return rootAction
 }
 
-
 export const redirectToEntityDetailAndFlyToLocation = (
   router: NextRouter,
   id: SearchEntryID | EventID,
@@ -221,7 +222,7 @@ export const convertMapQueryParamsToTableViewQueryParams = (
   // todo: introduce a type for the map view and the table view query params
 
   const { search, type } = query
-  const eventTimeBoundaries: EventTimeBoundaries = getEventTimeBoundariesFromQuery(query)
+  const eventTimeBoundaries: EventTimeBoundaries = getEventTimeBoundariesFromQueryOrDefaults(query)
 
   const tableViewQueryParams = {
     text: convertQueryParamToString(search),

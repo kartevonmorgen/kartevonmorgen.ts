@@ -45,6 +45,7 @@ const ResultList: FC<ResultListProps> = (_props) => {
       style={{
         width: '100%',
         height: '100%',
+        backgroundColor: 'rgb(247, 247, 247)',
       }}
     >
       {

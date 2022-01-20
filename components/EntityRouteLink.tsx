@@ -1,5 +1,5 @@
-import React, { FC } from 'react'
-import { Col, Row, Typography } from 'antd'
+import { FC } from 'react'
+import { Typography } from 'antd'
 import useTranslation from 'next-translate/useTranslation'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { LatLng } from '../utils/geolocation'
@@ -48,21 +48,24 @@ const EntityRouteLink: FC<EntityRouteLinkProps> = (props) => {
 
 
   return (
-    <Row>
-      <Col xs={1}>
+    <div>
+      <div
+        style={{
+          display: 'inline-block',
+          marginRight: 4,
+        }}
+      >
         <FontAwesomeIcon icon="route"/>
-      </Col>
+      </div>
 
-      <Col>
-        <Link
-          target="_blank"
-          href={routeFinder.link}
-          title={`Hinfinden mit ${routeFinder.name}`}
-        >
-          {t('entryDetails.route')}
-        </Link>
-      </Col>
-    </Row>
+      <Link
+        target="_blank"
+        href={routeFinder.link}
+        title={`Hinfinden mit ${routeFinder.name}`}
+      >
+        {t('entryDetails.route')}
+      </Link>
+    </div>
   )
 }
 

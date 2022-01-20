@@ -1,9 +1,11 @@
 import { FC } from 'react'
-import { Collapse } from 'antd'
+import { Collapse, Space } from 'antd'
 import TypeChooser from './TypeChooser'
 import SearchTags from './SearchTags'
 import SearchRegion from './SearchRegion'
 import SearchCheckboxGroup from './SearchCheckboxGroup'
+import SearchLimitSelect from './SearchLimitSelect'
+import SearchRangePicker from './SearchRangePicker'
 
 
 const { Panel } = Collapse
@@ -20,20 +22,33 @@ const SearchFilters: FC<FiltersProps> = (props) => (
     expandIconPosition="right"
     ghost
     activeKey={props.showFilters}
+    style={{
+      paddingLeft: 4,
+      paddingRight: 4,
+    }}
   >
     <Panel
       header={null}
       key="1"
     >
+      <Space
+        direction="vertical"
+        style={{
+          width: '100%',
+        }}
+      >
+        <TypeChooser/>
 
-      <TypeChooser/>
+        <SearchCheckboxGroup/>
 
-      <SearchCheckboxGroup/>
+        <SearchTags/>
 
-      <SearchTags/>
+        <SearchRegion/>
 
-      <SearchRegion/>
+        <SearchLimitSelect/>
 
+        <SearchRangePicker/>
+      </Space>
     </Panel>
   </Collapse>
 )

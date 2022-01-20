@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import { Button } from 'antd'
 import TweenOne from 'rc-tween-one'
@@ -100,9 +100,9 @@ const CollapseSidebarButton: FC = () => {
           <CollapseSidebarButtonIcon showOpenIcon={!isSidebarOpen}/>
         }
         onClick={toggleSidebarState(router, isSidebarOpen)}
-        size="small"
+        size="middle"
         style={{
-          height: 40,
+          height: 55,
         }}
       />
     </TweenOne>

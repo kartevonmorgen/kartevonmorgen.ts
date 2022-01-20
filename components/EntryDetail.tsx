@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { useRouter } from 'next/router'
 import isString from 'lodash/isString'
 import isArray from 'lodash/isArray'

@@ -1,5 +1,4 @@
-import React, { FC } from 'react'
-import { Col, Row } from 'antd'
+import { FC } from 'react'
 import addressFormatter from '@fragaria/address-formatter'
 import { EntityAddress as EntryAddressDTO } from '../dtos/EntityAddress'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,17 +9,20 @@ interface EntryAddressProps extends EntryAddressDTO {
 
 const EntityAddress: FC<EntryAddressProps> = (props) => {
   return (
-    <Row
+    <div
       key={`contact-address`}
     >
-      <Col xs={1}>
+      <div
+        style={{
+          display: 'inline-block',
+          marginRight: 4,
+        }}
+      >
         <FontAwesomeIcon icon="map-marker-alt"/>
-      </Col>
+      </div>
 
-      <Col>
-        {addressFormatter.format(props)}
-      </Col>
-    </Row>
+      {addressFormatter.format(props)}
+    </div>
   )
 }
 

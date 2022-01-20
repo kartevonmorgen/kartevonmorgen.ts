@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Col, Row, Tag } from 'antd'
+import { Tag } from 'antd'
 import { CategoryToNameMapper, knownCategories } from '../dtos/Categories'
 import { NextRouter, useRouter } from 'next/router'
 import { convertArrayToQueryParam, removeRoutingQueryParams, updateRoutingQuery } from '../utils/utils'
@@ -57,43 +57,39 @@ const handleChange = (
 };
 
 const TypeChooser: FC = () => {
-    const router = useRouter();
-    const selectedTypes =
-        getTypeNamesFromRouterOrKnownCategoryNamesIfEmpty(router);
-    const {t} = useTranslation('map');
-
-    return (
-        <Row gutter={8}>
-            {knownCategories.map((category) => {
-                const categoryName = CategoryToNameMapper[category];
-                const isChecked = selectedTypes.indexOf(categoryName) > -1;
-                const textTag =
-                    t(`category.${categoryName}`) || categoryName;
-                return (
-                    <Col key={category} span={8}>
-                        <CheckableTag
-                            className={isChecked && `${categoryName}-tag`}
-                            checked={isChecked}
-                            onChange={(checked) =>
-                                handleChange(
-                                    categoryName,
-                                    checked,
-                                    selectedTypes,
-                                    router,
-                                )
-                            }
-                            style={{
-                                width: '100%',
-                                textAlign: 'center',
-                            }}
-                        >
-                            {textTag}
-                        </CheckableTag>
-                    </Col>
-                );
-            })}
-        </Row>
-    );
+  const router = useRouter();
+  const selectedTypes = getTypeNamesFromRouterOrKnownCategoryNamesIfEmpty(router);
+  const {t} = useTranslation('map');
+  
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'space-evenly',
+      }}
+    >
+      {knownCategories.map((category) => {
+        const categoryName = CategoryToNameMapper[category]
+        const isChecked = selectedTypes.indexOf(categoryName) > -1
+        const textTag = t(`category.${categoryName}`) || categoryName;
+    
+        return (
+          <CheckableTag
+            className={isChecked && `${categoryName}-checkable-tag`}
+            checked={isChecked}
+            onChange={(checked) => handleChange(categoryName, checked, selectedTypes, router)}
+            style={{
+              width: '30%',
+              textAlign: 'center',
+              margin: 0,
+            }}
+          >
+            {textTag}
+          </CheckableTag>
+        )
+      })}
+    </div>
+  )
 }
 
 
