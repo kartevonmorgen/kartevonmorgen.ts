@@ -80,8 +80,15 @@
 }
 
 .bounding_element {
-  width: 55%;
+  width: calc(100% - 200px);
   min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  
+  @media (max-width: 1000px) {
+    width: calc(100% - 40px);
+  }
 }
 
 .info_community {
@@ -225,29 +232,133 @@
 
 // How to use map
 
-.how-to-use-title {
-  margin: 20px 0;
-}
-
-.map-instruction-block {
+#HowToUseMap {
   display: flex;
-  justify-content: space-between;
+  gap: 50px;
+  flex-direction: column;
 
-  & .description-block {
-    width: 50%;
-    align-self: center;
+  max-width: 1200px;
+
+  margin-bottom: 20px;
+
+  .map-instruction-block {
     display: flex;
-    flex-direction: column;
-    padding: 5px 0;
+    justify-content: space-between;
+    align-items: center;
+    
+    & .description-block {
+      color: #ffffff;
+      width: 100%;
+      align-self: center;
+      display: flex;
+      flex-direction: column;
+      padding: 5px 0;
+      margin-right: 30px;
+      
+      padding: 50px;
+  
+      
+      & > div {
+        padding: 10px 0;
+      }
+      
+      & .co_map_subtitle {
+        font-family: 'Roboto', sans-serif;
+        font-weight: normal;
+        font-size: 33px;
+        text-align: center;
+      }
+      
+      & .description {
+        font-size: 25px;
+        font-family: 'Roboto', sans-serif;
+      }
+    }
+    
+    &.right {
+      flex-direction: row-reverse;
+  
+      & .description-block {
+        margin-left: 30px;
+        margin-right: 0;
+      }
+  
+    }
+    
+    & .image-block {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      width: 400px;
+    }
+    
+    @media (max-width: 1000px) {
+      & .image-block {
+        width: auto;
+      }
 
-    & > div {
-      padding: 10px 0;
+      & .co_map_subtitle {
+        font-size: 28px;
+      }
+
+      & .description {
+        font-size: 22px;
+      }
     }
 
-    & .description {
-      font-family: 'Open Sans', sans-serif;
+    @media (max-width: 768px) {
+
+      & .description-block {
+        
+        padding: 35px;
+        
+        & .co_map_subtitle {
+          font-size: 26px;
+        }
+  
+        & .description {
+          font-size: 20px;
+        }
+  
+      }
     }
+    
+    @media (max-width: 480px) {
+      & .image-block {
+        display: none;
+      }
+  
+      &.right {
+        & .description-block {
+          margin-left: 0;
+        }
+      }
+  
+      & .description-block {
+        padding: 20px;
+        margin-right: 0;
+  
+        & .co_map_subtitle {
+          font-size: 20px;
+        }
+  
+        & .description {
+          font-size: 15px;
+        }
+      }
+    }
+
   }
+  
+  @media (max-width: 768px) {
+    gap: 30px;
+  }
+  
+  @media (max-width: 480px) {
+    gap: 20px;
+  }
+
 }
 
 // Ambassador Program
