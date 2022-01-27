@@ -30,9 +30,9 @@ const Main: FC = () => {
     <>
       <HomeHeaderCoMap/>
       <MapBannerCoMap/>
+      <ChooseDirectionSearch/>
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
         <div className={'bounding_element'}>
-          <ChooseDirectionSearch/>
           <HowToUseMap/>
         </div>
       </div>

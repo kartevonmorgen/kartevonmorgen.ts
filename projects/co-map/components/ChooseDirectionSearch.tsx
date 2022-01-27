@@ -49,7 +49,7 @@ function ItemDirection({ text, icon, onClick }: ItemDirectionProps) {
   return (
     <div className={'item-direction co_map_text noselect'} onClick={onClick}>
       <div className='choose-direction-img-container'><img src={icon} className='direction-tag-icon'/></div>
-      {text}
+      <div className={'item-direction-text'}>{text}</div>
     </div>
   )
 }
