@@ -427,13 +427,9 @@
 //// ChooseDirectionSearch
 
 .choose-direction-img-container {
-  width: 50px;
-  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px;
-  margin-bottom: 35px;
 }
 
 .direction-tag-icon {
@@ -451,94 +447,68 @@
   flex-direction: column;
   text-align: center;
 
-  .title {
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 700;
-    font-size: 2.7vw;
-    margin-bottom: 8vh;
-  }
-
-  @media (max-width: 1000px) {
-    .title {
-      font-size: 5vw;
-      margin-bottom: 20px;
-    }
-  }
-
   .item-container {
     display: flex;
     justify-content: center;
     flex-direction: row;
-    padding: 0 0 5% 0;
+    gap: 30px;
+    padding: 0 100px 5% 100px;
+    margin-top: 50px;
+    max-width: 100%;
     width: 100%;
-    // flex-wrap: wrap;
-
+    
     .item-direction {
       cursor: pointer;
       text-align: center;
-      padding: 20px 15px 20px 15px;
-      margin: 80px 30px 25px 15px;
       display: flex;
+      gap: 30px;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
       flex-direction: column;
-      width: 250px;
-      height: 6em;
-      min-width: 200px;
-
-      .text {
-        user-select: none;
-      }
-
+      
+      .item-direction-text {
+        height: 100%;
+      } 
     }
-
-    // .item-direction:hover {
-    //   box-shadow: 2px 3px black, -.4em 0 0.4em gray;
-    // }
-
-    // .item-direction:active {
-    //   box-shadow: none;
-    // }
-
-    @media (max-width: 1000px) {
-      .item-direction {
-        width: 40%;
-        height: 5em;
-      }
-    }
-    @media (max-width: 400px) {
-      .item-direction {
-        width: 38%;
-      }
-    }
-
   }
-
+  
   @media (max-width: 1000px) {
     .item-container {
-      padding: 0 2% 5% 2%;
+      padding: 0 20px 5% 20px;
+      gap: 25px;
+
+      .item-direction-text {
+        font-size: 16px;
+      }
+    }
+
+    img {
+      width: 48px;
+      height: 48px;
     }
   }
-  @media (max-width: 400px) {
+
+  @media (max-width: 768px) {
+    .item-container {
+      flex-wrap: wrap;
+
+      .item-direction {
+        flex: 1 0 27%;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
     .item-direction {
-      padding: 0 0 0 0;
+      flex-basis: calc(50% - (25px / 2)) !important;
     }
   }
 
-  .text {
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 400;
-    font-size: 1.6vw;
-    margin-bottom: 100px;
-  }
-
-  @media (max-width: 1000px) {
-    .text {
-      font-size: 3vw;
-
+  @media (max-width: 360px) {
+    .item-direction {
+      max-width: calc(50% - 13px);
     }
   }
-
 }
 
 //// HeaderCardContainer
