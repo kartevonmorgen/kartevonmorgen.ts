@@ -20,6 +20,9 @@ interface TeamMemberProps {
   hackathon: boolean;
 }
 
+interface TeamCoMapProps {
+  showDescription: boolean;
+}
 interface TeamListProps {
   teamGroup?: TeamGroups;
   isVisible: boolean;
@@ -103,7 +106,8 @@ const TeamList: FC<TeamListProps> = (props: TeamListProps) => {
   return (<></>)
 }
 
-export const TeamCoMap: FC = () => {
+export const TeamCoMap = (props: TeamCoMapProps) => {
+  const {showDescription} = props;
   const [teamGroup, setTeamGroupState] = useState<TeamGroups>(null);
 
   function setTeamGroup(newTeamGroup: TeamGroups) {
@@ -115,8 +119,8 @@ export const TeamCoMap: FC = () => {
   }
 
   return (
-    <Col className={'team'}>
-      <Row className={'team_description'}>
+    <Col className={showDescription ? 'team' : 'team_no_text'}>
+      { showDescription && <Row className={'team_description'}>
         <div className={'team_description-title'}>Карта создана международной командой</div>
 
         <Paragraph>
@@ -134,7 +138,7 @@ export const TeamCoMap: FC = () => {
         <Paragraph>
           Развитие проекта осуществляется силами региональных волонтеров (амбассадоров) при поддержке:
         </Paragraph>
-      </Row>
+      </Row>}
 
       <Row>
         <Col flex={'auto'}>

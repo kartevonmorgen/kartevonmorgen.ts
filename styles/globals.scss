@@ -70,10 +70,6 @@ a {
   padding: 0;
 }
 
-/*.no-pad-collapse-panel > .ant-collapse-content > .ant-collapse-content-box {*/
-/*  padding: 0;*/
-/*}*/
-
 /*todo: separate each style to split files*/
 
 .kvm-sider > div > div {
@@ -238,7 +234,6 @@ a {
   top: 500px;
   width: 56pt;
   height: 84pt;
-  // filter: progid:DXImageTransform.Microsoft@include gradient(startColorstr='#000000',endColorstr='#D9F0F3' , GradientType=0);
 }
 
 .map-pin-container {
@@ -591,10 +586,17 @@ body {
 }
 
 // styles for TeamCoMap component
+.team_no_text {
+    margin-top: 50px;
+    position: relative;
+    align-items: center;
+  }
+  
 .team {
   margin: 150px 0 50px 0;
   position: relative;
   align-items: center;
+}
 
   .team_description {
     padding: 0 215px;
@@ -675,30 +677,6 @@ body {
           margin-top: 5px;
         }
       }
-
-      // .team_group-button_angle {
-      //   position: absolute;
-      //   top: calc(100% - 20px);
-      //   left: 1px;
-      //   background-color: inherit;
-      //   // shape-outside: polygon(0 0, 25px 45px, 50px 20px);
-      //   clip-path: polygon(0 0, 25px 45px, 50px 20px);
-      //   // filter: drop-shadow(]4px 4px 10px #0000007F);
-      //   height: 45px;
-      //   width: 50px;
-
-        // &:before {
-          // content: '';
-          // position: absolute;
-          // top: 0;
-          // left: 0;
-          // right: 0;
-          // bottom: 0;
-          // background: transparent;
-          
-          // transform: rotate(80deg);
-        // }
-      // }
     }
   }
 
@@ -798,8 +776,6 @@ body {
       }
     }
   }
-}
-
 // background colors
 .bg-yellow {
   background-color: #FFE010;

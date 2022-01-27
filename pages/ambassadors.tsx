@@ -7,6 +7,7 @@ import {BASICS_ENDPOINTS} from '../api/endpoints/BasicsEndpoints';
 import {BASICS_ENDPOINTS as CO_MAP_BASICS_ENDPOINTS} from '../projects/co-map/api/endpoints/BasicEndpoints';
 import AmbassadorProgram from '../projects/co-map/components/AmbassadorProgram';
 import WhyAmbassador from '../projects/co-map/components/WhyAmbassador';
+import {TeamCoMap} from '../projects/co-map/components/TeamCoMap';
 
 const Ambassadors: FC = () => {
     return (
@@ -15,10 +16,7 @@ const Ambassadors: FC = () => {
 
             <div style={{display: 'flex', justifyContent: 'center'}}>
                 <div className={'bounding_element'}>
-                    <Slider
-                        API_URL={CO_MAP_BASICS_ENDPOINTS.getAmbassadorCard()}
-                    />
-
+                    <TeamCoMap showDescription={false}/>
                     <AmbassadorProgram />
                     <WhyAmbassador />
                     <AmbassadorCommunity />

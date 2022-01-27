@@ -28,17 +28,17 @@ const Main: FC = () => {
 
   return (
     <>
-      <HomeHeaderCoMap/>
-      <MapBannerCoMap/>
-      <ChooseDirectionSearch/>
+      <HomeHeaderCoMap />
+      <MapBannerCoMap />
+      <ChooseDirectionSearch />
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
         <div className={'bounding_element'}>
-          <HowToUseMap/>
+          <HowToUseMap />
         </div>
       </div>
       <div>
-        <TeamCoMap/>
-        <Partners/>
+        <TeamCoMap showDescription={true}/>
+        <Partners />
       </div>
     </>
   )
