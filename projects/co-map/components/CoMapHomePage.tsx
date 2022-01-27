@@ -32,7 +32,7 @@ const Main: FC = () => {
       <MapBannerCoMap/>
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
         <div className={'bounding_element'}>
-          {/* <ChooseDirectionSearch/> */}
+          <ChooseDirectionSearch/>
           <HowToUseMap/>
         </div>
       </div>
