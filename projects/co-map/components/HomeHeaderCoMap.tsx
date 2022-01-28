@@ -29,6 +29,9 @@ const HomeHeader = () => {
               <Menu.Item>
                   <Link href={'/mappinginstructions'}>Инструкции</Link>
               </Menu.Item>
+              <Menu.Item>
+                  <Link href={'/team'}>Команда</Link>
+              </Menu.Item>
           </Menu>
       </Header>
   );
