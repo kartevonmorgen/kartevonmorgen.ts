@@ -195,7 +195,7 @@ export const createSlugPathFromQueryAndRemoveSlug = (query: ParsedUrlQuery):
   return [slugPath, queryWithoutSlug]
 }
 
-export const convertMapURLTOTableViewURL = (
+export const convertMapURLToTableViewURL = (
   mapURL: string,
   mapViewQueryParams: ParsedUrlQuery,
   bbox: LatLngBounds,
@@ -221,12 +221,13 @@ export const convertMapQueryParamsToTableViewQueryParams = (
 ): TableViewQueryParams => {
   // todo: introduce a type for the map view and the table view query params
 
-  const { search, type } = query
+  const { search, type, tags } = query
   const eventTimeBoundaries: EventTimeBoundaries = getEventTimeBoundariesFromQueryOrDefaults(query)
 
   const tableViewQueryParams = {
-    text: convertQueryParamToString(search),
-    tag: convertQueryParamToString(type),
+    search: convertQueryParamToString(search),
+    type: convertQueryParamToString(type),
+    tags: convertQueryParamToString(tags),
     bbox: convertBBoxToString(bbox),
     start_min: eventTimeBoundaries.startMin.unix(),
     start_max: eventTimeBoundaries.startMax?.unix(),

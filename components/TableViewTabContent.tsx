@@ -4,7 +4,7 @@ import { useMap } from 'react-leaflet'
 import Lowlight from 'react-lowlight'
 import xmlSyntax from 'highlight.js/lib/languages/xml'
 import 'highlight.js/styles/github.css'
-import { convertMapURLTOTableViewURL } from '../utils/slug'
+import { convertMapURLToTableViewURL } from '../utils/slug'
 import MapSharingModalFooter from './MapSharingModalFooter'
 
 
@@ -36,7 +36,7 @@ const TableViewTabContent: FC<TableViewTabContentProps> = (props) => {
   const map = useMap()
   const bbox = map.getBounds()
 
-  const tableViewURL: string = convertMapURLTOTableViewURL(
+  const tableViewURL: string = convertMapURLToTableViewURL(
     window.location.href,
     query,
     bbox,

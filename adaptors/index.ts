@@ -12,7 +12,7 @@ export const convertQueryToEventRequestAndSetTimeBoundaries = (query: ParsedUrlQ
   const searchEventsRequest: SearchEventsRequestDTO = {
     tag: query.tag ? convertQueryParamToString(query.tag) : undefined,
     limit: query.limit ? convertQueryParamToInt(query.limit) : undefined,
-    text: query.text ? convertQueryParamToString(query.text) : undefined,
+    text: query.text ? convertQueryParamToString(query.search) : undefined,
     bbox: query.bbox ? convertQueryParamToString(query.bbox) : undefined,
     created_by: query.created_by ? convertQueryParamToString(query.created_by) : undefined,
     start_min: eventTimeBoundaries.startMin.unix(),
