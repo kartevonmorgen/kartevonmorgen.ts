@@ -1,5 +1,6 @@
-import { FC, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { FC, useEffect, useState, Dispatch } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import {entityDetailActions} from '../slices'
 import { highlightSelector } from '../selectors/view'
 import Category, { CategoryToNameMapper } from '../dtos/Categories'
 import { DivIcon, divIcon, Icon, IconOptions, Point } from 'leaflet'
@@ -54,15 +55,15 @@ const getCircleIcon = (typeId: Category): Icon<IconOptions> | DivIcon => {
   const icon = divIcon({
     iconSize: new Point(20, 20),
     html: `
-          <svg height="20" width="20">
+          <svg height='20' width='20'>
              <circle
-               class="${categoryName}-circle-marker"
-               cx="10"
-               cy="10"
-               r="9"
-               stroke="white"
-               stroke-width="0.7"
-               opacity=${1.0}
+               class='${categoryName}-circle-marker'
+               cx='10'
+               cy='10'
+               r='9'
+               stroke='white'
+               stroke-width='0.7'
+               opacity='${1.0}'
              />
           </svg>
         `,
@@ -91,7 +92,7 @@ const getIcon = (entity: SearchResult): Icon<IconOptions> | DivIcon => {
 }
 
 
-const onClickOnPin = (router: NextRouter, searchResult: SearchResult) => () => {
+const onClickOnPin = (router: NextRouter, dispatch: Dispatch<any>, searchResult: SearchResult) => () => {
   const { query } = router
   const rootSlugAction = getRootSlugActionFromQuery(query)
   const { subSlugAction: entitySlugAction } = rootSlugAction
@@ -103,6 +104,8 @@ const onClickOnPin = (router: NextRouter, searchResult: SearchResult) => () => {
   ) {
     return null
   }
+
+  dispatch(entityDetailActions.setTrueShouldChangeZoomOnEntrance())
 
   const category = searchResult.categories[0]
   const briefEntityName = mapTypeIdToBriefEntityName[category]
@@ -144,12 +147,14 @@ const MapMarker: FC<MapMarkerProps> = (props) => {
 
   const { id: searchResultId } = searchResult
 
-  const [opacity, setOpacity] = useState<number>(VIEW.highlight.dark)
+  const dispatch = useDispatch()
 
   const router = useRouter()
   const highlightId: HighlightIDOrNull = useSelector(
     (state: RootState) => (highlightSelector(state)),
   )
+
+  const [opacity, setOpacity] = useState<number>(VIEW.highlight.dark)
 
   useEffect(() => {
     if (!highlightId) {
@@ -173,7 +178,7 @@ const MapMarker: FC<MapMarkerProps> = (props) => {
       position={[searchResult.lat, searchResult.lng]}
       icon={getIcon(searchResult)}
       eventHandlers={{
-        click: onClickOnPin(router, searchResult),
+        click: onClickOnPin(router, dispatch, searchResult),
       }}
       opacity={opacity}
     >

@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import {useDispatch} from 'react-redux'
 import { useRouter } from 'next/router'
 import moment from 'moment'
 import { Divider, Spin, Tag, Typography } from 'antd'
@@ -17,6 +18,8 @@ import { formatDuration } from '../utils/time'
 import { PartialLatLng } from '../utils/geolocation'
 import useFly from '../hooks/useFly'
 import EntityRouteLink from './EntityRouteLink'
+import { useUnmount } from 'ahooks'
+import { entityDetailActions } from '../slices'
 
 const { Title, Text } = Typography
 
@@ -32,6 +35,7 @@ const EventDetail: FC<EventDetailProps> = (props) => {
   const router = useRouter()
   const { pathname } = router
 
+  const dispatch = useDispatch()
 
   const { data: event, error: eventError } = useRequest<Event>({
     url: `${API_ENDPOINTS.getEvent()}/${eventId}`,
@@ -43,6 +47,10 @@ const EventDetail: FC<EventDetailProps> = (props) => {
   }
 
   useFly(partialEventLatLng)
+
+  useUnmount(() => {
+    dispatch(entityDetailActions.setFalseShouldChangeZoomOnEntrance())
+  })
 
   if (eventError) {
     //  todo: show error notification, redirect to the search result view

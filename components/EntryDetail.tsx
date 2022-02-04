@@ -1,8 +1,10 @@
 import { FC } from 'react'
 import { useRouter } from 'next/router'
+import {useDispatch} from 'react-redux'
 import isString from 'lodash/isString'
 import isArray from 'lodash/isArray'
 import { Divider, Spin, Typography } from 'antd'
+import {useUnmount} from 'ahooks'
 import useRequest from '../api/useRequest'
 import { EntryRequest } from '../dtos/EntryRequest'
 import { RootSlugEntity, RouterQueryParam } from '../utils/types'
@@ -25,6 +27,7 @@ import EntityDescription from './EntityDescription'
 import { PartialLatLng } from '../utils/geolocation'
 import useFly from '../hooks/useFly'
 import EntityRouteLink from './EntityRouteLink'
+import {entityDetailActions} from '../slices'
 
 
 const { Title } = Typography
@@ -37,6 +40,8 @@ interface EntryDetailProps {
 
 const EntryDetail: FC<EntryDetailProps> = (props) => {
   const { entryId } = props
+
+  const dispatch = useDispatch()
 
   // todo: truncate long details
   // const [truncateDetail, setTruncateDetail] = useState(true)
@@ -64,6 +69,10 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
   }
 
   useFly(partialEntryLatLng)
+
+  useUnmount(() => {
+    dispatch(entityDetailActions.setFalseShouldChangeZoomOnEntrance())
+  })
 
   if (entriesError) {
     //  todo: show error notification, redirect to the search result view
