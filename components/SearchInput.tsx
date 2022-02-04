@@ -47,7 +47,7 @@ const onSelect = (setSearchTerm: Dispatch<any>) => (term: string) => {
     }
 
     if (term.startsWith(lastToken)) {
-      return [...prevSearchTokens.slice(0, prevSearchTokens.length - 2), term].join(' ')
+      return [...prevSearchTokens.slice(0, prevSearchTokens.length - 1), term].join(' ')
     }
 
     return `${prevTerm} ${term}`
