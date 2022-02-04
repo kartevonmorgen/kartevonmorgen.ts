@@ -11,12 +11,12 @@ import '../styles/globals.css'
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => (
   <Layout project={pageProps.project}>
+    <GlobalLocale/>
+
     <Provider store={store}>
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}
       <Component {...pageProps} />
     </Provider>
-
-    <GlobalLocale/>
   </Layout>
 )
 

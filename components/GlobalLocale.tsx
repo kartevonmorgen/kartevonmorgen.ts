@@ -1,6 +1,10 @@
 import { FC, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import moment from 'moment'
+import 'moment/locale/de'
+import 'moment/locale/es'
+import 'moment/locale/ru'
+import 'moment/locale/pt'
 
 
 const GlobalLocale: FC = (_props) => {
@@ -9,6 +13,7 @@ const GlobalLocale: FC = (_props) => {
 
   // todo: check for the existence of the locale before supplying to packages
   useEffect(() => {
+    console.log("setting global locale: ", locale)
     moment.locale(locale)
   }, [locale])
 

@@ -13,7 +13,6 @@ export const isValidDuration = (duration: Duration) => {
 }
 
 export const formatDuration = (duration: Duration): string => {
-
   const { start, end } = duration
 
   const areStartAndEndInTheSameDay = end.isSame(start, 'day')
