@@ -13,7 +13,7 @@ import { GeoLocationStructuredAddress } from '../dtos/GeoLocationStructuredAddre
 import { FormInstance } from 'antd'
 import { NextRouter } from 'next/router'
 import { setCenterAndZoomAndNewPin } from './map'
-import { DEFAULTS } from '../consts/map'
+import MAP_CONSTANTS from '../consts/map'
 
 
 // it was not possible to use the latlng from leaflet
@@ -139,5 +139,5 @@ export const flyToFormAddressAndSetNewPin = async (router: NextRouter, form: For
     lng: convertStringToFloat(location.lon),
   }
 
-  setCenterAndZoomAndNewPin(router, newCenter, DEFAULTS.close_zoom)
+  setCenterAndZoomAndNewPin(router, newCenter, MAP_CONSTANTS.map.close_zoom)
 }

@@ -5,7 +5,7 @@ import { updateRoutingQuery } from '../utils/utils'
 import AimOutlined from '@ant-design/icons/lib/icons/AimOutlined'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 import { convertLatLngToString, LatLng } from '../utils/geolocation'
-import { DEFAULTS } from '../consts/map'
+import MAP_CONSTANTS from '../consts/map'
 
 
 const getCurrentPosition = async (): Promise<GeolocationPosition> => {
@@ -35,7 +35,7 @@ const setQueryParamsToCurrentLocation = (shouldIncludeDefaultProjectName: boolea
     }
     const paramsToUpdate = {
       c: convertLatLngToString(center),
-      z: DEFAULTS.close_zoom.toFixed(2),
+      z: MAP_CONSTANTS.map.close_zoom.toFixed(2),
     }
 
     const newQueryParams = updateRoutingQuery(query, paramsToUpdate)

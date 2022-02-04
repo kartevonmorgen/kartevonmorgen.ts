@@ -1,6 +1,6 @@
 import { NextRouter } from 'next/router'
 import { convertLatLngToString, isValidLatLng, LatLng } from './geolocation'
-import { DEFAULTS } from '../consts/map'
+import MAP_CONSTANTS from '../consts/map'
 import { updateRoutingQuery } from './utils'
 import { createSlugPathFromQueryAndRemoveSlug, getRootSlugActionFromQuery } from './slug'
 import { RootSlugEntity, SlugVerb } from './types'
@@ -9,7 +9,7 @@ import { RootSlugEntity, SlugVerb } from './types'
 export const setCenterAndZoom = async (
   router: NextRouter,
   center: LatLng,
-  zoom: number = DEFAULTS.default_zoom,
+  zoom: number = MAP_CONSTANTS.map.default_zoom,
 ) => {
 
   if (!isValidLatLng(center)) {
@@ -40,7 +40,7 @@ export const setCenterAndZoom = async (
 export const setCenterAndZoomAndNewPin = (
   router: NextRouter,
   center: LatLng,
-  zoom: number = DEFAULTS.default_zoom,
+  zoom: number = MAP_CONSTANTS.map.default_zoom,
 ) => {
   const { query } = router
 

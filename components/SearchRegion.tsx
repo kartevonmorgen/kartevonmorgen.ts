@@ -9,6 +9,7 @@ import { AxiosInstance } from '../api'
 import API_ENDPOINTS from '../api/endpoints'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 import { convertLatLngToString, LatLng } from '../utils/geolocation'
+import MAP_CONSTANTS from '../consts/map'
 
 
 const fetchLocationFromRegionName = async (regionName: string): Promise<LatLng> => {
@@ -42,13 +43,13 @@ const fetchLocationFromRegionName = async (regionName: string): Promise<LatLng> 
 }
 
 const changeLatAndLngFromRegionName = async (router: NextRouter, regionName: string) => {
-  console.log('in change lat function')
 
   try {
     const regionCenter = await fetchLocationFromRegionName(regionName)
 
     const paramsToUpdate = {
       c: convertLatLngToString(regionCenter),
+      z: MAP_CONSTANTS.map.close_zoom.toFixed(MAP_CONSTANTS.precisions.zoom)
     }
 
     const { query } = router
