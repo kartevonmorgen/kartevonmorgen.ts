@@ -221,13 +221,13 @@ export const convertMapQueryParamsToTableViewQueryParams = (
 ): TableViewQueryParams => {
   // todo: introduce a type for the map view and the table view query params
 
-  const { search, type, tags } = query
+  const { search, type, tag } = query
   const eventTimeBoundaries: EventTimeBoundaries = getEventTimeBoundariesFromQueryOrDefaults(query)
 
   const tableViewQueryParams = {
     search: convertQueryParamToString(search),
     type: convertQueryParamToString(type),
-    tags: convertQueryParamToString(tags),
+    tag: convertQueryParamToString(tag),
     bbox: convertBBoxToString(bbox),
     start_min: eventTimeBoundaries.startMin.unix(),
     start_max: eventTimeBoundaries.startMax?.unix(),
@@ -235,7 +235,7 @@ export const convertMapQueryParamsToTableViewQueryParams = (
   }
 
   Object.keys(tableViewQueryParams).forEach(query => {
-    if (tableViewQueryParams[query] === undefined) {
+    if (tableViewQueryParams[query] === undefined || tableViewQueryParams[query] === '') {
       delete tableViewQueryParams[query]
     }
   })
