@@ -98,7 +98,6 @@ export const getEventTimeBoundariesFromQueryOrDefaults = (query: ParsedUrlQuery)
 
   const eventTimeBoundaries: EventTimeBoundaries = {}
 
-  eventTimeBoundaries.startMin = moment().startOf('day')
   if (startMinParam) {
     eventTimeBoundaries.startMin = moment.unix(convertQueryParamToInt(startMinParam))
   }
@@ -107,7 +106,7 @@ export const getEventTimeBoundariesFromQueryOrDefaults = (query: ParsedUrlQuery)
     eventTimeBoundaries.startMax = moment.unix(convertQueryParamToInt(startMaxParam))
   }
 
-  eventTimeBoundaries.endMin = moment().endOf('day')
+  eventTimeBoundaries.endMin = moment().startOf('day')
   if (endMinParam) {
     eventTimeBoundaries.endMin = moment.unix(convertQueryParamToInt(endMinParam))
   }

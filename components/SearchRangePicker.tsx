@@ -24,20 +24,20 @@ const setRangeToRouterAndState = (router: NextRouter, setRange: Dispatch<FilterD
 
   const { query } = router
 
-  let startMin = null
+  let endMin = null
   let startMax = null
   if (range !== null) {
-    startMin = range[0]
+    endMin = range[0]
     startMax = range[1]
   }
 
-  setRange([startMin, startMax])
+  setRange([endMin, startMax])
 
   let newQueryParams = query
-  if (startMin) {
-    newQueryParams = updateRoutingQuery(newQueryParams, { start_min: startMin.unix() })
+  if (endMin) {
+    newQueryParams = updateRoutingQuery(newQueryParams, { end_min: endMin.unix() })
   } else {
-    newQueryParams = removeRoutingQueryParams(newQueryParams, [TimeBoundariesParams.START_MIN])
+    newQueryParams = removeRoutingQueryParams(newQueryParams, [TimeBoundariesParams.END_MIN])
   }
 
   if (startMax) {
@@ -68,9 +68,9 @@ const SearchRangePicker: FC = () => {
   const [range, setRange] = useState<FilterDateRange>([moment(), moment()])
 
   useEffect(() => {
-    const { startMin, startMax } = eventTimeBoundaries
+    const { endMin, startMax } = eventTimeBoundaries
 
-    setRange([startMin, startMax])
+    setRange([endMin, startMax])
   }, [])
 
   return (

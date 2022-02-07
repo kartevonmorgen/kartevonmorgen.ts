@@ -229,7 +229,7 @@ export const convertMapQueryParamsToTableViewQueryParams = (
     type: convertQueryParamToString(type),
     tag: convertQueryParamToString(tag),
     bbox: convertBBoxToString(bbox),
-    start_min: eventTimeBoundaries.startMin.unix(),
+    start_min: eventTimeBoundaries.startMin?.unix(),
     start_max: eventTimeBoundaries.startMax?.unix(),
     end_min: eventTimeBoundaries.endMin.unix(),
   }
