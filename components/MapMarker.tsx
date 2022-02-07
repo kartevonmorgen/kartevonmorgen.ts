@@ -183,6 +183,7 @@ const MapMarker: FC<MapMarkerProps> = (props) => {
           start: moment.unix(possibleEvent.start),
           end: moment.unix(possibleEvent.end),
         }}
+        direction="right"
       />
     </LeafletMarker>
   )
