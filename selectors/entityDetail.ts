@@ -1,3 +1,3 @@
 import { RootState } from '../slices'
 
-export const shouldChangeZoomOnEntranceSelector = (state: RootState) => (state.entityDetail.shouldChangeZoomOnEntrance)
+export const shouldChangeZoomAndCenterOnEntranceSelector = (state: RootState) => (state.entityDetail.shouldChangeZoomAndCenterOnEntrance)

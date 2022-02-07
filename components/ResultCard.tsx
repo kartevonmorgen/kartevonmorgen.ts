@@ -1,4 +1,4 @@
-import { CSSProperties, FC } from 'react'
+import { CSSProperties, Dispatch, FC } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 import { List, Space, Tag, Typography } from 'antd'
@@ -10,7 +10,7 @@ import toString from 'lodash/toString'
 import Category, { CategoryToNameMapper } from '../dtos/Categories'
 import { formatDuration } from '../utils/time'
 import moment from 'moment'
-import { viewActions } from '../slices'
+import { viewActions, entityDetailActions } from '../slices'
 
 
 const { Item } = List
@@ -24,9 +24,13 @@ interface ResultCardProps {
 
 const onResultClick = (
   router: NextRouter,
+  dispatch: Dispatch<any>,
   type: Category,
   id: SearchEntryID | EventID,
 ) => () => {
+
+  dispatch(entityDetailActions.setTrueShouldChangeZoomOnEntrance())
+
   redirectToEntityDetailAndFlyToLocation(
     router,
     id,
@@ -77,7 +81,7 @@ const ResultCard: FC<ResultCardProps> = (props) => {
   return (
     <Item
       className={`${typeName}-result-card result-card`}
-      onClick={onResultClick(router, type, id)}
+      onClick={onResultClick(router, dispatch, type, id)}
       onMouseEnter={() => {
         dispatch(viewActions.setHighlight(id))
       }}

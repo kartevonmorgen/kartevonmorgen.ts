@@ -2,21 +2,21 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 
 interface EntityDetailSlice {
-  shouldChangeZoomOnEntrance: boolean
+  shouldChangeZoomAndCenterOnEntrance: boolean
 }
 
 const entityDetailSlice = createSlice({
   name: 'entityDetail',
   initialState: {
-    shouldChangeZoomOnEntrance: false
+    shouldChangeZoomAndCenterOnEntrance: false
   } as EntityDetailSlice,
   reducers: {
     setTrueShouldChangeZoomOnEntrance: (state) => {
-      state.shouldChangeZoomOnEntrance = true
+      state.shouldChangeZoomAndCenterOnEntrance = true
     },
 
     setFalseShouldChangeZoomOnEntrance: (state) => {
-      state.shouldChangeZoomOnEntrance = false
+      state.shouldChangeZoomAndCenterOnEntrance = false
     }
   }
 })
