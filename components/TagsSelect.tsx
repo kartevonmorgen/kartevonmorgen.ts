@@ -1,8 +1,9 @@
 import { FC, useState } from 'react'
+import {useRouter} from 'next/router'
 import { Select, SelectProps } from 'antd'
 import { useDebounce } from 'ahooks'
-import useTagMatcher from '../hooks/useTagMatcher'
-import { MostPopularTagsParams } from '../pages/api/v0/entries/most-popular-tags'
+import useSearchRecommender from '../hooks/useSearchRecommender'
+import { getProjectNameFromQuery } from '../utils/slug'
 
 
 const { Option } = Select
@@ -17,14 +18,14 @@ const TagsSelect: FC<SelectProps<any>> = (props) => {
     placeholder,
   } = props
 
+  const router = useRouter()
+  const {query} = router
+  const project = getProjectNameFromQuery(query)
+
   const [tokenToMatchTagsWith, setTokenToMatchTagsWith] = useState<string>('')
   const debouncedTokenToMatchTagsWith = useDebounce(tokenToMatchTagsWith, { wait: 100 })
 
-  const tagMatcherParams: MostPopularTagsParams = {
-    contains: debouncedTokenToMatchTagsWith,
-  }
-  const { data: matchedTagsWithFrequency } = useTagMatcher(tagMatcherParams)
-
+  const options = useSearchRecommender(debouncedTokenToMatchTagsWith, project)
 
   return (
     <Select
@@ -49,20 +50,8 @@ const TagsSelect: FC<SelectProps<any>> = (props) => {
         setTokenToMatchTagsWith('')
         onClearCallback()
       }}
-    >
-      {
-        matchedTagsWithFrequency && (
-          matchedTagsWithFrequency.map((tagWithFrequency) => (
-            <Option
-              key={`tag-input-${tagWithFrequency.tag}`}
-              value={tagWithFrequency.tag}
-            >
-              {tagWithFrequency.tag}
-            </Option>
-          ))
-        )
-      }
-    </Select>
+      options={options}
+    />
   )
 }
 

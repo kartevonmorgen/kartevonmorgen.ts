@@ -7,7 +7,7 @@ import { convertQueryParamToString, convertStringToFloat, updateRoutingQuery } f
 import { GeoLocations } from '../dtos/GeoLocatoinResponse'
 import { AxiosInstance } from '../api'
 import API_ENDPOINTS from '../api/endpoints'
-import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
+import { createSlugPathFromQueryAndRemoveSlug, getProjectNameFromQuery } from '../utils/slug'
 import { convertLatLngToString, LatLng } from '../utils/geolocation'
 import MAP_CONSTANTS from '../consts/map'
 
@@ -73,13 +73,12 @@ const SearchRegion: FC = () => {
   const router = useRouter()
   const { query } = router
 
-  const { dropdowns } = query
-  const regionsGroup = convertQueryParamToString(dropdowns, 'main')
+  const project = getProjectNameFromQuery(query)
 
   const [regionNameToSearch, setRegionNameToSearch] = useState<string>('')
   const debouncedNameRegionToSearch = useDebounce(regionNameToSearch, { wait: 1000 })
 
-  const regionsOptions = useRegionRecommender(debouncedNameRegionToSearch, regionsGroup)
+  const regionsOptions = useRegionRecommender(debouncedNameRegionToSearch, project)
 
   return (
     <AutoComplete

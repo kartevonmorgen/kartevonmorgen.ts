@@ -7,7 +7,7 @@ import useTranslation from 'next-translate/useTranslation'
 import useSearchRecommender from '../hooks/useSearchRecommender'
 import SearchOutlined from '@ant-design/icons/SearchOutlined'
 import { convertQueryParamToString, updateRoutingQuery } from '../utils/utils'
-import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
+import { createSlugPathFromQueryAndRemoveSlug, getProjectNameFromQuery } from '../utils/slug'
 import { isRouterInitialized } from '../utils/router'
 
 
@@ -58,10 +58,11 @@ const SearchInput: FC = () => {
   const router = useRouter()
   const { query } = router
 
-  const { dropdowns, search: searchQuery } = query
+  const { search: searchQuery } = query
+  const project = getProjectNameFromQuery(query)
   const searchTermFromURL: string = convertQueryParamToString(searchQuery)
 
-  const categoryGroup = convertQueryParamToString(dropdowns, 'main')
+  const categoryGroup = convertQueryParamToString(project, 'main')
 
   const [searchTerm, setSearchTerm] = useState<string>('')
   const debouncedTokenToSearch = useDebounce(searchTerm, { wait: 500 })
