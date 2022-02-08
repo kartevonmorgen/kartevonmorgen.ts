@@ -1,7 +1,7 @@
 {
     "Managment": [
         {
-            "name": "Андрей Андрюсов",
+            "name": "Алексей Маслов",
             "pic": "/projects/co-map/assets/img/co-map/andrei_square.JPG",
             "position": "Куратор проекта",
             "hackathon": true
@@ -59,7 +59,7 @@
     ],
     "Hackathon": [
         {
-            "name": "Андрей Андрюсов",
+            "name": "Андрей Андрусов",
             "pic": "/projects/co-map/assets/img/co-map/andrei_square.JPG",
             "position": "Руководитель хакатона",
             "hackathon": true
