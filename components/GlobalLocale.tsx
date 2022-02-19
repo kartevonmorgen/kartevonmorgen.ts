@@ -13,7 +13,6 @@ const GlobalLocale: FC = (_props) => {
 
   // todo: check for the existence of the locale before supplying to packages
   useEffect(() => {
-    console.log("setting global locale: ", locale)
     moment.locale(locale)
   }, [locale])
 
