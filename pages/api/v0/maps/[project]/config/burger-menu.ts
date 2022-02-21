@@ -18,6 +18,8 @@ export default async (req, res) => {
     res.setHeader('Allow', ['GET'])
     res.status(405).end(`Method ${method} Not Allowed`)
 
+    console.log("!!", res)
+
     return
   }
 

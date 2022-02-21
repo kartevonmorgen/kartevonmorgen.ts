@@ -2,9 +2,9 @@ import css from 'styled-jsx/css'
 import { RatingFactor } from '../dtos/RatingFactor'
 
 
-export const INITIATIVE_COLOR = '#a4c93e'
-export const COMPANY_COLOR = '#31a1b6'
-export const EVENT_COLOR = '#eb80a9'
+export const INITIATIVE_COLOR = '#ac3970'
+export const COMPANY_COLOR = '#0198af'
+export const EVENT_COLOR = '#ffe010'
 export const UNKNOWN_COLOR = 'rgb(221,221,221)'
 
 

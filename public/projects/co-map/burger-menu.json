@@ -12,9 +12,15 @@
         "policy": "newTab"
     },
     {
-        "link": "/?moveToId=team_co_map",
-        "title": "contact",
-        "icon": "headset",
+        "link": "https://www.instagram.com/comap.ru/",
+        "title": "instagram",
+        "icon": "",
+        "policy": "newTab"
+    },
+    {
+        "link": "/",
+        "title": "mail",
+        "icon": "mail-bulk",
         "policy": "newTab"
     }
 ]
