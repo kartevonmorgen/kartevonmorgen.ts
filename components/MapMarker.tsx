@@ -34,7 +34,7 @@ export const getBalloonIcon = (typeId: Category): Icon<IconOptions> | DivIcon =>
   if (!icon) {
     const typeName = CategoryToNameMapper[typeId]
     balloonIcons[typeId] = new Icon({
-      iconUrl: `/projects/main/pins/balloon_${typeName}.svg`,
+      iconUrl: `/projects/co-map/pins/balloon_${typeName}.svg`,
       iconSize: new Point(50, 50),
     })
 

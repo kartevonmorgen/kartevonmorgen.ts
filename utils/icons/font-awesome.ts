@@ -4,6 +4,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 import {
   faBars,
   faCamera,
+  faMailBulk,
   faChevronLeft,
   faChevronRight,
   faClock,
@@ -68,6 +69,7 @@ library.add(
   faCode,
   faChevronLeft,
   faChevronRight,
+  faMailBulk
 )
 
 // @fortawesome/free-regular-svg-icons
