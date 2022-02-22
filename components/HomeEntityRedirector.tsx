@@ -1,157 +1,159 @@
 // it's not possible to handle the old addresses by nginx. UPDATE: it's possible with njs
 // https://serverfault.com/questions/714232/nginx-discards-data-after-number-sign/714245
 import { FC, useEffect } from 'react'
-import { useRouter } from 'next/router'
+import { NextRouter, useRouter } from 'next/router'
 import queryString, { ParsedUrlQuery } from 'querystring'
-import isEmpty from 'lodash/isEmpty'
 import { StatusCodes } from 'http-status-codes'
 import { BASICS_ENDPOINTS } from '../api/endpoints/BasicsEndpoints'
-import { convertQueryParamToArray, convertQueryParamToString } from '../utils/utils'
-import { BriefRootSlugEntity } from '../utils/types'
-import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
+import { BriefRootSlugEntity, RootSlugEntity } from '../utils/types'
+import SidebarStatus from '../dtos/SidebarStatus'
+import { convertArrayToQueryParam, convertQueryParamToString } from '../utils/utils'
 
 
-const SELF = '/'
-
-
-const adaptParams = async (_entry: string, query: ParsedUrlQuery): Promise<ParsedUrlQuery> => {
-  const SEP = ','
-
-  // https://blog.vonmorgen.org/en/iframe/
-  const {
-    center,
-    entry,
-    z: zoom,
-    dropdowns,
-    orgTag,
-    fixedTags,
-    left,
-  } = query
-
-  // todo: we'll take the first bullet since there are just limited types
-  let eventRequest = null
-  let entryRequest = null
-  if (entry) {
-    eventRequest = fetch(`${BASICS_ENDPOINTS.getEvent()}/${entry}`)
-    entryRequest = fetch(`${BASICS_ENDPOINTS.getEntries()}/${entry}`)
+const extractTagsFromSearchQuery = (search: string): [string, string[]] => {
+  if (!search) {
+    return [search, []]
   }
 
-  // eliminate empty values params
-  const newParams = Object.keys({
-    z: zoom,
-    dropdowns,
-    orgTag,
-    fixedTags,
-    left,
-  })
-    .reduce((params, p) => {
-      if (!isEmpty(query[p])) {
-        params[p] = query[p]
-      }
+  const tokens = search.split(' ')
+  const tags = []
+  let newSearch = ''
+  tokens.forEach(token => {
+    if (token.startsWith('#')) {
+      tags.push(token.substring(1))
 
-      return params
-    }, {})
-
-  const [lat, lng] = convertQueryParamToString(center).split(SEP)
-  const centerCoord = { lat, lng }
-  Object.keys(centerCoord).forEach((k) => {
-    if (!isEmpty(centerCoord)) {
-      newParams[k] = centerCoord[k]
+      return
     }
+
+    newSearch = `${newSearch} ${token}`
   })
 
-  const paramsToArray = ['fixedTags']
-  paramsToArray.forEach((p) => {
-    if (!isEmpty(newParams[p])) {
-      const stringQueryParam = convertQueryParamToString(newParams[p])
-      newParams[p] = stringQueryParam.split(SEP)
-    }
-  })
+  newSearch = newSearch.trim()
 
-  // time to check what we have, an entry or an event
-  let entitySlug = ''
-  if (eventRequest || entryRequest) {
-    try {
-      const entryResponse = await entryRequest
-      if (entryResponse.status === StatusCodes.OK) {
-        const entryResponseJson = await entryResponse.json()
-        if (entryResponseJson.length !== 0) {
-          entitySlug = BriefRootSlugEntity.ENTRIES
-        } else {
-          const eventResponse = await eventRequest
-          if (eventResponse.status === StatusCodes.OK) {
-            entitySlug = BriefRootSlugEntity.EVENTS
-          }
-        }
-      }
-    } catch (e) {
-
-    }
-  }
-
-  newParams['slug'] = ['maps', 'fromhome']
-  if (entitySlug.length !== 0) {
-    newParams['slug'].push(entitySlug)
-    newParams['slug'].push(entry)
-  }
-
-  return newParams
+  return [newSearch, tags]
 }
 
-const getRedirectDomain = (entry: string): [string, boolean] => {
-  const mapper = {
-    '': SELF,
-    'renn.html': process.env.NEXT_PUBLIC_OLD_DOMAIN,
-    'businesscard.html': process.env.NEXT_PUBLIC_OLD_DOMAIN,
-    'map.html': process.env.NEXT_PUBLIC_OLD_DOMAIN,
-    'mapAndEntryList.html': process.env.NEXT_PUBLIC_OLD_DOMAIN,
+
+const adaptParams = (query: ParsedUrlQuery): ParsedUrlQuery => {
+  // https://blog.vonmorgen.org/en/iframe/
+  const {
+    center: c,
+    zoom: z,
+    search: searchParam,
+    orgTag,
+    fixedTags,
+    left: sidebar,
+  } = query
+
+  const search = convertQueryParamToString(searchParam)
+  const [newSearch, tags] = extractTagsFromSearchQuery(search)
+
+  const optionalAdaptedParams = {
+    c,
+    z,
+    search: newSearch,
+    tag: convertArrayToQueryParam(tags),
+    orgTag,
+    fixedTags,
+    sidebar: sidebar === 'hide' ? SidebarStatus.HIDDEN : undefined
   }
 
-  if (mapper.hasOwnProperty(entry)) {
-    return [mapper[entry], true]
+  const adaptedParams = {}
+  Object.keys(optionalAdaptedParams).forEach(k => {
+    if (!optionalAdaptedParams[k]) {
+      return
+    }
+
+    adaptedParams[k] = optionalAdaptedParams[k]
+  })
+
+  return adaptedParams
+}
+
+const getEntityType = async (query: ParsedUrlQuery): Promise<BriefRootSlugEntity> => {
+  const { entry } = query
+
+  if (!entry) {
+    return BriefRootSlugEntity.RESULTS
   }
 
-  return ['', false]
+  // time to check what we have, an entry or an event
+  try {
+    const entryResponse = await fetch(`${BASICS_ENDPOINTS.getEntries()}/${entry}`)
+    if (entryResponse.status === StatusCodes.OK) {
+      const entryResponseJson = await entryResponse.json()
+      if (entryResponseJson.length !== 0) {
+        return BriefRootSlugEntity.ENTRIES
+      }
+    }
+  } catch (e) {
+  }
+
+  try {
+    const eventResponse = await fetch(`${BASICS_ENDPOINTS.getEvent()}/${entry}`)
+    if (eventResponse.status === StatusCodes.OK) {
+      return BriefRootSlugEntity.EVENTS
+    }
+  } catch (e) {
+
+  }
+
+  return BriefRootSlugEntity.RESULTS
+}
+
+const isFromOldDomain = (path: string): boolean => {
+  return path.startsWith('/#')
+}
+
+const createNewPath = (project: string, rootEntityType: BriefRootSlugEntity, entityId: string): string => {
+  let path = `/m/${project}`
+  if (rootEntityType !== BriefRootSlugEntity.RESULTS) {
+    path = `${path}/${rootEntityType}/${entityId}`
+  }
+
+  return path
+}
+
+const redirectToMap = (router: NextRouter, path: string, params: ParsedUrlQuery) => {
+  router.push({
+    pathname: path,
+    query: params
+  })
+
 }
 
 const HomeEntityRedirector: FC = () => {
   const router = useRouter()
-  const { query, asPath: path } = router
-  const slug = convertQueryParamToArray(query.slug)
-
-  let entry = ''
-  if (slug.length !== 0 && slug[0] !== '[[...slug]]') {
-    entry = slug[0]
-  }
+  const { asPath: path } = router
 
   useEffect(() => {
-    const entryPath = `/${entry}#/?`
-    // check if it's coming from the old domain
-    if (path.startsWith(entryPath)) {
-      const [redirectDomain, isValidEntry] = getRedirectDomain(entry)
-      if (!isValidEntry) {
-        router.replace('/', undefined, { shallow: true })
-      }
-
-      if (redirectDomain !== SELF) {
-        router.replace(`${redirectDomain}/${path}`)
-      }
-
-      const qs = path.slice(entryPath.length)
-      const query = queryString.parse(qs)
-      adaptParams(entry, query).then((newQueryParams) => {
-        const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
-
-        router.push(
-          {
-            pathname: `/${newPath}`,
-            query: newQueryWithoutSlug,
-          },
-          undefined,
-          { shallow: false },
-        )
-      })
+    if (!isFromOldDomain(path)) {
+      return
     }
+
+    const startCharsToRemove: string = `/#/?`
+    let numberOfCharsToDrop = 0
+    for (numberOfCharsToDrop; numberOfCharsToDrop != startCharsToRemove.length; numberOfCharsToDrop++) {
+      if (startCharsToRemove[numberOfCharsToDrop] !== path[numberOfCharsToDrop]) {
+        break
+      }
+    }
+    const trimmedPath = path.substring(numberOfCharsToDrop)
+
+    const query = queryString.parse(trimmedPath)
+    const {dropdowns, entry: entryParam} = query
+
+    const adaptedParams = adaptParams(query)
+
+    const project: string = convertQueryParamToString(dropdowns) || 'main'
+    const entryId = convertQueryParamToString(entryParam)
+
+    getEntityType(query).then(entityType => {
+      const newPath = createNewPath(project, entityType, entryId)
+
+      redirectToMap(router, newPath, adaptedParams)
+    })
+
   }, [path])
 
   return null

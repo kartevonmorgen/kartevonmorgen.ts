@@ -1,4 +1,4 @@
-enum SidebarStatus {
+export enum SidebarStatus {
   SHOWN = 'shown',
   HIDDEN = 'hidden'
 }

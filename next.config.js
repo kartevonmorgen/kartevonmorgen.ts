@@ -52,6 +52,26 @@ module.exports = nextTranslate(
         destination: '/t/:path*',
         permanent: true,
       },
+      {
+        source:'/renn.html/:slug*',
+        destination: 'https://kartevonmorgen.org/renn.html#/:slug*',
+        permanent: false
+      },
+      {
+        source:'/businesscard.html/:slug*',
+        destination: 'https://kartevonmorgen.org/businesscard.html#/:slug*',
+        permanent: false
+      },
+      {
+        source:'/map.html/:slug*',
+        destination: 'https://kartevonmorgen.org/map.html#/:slug*',
+        permanent: false
+      },
+      {
+        source:'/mapAndEntryList.html/:slug*',
+        destination: 'https://kartevonmorgen.org/mapAndEntryList.html#/:slug*',
+        permanent: false
+      }
     ]),
 
     i18n: {
