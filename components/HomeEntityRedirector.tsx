@@ -7,7 +7,7 @@ import { StatusCodes } from 'http-status-codes'
 import { BASICS_ENDPOINTS } from '../api/endpoints/BasicsEndpoints'
 import { BriefRootSlugEntity, RootSlugEntity } from '../utils/types'
 import SidebarStatus from '../dtos/SidebarStatus'
-import { convertArrayToQueryParam, convertQueryParamToString } from '../utils/utils'
+import { convertArrayToQueryParam, convertQueryParamToArray, convertQueryParamToString } from '../utils/utils'
 
 
 const extractTagsFromSearchQuery = (search: string): [string, string[]] => {
@@ -46,7 +46,8 @@ const adaptParams = (query: ParsedUrlQuery): ParsedUrlQuery => {
   } = query
 
   const search = convertQueryParamToString(searchParam)
-  const [newSearch, tags] = extractTagsFromSearchQuery(search)
+  const [newSearch, tagsFromSearchInput] = extractTagsFromSearchQuery(search)
+  const tags = [...convertQueryParamToArray(fixedTags), ...tagsFromSearchInput]
 
   const optionalAdaptedParams = {
     c,
