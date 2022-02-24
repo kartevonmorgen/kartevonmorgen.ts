@@ -28,6 +28,8 @@ const SearchEventsListener: FC = () => {
     type: typesParam,
     limit: limitParam,
     tag: tagsParam,
+    fixedTags: fixedTagsParam,
+    orgTag: orgTagParam,
     start_min: startMinParam,
     start_max: startMaxParam,
     end_min: endMinParam,
@@ -45,6 +47,7 @@ const SearchEventsListener: FC = () => {
   // changing these variables result in triggering search action
   // params can be array. we should be sure all the dependencies are comparable with `===` operator
   // these dependency list should be consistent with SearchEntryRequest DTO
+  // fixedTags and orgTag are not supposed to change in
   const searchEffectDependencies = [
     toString(searchParam),
     bbox,
@@ -86,6 +89,7 @@ const SearchEventsListener: FC = () => {
         categories: toString(entryCategories),
         limit: limit,
         tags: toString(tagsParam),
+        org_tag: orgTagParam ? convertQueryParamToString(orgTagParam) : undefined
       }
       dispatch(fetchEntries(searchEntriesRequestDTO))
     } else {
