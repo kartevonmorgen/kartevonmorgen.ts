@@ -48,14 +48,13 @@ const adaptParams = (query: ParsedUrlQuery): ParsedUrlQuery => {
 
   const search = convertQueryParamToString(searchParam)
   const [newSearch, tagsFromSearchInput] = extractTagsFromSearchQuery(search)
-  const tags = [...convertQueryParamToArray(fixedTags), ...tagsFromSearchInput]
 
   const optionalAdaptedParams = {
     c,
     z,
     search: newSearch,
     type,
-    tag: convertArrayToQueryParam(tags),
+    tag: convertArrayToQueryParam(tagsFromSearchInput),
     orgTag,
     fixedTags,
     sidebar: sidebar === 'hide' ? SidebarStatus.HIDDEN : undefined

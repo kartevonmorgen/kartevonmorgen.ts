@@ -7,7 +7,12 @@ import toString from 'lodash/toString'
 import toNumber from 'lodash/toNumber'
 import { emptyEntries, fetchAllEntries, fetchEntries } from '../slices/entriesSlice'
 import { emptyEvents, fetchAllEvents, fetchEvents } from '../slices/eventsSlice'
-import { convertBBoxToString, convertQueryParamToInt, convertQueryParamToString } from '../utils/utils'
+import {
+  convertBBoxToString,
+  convertQueryParamToArray,
+  convertQueryParamToInt,
+  convertQueryParamToString,
+} from '../utils/utils'
 import { SearchEntriesRequest as SearchEntriesRequestDTO } from '../dtos/SearchEntriesRequest'
 import Category, { CategoryNameToIdMapper, CategoryToNameMapper, isEntryCategory } from '../dtos/Categories'
 import { SearchEventsRequest as SearchEventsRequestDTO } from '../dtos/SearchEventsRequest'
@@ -79,6 +84,9 @@ const SearchEventsListener: FC = () => {
 
     const typeNames = getTypeNamesFromRouterOrKnownCategoryNamesIfEmpty(router)
 
+    const fixedTags: string[] = convertQueryParamToArray(fixedTagsParam)
+    const tags: string[] = convertQueryParamToArray(tagsParam)
+
     // search entries
     // if no entry category is there, we should set the entries state to an empty array
     const entryCategories = typeNames.filter((t) => isEntryCategory(t)).map((tName) => CategoryNameToIdMapper[tName])
@@ -88,7 +96,7 @@ const SearchEventsListener: FC = () => {
         text: searchTerm.length !== 0 ? searchTerm : undefined,
         categories: toString(entryCategories),
         limit: limit,
-        tags: toString(tagsParam),
+        tags: toString([...fixedTags, ...tags]),
         org_tag: orgTagParam ? convertQueryParamToString(orgTagParam) : undefined
       }
       dispatch(fetchEntries(searchEntriesRequestDTO))
@@ -104,7 +112,7 @@ const SearchEventsListener: FC = () => {
         bbox: bbox,
         text: searchTerm.length !== 0 ? searchTerm : undefined,
         limit: limit,
-        tag: toString(tagsParam),
+        tag: toString([...fixedTags, ...tags]),
         start_min: mapTimes.startMin?.unix(),
         start_max: mapTimes.startMax?.unix(),
         end_min: mapTimes.endMin.unix(),
