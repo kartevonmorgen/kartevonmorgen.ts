@@ -5,7 +5,7 @@ import { NextRouter, useRouter } from 'next/router'
 import queryString, { ParsedUrlQuery } from 'querystring'
 import { StatusCodes } from 'http-status-codes'
 import { BASICS_ENDPOINTS } from '../api/endpoints/BasicsEndpoints'
-import { BriefRootSlugEntity, RootSlugEntity } from '../utils/types'
+import { BriefRootSlugEntity } from '../utils/types'
 import SidebarStatus from '../dtos/SidebarStatus'
 import { convertArrayToQueryParam, convertQueryParamToArray, convertQueryParamToString } from '../utils/utils'
 
@@ -40,6 +40,7 @@ const adaptParams = (query: ParsedUrlQuery): ParsedUrlQuery => {
     center: c,
     zoom: z,
     search: searchParam,
+    categories: type,
     orgTag,
     fixedTags,
     left: sidebar,
@@ -53,6 +54,7 @@ const adaptParams = (query: ParsedUrlQuery): ParsedUrlQuery => {
     c,
     z,
     search: newSearch,
+    type,
     tag: convertArrayToQueryParam(tags),
     orgTag,
     fixedTags,
