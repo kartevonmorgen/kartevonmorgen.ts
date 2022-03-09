@@ -19,6 +19,21 @@ import produce from 'immer'
 import Tag from '../dtos/Tag'
 
 
+const ExtraSearchParams = [
+  'tag',
+  'type',
+  'end_min',
+  'start_max'
+]
+
+export const isExtraSearchFiltersActivated = (router: NextRouter): boolean => {
+  const {query} = router
+
+  const isAnyFilterActivated = ExtraSearchParams.some(param => convertQueryParamToString(query[param]))
+
+  return isAnyFilterActivated
+}
+
 export const isRouterInitialized = (router: NextRouter): boolean => {
   const { query } = router
   const {
