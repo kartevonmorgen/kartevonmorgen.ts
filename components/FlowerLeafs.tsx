@@ -1,6 +1,6 @@
 import { FC, Fragment, ReactNode } from 'react'
 import { Translate } from 'next-translate'
-import { RatingFactor } from '../dtos/RatingFactor'
+import { RatingFactor, RatingFactorOrder } from '../dtos/RatingFactor'
 import { RatingFactorColors } from '../styles/main'
 import FlowerLeaf from './FlowerLeaf'
 import useTranslation from 'next-translate/useTranslation'
@@ -94,7 +94,7 @@ const FlowerLeafs: FC<FlowerLeafsProps> = (props) => {
   return (
     <Fragment>
       {
-        Object.keys(RatingFactor).map((ratingFactor: RatingFactor, i: number) => {
+        RatingFactorOrder.map((ratingFactor: RatingFactor, i: number) => {
           const flowerLeafTooltip: ReactNode = showTooltip ? getFlowerLeafTooltip(ratingFactor, t) : null
           const rating: number = ratings[ratingFactor]
           const flowerLeafScale: number = getScale(rating)

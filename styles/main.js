@@ -26,11 +26,11 @@ export const yellowText = 'rgb(214,201,0)'
 export const RatingFactorColors = {
   'default': lightGray,
   [RatingFactor.diversity]: green,
-  [RatingFactor.fairness]: yellow,
-  [RatingFactor.humanity]: pink,
-  [RatingFactor.renewable]: berry,
-  [RatingFactor.solidarity]: grayBlue,
-  [RatingFactor.transparency]: blue,
+  [RatingFactor.renewable]: yellow,
+  [RatingFactor.fairness]: pink,
+  [RatingFactor.humanity]: berry,
+  [RatingFactor.transparency]: grayBlue,
+  [RatingFactor.solidarity]: blue,
 }
 
 

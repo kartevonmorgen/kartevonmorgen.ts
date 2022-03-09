@@ -8,7 +8,7 @@ import { NewRating } from '../dtos/NewRating'
 import { AxiosInstance } from '../api'
 import API_ENDPOINTS from '../api/endpoints'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
-import { RatingFactor } from '../dtos/RatingFactor'
+import { RatingFactor, RatingFactorOrder } from '../dtos/RatingFactor'
 import { deleteSlugLevelsFromRouter } from '../utils/router'
 
 
@@ -129,7 +129,7 @@ const EntryRatingForm: FC<EntryRatingFormProps> = (props) => {
             <Space direction="vertical">
 
               {
-                Object.keys(RatingFactor).map((ratingFactor) => (
+                RatingFactorOrder.map((ratingFactor) => (
                   <Radio
                     key={`entry-rating-form-rating-factor-${ratingFactor}`}
                     value={ratingFactor}

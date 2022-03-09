@@ -8,7 +8,7 @@ import { RatingsRequest } from '../dtos/RatingsRequest'
 import useRequest from '../api/useRequest'
 import API_ENDPOINTS from '../api/endpoints'
 import FlowerLeafWithCanvas from './FlowerLeafWithCanvas'
-import { RatingFactor } from '../dtos/RatingFactor'
+import { RatingFactor, RatingFactorOrder } from '../dtos/RatingFactor'
 import AddEntityRatingButton from './AddEntityRatingButton'
 import AddEntityRatingCommentButton from './AddEntityRatingCommentButton'
 import EntityRatingContent from './EntityRatingContent'
@@ -60,7 +60,8 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
   }
 
   const groupedRatings = groupBy(ratings, 'context')
-  const sortedContexts = Object.keys(groupedRatings).sort() as RatingFactor[]
+  const groupedRatingsKeys = Object.keys(groupedRatings) as RatingFactor[]
+  const sortedContexts = RatingFactorOrder.filter(context => groupedRatingsKeys.includes(context))
 
   return (
     <div>
