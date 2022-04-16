@@ -5,7 +5,7 @@ import parseCSV from 'csv-parse/lib/sync'
 import {
   convertNotEmptyCSVRecordsToSelectOptionsAndGroupByHeader,
   CSVToOptionDataResponse,
-} from '../../../../../utils/csv'
+} from '../../../../../../utils/csv'
 
 
 export default (req: NextApiRequest, res: NextApiResponse) => {

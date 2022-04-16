@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { LinkWithIcon } from '../../../../../../dtos/LinkWithIcon'
+import { LinkWithIcon } from '../../../../../../../dtos/LinkWithIcon'
 
 
 const getPath = (project: string = 'main'): string => {

@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import getMostPopularTags, { QueryMostPopularTagsParams } from '../../../../db/queries/get-most-popular-tags'
+import getMostPopularTags, { QueryMostPopularTagsParams } from '../../../../../db/queries/get-most-popular-tags'
 import toNumber from 'lodash/toNumber'
 import toString from 'lodash/toString'
-import { TagFrequency } from '../../../../dtos/TagFrequency'
+import { TagFrequency } from '../../../../../dtos/TagFrequency'
 
 
 export interface MostPopularTagsParams {
