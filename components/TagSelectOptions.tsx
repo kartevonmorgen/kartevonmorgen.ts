@@ -1,6 +1,6 @@
 import { FC, Fragment } from 'react'
 import { Select } from 'antd'
-import { MostPopularTagsParams } from '../pages/api/v0/entries/most-popular-tags'
+import { MostPopularTagsParams } from '../pages/api/next/v0/entries/most-popular-tags'
 import useTagMatcher from '../hooks/useTagMatcher'
 
 

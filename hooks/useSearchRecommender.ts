@@ -1,6 +1,6 @@
 import { OptionData, OptionGroupData } from 'rc-select/lib/interface'
 import useTagMatcher from './useTagMatcher'
-import { MostPopularTagsParams } from '../pages/api/v0/entries/most-popular-tags'
+import { MostPopularTagsParams } from '../pages/api/next/v0/entries/most-popular-tags'
 import { TagFrequency } from '../dtos/TagFrequency'
 import useRequest from '../api/useRequest'
 import API_ENDPOINTS from '../api/endpoints'
