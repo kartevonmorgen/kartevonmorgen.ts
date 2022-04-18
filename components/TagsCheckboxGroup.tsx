@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { Checkbox, Space } from 'antd'
 import { CheckboxChangeEvent } from 'antd/lib/checkbox'
 import useRequest from '../api/useRequest'
-import { MainCheckboxesResponse } from '../pages/api/next/v0/checkboxes/[group]/main-checkboxes'
+import { MainCheckboxesResponse } from '../pages/api/v0/checkboxes/[group]/main-checkboxes'
 import API_ENDPOINTS from '../api/endpoints'
 import { getProjectNameFromQuery } from '../utils/slug'
 

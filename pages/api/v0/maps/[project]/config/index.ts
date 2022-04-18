@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import MapPageConfigs from '../../../../../../../dtos/MapPageConfigs'
+import MapPageConfigs from '../../../../../../dtos/MapPageConfigs'
 
 
 const getPath = (project: string = 'main'): string => {
