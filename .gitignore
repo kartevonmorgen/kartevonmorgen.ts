@@ -181,3 +181,5 @@ cython_debug
 
 # databases
 *.sqlite
+
+tsconfig.tsbuildinfo
