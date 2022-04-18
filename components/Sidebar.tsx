@@ -5,6 +5,7 @@ import SidebarContent from './SidebarContent'
 import { convertQueryParamToString } from '../utils/utils'
 import { isSidebarStatusShown } from '../dtos/SidebarStatus'
 import { useSidebar } from '../hooks/useResponsive'
+import SidebarCollapseButton from './SidebarCollapseButton'
 
 
 const Sidebar: FC = () => {
@@ -21,22 +22,33 @@ const Sidebar: FC = () => {
 
 
   return (
-    <Drawer
-      visible={isSidebarOpen}
-      placement="left"
-      closable={false}
-      mask={false}
-      bodyStyle={{
-        padding: 0,
-        display: 'flex',
-        flexDirection: 'column',
+    <div
+      style={{
+        position: 'relative',
+        zIndex: 1,
+        width: sidebarWidth
       }}
-      width={sidebarWidth}
     >
 
-      {isSidebarOpen && <SidebarContent/>}
+      <SidebarCollapseButton />
 
-    </Drawer>
+      <Drawer
+        visible={isSidebarOpen}
+        placement='left'
+        closable={false}
+        mask={false}
+        bodyStyle={{
+          padding: 0,
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+        width={sidebarWidth}
+      >
+
+        {isSidebarOpen && <SidebarContent />}
+
+      </Drawer>
+    </div>
   )
 }
 

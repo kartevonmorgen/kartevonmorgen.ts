@@ -1,7 +1,6 @@
 import { FC } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import { Button } from 'antd'
-import TweenOne from 'rc-tween-one'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSidebar } from '../hooks/useResponsive'
 import { convertQueryParamToString, removeRoutingQueryParams, updateRoutingQuery } from '../utils/utils'
@@ -67,17 +66,17 @@ interface CollapseSidebarButtonIcon {
   showOpenIcon: boolean
 }
 
-const CollapseSidebarButtonIcon: FC<CollapseSidebarButtonIcon> = (props) => {
+const SidebarCollapseButtonIcon: FC<CollapseSidebarButtonIcon> = (props) => {
   const { showOpenIcon } = props
 
   if (showOpenIcon) {
-    return <FontAwesomeIcon icon="chevron-right"/>
+    return <FontAwesomeIcon icon='chevron-right' />
   }
 
-  return <FontAwesomeIcon icon="chevron-left"/>
+  return <FontAwesomeIcon icon='chevron-left' />
 }
 
-const CollapseSidebarButton: FC = () => {
+const SidebarCollapseButton: FC = () => {
   const router = useRouter()
   const { query } = router
   const { sidebar: sidebarParam } = query
@@ -86,28 +85,22 @@ const CollapseSidebarButton: FC = () => {
   const { width: sidebarWidth } = useSidebar()
 
   return (
-    <TweenOne
-      reverse={!isSidebarOpen}
-      animation={{ x: sidebarWidth, duration: 300 }}
+    <Button
+      icon={
+        <SidebarCollapseButtonIcon showOpenIcon={!isSidebarOpen} />
+      }
+      onClick={toggleSidebarState(router, isSidebarOpen)}
+      size='middle'
       style={{
-        position: 'fixed',
-        top: 90,
-        zIndex: 400,
+        height: 55,
+        position: 'absolute',
+        top: 70,
+        left: isSidebarOpen ? sidebarWidth : 0,
+        transition: 'transform .3s cubic-bezier(.23,1,.32,1)'
       }}
-    >
-      <Button
-        icon={
-          <CollapseSidebarButtonIcon showOpenIcon={!isSidebarOpen}/>
-        }
-        onClick={toggleSidebarState(router, isSidebarOpen)}
-        size="middle"
-        style={{
-          height: 55,
-        }}
-      />
-    </TweenOne>
+    />
   )
 }
 
 
-export default CollapseSidebarButton
+export default SidebarCollapseButton

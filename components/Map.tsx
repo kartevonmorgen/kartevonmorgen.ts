@@ -10,7 +10,7 @@ import LocateMe from './LocateMe'
 import MapSharingDropdown from './MapSharingDropdown'
 import MapMarkers from './MapMarkers'
 import NewMapMarker from './NewMapMarker'
-import CollapseSidebarButton from './CollapseSidebarButton'
+import SidebarCollapseButton from './SidebarCollapseButton'
 import 'leaflet/dist/leaflet.css'
 
 
@@ -38,7 +38,7 @@ const Map: FC = () => {
 
       <SearchEventsListener/>
 
-      <CollapseSidebarButton/>
+      {/*<SidebarCollapseButton/>*/}
 
       <div id="map-bottom-right-above-controller">
         <LocateMe/>
