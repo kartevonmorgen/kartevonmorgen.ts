@@ -5,9 +5,9 @@ import { NextRouter, useRouter } from 'next/router'
 import queryString, { ParsedUrlQuery } from 'querystring'
 import { StatusCodes } from 'http-status-codes'
 import { BASICS_ENDPOINTS } from '../api/endpoints/BasicsEndpoints'
-import { BriefRootSlugEntity } from '../utils/types'
+import { BriefRootSlugEntity, SlugVerb } from '../utils/types'
 import SidebarStatus from '../dtos/SidebarStatus'
-import { convertArrayToQueryParam, convertQueryParamToArray, convertQueryParamToString } from '../utils/utils'
+import { convertArrayToQueryParam, convertQueryParamToString } from '../utils/utils'
 
 
 const extractTagsFromSearchQuery = (search: string): [string, string[]] => {
@@ -44,6 +44,7 @@ const adaptParams = (query: ParsedUrlQuery): ParsedUrlQuery => {
     orgTag,
     fixedTags,
     left: sidebar,
+    addentry,
   } = query
 
   const search = convertQueryParamToString(searchParam)
@@ -57,7 +58,8 @@ const adaptParams = (query: ParsedUrlQuery): ParsedUrlQuery => {
     tag: convertArrayToQueryParam(tagsFromSearchInput),
     orgTag,
     fixedTags,
-    sidebar: sidebar === 'hide' ? SidebarStatus.HIDDEN : undefined
+    sidebar: sidebar === 'hide' ? SidebarStatus.HIDDEN : undefined,
+    addentry,
   }
 
   const adaptedParams = {}
@@ -107,8 +109,20 @@ const isFromOldDomain = (path: string): boolean => {
   return path.startsWith('/#')
 }
 
-const createNewPath = (project: string, rootEntityType: BriefRootSlugEntity, entityId: string): string => {
+const createNewPath = (
+  project: string,
+  rootEntityType: BriefRootSlugEntity,
+  entityId: string,
+  query: ParsedUrlQuery
+): string => {
+  const {addentry} = query
+
   let path = `/m/${project}`
+
+  if (addentry) {
+    return `${path}/e/${SlugVerb.CREATE}`
+  }
+
   if (rootEntityType !== BriefRootSlugEntity.RESULTS) {
     path = `${path}/${rootEntityType}/${entityId}`
   }
@@ -151,7 +165,7 @@ const HomeEntityRedirector: FC = () => {
     const entryId = convertQueryParamToString(entryParam)
 
     getEntityType(query).then(entityType => {
-      const newPath = createNewPath(project, entityType, entryId)
+      const newPath = createNewPath(project, entityType, entryId, adaptedParams)
 
       redirectToMap(router, newPath, adaptedParams)
     })
