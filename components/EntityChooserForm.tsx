@@ -1,11 +1,13 @@
 import { Dispatch, FC, useEffect, useState } from 'react'
-import Category from '../dtos/Categories'
+import { useRouter } from 'next/router'
+import Category, { CategoryNameToIdMapper } from '../dtos/Categories'
 import EntityFormHeader from './EntryFormHeader'
 import { Select } from 'antd'
 import { SlugVerb } from '../utils/types'
 import EntityForm from './EntityForm'
 import { SearchEntryID } from '../dtos/SearchEntry'
 import { EventID } from '../dtos/Event'
+import { convertQueryParamToString } from '../utils/utils'
 
 
 const changeCategory = (setCategory: Dispatch<Category>) => (category: Category) => {
@@ -22,9 +24,23 @@ interface EntityChooserFormProps {
 const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
   const { verb, entityId } = props
 
+  const router = useRouter()
+  const { query } = router
+  const { addentry: addEntryParam } = query
+  const categoryParam = convertQueryParamToString(addEntryParam)
+
   const [category, setCategory] = useState<Category>(Category.INITIATIVE)
   const shouldCreateANewEntity = verb === SlugVerb.CREATE
   const shouldEditAnExistingEntity = verb === SlugVerb.EDIT
+
+
+  useEffect(() => {
+    if (categoryParam) {
+      const categoryParamId = CategoryNameToIdMapper[categoryParam]
+
+      setCategory(categoryParamId)
+    }
+  }, [categoryParam])
 
   useEffect(() => {
     if (props.category) {

@@ -1,10 +1,11 @@
 import { NewEntryWithLicense } from './NewEntryWithLicense'
 import { NewEntryWithVersion } from './NewEntryWithVersion'
+import { SearchEntryID } from './SearchEntry'
 
 
 export interface Entry extends NewEntryWithLicense, NewEntryWithVersion {
   created?: number
-  id?: string
+  id?: SearchEntryID
   ratings?: string[]
 }
 

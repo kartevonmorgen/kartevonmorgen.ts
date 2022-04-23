@@ -65,7 +65,7 @@ export const getRootSlugActionFromQuery = (query: ParsedUrlQuery): SlugAction =>
   let parentEntityName = 'root'
 
   for (let i = 0; i < slugs.length;) {
-    // i always points to the brief form of the entities: e.g (entries, events, ratings, replies)
+    // it always points to the brief form of the entities: e.g (entries, events, ratings, replies)
 
     const childSlugAction: SlugAction = {
       verb: SlugVerb.SHOW,

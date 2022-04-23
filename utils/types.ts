@@ -13,15 +13,19 @@ export enum SlugVerb {
 }
 
 export enum RootSlugEntity {
-  EVENT = 'event',
-  ENTRY = 'entry',
   RESULT = 'result',
+  EVENT = 'event',
+  COMPANY = 'company',
+  INITIATIVE = 'initiative',
+  ENTRY = 'entry',
 }
 
 export enum BriefRootSlugEntity {
   EVENTS = 'ev',
   ENTRIES = 'e',
   RESULTS = 're',
+  INITIATIVES = 'i',
+  COMPANIES = 'c'
 }
 
 export enum EntrySlugEntity {
@@ -37,7 +41,7 @@ export enum RatingSlugEntity {
 }
 
 export enum BriefRatingSlugEntity {
-  COMMENTS = 'c'
+  COMMENTS = 'co'
 }
 
 
@@ -48,12 +52,16 @@ export type BriefEntityName = BriefRootSlugEntity | BriefEntrySlugEntity | Brief
 export const validChildrenForEntity: Record<string, string[]> = {
   root: Object.values(BriefRootSlugEntity),
   [RootSlugEntity.ENTRY]: Object.values(BriefEntrySlugEntity),
+  [RootSlugEntity.INITIATIVE]: Object.values(BriefEntrySlugEntity),
+  [RootSlugEntity.COMPANY]: Object.values(BriefEntrySlugEntity),
   [EntrySlugEntity.RATING]: Object.values(BriefRatingSlugEntity),
 }
 
 export const RootSlugEntities: BriefRootSlugEntity[] = [
   BriefRootSlugEntity.EVENTS,
   BriefRootSlugEntity.ENTRIES,
+  BriefRootSlugEntity.INITIATIVES,
+  BriefRootSlugEntity.COMPANIES
 ]
 
 export type SlugId = EventID | SearchEntryID | null
@@ -71,6 +79,7 @@ export interface RootSlugAction extends SlugAction {
   id: SlugId
 }
 
+// todo: if someday we separated the slug of initiative from company, modify here
 export const mapTypeIdToBriefEntityName = {
   [Category.INITIATIVE]: BriefRootSlugEntity.ENTRIES,
   [Category.COMPANY]: BriefRootSlugEntity.ENTRIES,
@@ -78,9 +87,11 @@ export const mapTypeIdToBriefEntityName = {
 }
 
 export const mapBriefEntityNameToSingular: Record<BriefEntityName, SingularEntityName> = {
+  [BriefRootSlugEntity.RESULTS]: RootSlugEntity.RESULT,
   [BriefRootSlugEntity.EVENTS]: RootSlugEntity.EVENT,
   [BriefRootSlugEntity.ENTRIES]: RootSlugEntity.ENTRY,
-  [BriefRootSlugEntity.RESULTS]: RootSlugEntity.RESULT,
+  [BriefRootSlugEntity.INITIATIVES]: RootSlugEntity.INITIATIVE,
+  [BriefRootSlugEntity.COMPANIES]: RootSlugEntity.COMPANY,
   [BriefEntrySlugEntity.RATINGS]: EntrySlugEntity.RATING,
   [BriefRatingSlugEntity.COMMENTS]: RatingSlugEntity.COMMENT,
 }
