@@ -1,11 +1,13 @@
 import { Dispatch, FC, useEffect, useRef, useState } from 'react'
-import Category from '../dtos/Categories'
-import EntityFormHeader from './EntryFormHeader'
+import { useDispatch, useSelector } from 'react-redux'
+import { useRouter } from 'next/router'
 import { SlugVerb } from '../utils/types'
+import { convertQueryParamToString } from '../utils/utils'
+import Category, { CategoryNameToIdMapper } from '../dtos/Categories'
+import EntityFormHeader from './EntryFormHeader'
 import EntityForm from './EntityForm'
 import { SearchEntryID } from '../dtos/SearchEntry'
 import { EventID } from '../dtos/Event'
-import { useDispatch, useSelector } from 'react-redux'
 import { formSelector } from '../selectors/form'
 import { FORM_STATUS } from '../slices/formSlice'
 import EntityChooserFormSelects from './EntityChooserFormSelects'
@@ -27,6 +29,11 @@ interface EntityChooserFormProps {
 
 const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
   const { verb, entityId } = props
+
+  const router = useRouter()
+  const { query } = router
+  const { addentry: addEntryParam } = query
+  const categoryParam = convertQueryParamToString(addEntryParam)
 
   const isFormInitialized = useRef<boolean>(false)
 
@@ -50,9 +57,12 @@ const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
     if (!props.category) {
       newCategory = Category.INITIATIVE
     }
-    setCategory(newCategory)
-  }, [props.category])
+    if (categoryParam) {
+      newCategory = CategoryNameToIdMapper[categoryParam]
+    }
 
+    setCategory(newCategory)
+  }, [props.category, categoryParam])
 
   return (
     <div style={{ paddingBottom: 60 }}>
