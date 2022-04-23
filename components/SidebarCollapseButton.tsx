@@ -92,11 +92,13 @@ const SidebarCollapseButton: FC = () => {
       onClick={toggleSidebarState(router, isSidebarOpen)}
       size='middle'
       style={{
-        height: 55,
+        height: 68,
+        width: 36,
         position: 'absolute',
-        top: 70,
-        left: isSidebarOpen ? sidebarWidth : 0,
-        transition: 'transform .3s cubic-bezier(.23,1,.32,1)'
+        top: 52,
+        transform: 'translateX(100%)',
+        right: 0,
+        zIndex: 400
       }}
     />
   )

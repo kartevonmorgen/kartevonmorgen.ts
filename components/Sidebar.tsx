@@ -22,16 +22,6 @@ const Sidebar: FC = () => {
 
 
   return (
-    <div
-      style={{
-        position: 'relative',
-        zIndex: 1,
-        width: sidebarWidth
-      }}
-    >
-
-      <SidebarCollapseButton />
-
       <Drawer
         visible={isSidebarOpen}
         placement='left'
@@ -45,10 +35,11 @@ const Sidebar: FC = () => {
         width={sidebarWidth}
       >
 
+        <SidebarCollapseButton />
+
         {isSidebarOpen && <SidebarContent />}
 
       </Drawer>
-    </div>
   )
 }
 
