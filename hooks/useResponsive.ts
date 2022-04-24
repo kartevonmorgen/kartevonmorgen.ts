@@ -18,6 +18,11 @@ const calculateSidebarSize = (size: Size): Size => {
   }
 }
 
+const limitSidebarSize = (size: Size): Size => ({
+  width: size.width > 400 ? 400 : size.width,
+  height: size.height
+})
+
 export const useSidebar = (): Size => {
   const sidebarSizes = VIEW.sidebar.size
 
@@ -32,9 +37,9 @@ export const useSidebar = (): Size => {
   for (let i = ORDERED_RESPONSIVE_KEYS.length - 1; i !== -1; i--) {
     const responsive_key = ORDERED_RESPONSIVE_KEYS[i]
     if (responsive[responsive_key]) {
-      return calculateSidebarSize(sidebarSizes[responsive_key])
+      return limitSidebarSize(calculateSidebarSize(sidebarSizes[responsive_key]))
     }
   }
 
-  return calculateSidebarSize(sidebarSizes.default)
+  return limitSidebarSize(calculateSidebarSize(sidebarSizes.default))
 }
