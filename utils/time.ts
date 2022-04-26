@@ -17,10 +17,10 @@ export const formatDuration = (duration: Duration): string => {
 
   const areStartAndEndInTheSameDay = end.isSame(start, 'day')
 
-  const startPart: string = start.utc().format('llll')
+  const startPart: string = start.format('llll')
   const endPart: string = areStartAndEndInTheSameDay ?
-    end.utc().format('LT') :
-    end.utc().format('llll')
+    end.format('LT') :
+    end.format('llll')
 
 
   return `${startPart} - ${endPart}`
