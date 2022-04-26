@@ -1,10 +1,10 @@
 import { FC } from 'react'
 import { useRouter } from 'next/router'
-import {useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
 import isString from 'lodash/isString'
 import isArray from 'lodash/isArray'
 import { Divider, Spin, Typography } from 'antd'
-import {useUnmount} from 'ahooks'
+import { useUnmount } from 'ahooks'
 import useRequest from '../api/useRequest'
 import { EntryRequest } from '../dtos/EntryRequest'
 import { RootSlugEntity, RouterQueryParam } from '../utils/types'
@@ -27,7 +27,7 @@ import EntityDescription from './EntityDescription'
 import { PartialLatLng } from '../utils/geolocation'
 import useFly from '../hooks/useFly'
 import EntityRouteLink from './EntityRouteLink'
-import {entityDetailActions} from '../slices'
+import { entityDetailActions } from '../slices'
 
 
 const { Title } = Typography
@@ -50,7 +50,7 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
   const router = useRouter()
   const { query, pathname } = router
 
-  const optionalOrgTag: RouterQueryParam = query['org-tag']
+  const { orgTag: optionalOrgTag } = query
   const orgTag = optionalOrgTag && isString(optionalOrgTag) ? optionalOrgTag : null
   const entryRequest: EntryRequest = {
     org_tag: orgTag,
@@ -83,7 +83,7 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
   if (!entries) {
     return (
       <div className='center'>
-        <Spin size="large"/>
+        <Spin size='large' />
       </div>
     )
   }
@@ -98,8 +98,8 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
   const typeName: string = CategoryToNameMapper[type]
 
   return (
-    <div id="entity-detail">
-      <EntityDetailHeader/>
+    <div id='entity-detail'>
+      <EntityDetailHeader />
 
       <EntityImageWithLink
         title={entry.title}
@@ -118,7 +118,7 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
         text={entry.description}
       />
 
-      <Divider/>
+      <Divider />
 
       <EntityContact
         homepage={entry.homepage}
@@ -149,17 +149,17 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
         }}
       />
 
-      <OpeningHours openingHours={entry.opening_hours}/>
+      <OpeningHours openingHours={entry.opening_hours} />
 
-      <EntryLinks links={entry.custom}/>
+      <EntryLinks links={entry.custom} />
 
-      <EntityTags tags={entry.tags}/>
+      <EntityTags tags={entry.tags} />
 
       <EntryRatingFlower
         entryId={entryId}
       />
 
-      <EntityRatings ratingsIds={entry.ratings}/>
+      <EntityRatings ratingsIds={entry.ratings} />
 
       <EntityFooter
         entityId={entry.id}
