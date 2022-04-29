@@ -1,145 +1,145 @@
 {
   "landingPage": {
     "menu": {
-      "map": "Map",
-      "infos": "About us",
-      "contact": "Contact",
-      "donate": "Donate",
-      "login": "Login",
-      "logout": "Logout"
+      "map": "Карта",
+      "infos": "О нас",
+      "contact": "Контакты",
+      "donate": "Пожертвовать",
+      "login": "Авторизоваться",
+      "logout": "Выйти"
     },
-    "slogan": "Mapping for Good",
+    "slogan": "Карта устойчивых проектов России",
     "city-search": {
-      "placeholder": "Which place would you like to discover?",
-      "error": "Error while searching for cities.",
-      "no-results": "Could not find any city with that name.",
-      "show-map": "Show map..."
+      "placeholder": "Какое место вы бы хотели открыть для себя?",
+      "error": "Ошибка при поиске городов.",
+      "no-results": "Не удалось найти ни одного города с таким названием.",
+      "show-map": "Показать карту..."
     },
     "subscribeToBbox": {
-      "message": "You are logged in. I you like you can",
-      "new-link": "stay informed about changes in your city",
-      "edit-link": "change or unsubscribe your subscribed map section"
+      "message": "Вы вошли в систему. Мне нравится, что это у вас получилось",
+      "new-link": "будьте в курсе изменений в вашем городе",
+      "edit-link": "изменить или отказаться от подписки на раздел карты, на который вы подписаны"
     },
     "donate": {
-      "heading": "Be part of something good for our future.",
-      "paragraph1": "The von morgen map shall always be free of charge to our community. That is why our software is developed open sourced. Solidarity-based donations from users and the mapped projects and companies enable our technical development and maintenance. For this, we recommend a monthly contribution of €15 to €25 per month for companies and up to €3 per month for projects and users to ensure organic growth and help the von morgen map to remain independent.",
-      "betterplace-link": "You can place donations for „von morgen - Mapping for Good“ at www.betterplace.org.",
+      "heading": "Станьте частью хорошего проекта для устойчивого будущего.",
+      "paragraph1": "Карта co-map.ru всегда должна быть бесплатной для нашего сообщества. Вот почему наше программное обеспечение разрабатывается с открытым исходным кодом. Пожертвования на основе солидарности от пользователей и обозначенных проектов и компаний позволяют нам заниматься техническим развитием и обслуживанием. Для этого мы рекомендуем ежемесячный взнос от 1000 до 5000 рублей в месяц для компаний и до 500 рублей в месяц для проектов и пользователей, чтобы обеспечить органический рост и помочь карте co-map.ru оставаться независимой.",
+      "betterplace-link": "Вы можете сделать пожертвования для \"co-map.ru - Карты устойчивых проектов России",
       "paragraph2": {
-        "heading": "Donation Account:",
-        "bank-details1": "Ideen hoch drei e.V. ",
-        "bank-details2": "IBAN: DE05 4306 0967 4031 0759 00",
-        "bank-details3": "BIC: GENODEM1GLS  at GLS Bank",
-        "bank-details4": "Intended purpose: von morgen. Mapping for Good",
-        "text": "Our platform \"von morgen\" will be additionally financed by funding means from various programmes and competitions. Our team is still working on a voluntary basis, but we want to professionalize our development and support structures to be able to sustain ourselves prospectively."
+        "heading": "Счет пожертвований:",
+        "bank-details1": "Получатель: АНО Центр Содействия Инновациям в Обществе СОЛь",
+        "bank-details2": "Р/С 40703810500000000152",
+        "bank-details3": "БИК 044525411 (Филиал \"ЦЕНТРАЛЬНЫЙ\" Банка ВТБ ПАО г. МОСКВА)",
+        "bank-details4": "Назначение платежа: \"Целевое пожертвовние на проект co-map.ru",
+        "text": "Наша платформа co-map.ru будет дополнительно финансироваться за счет средств различных программ и грантов. Наша команда по-прежнему работает в этом проекте на добровольных началах, но мы хотим профессионализировать наши структуры развития и поддержки, чтобы иметь возможность поддерживать себя в будущем."
       },
       "paragraph3": {
-        "heading": "Pioneer regions for a world of tomorrow",
-        "text1": "We see ourselves as a visionary and multifaceted networking initiative that aims to make positive change visible in our society. In order to ensure this in the best possible way, we are currently developing pioneer regions, which will be moderated locally by a local scout. You are an expert to your region and want to be part of a pioneer region? Then feel free to contact us by mail or through this",
-        "form-link": "Form",
-        "text2": ". Together we will make a world of tomorrow visible today.",
-        "text3": "You can find a current overview of all the features that will be developed for the von morgen map on our betterplace donation page:",
-        "text4": "Ressources are also needed for fixing bugs, optimizations and updates.",
-        "text5": "We are happy about every small and big contribution.",
-        "text6": "Thank you very much!",
-        "text7": "the von morgen Team"
+        "heading": "Регионы - пионеры устойчивого развития",
+        "text1": "Мы рассматриваем себя как визионерскую сетевую инициативу, направленную на то, чтобы сделать позитивные изменения заметными в нашем обществе. Чтобы обеспечить это наилучшим образом, в настоящее время мы ищем новые регионы, которые будут контролироваться местными амбассадорами. Вы эксперт в своем регионе и хотите стать частью региона-пионера? Тогда не стесняйтесь обращаться к нам по почте или через этот",
+        "form-link": "Форма",
+        "text2": ". Вместе мы сделаем мир завтрашнего дня видимым сегодня.",
+        "text3": "Вы можете найти текущий обзор всех функций, которые будут разработаны для карты co-map.ru, на нашей странице:",
+        "text4": "Ресурсы также необходимы для исправления ошибок, оптимизации и обновлений.",
+        "text5": "Мы рады каждому маленькому и большому вкладу.",
+        "text6": "Большое спасибо!",
+        "text7": "команда co-map.ru"
       }
     },
     "user": {
       "register-success": {
-        "text1": "You have successfully registered. Please confirm your email-address. You can then",
-        "text2": "log yourself in. For this, we've just send you",
-        "text3": "an email."
+        "text1": "Вы успешно зарегистрировались. Подтвердите ваш имейл, пожалуйста. Тогда вы сможете",
+        "text2": "войдите в систему. Для этого мы только что отправили вам",
+        "text3": "электронное письмо."
       },
       "confirming-email-address": {
         "text": "Your email-address is being confirmed."
       },
       "confirm-email-error": {
-        "message": "Ops! There was an error confirming your email address. Please try again with a new email address to",
-        "link": "sign up."
+        "message": "Ой! При подтверждении вашего адреса электронной почты произошла ошибка. Пожалуйста, попробуйте еще раз с новым адресом электронной почты, чтобы",
+        "link": "зарегистрироваться."
       },
       "email-confirmed": {
-        "text1": "Your email address has been confirmed.",
-        "text2": "You can now ",
-        "link": "log in."
+        "text1": "Ваш адрес электронной почты подтвержден.",
+        "text2": "Теперь вы можете",
+        "link": "авторизоваться."
       },
-      "logged-out": "You're logged out."
+      "logged-out": "Вы вышли из системы."
     },
     "join": {
-      "heading": "Become a part of our team",
-      "paragraph1": "We are a team across Germany and are always looking for new team members! You can find our current openings here:",
-      "paragraph2": "We are looking for local scouts, that are experts to their regions or are familiar with topics of the sustainable conversation: as our direct contact locally, you will ensure the quality of the map entries, organize events and workshops and show your city from its best side!",
-      "paragraph3": "Do you have any questions or did we spark your interest? We look forward to hear from you:"
+      "heading": "Станьте частью нашей команды",
+      "paragraph1": "Мы - команда по всей России, и мы всегда ищем новых членов! Вы можете найти наши текущие вакансии:",
+      "paragraph2": "Мы ищем местных активистов, которые являются экспертами в своих регионах или знакомы с темами устойчивого разговора: в качестве нашего прямого контакта на местном уровне вы обеспечите качество записей на карте, организуете мероприятия и семинары и покажете свой город с его лучшей стороны!",
+      "paragraph3": "У вас есть вопросы или мы вас заинтересовали? Мы будем рады услышать от вас:"
     },
     "footer": {
-      "heading": "Tomorrow starts today.",
-      "contact": "Contact: ",
-      "social-media": "Social Media: ",
-      "open-source": "Open Source: ",
-      "imprint": "Imprint",
-      "privacyStatement": "Privacy"
+      "heading": "Завтра начинается сегодня.",
+      "contact": "Контакт:",
+      "social-media": "Социальные медиа:",
+      "open-source": "Открытый исходный код:",
+      "imprint": "Отпечаток",
+      "privacyStatement": "Конфиденциальность"
     }
   },
   "landingExplain": {
     "chapter1": {
-      "heading": "The world is full of explorers, and full of things to be explored.",
+      "heading": "В мире полно исследователей и много всего, что нужно исследовать.",
       "paragraph1": {
-        "heading": "Discover places from an inspiring point of view.",
-        "text": "Our map invites you to explore forward-thinking projects, companies and soon to come events in your area."
+        "heading": "Открывайте для себя места с вдохновляющей точки зрения.",
+        "text": "Наша карта приглашает вас изучить перспективные проекты, компании и предстоящие события в вашем регионе."
       },
       "paragraph2": {
-        "heading": "Be a part of it! ",
-        "text": "Find all the information you need to get in touch with projects you want to engage with. Stop by to say Hello! "
+        "heading": "Будь частью этого!",
+        "text": "Найдите всю информацию, необходимую для связи с проектами, которыми вы хотите заниматься. Зайдите, чтобы поздороваться!"
       },
       "paragraph3": {
-        "heading": "Let’s create a world for tomorrow.",
-        "text": "Together, we want to show and embrace the positive change in our society."
+        "heading": "Создадим мир завтрашнего дня.",
+        "text": "Вместе мы хотим показать и принять позитивные изменения в нашем обществе."
       }
     },
     "chapter2": {
-      "heading": "How to use the von morgen map"
+      "heading": "Как пользоваться картой co-map.ru"
     },
     "chapter3": {
-      "heading": "We have a vision",
+      "heading": "У нас есть видение",
       "text": {
-        "1": "von morgen supports creativity, sustainability and joint action.",
-        "2": "We believe in a modern society in wich we all can embrace a self-determined, content and environmental-friendly life. Our goal: a benevolent future."
+        "1": "co-map.ru поддерживает творчество, устойчивость и совместную деятельность.",
+        "2": "Мы верим в современное общество, в котором все мы можем вести самостоятельную, содержательную и экологически чистую жизнь. Наша цель: доброжелательное будущее."
       }
     },
     "chapter4": {
-      "heading": "Are you with us?",
+      "heading": "Вы с нами?",
       "text": {
-        "1": "Support our project",
-        "2": "Become a local scout",
-        "3": "Join our team"
+        "1": "Поддержите наш проект",
+        "2": "Станьте местным амбассадором",
+        "3": "Присоединиться к нашей команде"
       },
-      "learnMore": "more"
+      "learnMore": "ещё"
     },
     "chapter5": {
-      "heading": "Our team",
-      "new-members": "We are always looking for new members!",
-      "graphic-design": "Graphic Design",
-      "software-development": "Software Development",
-      "business-finance": "Project Development",
-      "pr-marketing": "PR & Marketing",
-      "communication-marketing": "Communication & Marketing",
-      "thao": "Content & Communication",
-      "project-development": "Project Development",
-      "chair": "Chair Ideen³ e.V.",
-      "lisa1": "Political Scientist",
-      "lisa2": "Strategy & Impact",
-      "marten": "Mindfulness and Change Psychology",
-      "florian": "Software Development",
-      "louisa": "Social Worker",
-      "anja": "Designer",
-      "xueqian": "Consultant",
-      "linus": "Global Sociology"
+      "heading": "Наша команда",
+      "new-members": "Мы всегда ищем новых участников!",
+      "graphic-design": "Графический дизайн",
+      "software-development": "Разработка программного обеспечения",
+      "business-finance": "Разработка проекта",
+      "pr-marketing": "PR и маркетинг",
+      "communication-marketing": "Связь и маркетинг",
+      "thao": "Контент и коммуникация",
+      "project-development": "Разработка проекта",
+      "chair": "Председатель",
+      "lisa1": "Политолог",
+      "lisa2": "Стратегия и влияние",
+      "marten": "Осознанность и психология изменений",
+      "florian": "Разработка программного обеспечения",
+      "louisa": "Социальный работник",
+      "anja": "Дизайнер",
+      "xueqian": "Консультант",
+      "linus": "Глобальная социология"
     },
     "chapter6": {
-      "heading": "A project by"
+      "heading": "Проект автора"
     },
     "chapter7": {
-      "heading": "Our partners",
-      "boell-foundation": "In its pilot phase this project has been supported by the Heinrich-Böll-Foundation."
+      "heading": "Наши партнеры",
+      "boell-foundation": "На пилотной стадии этот проект получил поддержку со стороны некоммерческой организации WECHANGE из Германии"
     }
   }
 }
