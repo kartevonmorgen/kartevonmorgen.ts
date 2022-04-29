@@ -1,0 +1,145 @@
+{
+  "landingPage": {
+    "menu": {
+      "map": "Map",
+      "infos": "About us",
+      "contact": "Contact",
+      "donate": "Donate",
+      "login": "Login",
+      "logout": "Logout"
+    },
+    "slogan": "Mapping for Good",
+    "city-search": {
+      "placeholder": "Which place would you like to discover?",
+      "error": "Error while searching for cities.",
+      "no-results": "Could not find any city with that name.",
+      "show-map": "Show map..."
+    },
+    "subscribeToBbox": {
+      "message": "You are logged in. I you like you can",
+      "new-link": "stay informed about changes in your city",
+      "edit-link": "change or unsubscribe your subscribed map section"
+    },
+    "donate": {
+      "heading": "Be part of something good for our future.",
+      "paragraph1": "The von morgen map shall always be free of charge to our community. That is why our software is developed open sourced. Solidarity-based donations from users and the mapped projects and companies enable our technical development and maintenance. For this, we recommend a monthly contribution of €15 to €25 per month for companies and up to €3 per month for projects and users to ensure organic growth and help the von morgen map to remain independent.",
+      "betterplace-link": "You can place donations for „von morgen - Mapping for Good“ at www.betterplace.org.",
+      "paragraph2": {
+        "heading": "Donation Account:",
+        "bank-details1": "Ideen hoch drei e.V. ",
+        "bank-details2": "IBAN: DE05 4306 0967 4031 0759 00",
+        "bank-details3": "BIC: GENODEM1GLS  at GLS Bank",
+        "bank-details4": "Intended purpose: von morgen. Mapping for Good",
+        "text": "Our platform \"von morgen\" will be additionally financed by funding means from various programmes and competitions. Our team is still working on a voluntary basis, but we want to professionalize our development and support structures to be able to sustain ourselves prospectively."
+      },
+      "paragraph3": {
+        "heading": "Pioneer regions for a world of tomorrow",
+        "text1": "We see ourselves as a visionary and multifaceted networking initiative that aims to make positive change visible in our society. In order to ensure this in the best possible way, we are currently developing pioneer regions, which will be moderated locally by a local scout. You are an expert to your region and want to be part of a pioneer region? Then feel free to contact us by mail or through this",
+        "form-link": "Form",
+        "text2": ". Together we will make a world of tomorrow visible today.",
+        "text3": "You can find a current overview of all the features that will be developed for the von morgen map on our betterplace donation page:",
+        "text4": "Ressources are also needed for fixing bugs, optimizations and updates.",
+        "text5": "We are happy about every small and big contribution.",
+        "text6": "Thank you very much!",
+        "text7": "the von morgen Team"
+      }
+    },
+    "user": {
+      "register-success": {
+        "text1": "You have successfully registered. Please confirm your email-address. You can then",
+        "text2": "log yourself in. For this, we've just send you",
+        "text3": "an email."
+      },
+      "confirming-email-address": {
+        "text": "Your email-address is being confirmed."
+      },
+      "confirm-email-error": {
+        "message": "Ops! There was an error confirming your email address. Please try again with a new email address to",
+        "link": "sign up."
+      },
+      "email-confirmed": {
+        "text1": "Your email address has been confirmed.",
+        "text2": "You can now ",
+        "link": "log in."
+      },
+      "logged-out": "You're logged out."
+    },
+    "join": {
+      "heading": "Become a part of our team",
+      "paragraph1": "We are a team across Germany and are always looking for new team members! You can find our current openings here:",
+      "paragraph2": "We are looking for local scouts, that are experts to their regions or are familiar with topics of the sustainable conversation: as our direct contact locally, you will ensure the quality of the map entries, organize events and workshops and show your city from its best side!",
+      "paragraph3": "Do you have any questions or did we spark your interest? We look forward to hear from you:"
+    },
+    "footer": {
+      "heading": "Tomorrow starts today.",
+      "contact": "Contact: ",
+      "social-media": "Social Media: ",
+      "open-source": "Open Source: ",
+      "imprint": "Imprint",
+      "privacyStatement": "Privacy"
+    }
+  },
+  "landingExplain": {
+    "chapter1": {
+      "heading": "The world is full of explorers, and full of things to be explored.",
+      "paragraph1": {
+        "heading": "Discover places from an inspiring point of view.",
+        "text": "Our map invites you to explore forward-thinking projects, companies and soon to come events in your area."
+      },
+      "paragraph2": {
+        "heading": "Be a part of it! ",
+        "text": "Find all the information you need to get in touch with projects you want to engage with. Stop by to say Hello! "
+      },
+      "paragraph3": {
+        "heading": "Let’s create a world for tomorrow.",
+        "text": "Together, we want to show and embrace the positive change in our society."
+      }
+    },
+    "chapter2": {
+      "heading": "How to use the von morgen map"
+    },
+    "chapter3": {
+      "heading": "We have a vision",
+      "text": {
+        "1": "von morgen supports creativity, sustainability and joint action.",
+        "2": "We believe in a modern society in wich we all can embrace a self-determined, content and environmental-friendly life. Our goal: a benevolent future."
+      }
+    },
+    "chapter4": {
+      "heading": "Are you with us?",
+      "text": {
+        "1": "Support our project",
+        "2": "Become a local scout",
+        "3": "Join our team"
+      },
+      "learnMore": "more"
+    },
+    "chapter5": {
+      "heading": "Our team",
+      "new-members": "We are always looking for new members!",
+      "graphic-design": "Graphic Design",
+      "software-development": "Software Development",
+      "business-finance": "Project Development",
+      "pr-marketing": "PR & Marketing",
+      "communication-marketing": "Communication & Marketing",
+      "thao": "Content & Communication",
+      "project-development": "Project Development",
+      "chair": "Chair Ideen³ e.V.",
+      "lisa1": "Political Scientist",
+      "lisa2": "Strategy & Impact",
+      "marten": "Mindfulness and Change Psychology",
+      "florian": "Software Development",
+      "louisa": "Social Worker",
+      "anja": "Designer",
+      "xueqian": "Consultant",
+      "linus": "Global Sociology"
+    },
+    "chapter6": {
+      "heading": "A project by"
+    },
+    "chapter7": {
+      "heading": "Our partners",
+      "boell-foundation": "In its pilot phase this project has been supported by the Heinrich-Böll-Foundation."
+    }
+  }
+}
