@@ -278,7 +278,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
 
   const isEdit = verb === SlugVerb.EDIT
 
-  const optionalOrgTag: RouterQueryParam = query['org-tag']
+  const { orgTag: optionalOrgTag } = query
   const orgTag = optionalOrgTag && isString(optionalOrgTag) ? optionalOrgTag : null
   const entryRequest: EntryRequest = {
     org_tag: orgTag,
