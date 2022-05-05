@@ -60,7 +60,7 @@ const Map: FC = () => {
 
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        url="https://a.tile.openstreetmap.de/${z}/${x}/${y}.png"
+        url="https://a.tile.openstreetmap.de/{z}/{x}/{y}.png"
       />
 
       <MapMarkers/>
