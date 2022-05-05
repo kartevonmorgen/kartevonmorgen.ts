@@ -219,6 +219,7 @@
     "message": " Can't reach the server. Please check your internet connection or try again later.",
     "close": "close"
   },
+  "info": {
     "heading3": "We love Open Source!",
     "text3": "We want to set a good example and therefore develop the software transparently and openly. The source code of this project can be found under:",
     "heading4": "Workshops and events von morgen",
