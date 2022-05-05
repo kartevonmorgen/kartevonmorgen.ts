@@ -6,6 +6,7 @@ import {
   removeProperties,
   TransformerWithNewNameRuleSet,
 } from '../utils/objects'
+import {FORMS as FORMS_CONSTANT} from '../consts/forms'
 
 
 // todo: should create a type for the form initialValue, any is not the best option
@@ -41,7 +42,7 @@ export const onSendAdapter = (formValues: object): EventDTO => {
       originalPropertyName: 'duration',
     },
     created_by: {
-      transformer: (originalValue: string) => originalValue,
+      transformer: (originalValue: string) => !!originalValue ? originalValue : FORMS_CONSTANT.event.defaultEmail,
       originalPropertyName: 'email',
     },
   }
