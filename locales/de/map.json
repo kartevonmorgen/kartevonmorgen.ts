@@ -278,8 +278,8 @@
     "placeholder": "Wonach suchst du? (# für Tags)"
   },
   "searchFilters": {
-    "selectRegion": "Region auswählen",
-    "selectCategory": "Kategorie auswählen",
+    "selectRegion": "Region auswählen oder suchen",
+    "selectCategory": "Nach Stichwort filtern",
     "openFilters": "Filter anzeigen",
     "collapseFilters": "Filter verstecken",
     "searchFor": "Suchen nach"
