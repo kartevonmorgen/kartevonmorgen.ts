@@ -219,49 +219,6 @@
     "message": " Can't reach the server. Please check your internet connection or try again later.",
     "close": "close"
   },
-  "donate": {
-    "heading": "Doing something good for tomorrow.",
-    "text": {
-      "1": "Our platform von morgen is financed by subsidies from various programs and competitions, as well as by donations. We ourselves, as team members of von morgen, are volunteers.",
-      "2": "We would like to use the contributions for the further development of von morgen. Various features are planned.",
-      "3": "Have a look at our Crowdfunding-Campaign here:",
-      "4": "We are looking forward to every small and big contribution and hope to be available in your city soon."
-    },
-    "ending": "Thank you very much, the von morgen Team"
-  },
-  "join": {
-    "heading": {
-      "1": "Become a part of our team",
-      "2": "Become a local scout"
-    },
-    "text": {
-      "1": "We are a team across Germany and are always looking for new team members! You can find our current openings here:",
-      "2": "We are looking for local scouts, that are experts to their regions or are familiar with topics of the sustainable conversation: as our direct contact locally, you will ensure the quality of the map entries, organize events and workshops and show your city from its best side!",
-      "3": "Do you have any questions or did we spark your interest? We look forward to hear from you:"
-    }
-  },
-  "info": {
-    "heading1": "The Project",
-    "facebook": "News and Updates on",
-    "betterplace": "Reports on current developments on",
-    "betterplace-link": "our blog at Betterplace",
-    "text1": {
-      "1": "Our interactive map shows you places in your area that are already committed to a world of tomorrow.",
-      "2": "You are part of a project that is looking for new team members?",
-      "3": "You know a company that operates sustainably?",
-      "4": "On our website, you can bring awareness to all of these - and thus share a place designed by people that is close to your heart.",
-      "5": "We are looking for a variety of ideas, projects and companies to counteract the current social, ecological and economic upheavals. We would like to bring them all together and create a joint online presence, and thus an increased attention in society for these pioneering projects.",
-      "6": "Following the wiki-principle, all users, projects and companies can mark themselves and others on the map and thus reach their communities and the ones yet to discover them. But this is more than just an online-platform: local scouts ensure the quality of the map entries on site, maintain editorial standards, and have the task to support local exchanges between citizens, projects and companies through events and workshops.",
-      "7": "von morgen asks for values that underpin and move our society. We bring together good people with good places."
-    },
-    "heading2": "Background and Vision",
-    "text2": {
-      "goalLink": "What is the goal of von morgen?",
-      "ratingsLink": "What are sustainability criteria?",
-      "regionalpilotLink": "What are local scouts?",
-      "embedMapLink": "How can I embed the map on my homepage?",
-      "joinLink": "How can I be part of the team or support the von morgen map?"
-    },
     "heading3": "We love Open Source!",
     "text3": "We want to set a good example and therefore develop the software transparently and openly. The source code of this project can be found under:",
     "heading4": "Workshops and events von morgen",
