@@ -17,7 +17,6 @@ module.exports = nextTranslate(
           localesToKeep: [
             'be',
             'de',
-            'en',
             'es',
             'fr',
             'it',
