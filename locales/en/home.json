@@ -20,6 +20,30 @@
       "new-link": "stay informed about changes in your city",
       "edit-link": "change or unsubscribe your subscribed map section"
     },
+    "donate": {
+      "heading": "Be part of something good for our future.",
+      "paragraph1": "The von morgen map shall always be free of charge to our community. That is why our software is developed open sourced. Solidarity-based donations from users and the mapped projects and companies enable our technical development and maintenance. For this, we recommend a monthly contribution of €15 to €25 per month for companies and up to €3 per month for projects and users to ensure organic growth and help the von morgen map to remain independent.",
+      "betterplace-link": "You can place donations for „von morgen - Mapping for Good“ at www.betterplace.org.",
+      "paragraph2": {
+        "heading": "Donation Account:",
+        "bank-details1": "Ideen hoch drei e.V. ",
+        "bank-details2": "IBAN: DE05 4306 0967 4031 0759 00",
+        "bank-details3": "BIC: GENODEM1GLS  at GLS Bank",
+        "bank-details4": "Intended purpose: von morgen. Mapping for Good",
+        "text": "Our platform \"von morgen\" will be additionally financed by funding means from various programmes and competitions. Our team is still working on a voluntary basis, but we want to professionalize our development and support structures to be able to sustain ourselves prospectively."
+      },
+      "paragraph3": {
+        "heading": "Pioneer regions for a world of tomorrow",
+        "text1": "We see ourselves as a visionary and multifaceted networking initiative that aims to make positive change visible in our society. In order to ensure this in the best possible way, we are currently developing pioneer regions, which will be moderated locally by a local scout. You are an expert to your region and want to be part of a pioneer region? Then feel free to contact us by mail or through this",
+        "form-link": "Form",
+        "text2": ". Together we will make a world of tomorrow visible today.",
+        "text3": "You can find a current overview of all the features that will be developed for the von morgen map on our betterplace donation page:",
+        "text4": "Ressources are also needed for fixing bugs, optimizations and updates.",
+        "text5": "We are happy about every small and big contribution.",
+        "text6": "Thank you very much!",
+        "text7": "the von morgen Team"
+      }
+    },
     "user": {
       "register-success": {
         "text1": "You have successfully registered. Please confirm your email-address. You can then",
