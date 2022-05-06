@@ -15,10 +15,15 @@ module.exports = nextTranslate(
       config.plugins.push(
         new MomentLocalesPlugin({
           localesToKeep: [
-            'en',
+            'be',
             'de',
+            'en',
             'es',
+            'fr',
+            'it',
+            'nl',
             'pt',
+            'ru'
           ],
         }),
       )
@@ -76,12 +81,15 @@ module.exports = nextTranslate(
 
     i18n: {
       locales: [
-        'en',
+        'be',
         'de',
-        'fr',
-        'nl',
+        'en',
         'es',
-        'ru',
+        'fr',
+        'it',
+        'nl',
+        'pt',
+        'ru'
       ],
 
       defaultLocale: 'de',

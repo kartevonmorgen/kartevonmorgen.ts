@@ -1,9 +1,14 @@
 {
   "locales": [
-    "en",
+    "be",
     "de",
+    "en",
     "es",
-    "pt"
+    "fr",
+    "it",
+    "nl",
+    "pt",
+    "ru"
   ],
   "defaultLocale": "de",
   "pages": {
