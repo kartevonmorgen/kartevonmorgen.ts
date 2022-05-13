@@ -19,6 +19,10 @@ jobs:
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
+      - name: Install yarn
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
+        run: npm install -g yarn
+
       - uses: actions/cache@v3
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
@@ -48,16 +52,14 @@ jobs:
 
       - name: Install front-end dependancies
         if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: |
-          yarn install
+        run: yarn install
 
       - name: Install process manager
         if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn add pm2
 
       - name: Build front-end
-        run: |
-          yarn build:dev
+        run: yarn build:dev
 
       - name: Setup python
         uses: actions/setup-python@v2
