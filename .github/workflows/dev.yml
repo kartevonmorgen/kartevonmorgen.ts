@@ -15,6 +15,12 @@ jobs:
       - name: Clone project
         uses: actions/checkout@v2
 
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: lts/*
+          cache: 'yarn'
+
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -43,12 +49,6 @@ jobs:
           # If source files changed but packages didn't, rebuild from a prior cache.
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
-
-      - name: Setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: lts/*
-          cache: 'yarn'
 
       - name: Install front-end dependancies
         if: steps.yarn-cache.outputs.cache-hit != 'true'
