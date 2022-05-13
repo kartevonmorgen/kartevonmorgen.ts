@@ -28,14 +28,6 @@ jobs:
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
-      - name: Install front-end dependancies
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: yarn install
-
-      - name: Install process manager
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: yarn add pm2
-
       - name: Cache yarn
         uses: actions/cache@v3
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
@@ -45,8 +37,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - name: Build front-end
-        run: yarn build:dev
+      - name: Install front-end dependancies
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
+        run: yarn install
+
+      - name: Install process manager
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
+        run: yarn add pm2
 
       - name: Cache NextJS
         uses: actions/cache@v3
@@ -60,6 +57,9 @@ jobs:
           # If source files changed but packages didn't, rebuild from a prior cache.
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}-
+
+      - name: Build front-end
+        run: yarn build:dev
 
       - name: Setup python
         uses: actions/setup-python@v2
