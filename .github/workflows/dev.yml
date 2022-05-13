@@ -38,11 +38,9 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - name: Install front-end dependancies
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn install
 
       - name: Install process manager
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn add pm2
 
       - name: Cache NextJS
