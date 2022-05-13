@@ -49,7 +49,6 @@ jobs:
       - name: Install front-end dependancies
         if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: |
-          npm install -g yarn
           yarn install
 
       - name: Install process manager
@@ -58,7 +57,6 @@ jobs:
 
       - name: Build front-end
         run: |
-          yarn install
           yarn build:dev
 
       - name: Setup python
