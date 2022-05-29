@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node server.dev.js",
+    "preinstall": "npx -y only-allow pnpm",
+    "dev": "next dev -p 3000 -H localhost",
     "build:production": "node server.build.production.js",
     "build:dev": "node server.build.dev.js",
     "build:dev:analyze": "ANALYZE=true node server.build.dev.js",
@@ -39,7 +40,7 @@
     "libphonenumber-js": "^1.9.19",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
-    "next": "^12.0.3",
+    "next": "^12.1.6",
     "next-plugin-antd-less": "^1.0.6",
     "next-translate": "1.0.1",
     "nominatim-browser": "^2.1.0",
