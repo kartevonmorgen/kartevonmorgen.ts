@@ -208,3 +208,21 @@ export const prependWebProtocol = (value: string): string => {
 
   return `${WEB_PROTOCOLS[0]}://${value}`
 }
+
+export const concatTagsWithSearchTerm = (searchTerm: string, tags: string[]): string | undefined => {
+  if (!searchTerm && tags.length === 0) {
+    return undefined
+  }
+
+  if (tags.length !== 0) {
+    const textifiedTags = tags.map((tag) => (`#${tag}`)).join(' ')
+
+    if (searchTerm) {
+      return `${searchTerm} ${textifiedTags}`
+    }
+
+    return textifiedTags
+  }
+
+  return searchTerm
+}
