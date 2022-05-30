@@ -14,7 +14,7 @@ export const convertQueryToEventRequestAndSetTimeBoundaries = (query: ParsedUrlQ
   const {
     search: searchParam,
     fixedTags: fixedTagsParam,
-    tags: tagsParam,
+    tag: tagsParam,
     limit: limitParam,
     bbox: bboxParam,
     created_by: createdByParam,
