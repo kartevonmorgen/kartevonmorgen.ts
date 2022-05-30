@@ -1,20 +1,40 @@
 import { ParsedUrlQuery } from 'querystring'
 import { SearchEventsRequest as SearchEventsRequestDTO } from '../dtos/SearchEventsRequest'
-import { convertQueryParamToInt, convertQueryParamToString } from '../utils/utils'
+import {
+  concatTagsWithSearchTerm,
+  convertQueryParamToArray,
+  convertQueryParamToInt,
+  convertQueryParamToString,
+} from '../utils/utils'
 import { EventTimeBoundaries, getEventTimeBoundariesFromQueryOrDefaults } from '../utils/router'
 
 
 export const convertQueryToEventRequestAndSetTimeBoundaries = (query: ParsedUrlQuery): SearchEventsRequestDTO => {
+
+  const {
+    search: searchParam,
+    fixedTags: fixedTagsParam,
+    tags: tagsParam,
+    limit: limitParam,
+    bbox: bboxParam,
+    created_by: createdByParam,
+  } = query
+
   // todo: can be used for searching for the result list
+  const fixedTags: string[] = convertQueryParamToArray(fixedTagsParam)
+  const tags: string[] = convertQueryParamToArray(tagsParam)
+  const compoundTags = [...fixedTags, ...tags]
+
+  const searchTerm: string = convertQueryParamToString(searchParam)
+  const searchTextWithTags = concatTagsWithSearchTerm(searchTerm, compoundTags)
 
   const eventTimeBoundaries: EventTimeBoundaries = getEventTimeBoundariesFromQueryOrDefaults(query)
 
   const searchEventsRequest: SearchEventsRequestDTO = {
-    tag: query.tag ? convertQueryParamToString(query.tag) : undefined,
-    limit: query.limit ? convertQueryParamToInt(query.limit) : undefined,
-    text: query.text ? convertQueryParamToString(query.search) : undefined,
-    bbox: query.bbox ? convertQueryParamToString(query.bbox) : undefined,
-    created_by: query.created_by ? convertQueryParamToString(query.created_by) : undefined,
+    limit: limitParam ? convertQueryParamToInt(limitParam) : undefined,
+    text: searchTextWithTags,
+    bbox: bboxParam ? convertQueryParamToString(bboxParam) : undefined,
+    created_by: createdByParam ? convertQueryParamToString(createdByParam) : undefined,
     start_min: eventTimeBoundaries.startMin?.unix(),
     start_max: eventTimeBoundaries.startMax?.unix(),
     end_min: eventTimeBoundaries.endMin.unix(),
