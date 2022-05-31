@@ -49,7 +49,7 @@ const changeLatAndLngFromRegionName = async (router: NextRouter, regionName: str
 
     const paramsToUpdate = {
       c: convertLatLngToString(regionCenter),
-      z: MAP_CONSTANTS.map.close_zoom.toFixed(MAP_CONSTANTS.precisions.zoom)
+      z: MAP_CONSTANTS.map.regional_zoom.toFixed(MAP_CONSTANTS.precisions.zoom)
     }
 
     const { query } = router
