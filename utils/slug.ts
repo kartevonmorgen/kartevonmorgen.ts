@@ -3,9 +3,9 @@ import isEmpty from 'lodash/isEmpty'
 import isString from 'lodash/isString'
 import dropRight from 'lodash/dropRight'
 import {
-  BriefEntityName,
+  BriefEntityName, BriefRootSlugEntity,
   mapBriefEntityNameToSingular,
-  mapTypeIdToBriefEntityName,
+  mapTypeIdToBriefEntityName, RootSlugEntities,
   RootSlugEntity,
   SingularEntityName,
   SlugAction,
@@ -139,6 +139,25 @@ export const getRootSlugActionFromQuery = (query: ParsedUrlQuery): SlugAction =>
   }
 
   return rootAction
+}
+
+
+export const isPossiblyEntitySlugActionLocatable = (rootSlugAction: SlugAction): boolean => {
+  // the second part of slug is reprensetitve of entry.
+  const optionalEntrySlugAction = getOptionalEntrySlugActionFromRoot(rootSlugAction)
+  if (!optionalEntrySlugAction) {
+    return false
+  }
+
+  if (!optionalEntrySlugAction.id) {
+    return false
+  }
+
+  return true
+}
+
+export const getOptionalEntrySlugActionFromRoot = (rootSlugAction: SlugAction): null | SlugAction => {
+  return rootSlugAction.subSlugAction
 }
 
 export const redirectToEntityDetailAndFlyToLocation = (
