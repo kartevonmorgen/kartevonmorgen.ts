@@ -23,6 +23,7 @@ const Sidebar: FC = () => {
 
   return (
       <Drawer
+        autoFocus={false}
         visible={isSidebarOpen}
         placement='left'
         closable={false}
