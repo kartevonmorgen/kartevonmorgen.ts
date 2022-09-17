@@ -28,6 +28,7 @@
     "antd": "^4.17.0-alpha.9",
     "axios": "^0.21.1",
     "babel-plugin-import": "^1.13.3",
+    "color2k": "^2.0.0",
     "cors": "^2.8.5",
     "csv-parse": "^4.16.0",
     "dotenv": "^8.2.0",
