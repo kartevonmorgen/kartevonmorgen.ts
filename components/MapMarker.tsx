@@ -59,7 +59,7 @@ const getCustomColoredBalloonIcon = (color: string): DivIcon => (
 )
 
 // memoize icons to prevent object creations
-export const getBalloonIcon = (typeId: Category, color): Icon<IconOptions> | DivIcon => {
+export const getBalloonIcon = (typeId: Category, color=''): Icon<IconOptions> | DivIcon => {
   if (color) {
     return getCustomColoredBalloonIcon(color)
   }
