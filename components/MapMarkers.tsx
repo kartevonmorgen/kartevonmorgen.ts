@@ -4,9 +4,12 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../slices'
 import searchResultSelector from '../selectors/searchResults'
 import MapMarker from './MapMarker'
+import useCacheTagPinColors from '../hooks/useCacheTagPinColors'
 
 
 const MapMarkers: FC = () => {
+  // useCacheTagPinColors()
+
   const searchResults: SearchResults = useSelector(
     (state: RootState) => searchResultSelector(state),
   )

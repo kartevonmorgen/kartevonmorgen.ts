@@ -19,4 +19,5 @@ export const BASICS_ENDPOINTS = {
   getRegions: (group: string): string => `${SELF_API_URL}/dropdowns/${group}/regions`,
   postEntryRating: (): string => `${BASICS_API_URL}/ratings`,
   getMainCheckboxes: (group: string): string => `${SELF_API_URL}/checkboxes/${group}/main-checkboxes`,
+  getTagMarkerColors: (project: string): string => `${SELF_API_URL}/maps/${project}/tags/markers/colors`,
 }
