@@ -1,19 +1,19 @@
 {
   "landingPage": {
     "menu": {
-      "map": "Map",
-      "infos": "About us",
-      "contact": "Contact",
-      "donate": "Donate",
-      "login": "Login",
-      "logout": "Logout"
+      "map": "Мапа",
+      "infos": "Про нас",
+      "contact": "Контакт",
+      "donate": "Підтримати",
+      "login": "Увійти",
+      "logout": "Вийти"
     },
     "slogan": "Mapping for Good",
     "city-search": {
       "placeholder": "Which place would you like to discover?",
       "error": "Error while searching for cities.",
       "no-results": "Could not find any city with that name.",
-      "show-map": "Show map..."
+      "show-map": "Показати мапу..."
     },
     "subscribeToBbox": {
       "message": "You are logged in. I you like you can",
@@ -110,9 +110,9 @@
       "text": {
         "1": "Support our project",
         "2": "Become a local scout",
-        "3": "Join our team"
+        "3": "Приєднуйтесь до нашої команди!"
       },
-      "learnMore": "more"
+      "learnMore": "Більше"
     },
     "chapter5": {
       "heading": "Our team",
@@ -135,7 +135,7 @@
       "linus": "Global Sociology"
     },
     "chapter6": {
-      "heading": "A project by"
+      "heading": "Проект за підтримки"
     },
     "chapter7": {
       "heading": "Our partners",
