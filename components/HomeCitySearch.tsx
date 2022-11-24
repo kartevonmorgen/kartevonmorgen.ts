@@ -3,11 +3,14 @@ import { NextRouter, useRouter } from 'next/router'
 import useTranslation from 'next-translate/useTranslation'
 import { AutoComplete, Input } from 'antd'
 import debounce from 'lodash/debounce'
+import lodashToString from 'lodash/toString'
 import useRequest from '../api/useRequest'
 import { GeoLocations } from '../dtos/GeoLocatoinResponse'
 import API_ENDPOINTS from '../api/endpoints/'
 import LocateMe from './LocateMe'
 import RedirectToMapButton from './RedirectToMapButton'
+import MAP_CONSTANTS from '../consts/map'
+
 
 
 interface Option {
@@ -23,7 +26,7 @@ const onSelect = (router: NextRouter) => (value: string) => {
       pathname: '/m/main',
       query: {
         c: center,
-        z: 10,
+        z: lodashToString(MAP_CONSTANTS.map.regional_zoom),
       },
     },
     undefined,
