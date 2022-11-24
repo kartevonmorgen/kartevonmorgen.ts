@@ -9,7 +9,6 @@ import HomeEntityRedirector from '../components/HomeEntityRedirector'
 import Tutorial from '../components/Tutorial'
 import Vision from '../components/Vision'
 import Creators from '../components/Creators'
-import Partners from '../components/Partners'
 import Footer from '../components/HomeFooter'
 
 
