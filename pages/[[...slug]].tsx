@@ -48,10 +48,6 @@ const Home: FC = () => (
 
         <Creators/>
 
-        <HomeDivider/>
-
-        <Partners/>
-
       </Content>
 
       <Footer/>

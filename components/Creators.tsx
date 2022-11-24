@@ -18,15 +18,15 @@ interface Creator {
 const creators: Creator[] = [
   {
     src: 'ideen.webp',
-    width: 400,
-    height: 130,
+    width: 260,
+    height: 120,
     alt: 'ideen',
     link: 'http://www.ideenhochdrei.org/de/',
   },
   {
     src: 'slowtec.webp',
     width: 490,
-    height: 130,
+    height: 120,
     alt: 'slowtech',
     link: 'http://slowtec.de/',
   },

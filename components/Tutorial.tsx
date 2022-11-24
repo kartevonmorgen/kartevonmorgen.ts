@@ -58,7 +58,14 @@ const HomeTutorial: FC = () => {
 
   return (
     <div>
-      <Space direction="vertical" style={{ justifyContent: 'center' }}>
+      <Space
+        direction="vertical"
+        style={{
+          width: '100%',
+          justifyContent: 'center',
+          alignItems: 'center'
+      }}
+      >
         <Title
           level={1}
           style={{

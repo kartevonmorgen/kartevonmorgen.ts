@@ -1,7 +1,7 @@
 import { configureStore, Action } from '@reduxjs/toolkit'
 import { ThunkAction } from 'redux-thunk'
 
-import rootReducer, {RootState} from './slices'
+import rootReducer, { RootState } from './slices'
 
 
 const store = configureStore({
