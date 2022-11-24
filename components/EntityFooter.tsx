@@ -83,6 +83,8 @@ const EntityFooter: FC<EntityFooterProps> = (props) => {
                 `This entry ${activeLink} is problematic because: `,
               )
             }
+            target="_blank"
+            rel="noreferrer noopener"
             style={{
               fontSize: '0.8em',
             }}
@@ -125,6 +127,8 @@ const EntityFooter: FC<EntityFooterProps> = (props) => {
       >
         <Link
           href={`${mapEntityToOFDB[type]()}/${entityId}`}
+          target="_blank"
+          rel="noreferrer noopener"
           style={{
             fontSize: '0.8em',
           }}
