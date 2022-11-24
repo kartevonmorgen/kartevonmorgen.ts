@@ -48,7 +48,9 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
 
   // todo: duplicate code also for editing an entry, make it a higher order hook
   const router = useRouter()
-  const { query, pathname } = router
+  const { query } = router
+
+  const currentUrl = window.location.href
 
   const { orgTag: optionalOrgTag } = query
   const orgTag = optionalOrgTag && isString(optionalOrgTag) ? optionalOrgTag : null
@@ -165,7 +167,7 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
         entityId={entry.id}
         type={RootSlugEntity.ENTRY}
         title={entry.title}
-        activeLink={pathname}
+        activeLink={currentUrl}
         created_at={entry.created}
         version={entry.version}
       />
