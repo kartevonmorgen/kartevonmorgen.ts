@@ -6,6 +6,7 @@ import SearchFilters from './SearchFilters'
 import SearchInput from './SearchInput'
 import FilterOutlined from '@ant-design/icons/lib/icons/FilterOutlined'
 import { isExtraSearchFiltersActivated } from '../utils/router'
+import TypeChooser from './TypeChooser'
 
 
 const onShowFilters = (toggleShowFilters) => () => (toggleShowFilters())
@@ -40,6 +41,8 @@ const SearchControllers: FC = (_props) => {
           />
         </Badge>
       </div>
+
+      <TypeChooser/>
 
       <SearchFilters
         showFilters={showFilters}

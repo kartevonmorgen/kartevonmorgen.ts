@@ -63,6 +63,7 @@ const TypeChooser: FC = () => {
       style={{
         display: 'flex',
         justifyContent: 'space-evenly',
+        marginBottom: 8
       }}
     >
       {knownCategories.map((category) => {
@@ -71,6 +72,7 @@ const TypeChooser: FC = () => {
 
         return (
           <CheckableTag
+            key={`category-chooser-${categoryName}`}
             className={isChecked && `${categoryName}-checkable-tag`}
             checked={isChecked}
             onChange={(checked) => handleChange(categoryName, checked, selectedTypes, router)}

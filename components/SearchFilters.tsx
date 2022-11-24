@@ -1,6 +1,5 @@
 import { FC } from 'react'
 import { Collapse, Space } from 'antd'
-import TypeChooser from './TypeChooser'
 import SearchTags from './SearchTags'
 import SearchRegion from './SearchRegion'
 import SearchCheckboxGroup from './SearchCheckboxGroup'
@@ -37,8 +36,6 @@ const SearchFilters: FC<FiltersProps> = (props) => (
           width: '100%',
         }}
       >
-        <TypeChooser/>
-
         <SearchCheckboxGroup/>
 
         <SearchTags/>
