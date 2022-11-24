@@ -64,7 +64,7 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
       if (zoomParam) {
         zoom = convertQueryParamToFloat(zoomParam)
       } else {
-        zoom = MAP_CONSTANTS.map.close_zoom
+        zoom = MAP_CONSTANTS.map.default_zoom
       }
 
       const paramsToUpdate = {
