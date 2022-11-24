@@ -71,7 +71,7 @@ const SearchInput: FC = () => {
 
   useEffect(() => {
     setSearchTerm(searchTermFromURL)
-  }, [])
+  }, [searchTermFromURL])
 
   const searchOptions = useSearchRecommender(debouncedTokenToSearch, categoryGroup)
 

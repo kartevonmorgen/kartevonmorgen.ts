@@ -3,9 +3,8 @@ import TagsCheckboxGroup from './TagsCheckboxGroup'
 import { NextRouter, useRouter } from 'next/router'
 import { CheckboxChangeEvent } from 'antd/lib/checkbox'
 import {
-  convertArrayToQueryParam,
   convertQueryParamToArray,
-  removeRoutingQueryParams,
+  convertQueryParamToString,
   updateRoutingQuery,
 } from '../utils/utils'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
@@ -13,35 +12,40 @@ import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 
 const addOrRemoveTagsFromQuery = (router: NextRouter) => (event: CheckboxChangeEvent) => {
   const { query } = router
-  const { tag } = query
+  const { search: searchParam } = query
+  const search = convertQueryParamToString(searchParam)
 
   const {
     target: {
       checked: isCheckboxChecked,
-      value: tagsFromCheckbox,
+      value,
     },
   } = event
 
-  //
-  const oldQueryTags: string[] = convertQueryParamToArray(tag)
+  const tagsFromCheckbox: string[] = value
 
-  let newQueryTags: string[] = []
+  const searchTokens = search.split(' ')
+
+  let newSearchParam: string = ''
   if (isCheckboxChecked) {
-    newQueryTags = [...oldQueryTags]
+    newSearchParam = search
     tagsFromCheckbox.forEach((tag) => {
-      if (!oldQueryTags.includes(tag)) {
-        newQueryTags.push(tag)
+      if (!searchTokens.includes(tag)) {
+        newSearchParam = `${newSearchParam} ${tag}`
       }
     })
-  } else {
-    newQueryTags = oldQueryTags.filter((tag) => !tagsFromCheckbox.includes(tag))
+  }
+  else {
+    searchTokens.forEach((token) => {
+      if (!tagsFromCheckbox.includes(token)) {
+        newSearchParam = `${newSearchParam} ${token}`
+      }
+    })
   }
 
-  const newTags = convertArrayToQueryParam(newQueryTags)
-  let newQueryParams = updateRoutingQuery(query, { tag: newTags })
-  if (newQueryTags.length === 0) {
-    newQueryParams = removeRoutingQueryParams(newQueryParams, ['tag'])
-  }
+  newSearchParam = newSearchParam.trim()
+
+  let newQueryParams = updateRoutingQuery(query, { search: newSearchParam })
 
   const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
 
@@ -58,13 +62,15 @@ const addOrRemoveTagsFromQuery = (router: NextRouter) => (event: CheckboxChangeE
 const SearchCheckboxGroup: FC = () => {
   const router = useRouter()
   const { query } = router
-  const { tag } = query
-  const selectedTags = convertQueryParamToArray(tag)
+  const { search: searchParam } = query
+  const search = convertQueryParamToString(searchParam)
+  const searchTokens = search.split( ' ')
+
 
   return (
     <TagsCheckboxGroup
       onChange={addOrRemoveTagsFromQuery(router)}
-      selectedValues={selectedTags}
+      selectedValues={searchTokens}
     />
   )
 }
