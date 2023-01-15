@@ -1,0 +1,25 @@
+{
+  "locales": [
+    "be",
+    "de",
+    "en",
+    "es",
+    "fr",
+    "it",
+    "nl",
+    "pt",
+    "ru"
+  ],
+  "defaultLocale": "de",
+  "pages": {
+    "/[[...slug]]": [
+      "home"
+    ],
+    "/m/[...slug]": [
+      "map"
+    ],
+    "/t/[project]": [
+      "tables"
+    ]
+  }
+}

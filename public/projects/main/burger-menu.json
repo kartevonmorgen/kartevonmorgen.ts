@@ -1,0 +1,38 @@
+[
+  {
+    "link": "https://kartevonmorgen.org/",
+    "title": "home",
+    "icon": "home",
+    "policy": "self"
+  },
+  {
+    "link": "https://blog.vonmorgen.org/piloten/",
+    "title": "join",
+    "icon": "user-friends",
+    "policy": "newTab"
+  },
+  {
+    "link": "https://openfairdb.org/",
+    "title": "loginForPilots",
+    "icon": "columns",
+    "policy": "newTab"
+  },
+  {
+    "link": "https://blog.vonmorgen.org/kontakt/",
+    "title": "contact",
+    "icon": "headset",
+    "policy": "newTab"
+  },
+  {
+    "link": "https://blog.vonmorgen.org/",
+    "title": "aboutUs",
+    "icon": "users",
+    "policy": "newTab"
+  },
+  {
+    "link": "https://blog.vonmorgen.org/datenschutzerklarung/",
+    "title": "privacy",
+    "icon": "user-shield",
+    "policy": "newTab"
+  }
+]

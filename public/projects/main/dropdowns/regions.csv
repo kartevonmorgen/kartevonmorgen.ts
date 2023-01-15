@@ -1,0 +1,12 @@
+label,value,headline,bold,underline,italic,fontSize
+… Bitte Ortsnamen eingeben und Enter drücken,,,,,,
+Baden-Württemberg:,,true,,,,
+Stuttgart,Stuttgart,,,,,
+Karlsruhe,Karlsruhe,,,,,
+Freiburg,Freiburg,,,,,
+Ulm,Ulm,,,,,
+Bayern:,,true,,,,
+München,München,,,,,
+Nürnberg,Nürnberg,,,,,
+Augsburg ,Augsburg ,,,,,
+Würzburg ,Würzburg ,,,,,
