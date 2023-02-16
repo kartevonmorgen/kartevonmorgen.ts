@@ -1,6 +1,6 @@
 import { Dispatch, FC, Fragment, useEffect, useState } from 'react'
 import { NextRouter, useRouter } from 'next/router'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import produce from 'immer'
 import { AppDispatch } from '../store'
 import useTranslation from 'next-translate/useTranslation'
@@ -22,7 +22,7 @@ import { NewEntryWithVersion } from '../dtos/NewEntryWithVersion'
 import { Entries as EntriesDTO, Entry } from '../dtos/Entry'
 import { convertNewEntryToSearchEntry, SearchEntryID } from '../dtos/SearchEntry'
 import Point from '../dtos/Point'
-import { RouterQueryParam, SlugVerb } from '../utils/types'
+import { SlugVerb } from '../utils/types'
 import {
   ExtendedGeocodeAddress,
   flyToFormAddressAndSetNewPin,
@@ -30,11 +30,13 @@ import {
   reverseGeocode,
 } from '../utils/geolocation'
 import Category from '../dtos/Categories'
-import { entriesActions } from '../slices'
+import { entriesActions, formActions } from '../slices'
 import { renameProperties, setValuesToDefaultOrNull, transformObject } from '../utils/objects'
 import { convertQueryParamToArray, prependWebProtocol } from '../utils/utils'
 import { ENTITY_DETAIL_DESCRIPTION_LIMIT } from '../consts/texts'
 import EntityTagsFormSection from './EntityTagsFormSection'
+import { FORM_STATUS, FORM_TYPE } from '../slices/formSlice'
+import { formSelector } from '../selectors/form'
 
 
 const { useForm } = Form
@@ -43,7 +45,7 @@ const { Link } = Typography
 
 
 // we declare both types NewEntryWithLicense for create, and NewEntryWithVersion for update
-type EntryFormType = NewEntryWithLicense | NewEntryWithVersion
+export type EntryFormType = NewEntryWithLicense | NewEntryWithVersion
 
 
 const setAddressDetailsIfAddressFieldsAreNotTouched = async (
@@ -221,6 +223,7 @@ const onFinish = (
 
   entryId = await createOrEditEntry(adaptedEntry, entryId, isEdit)
 
+  dispatch(formActions.expireFormCache())
   addEntryToStateOnCreate(isEdit, entryId, adaptedEntry, dispatch)
   redirectToEntry(router, entryId, isEdit)
 }
@@ -252,6 +255,8 @@ const EntryForm: FC<EntryFormProps> = (props) => {
 
   const dispatch = useDispatch()
 
+  const formCache = useSelector(formSelector)
+
   const { t } = useTranslation('map')
 
   const router = useRouter()
@@ -276,6 +281,10 @@ const EntryForm: FC<EntryFormProps> = (props) => {
     }
   }, effectDeps)
 
+  useEffect(() => {
+    console.log(formCache)
+  }, [])
+
   const isEdit = verb === SlugVerb.EDIT
 
   const { orgTag: optionalOrgTag } = query
@@ -291,10 +300,14 @@ const EntryForm: FC<EntryFormProps> = (props) => {
 
 
   const foundEntry: boolean = isArray(entries) && entries.length !== 0
-  const entry: Entry = foundEntry ? entries[0] : {} as Entry
+  let entry: Entry = foundEntry ? entries[0] : {} as Entry
   // it's an overwrite to be sure it's not empty for the new entries
   if (!entry.categories) {
     entry.categories = [category]
+  }
+
+  if (formCache.status === FORM_STATUS.READY && formCache.type === FORM_TYPE.ENTRY && formCache.data) {
+    entry = formCache.data as Entry
   }
 
 
@@ -335,6 +348,11 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       }}
       initialValues={formInitialValues}
       onFinish={onFinish(router, dispatch, isEdit, entryId)}
+      onValuesChange={
+        (_changedValue: Partial<EntryFormType>, entryData: EntryFormType) => {
+          dispatch(formActions.cacheFormData({type: FORM_TYPE.ENTRY, data: entryData}))
+        }
+    }
       form={form}
     >
 
