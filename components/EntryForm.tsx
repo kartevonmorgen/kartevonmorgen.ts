@@ -2,7 +2,6 @@ import { Dispatch, FC, Fragment, useEffect, useState } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
 import produce from 'immer'
-import cloneDeep from 'lodash/cloneDeep'
 import { AppDispatch } from '../store'
 import useTranslation from 'next-translate/useTranslation'
 import { validate as validateEmail } from 'isemail'
@@ -295,14 +294,14 @@ const EntryForm: FC<EntryFormProps> = (props) => {
 
 
   const foundEntry: boolean = isArray(entries) && entries.length !== 0
-  let entry: Entry = foundEntry ? cloneDeep(entries[0]) : {} as Entry
+  let entry: Entry = foundEntry ? {...entries[0]} : {} as Entry
 
   if (
     formCache.status === FORM_STATUS.READY &&
     EntryCategories.includes(formCache.category) &&
     formCache.data
   ) {
-    entry = formCache.data as Entry
+    entry = {...formCache.data} as Entry
   }
 
   entry = produce(entry, (draft) => {
