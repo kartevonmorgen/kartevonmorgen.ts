@@ -35,7 +35,6 @@ const SearchEventsListener: FC = () => {
     limit: limitParam,
     tag: tagsParam,
     fixedTags: fixedTagsParam,
-    orgTag: orgTagParam,
     start_min: startMinParam,
     start_max: startMaxParam,
     end_min: endMinParam,
@@ -100,7 +99,6 @@ const SearchEventsListener: FC = () => {
         text: searchTextWithTags,
         categories: toString(entryCategories),
         limit: limit,
-        org_tag: orgTagParam ? convertQueryParamToString(orgTagParam) : undefined
       }
       dispatch(fetchEntries(searchEntriesRequestDTO))
     } else {
