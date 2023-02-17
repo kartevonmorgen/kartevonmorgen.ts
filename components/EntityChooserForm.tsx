@@ -8,13 +8,16 @@ import EntityForm from './EntityForm'
 import { SearchEntryID } from '../dtos/SearchEntry'
 import { EventID } from '../dtos/Event'
 import { convertQueryParamToString } from '../utils/utils'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { formSelector } from '../selectors/form'
 import { FORM_STATUS } from '../slices/formSlice'
 import EntityChooserFormSelects from './EntityChooserFormSelects'
+import { AppDispatch } from '../store'
+import { formActions } from '../slices'
 
 
-const changeCategory = (setCategory: Dispatch<Category>) => (category: Category) => {
+const changeCategory = (setCategory: Dispatch<Category>, dispatch: AppDispatch) => (category: Category) => {
+  dispatch(formActions.setCategory(category))
   setCategory(category)
 }
 
@@ -27,6 +30,8 @@ interface EntityChooserFormProps {
 
 const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
   const { verb, entityId } = props
+
+  const dispatch = useDispatch()
 
   const formCache = useSelector(formSelector)
 
@@ -49,7 +54,13 @@ const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
   }, [categoryParam])
 
   useEffect(() => {
-    if (formCache.status === FORM_STATUS.READY && formCache.data) {
+    if (formCache.status === FORM_STATUS.READY) {
+      setCategory(formCache.category)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (formCache.status === FORM_STATUS.READY) {
       setCategory(formCache.category)
       return
     }
@@ -59,6 +70,8 @@ const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
     }
   }, [props.category])
 
+
+
   return (
     <div style={{ paddingBottom: 60 }}>
       <EntityFormHeader
@@ -66,7 +79,7 @@ const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
       />
 
       <EntityChooserFormSelects
-        onSelect={changeCategory(setCategory)}
+        onSelect={changeCategory(setCategory, dispatch)}
         value={category}
         shouldCreateANewEntity={shouldCreateANewEntity}
       />

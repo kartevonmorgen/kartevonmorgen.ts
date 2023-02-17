@@ -34,6 +34,9 @@ const formSlice = createSlice({
     clearFormCache: (state) => {
       state.status = FORM_STATUS.READY
       state.data = undefined
+    },
+    setCategory: (state, action: PayloadAction<Category>) => {
+      state.category = action.payload
     }
   },
 })
