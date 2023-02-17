@@ -11,6 +11,7 @@ import { convertQueryParamToString } from '../utils/utils'
 import { useSelector } from 'react-redux'
 import { formSelector } from '../selectors/form'
 import { FORM_STATUS } from '../slices/formSlice'
+import EntityChooserFormSelects from './EntityChooserFormSelects'
 
 
 const changeCategory = (setCategory: Dispatch<Category>) => (category: Category) => {
@@ -64,24 +65,11 @@ const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
         isEdit={shouldEditAnExistingEntity}
       />
 
-      {
-        shouldCreateANewEntity && (
-          <Select
-            placeholder="Category"
-            onSelect={changeCategory(setCategory)}
-            style={{
-              width: '100%',
-              marginTop: 8,
-              marginBottom: 16,
-            }}
-            value={category}
-          >
-            <Select.Option value={Category.INITIATIVE}>Initiative</Select.Option>
-            <Select.Option value={Category.COMPANY}>Company</Select.Option>
-            <Select.Option value={Category.EVENT}>Event</Select.Option>
-          </Select>
-        )
-      }
+      <EntityChooserFormSelects
+        onSelect={changeCategory(setCategory)}
+        value={category}
+        shouldCreateANewEntity={shouldCreateANewEntity}
+      />
 
       <EntityForm
         category={category}

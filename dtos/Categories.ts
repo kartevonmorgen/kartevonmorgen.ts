@@ -1,4 +1,4 @@
-export enum Category {
+enum Category {
   INITIATIVE = '2cd00bebec0c48ba9db761da48678134',
   EVENT = 'c2dc278a2d6a4b9b8a50cb606fc017ed',
   COMPANY = '77b3c33a92554bcf8e8c2c86cedd6f6f',
@@ -27,15 +27,21 @@ export const knownCategoryNames = Object.values(knownCategories).map(categoryId 
 
 export type Categories = Category[]
 
+export type EntryCategoryTypes = Category.COMPANY | Category.INITIATIVE
 
 export const EntryCategories = [
+  Category.COMPANY,
+  Category.INITIATIVE,
+]
+
+const EntryCategoryNames = [
   CategoryToNameMapper[Category.COMPANY],
   CategoryToNameMapper[Category.INITIATIVE],
 ]
 
 const EventCategory = Category.EVENT
 
-export const isEntryCategory = (categoryName: string): boolean => (EntryCategories.includes(categoryName))
+export const isEntryCategory = (categoryName: string): boolean => (EntryCategoryNames.includes(categoryName))
 export const isEventCategory = (categoryName: string): boolean => (categoryName === EventCategory)
 
 export default Category

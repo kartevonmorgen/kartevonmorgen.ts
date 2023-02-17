@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { EntryFormType } from '../components/EntryForm'
 import EventDTO from '../dtos/Event'
-import { Category } from '../dtos/Categories'
+import Category from '../dtos/Categories'
 
 
 export enum FORM_STATUS {

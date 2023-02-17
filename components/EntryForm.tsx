@@ -2,6 +2,7 @@ import { Dispatch, FC, Fragment, useEffect, useState } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
 import produce from 'immer'
+import cloneDeep from 'lodash/cloneDeep'
 import { AppDispatch } from '../store'
 import useTranslation from 'next-translate/useTranslation'
 import { validate as validateEmail } from 'isemail'
@@ -29,7 +30,7 @@ import {
   getCityFromAddress,
   reverseGeocode,
 } from '../utils/geolocation'
-import Category, { EntryCategories } from '../dtos/Categories'
+import Category, { EntryCategories, EntryCategoryTypes } from '../dtos/Categories'
 import { entriesActions, formActions } from '../slices'
 import { renameProperties, setValuesToDefaultOrNull, transformObject } from '../utils/objects'
 import { convertQueryParamToArray, prependWebProtocol } from '../utils/utils'
@@ -239,10 +240,8 @@ const addTouchedAddressFieldName = (setTouchedAddressFields: Dispatch<any>, fiel
 }
 
 
-type EntryCategories = Category.COMPANY | Category.INITIATIVE
-
 interface EntryFormProps {
-  category: EntryCategories
+  category: EntryCategoryTypes
   verb: SlugVerb.EDIT | SlugVerb.CREATE
   entryId?: SearchEntryID
 }
@@ -281,10 +280,6 @@ const EntryForm: FC<EntryFormProps> = (props) => {
     }
   }, effectDeps)
 
-  useEffect(() => {
-    console.log(formCache)
-  }, [])
-
   const isEdit = verb === SlugVerb.EDIT
 
   const { orgTag: optionalOrgTag } = query
@@ -300,11 +295,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
 
 
   const foundEntry: boolean = isArray(entries) && entries.length !== 0
-  let entry: Entry = foundEntry ? entries[0] : {} as Entry
-  // it's an overwrite to be sure it's not empty for the new entries
-  if (!entry.categories) {
-    entry.categories = [category]
-  }
+  let entry: Entry = foundEntry ? cloneDeep(entries[0]) : {} as Entry
 
   if (
     formCache.status === FORM_STATUS.READY &&
@@ -313,6 +304,10 @@ const EntryForm: FC<EntryFormProps> = (props) => {
   ) {
     entry = formCache.data as Entry
   }
+
+  entry = produce(entry, (draft) => {
+    entry.categories = [category]
+  })
 
 
   if (entriesError) {
