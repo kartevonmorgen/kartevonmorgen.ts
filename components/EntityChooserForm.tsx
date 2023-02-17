@@ -8,6 +8,9 @@ import EntityForm from './EntityForm'
 import { SearchEntryID } from '../dtos/SearchEntry'
 import { EventID } from '../dtos/Event'
 import { convertQueryParamToString } from '../utils/utils'
+import { useSelector } from 'react-redux'
+import { formSelector } from '../selectors/form'
+import { FORM_STATUS } from '../slices/formSlice'
 
 
 const changeCategory = (setCategory: Dispatch<Category>) => (category: Category) => {
@@ -23,6 +26,8 @@ interface EntityChooserFormProps {
 
 const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
   const { verb, entityId } = props
+
+  const formCache = useSelector(formSelector)
 
   const router = useRouter()
   const { query } = router
@@ -43,6 +48,11 @@ const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
   }, [categoryParam])
 
   useEffect(() => {
+    if (formCache.status === FORM_STATUS.READY && formCache.data) {
+      setCategory(formCache.category)
+      return
+    }
+
     if (props.category) {
       setCategory(props.category)
     }

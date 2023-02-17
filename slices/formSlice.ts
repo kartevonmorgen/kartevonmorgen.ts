@@ -1,12 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { EntryFormType } from '../components/EntryForm'
 import EventDTO from '../dtos/Event'
+import { Category } from '../dtos/Categories'
 
-
-export enum FORM_TYPE {
-  ENTRY = 'ENTRY',
-  EVENT = 'EVENT',
-}
 
 export enum FORM_STATUS {
   READY = 'READY',
@@ -16,7 +12,7 @@ export enum FORM_STATUS {
 type FormData = EntryFormType | EventDTO
 
 interface FormSlice {
-  type?: FORM_TYPE
+  category?: Category
   status: FORM_STATUS
   data?: FormData
 }
@@ -29,7 +25,7 @@ const formSlice = createSlice({
   reducers: {
     cacheFormData: (state, action: PayloadAction<Omit<FormSlice, 'status'>>) => {
       state.status = FORM_STATUS.READY
-      state.type = action.payload.type
+      state.category = action.payload.category
       state.data = action.payload.data
     },
     expireFormCache: (state) => {

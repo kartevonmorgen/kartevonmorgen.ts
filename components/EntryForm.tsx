@@ -29,13 +29,13 @@ import {
   getCityFromAddress,
   reverseGeocode,
 } from '../utils/geolocation'
-import Category from '../dtos/Categories'
+import Category, { EntryCategories } from '../dtos/Categories'
 import { entriesActions, formActions } from '../slices'
 import { renameProperties, setValuesToDefaultOrNull, transformObject } from '../utils/objects'
 import { convertQueryParamToArray, prependWebProtocol } from '../utils/utils'
 import { ENTITY_DETAIL_DESCRIPTION_LIMIT } from '../consts/texts'
 import EntityTagsFormSection from './EntityTagsFormSection'
-import { FORM_STATUS, FORM_TYPE } from '../slices/formSlice'
+import { FORM_STATUS } from '../slices/formSlice'
 import { formSelector } from '../selectors/form'
 
 
@@ -306,7 +306,11 @@ const EntryForm: FC<EntryFormProps> = (props) => {
     entry.categories = [category]
   }
 
-  if (formCache.status === FORM_STATUS.READY && formCache.type === FORM_TYPE.ENTRY && formCache.data) {
+  if (
+    formCache.status === FORM_STATUS.READY &&
+    EntryCategories.includes(formCache.category) &&
+    formCache.data
+  ) {
     entry = formCache.data as Entry
   }
 
@@ -320,7 +324,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
   if (!entries && isEdit) {
     return (
       <div className='center'>
-        <Spin size="large"/>
+        <Spin size='large' />
       </div>
     )
   }
@@ -341,8 +345,8 @@ const EntryForm: FC<EntryFormProps> = (props) => {
 
   return (
     <Form
-      layout="vertical"
-      size="middle"
+      layout='vertical'
+      size='middle'
       style={{
         marginTop: 8,
       }}
@@ -350,38 +354,38 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       onFinish={onFinish(router, dispatch, isEdit, entryId)}
       onValuesChange={
         (_changedValue: Partial<EntryFormType>, entryData: EntryFormType) => {
-          dispatch(formActions.cacheFormData({type: FORM_TYPE.ENTRY, data: entryData}))
+          dispatch(formActions.cacheFormData({ category, data: entryData }))
         }
-    }
+      }
       form={form}
     >
 
-      <Form.Item name="id" hidden>
-        <Input disabled/>
+      <Form.Item name='id' hidden>
+        <Input disabled />
       </Form.Item>
 
       {/* the backend accepts an array that's because it's named plural*/}
       {/* but in reality it contains only one category*/}
       {/* and the value is initialized by the parent not the api in the edit mode*/}
-      <Form.Item name="categories" hidden>
+      <Form.Item name='categories' hidden>
         <Select
-          mode="multiple"
+          mode='multiple'
           disabled
         />
       </Form.Item>
 
       <Form.Item
-        name="title"
+        name='title'
         rules={[
           { required: true, message: t('entryForm.requiredField') },
           { min: 3, message: t('entryForm.titleTooShort') },
         ]}
       >
-        <Input placeholder={t('entryForm.title')}/>
+        <Input placeholder={t('entryForm.title')} />
       </Form.Item>
 
       <Form.Item
-        name="description"
+        name='description'
         rules={[
           {
             required: true,
@@ -404,9 +408,9 @@ const EntryForm: FC<EntryFormProps> = (props) => {
         />
       </Form.Item>
 
-      <EntityTagsFormSection form={form}/>
+      <EntityTagsFormSection form={form} />
 
-      <Divider orientation="left">{t('entryForm.location')}</Divider>
+      <Divider orientation='left'>{t('entryForm.location')}</Divider>
 
       <Form.Item>
         <Input.Group compact>
@@ -440,11 +444,11 @@ const EntryForm: FC<EntryFormProps> = (props) => {
         </Input.Group>
       </Form.Item>
 
-      <Form.Item name="country" hidden/>
+      <Form.Item name='country' hidden />
 
-      <Form.Item name="state" hidden/>
+      <Form.Item name='state' hidden />
 
-      <Form.Item name="street">
+      <Form.Item name='street'>
         <Input
           placeholder={t('entryForm.street')}
           onBlur={() => {
@@ -455,43 +459,43 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       </Form.Item>
 
       <Form.Item
-        name="lat"
+        name='lat'
         style={{
           display: 'inline-block',
           width: '50%',
         }}
       >
-        <Input placeholder="Latitude" disabled/>
+        <Input placeholder='Latitude' disabled />
       </Form.Item>
 
       <Form.Item
-        name="lng"
+        name='lng'
         style={{
           display: 'inline-block',
           width: '50%',
         }}
       >
-        <Input placeholder="Longitude" disabled/>
+        <Input placeholder='Longitude' disabled />
       </Form.Item>
 
-      <Divider orientation="left">{t('entryForm.contact')}</Divider>
+      <Divider orientation='left'>{t('entryForm.contact')}</Divider>
 
-      <Form.Item name="contact_name">
+      <Form.Item name='contact_name'>
         <Input
           placeholder={t('entryForm.contactPerson')}
-          prefix={<FontAwesomeIcon icon="user"/>}
+          prefix={<FontAwesomeIcon icon='user' />}
         />
       </Form.Item>
 
-      <Form.Item name="telephone">
+      <Form.Item name='telephone'>
         <Input
           placeholder={t('entryForm.phone')}
-          prefix={<FontAwesomeIcon icon="phone"/>}
+          prefix={<FontAwesomeIcon icon='phone' />}
         />
       </Form.Item>
 
       <Form.Item
-        name="email"
+        name='email'
         rules={[
           {
             validator: (_, value) => {
@@ -512,12 +516,12 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       >
         <Input
           placeholder={t('entryForm.email')}
-          prefix={<FontAwesomeIcon icon="envelope"/>}
+          prefix={<FontAwesomeIcon icon='envelope' />}
         />
       </Form.Item>
 
       <Form.Item
-        name="homepage"
+        name='homepage'
         rules={[
           {
             validator: (_, value) => {
@@ -539,27 +543,27 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       >
         <Input
           placeholder={t('entryForm.homepage')}
-          prefix={<FontAwesomeIcon icon="globe"/>}
+          prefix={<FontAwesomeIcon icon='globe' />}
         />
       </Form.Item>
 
-      <Form.Item name="opening_hours">
-        <Input placeholder={t('entryForm.openingHours')} prefix={<FontAwesomeIcon icon="clock"/>}/>
+      <Form.Item name='opening_hours'>
+        <Input placeholder={t('entryForm.openingHours')} prefix={<FontAwesomeIcon icon='clock' />} />
       </Form.Item>
 
       <div style={{ width: '100%', textAlign: 'center' }}>
         <Link
           href={process.env.NEXT_PUBLIC_OPENING_HOURS}
-          target="_blank"
+          target='_blank'
         >
           {t('entryForm.generateHours')}
         </Link>
       </div>
 
-      <Divider orientation="left">{t('entryForm.links')}</Divider>
+      <Divider orientation='left'>{t('entryForm.links')}</Divider>
 
       <Form.List
-        name="custom"
+        name='custom'
       >
         {(fields, { add, remove }) => (
           <Fragment>
@@ -584,7 +588,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
                     },
                   ]}
                 >
-                  <Input placeholder={t('entryForm.linkUrl')}/>
+                  <Input placeholder={t('entryForm.linkUrl')} />
                 </Form.Item>
                 <Form.Item
                   {...field}
@@ -595,24 +599,24 @@ const EntryForm: FC<EntryFormProps> = (props) => {
                     { max: 50, message: t('entryForm.maxNumCharactersTitle') },
                   ]}
                 >
-                  <Input placeholder={t('entryForm.linkTitle')}/>
+                  <Input placeholder={t('entryForm.linkTitle')} />
                 </Form.Item>
                 <Form.Item
                   {...field}
                   name={[field.name, 'description']}
                   fieldKey={[field.fieldKey, 'description']}
                 >
-                  <Input placeholder={t('entryForm.linkDescription')}/>
+                  <Input placeholder={t('entryForm.linkDescription')} />
                 </Form.Item>
                 <Button
                   onClick={() => remove(field.name)}
                   block
-                  icon={<MinusCircleOutlined/>}
+                  icon={<MinusCircleOutlined />}
                 >
                   Remove
                 </Button>
 
-                <Divider dashed/>
+                <Divider dashed />
 
               </Fragment>
             ))}
@@ -620,7 +624,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
               <Button
                 onClick={() => add()}
                 block
-                icon={<PlusOutlined/>}
+                icon={<PlusOutlined />}
               >
                 Add field
               </Button>
@@ -629,30 +633,30 @@ const EntryForm: FC<EntryFormProps> = (props) => {
         )}
       </Form.List>
 
-      <Divider orientation="left">{t('entryForm.entryImage')}</Divider>
+      <Divider orientation='left'>{t('entryForm.entryImage')}</Divider>
 
-      <Form.Item name="image_url">
+      <Form.Item name='image_url'>
         <Input
           placeholder={t('entryForm.imageUrl')}
-          prefix={<FontAwesomeIcon icon="camera"/>}
+          prefix={<FontAwesomeIcon icon='camera' />}
         />
       </Form.Item>
 
-      <Form.Item name="image_link_url">
+      <Form.Item name='image_link_url'>
         <Input
           placeholder={t('entryForm.imageLink')}
-          prefix={<FontAwesomeIcon icon="link"/>}
+          prefix={<FontAwesomeIcon icon='link' />}
         />
       </Form.Item>
 
-      <Divider orientation="left">{t('entryForm.license')}</Divider>
+      <Divider orientation='left'>{t('entryForm.license')}</Divider>
 
       <Form.Item
-        name="license"
+        name='license'
         rules={[
           { required: true, message: t('entryForm.requiredField') },
         ]}
-        valuePropName="value"
+        valuePropName='value'
       >
         {/* it's necessary to catch the value of the checkbox, but the out come will be a list*/}
         {/* so we should grab the first element*/}
@@ -663,7 +667,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
                 {t('entryForm.iHaveRead')}&nbsp;
                 <Link
                   href={process.env.NEXT_PUBLIC_CC_LINK}
-                  target="_blank"
+                  target='_blank'
                 >
                   {t('entryForm.creativeCommonsLicense')}&nbsp;
                 </Link>
@@ -675,13 +679,13 @@ const EntryForm: FC<EntryFormProps> = (props) => {
         />
       </Form.Item>
 
-      <Form.Item name="version" hidden>
-        <Input disabled/>
+      <Form.Item name='version' hidden>
+        <Input disabled />
       </Form.Item>
 
       <Button
-        type="primary"
-        htmlType="submit"
+        type='primary'
+        htmlType='submit'
         style={{
           width: '100%',
         }}

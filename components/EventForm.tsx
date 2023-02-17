@@ -1,5 +1,5 @@
 import { Dispatch, FC, Fragment, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import useTranslation from 'next-translate/useTranslation'
 import produce from 'immer'
 import { Button, Checkbox, DatePicker, Divider, Form, FormInstance, Input, Spin, Typography } from 'antd'
@@ -16,7 +16,7 @@ import { SlugVerb } from '../utils/types'
 import Category from '../dtos/Categories'
 import { onReceiveAdapter, onSendAdapter } from '../adaptors/EventForm'
 import { AppDispatch } from '../store'
-import { eventsActions } from '../slices'
+import { eventsActions, formActions } from '../slices'
 import Point from '../dtos/Point'
 import {
   ExtendedGeocodeAddress,
@@ -27,6 +27,8 @@ import {
 import { convertQueryParamToArray, prependWebProtocol } from '../utils/utils'
 import { ENTITY_DETAIL_DESCRIPTION_LIMIT } from '../consts/texts'
 import EntityTagsFormSection from './EntityTagsFormSection'
+import { FORM_STATUS } from '../slices/formSlice'
+import { formSelector } from '../selectors/form'
 
 
 const { useForm } = Form
@@ -144,6 +146,7 @@ const onFinish = (
   const adaptedFormValues = onSendAdapter(eventFormValues)
   const eventId = await createOrEditEvent(adaptedFormValues, isEdit)
 
+  dispatch(formActions.expireFormCache())
   addEventToStateOnCreate(dispatch, adaptedFormValues, isEdit)
   redirectToEvent(router, eventId, isEdit)
 }
@@ -169,6 +172,8 @@ const EventForm: FC<EventFormProps> = (props) => {
   const { verb, eventId } = props
 
   const dispatch = useDispatch()
+
+  const formCache = useSelector(formSelector)
 
   const { t } = useTranslation('map')
 
@@ -197,9 +202,15 @@ const EventForm: FC<EventFormProps> = (props) => {
 
   const isEdit = verb === SlugVerb.EDIT
 
-  const { data: event, error: eventError } = useRequest<EventDTO>(isEdit && {
+  const { data: eventResponse, error: eventError } = useRequest<EventDTO>(isEdit && {
     url: `${API_ENDPOINTS.getEvent()}/${eventId}`,
   })
+
+  let event = eventResponse
+  if (formCache.status === FORM_STATUS.READY && formCache.category === Category.EVENT && formCache.data) {
+    console.log(formCache.data)
+    event = formCache.data as EventDTO
+  }
 
   if (eventError) {
     //  todo: show error notification, redirect to the search result view
@@ -212,13 +223,14 @@ const EventForm: FC<EventFormProps> = (props) => {
     if (!event) {
       return (
         <div className='center'>
-          <Spin size="large"/>
+          <Spin size='large' />
         </div>
       )
     }
 
-    formInitialValues = onReceiveAdapter(event)
   }
+
+  formInitialValues = onReceiveAdapter(event)
 
   formInitialValues = produce(formInitialValues, (draft) => {
     if (draft) {
@@ -231,7 +243,7 @@ const EventForm: FC<EventFormProps> = (props) => {
 
   return (
     <Form
-      size="middle"
+      size='middle'
       style={{
         marginTop: 8,
       }}
@@ -242,38 +254,44 @@ const EventForm: FC<EventFormProps> = (props) => {
         isEdit,
       )}
       form={form}
+      onValuesChange={
+        (_changedValue: any, formData: object) => {
+          const event: EventDTO = onSendAdapter(formData)
+          dispatch(formActions.cacheFormData({category: Category.EVENT, data: event}))
+        }
+      }
     >
 
-      <Form.Item name="id" hidden>
-        <Input disabled/>
+      <Form.Item name='id' hidden>
+        <Input disabled />
       </Form.Item>
 
       <Form.Item
-        name="title"
+        name='title'
         rules={[
           { required: true, message: t('entryForm.requiredField') },
           { min: 3, message: t('entryForm.titleTooShort') },
         ]}
       >
-        <Input placeholder={t('entryForm.title')}/>
+        <Input placeholder={t('entryForm.title')} />
       </Form.Item>
 
       <Form.Item
-        name="duration"
+        name='duration'
         rules={[
           { required: true, message: t('entryForm.requiredField') },
         ]}
       >
         <RangePicker
           showTime={{ format: 'HH:mm' }}
-          format="YYYY-MM-DD HH:mm"
+          format='YYYY-MM-DD HH:mm'
           style={{ width: '100%' }}
           placeholder={[t('entryForm.start'), t('entryForm.end')]}
         />
       </Form.Item>
 
       <Form.Item
-        name="description"
+        name='description'
         rules={[
           {
             required: true,
@@ -296,9 +314,9 @@ const EventForm: FC<EventFormProps> = (props) => {
         />
       </Form.Item>
 
-      <EntityTagsFormSection form={form}/>
+      <EntityTagsFormSection form={form} />
 
-      <Divider orientation="left">{t('entryForm.location')}</Divider>
+      <Divider orientation='left'>{t('entryForm.location')}</Divider>
 
       <Form.Item>
         <Input.Group compact>
@@ -331,11 +349,11 @@ const EventForm: FC<EventFormProps> = (props) => {
         </Input.Group>
       </Form.Item>
 
-      <Form.Item name="country" hidden/>
+      <Form.Item name='country' hidden />
 
-      <Form.Item name="state" hidden/>
+      <Form.Item name='state' hidden />
 
-      <Form.Item name="street">
+      <Form.Item name='street'>
         <Input
           placeholder={t('entryForm.street')}
           onBlur={() => {
@@ -346,43 +364,43 @@ const EventForm: FC<EventFormProps> = (props) => {
       </Form.Item>
 
       <Form.Item
-        name="lat"
+        name='lat'
         style={{
           display: 'inline-block',
           width: '50%',
         }}
       >
-        <Input placeholder="Latitude" disabled/>
+        <Input placeholder='Latitude' disabled />
       </Form.Item>
 
       <Form.Item
-        name="lng"
+        name='lng'
         style={{
           display: 'inline-block',
           width: '50%',
         }}
       >
-        <Input placeholder="Longitude" disabled/>
+        <Input placeholder='Longitude' disabled />
       </Form.Item>
 
-      <Divider orientation="left">{t('entryForm.contact')}</Divider>
+      <Divider orientation='left'>{t('entryForm.contact')}</Divider>
 
-      <Form.Item name="contact">
+      <Form.Item name='contact'>
         <Input
           placeholder={t('entryForm.contactPerson')}
-          prefix={<FontAwesomeIcon icon="user"/>}
+          prefix={<FontAwesomeIcon icon='user' />}
         />
       </Form.Item>
 
-      <Form.Item name="telephone">
+      <Form.Item name='telephone'>
         <Input
           placeholder={t('entryForm.phone')}
-          prefix={<FontAwesomeIcon icon="phone"/>}
+          prefix={<FontAwesomeIcon icon='phone' />}
         />
       </Form.Item>
 
       <Form.Item
-        name="email"
+        name='email'
         rules={[
           {
             validator: (_, value) => {
@@ -403,12 +421,12 @@ const EventForm: FC<EventFormProps> = (props) => {
       >
         <Input
           placeholder={t('entryForm.email')}
-          prefix={<FontAwesomeIcon icon="envelope"/>}
+          prefix={<FontAwesomeIcon icon='envelope' />}
         />
       </Form.Item>
 
       <Form.Item
-        name="homepage"
+        name='homepage'
         rules={[
           {
             validator: (_, value) => {
@@ -430,49 +448,49 @@ const EventForm: FC<EventFormProps> = (props) => {
       >
         <Input
           placeholder={t('entryForm.homepage')}
-          prefix={<FontAwesomeIcon icon="globe"/>}
+          prefix={<FontAwesomeIcon icon='globe' />}
         />
       </Form.Item>
 
-      <Form.Item name="created_by" hidden>
-        <Input disabled/>
+      <Form.Item name='created_by' hidden>
+        <Input disabled />
       </Form.Item>
 
-      <Form.Item name="organizer">
+      <Form.Item name='organizer'>
         <Input
           placeholder={t('entryForm.contactPerson')}
-          prefix={<FontAwesomeIcon icon="user"/>}
+          prefix={<FontAwesomeIcon icon='user' />}
         />
       </Form.Item>
 
-      <Form.Item name="registration" hidden>
-        <Input disabled/>
+      <Form.Item name='registration' hidden>
+        <Input disabled />
       </Form.Item>
 
-      <Divider orientation="left">{t('entryForm.entryImage')}</Divider>
+      <Divider orientation='left'>{t('entryForm.entryImage')}</Divider>
 
-      <Form.Item name="image_url">
+      <Form.Item name='image_url'>
         <Input
           placeholder={t('entryForm.imageUrl')}
-          prefix={<FontAwesomeIcon icon="camera"/>}
+          prefix={<FontAwesomeIcon icon='camera' />}
         />
       </Form.Item>
 
-      <Form.Item name="image_link_url">
+      <Form.Item name='image_link_url'>
         <Input
           placeholder={t('entryForm.imageLink')}
-          prefix={<FontAwesomeIcon icon="link"/>}
+          prefix={<FontAwesomeIcon icon='link' />}
         />
       </Form.Item>
 
-      <Divider orientation="left">{t('entryForm.license')}</Divider>
+      <Divider orientation='left'>{t('entryForm.license')}</Divider>
 
       <Form.Item
-        name="license"
+        name='license'
         rules={[
           { required: true, message: t('entryForm.requiredField') },
         ]}
-        valuePropName="value"
+        valuePropName='value'
       >
         {/* it's necessary to catch the value of the checkbox, but the out come will be a list*/}
         {/* so we should grab the first element*/}
@@ -483,7 +501,7 @@ const EventForm: FC<EventFormProps> = (props) => {
                 {t('entryForm.iHaveRead')}&nbsp;
                 <Link
                   href={process.env.NEXT_PUBLIC_CC_LINK}
-                  target="_blank"
+                  target='_blank'
                 >
                   {t('entryForm.creativeCommonsLicense')}&nbsp;
                 </Link>
@@ -497,8 +515,8 @@ const EventForm: FC<EventFormProps> = (props) => {
 
 
       <Button
-        type="primary"
-        htmlType="submit"
+        type='primary'
+        htmlType='submit'
         style={{
           width: '100%',
         }}
