@@ -31,7 +31,6 @@ const TagsSelect: FC<SelectProps<any>> = (props) => {
     <Select
       {...props}
       mode="tags"
-      allowClear
       style={{ width: '100%' }}
       placeholder={placeholder}
       onSearch={(input) => {

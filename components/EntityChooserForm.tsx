@@ -8,9 +8,16 @@ import EntityForm from './EntityForm'
 import { SearchEntryID } from '../dtos/SearchEntry'
 import { EventID } from '../dtos/Event'
 import { convertQueryParamToString } from '../utils/utils'
+import { useDispatch, useSelector } from 'react-redux'
+import { formSelector } from '../selectors/form'
+import { FORM_STATUS } from '../slices/formSlice'
+import EntityChooserFormSelects from './EntityChooserFormSelects'
+import { AppDispatch } from '../store'
+import { formActions } from '../slices'
 
 
-const changeCategory = (setCategory: Dispatch<Category>) => (category: Category) => {
+const changeCategory = (setCategory: Dispatch<Category>, dispatch: AppDispatch) => (category: Category) => {
+  dispatch(formActions.setCategory(category))
   setCategory(category)
 }
 
@@ -23,6 +30,10 @@ interface EntityChooserFormProps {
 
 const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
   const { verb, entityId } = props
+
+  const dispatch = useDispatch()
+
+  const formCache = useSelector(formSelector)
 
   const router = useRouter()
   const { query } = router
@@ -43,10 +54,23 @@ const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
   }, [categoryParam])
 
   useEffect(() => {
+    if (formCache.status === FORM_STATUS.READY) {
+      setCategory(formCache.category)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (formCache.status === FORM_STATUS.READY) {
+      setCategory(formCache.category)
+      return
+    }
+
     if (props.category) {
       setCategory(props.category)
     }
   }, [props.category])
+
+
 
   return (
     <div style={{ paddingBottom: 60 }}>
@@ -54,24 +78,11 @@ const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
         isEdit={shouldEditAnExistingEntity}
       />
 
-      {
-        shouldCreateANewEntity && (
-          <Select
-            placeholder="Category"
-            onSelect={changeCategory(setCategory)}
-            style={{
-              width: '100%',
-              marginTop: 8,
-              marginBottom: 16,
-            }}
-            value={category}
-          >
-            <Select.Option value={Category.INITIATIVE}>Initiative</Select.Option>
-            <Select.Option value={Category.COMPANY}>Company</Select.Option>
-            <Select.Option value={Category.EVENT}>Event</Select.Option>
-          </Select>
-        )
-      }
+      <EntityChooserFormSelects
+        onSelect={changeCategory(setCategory, dispatch)}
+        value={category}
+        shouldCreateANewEntity={shouldCreateANewEntity}
+      />
 
       <EntityForm
         category={category}

@@ -27,15 +27,21 @@ export const knownCategoryNames = Object.values(knownCategories).map(categoryId 
 
 export type Categories = Category[]
 
+export type EntryCategoryTypes = Category.COMPANY | Category.INITIATIVE
 
-const EntryCategories = [
+export const EntryCategories = [
+  Category.COMPANY,
+  Category.INITIATIVE,
+]
+
+const EntryCategoryNames = [
   CategoryToNameMapper[Category.COMPANY],
   CategoryToNameMapper[Category.INITIATIVE],
 ]
 
 const EventCategory = Category.EVENT
 
-export const isEntryCategory = (categoryName: string): boolean => (EntryCategories.includes(categoryName))
+export const isEntryCategory = (categoryName: string): boolean => (EntryCategoryNames.includes(categoryName))
 export const isEventCategory = (categoryName: string): boolean => (categoryName === EventCategory)
 
 export default Category
