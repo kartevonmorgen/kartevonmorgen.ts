@@ -77,6 +77,9 @@ const SearchInput: FC = () => {
 
   useEffect(() => {
     if (isRouterInitialized(router)) {
+      if (debouncedTokenToSearch === '') {
+        return
+      }
       onSearch(router, debouncedTokenToSearch)
     }
   }, [debouncedTokenToSearch])
@@ -95,6 +98,11 @@ const SearchInput: FC = () => {
         setSearchTerm(term)
       }}
       onSelect={onSelect(setSearchTerm)}
+      onChange={(value) => {
+        if (value === '') {
+          onSearch(router, '')
+        }
+      }}
     >
       <Input
         className="transparent-addon"
