@@ -40,7 +40,12 @@ const EntityChooserFormSelects: FC<EntityChooserFormSelectsProps> = (props) => {
     >
       {
         options.map((option) => (
-          <Select.Option value={option}>{startCase(CategoryToNameMapper[option])}</Select.Option>
+          <Select.Option
+            key={option}
+            value={option}
+          >
+            {startCase(CategoryToNameMapper[option])}
+          </Select.Option>
         ))
       }
     </Select>

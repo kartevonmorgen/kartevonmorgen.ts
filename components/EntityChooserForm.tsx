@@ -44,23 +44,21 @@ const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
   const shouldCreateANewEntity = verb === SlugVerb.CREATE
   const shouldEditAnExistingEntity = verb === SlugVerb.EDIT
 
-
   useEffect(() => {
     if (categoryParam) {
       const categoryParamId = CategoryNameToIdMapper[categoryParam]
-
       setCategory(categoryParamId)
     }
   }, [categoryParam])
 
   useEffect(() => {
-    if (formCache.status === FORM_STATUS.READY) {
+    if (formCache.status === FORM_STATUS.READY && formCache.category) {
       setCategory(formCache.category)
     }
   }, [])
 
   useEffect(() => {
-    if (formCache.status === FORM_STATUS.READY) {
+    if (formCache.status === FORM_STATUS.READY && formCache.category) {
       setCategory(formCache.category)
       return
     }
