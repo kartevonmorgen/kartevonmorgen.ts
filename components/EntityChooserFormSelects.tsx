@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { Select } from 'antd'
 import { SingleType } from 'rc-select/lib/interface/generator'
-import startCase from 'lodash/startCase'
+import useTranslation from 'next-translate/useTranslation'
 import Category, { Categories, CategoryToNameMapper } from '../dtos/Categories'
 
 
@@ -13,6 +13,9 @@ interface EntityChooserFormSelectsProps {
 
 const EntityChooserFormSelects: FC<EntityChooserFormSelectsProps> = (props) => {
   const { onSelect, value, shouldCreateANewEntity } = props
+
+  const { t } = useTranslation('map')
+
 
   if (!shouldCreateANewEntity && value === Category.EVENT) {
     return null
@@ -40,7 +43,12 @@ const EntityChooserFormSelects: FC<EntityChooserFormSelectsProps> = (props) => {
     >
       {
         options.map((option) => (
-          <Select.Option value={option}>{startCase(CategoryToNameMapper[option])}</Select.Option>
+          <Select.Option
+            key={option}
+            value={option}
+          >
+            {t(`entryForm.category.${CategoryToNameMapper[option]}`)}
+          </Select.Option>
         ))
       }
     </Select>

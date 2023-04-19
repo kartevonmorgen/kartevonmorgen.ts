@@ -1,4 +1,4 @@
-import { Dispatch, FC, Fragment, useEffect, useState } from 'react'
+import { Dispatch, FC, Fragment, useEffect, useState, SetStateAction, MutableRefObject } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
 import produce from 'immer'
@@ -243,13 +243,15 @@ interface EntryFormProps {
   category: EntryCategoryTypes
   verb: SlugVerb.EDIT | SlugVerb.CREATE
   entryId?: SearchEntryID
+  setCategory: Dispatch<SetStateAction<Category>>
+  isFormInitialized: MutableRefObject<boolean>
 }
 
 const EntryForm: FC<EntryFormProps> = (props) => {
   // todo: for a better experience show spinner with the corresponding message when the form is loading
   // for example: fetching the address
 
-  const { category, verb, entryId } = props
+  const { category, setCategory, verb, entryId, isFormInitialized } = props
 
   const dispatch = useDispatch()
 
@@ -304,9 +306,31 @@ const EntryForm: FC<EntryFormProps> = (props) => {
     entry = {...formCache.data} as Entry
   }
 
-  entry = produce(entry, (draft) => {
-    entry.categories = [category]
+  let formInitialValues = produce(entry, (draft) => {
+    if (draft) {
+      if (!draft['tags']) {
+        draft['tags'] = []
+      }
+      draft['tags'].push(...tagsFromQuery)
+    }
   })
+
+  useEffect(() => {
+    if (entry.categories && entry.categories.length && setCategory && !isFormInitialized.current) {
+      setCategory(entry.categories[0] as Category)
+    }
+
+    if (isFormInitialized) {
+      isFormInitialized.current = true
+    }
+  }, [])
+
+  useEffect(() => {
+    formInitialValues = produce(formInitialValues, (draft) => {
+      draft.categories = [category]
+    })
+    form.setFieldsValue(formInitialValues)
+  }, [category])
 
 
   if (entriesError) {
@@ -328,14 +352,6 @@ const EntryForm: FC<EntryFormProps> = (props) => {
     return null
   }
 
-  const formInitialValues = produce(entry, (draft) => {
-    if (draft) {
-      if (!draft['tags']) {
-        draft['tags'] = []
-      }
-      draft['tags'].push(...tagsFromQuery)
-    }
-  })
 
   return (
     <Form

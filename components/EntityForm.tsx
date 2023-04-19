@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { Dispatch, FC, MutableRefObject, SetStateAction } from 'react'
 import Category from '../dtos/Categories'
 import EventForm from './EventForm'
 import InitiativeForm from './InitiativeForm'
@@ -12,17 +12,21 @@ interface EntityFormProps {
   category: Category
   entityId?: SearchEntryID | EventID
   verb: SlugVerb.EDIT | SlugVerb.CREATE
+  setCategory: Dispatch<SetStateAction<Category>>
+  isFormInitialized: MutableRefObject<boolean>
 }
 
 const EntityForm: FC<EntityFormProps> = (props) => {
-  const { category, entityId, verb } = props
+  const { category, setCategory, entityId, verb, isFormInitialized } = props
 
   switch (category) {
     case Category.INITIATIVE:
       return (
         <InitiativeForm
           initiativeId={entityId}
+          isFormInitialized={isFormInitialized}
           verb={verb}
+          setCategory={setCategory}
         />
       )
     case Category.COMPANY:
@@ -30,6 +34,8 @@ const EntityForm: FC<EntityFormProps> = (props) => {
         <CompanyForm
           companyId={entityId}
           verb={verb}
+          setCategory={setCategory}
+          isFormInitialized={isFormInitialized}
         />
       )
     case Category.EVENT:
