@@ -34,6 +34,8 @@ const EntityForm: FC<EntityFormProps> = (props) => {
         <CompanyForm
           companyId={entityId}
           verb={verb}
+          setCategory={setCategory}
+          isFormInitialized={isFormInitialized}
         />
       )
     case Category.EVENT:
