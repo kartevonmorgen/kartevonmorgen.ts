@@ -17,18 +17,25 @@ interface Creator {
 
 const creators: Creator[] = [
   {
-    src: 'ideen.webp',
-    width: 260,
+    src: 'ideen.png',
+    width: 336,
     height: 120,
     alt: 'ideen',
     link: 'http://www.ideenhochdrei.org/de/',
   },
   {
-    src: 'slowtec.webp',
+    src: 'slowtec.png',
     width: 490,
     height: 120,
     alt: 'slowtech',
-    link: 'http://slowtec.de/',
+    link: 'https://slowtec.de/',
+  },
+  {
+    src: 'reiner.png',
+    width: 379,
+    height: 120,
+    alt: 'reiner',
+    link: 'https://www.reiner-itsystems.de/',
   },
 ]
 
