@@ -19,7 +19,7 @@ const members: Members = [
     name: 'Helmut Wolman',
     description: 'Co-Founder, Geschäftsführung',
     src: 'Helmut.webp',
-    link: 'http://www.ideenhochdrei.org/de/verein/kennenlernen/menschen/helmut-wolmann/'
+    link: 'https://wechange.de/user/630/'
   },
   {
     name: 'Anna Rogun',
@@ -79,6 +79,7 @@ const members: Members = [
     name: 'Heiko Hoffmann',
     src: 'Heiko.webp',
     description: 'Glossar Developper',
+    link: 'https://wechange.de/user/22242/'
   },
   {
     name: 'Be One of Us',
