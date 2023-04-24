@@ -45,6 +45,14 @@ const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
     }
   }, [])
 
+  useEffect(() => {
+    let newCategory = props.category
+    if (!props.category) {
+      newCategory = Category.INITIATIVE
+    }
+    setCategory(newCategory)
+  }, [props.category])
+
 
   return (
     <div style={{ paddingBottom: 60 }}>

@@ -16,7 +16,6 @@ const EntityChooserFormSelects: FC<EntityChooserFormSelectsProps> = (props) => {
 
   const { t } = useTranslation('map')
 
-
   if (!shouldCreateANewEntity && value === Category.EVENT) {
     return null
   }
