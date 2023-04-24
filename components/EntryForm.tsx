@@ -269,7 +269,6 @@ const EntryForm: FC<EntryFormProps> = (props) => {
 
   const [form] = useForm<EntryFormType>()
 
-
   const newPoint = new Point().fromQuery(query)
 
   const effectDeps = [...newPoint.toArray()]
@@ -294,7 +293,6 @@ const EntryForm: FC<EntryFormProps> = (props) => {
     params: entryRequest,
   })
 
-
   const foundEntry: boolean = isArray(entries) && entries.length !== 0
   let entry: Entry = foundEntry ? {...entries[0]} : {} as Entry
 
@@ -306,14 +304,20 @@ const EntryForm: FC<EntryFormProps> = (props) => {
     entry = {...formCache.data} as Entry
   }
 
-  let formInitialValues = produce(entry, (draft) => {
-    if (draft) {
-      if (!draft['tags']) {
-        draft['tags'] = []
+  useEffect(() => {
+    const newFormInitialValues = produce(entry, (draft) => {
+      if (draft) {
+        if (!draft['tags']) {
+          draft['tags'] = []
+        }
+        draft['tags'].push(...tagsFromQuery)
+        draft.categories = [category]
       }
-      draft['tags'].push(...tagsFromQuery)
-    }
-  })
+    })
+
+    form.setFieldsValue(newFormInitialValues)
+  }, [entry, category])
+
 
   useEffect(() => {
     if (entry.categories && entry.categories.length && setCategory && !isFormInitialized.current) {
@@ -324,14 +328,6 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       isFormInitialized.current = true
     }
   }, [])
-
-  useEffect(() => {
-    formInitialValues = produce(formInitialValues, (draft) => {
-      draft.categories = [category]
-    })
-    form.setFieldsValue(formInitialValues)
-  }, [category])
-
 
   if (entriesError) {
     //  todo: show error notification, redirect to the search result view
@@ -360,7 +356,6 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       style={{
         marginTop: 8,
       }}
-      initialValues={formInitialValues}
       onFinish={onFinish(router, dispatch, isEdit, entryId)}
       onValuesChange={
         (_changedValue: Partial<EntryFormType>, entryData: EntryFormType) => {

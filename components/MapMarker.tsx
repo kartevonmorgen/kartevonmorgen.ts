@@ -1,16 +1,12 @@
 import { FC, useEffect, useState } from 'react'
-import {renderToStaticMarkup} from 'react-dom/server'
+import { renderToStaticMarkup } from 'react-dom/server'
 import { useSelector } from 'react-redux'
 import { highlightSelector } from '../selectors/view'
 import Category, { CategoryToNameMapper } from '../dtos/Categories'
 import { DivIcon, divIcon, Icon, IconOptions, Point } from 'leaflet'
 import { NextRouter, useRouter } from 'next/router'
 import { CompactEvent } from '../dtos/Event'
-import {
-  createSlugPathFromQueryAndRemoveSlug,
-  getProjectNameFromQuery,
-  getRootSlugActionFromQuery,
-} from '../utils/slug'
+import { createSlugPathFromQueryAndRemoveSlug, getRootSlugActionFromQuery } from '../utils/slug'
 import { mapTypeIdToBriefEntityName, SlugVerb } from '../utils/types'
 import produce from 'immer'
 import { convertQueryParamToArray } from '../utils/utils'
@@ -122,14 +118,6 @@ const onClickOnPin = (router: NextRouter, searchResult: SearchResult) => () => {
   const rootSlugAction = getRootSlugActionFromQuery(query)
   const { subSlugAction: entitySlugAction } = rootSlugAction
 
-  // if we are in the middle of creating/editing an entity, clicking on pins should do nothing
-  if (
-    entitySlugAction !== null &&
-    entitySlugAction.verb !== SlugVerb.SHOW
-  ) {
-    return null
-  }
-
   const category = searchResult.categories[0]
   const briefEntityName = mapTypeIdToBriefEntityName[category]
 
@@ -138,10 +126,24 @@ const onClickOnPin = (router: NextRouter, searchResult: SearchResult) => () => {
     const slugArray = convertQueryParamToArray(slug)
 
     if (entitySlugAction !== null) {
-      slugArray.splice(slugArray.length - 2, 2)
+      switch (entitySlugAction.verb) {
+        case SlugVerb.CREATE:
+          slugArray.splice(slugArray.length - 2, 2)
+          slugArray.push(briefEntityName, searchResult.id, SlugVerb.EDIT)
+          break
+        case SlugVerb.EDIT:
+          slugArray.splice(slugArray.length - 3, 3)
+          slugArray.push(briefEntityName, searchResult.id, SlugVerb.EDIT)
+          break
+        case SlugVerb.SHOW:
+          slugArray.splice(slugArray.length - 2, 2)
+          slugArray.push(briefEntityName, searchResult.id)
+          break
+      }
+    } else {
+      slugArray.push(briefEntityName, searchResult.id)
     }
 
-    slugArray.push(briefEntityName, searchResult.id)
     draftState.slug = slugArray
 
     // open the sidebar

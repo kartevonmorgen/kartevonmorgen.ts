@@ -208,9 +208,23 @@ const EventForm: FC<EventFormProps> = (props) => {
 
   let event = eventResponse
   if (formCache.status === FORM_STATUS.READY && formCache.category === Category.EVENT && formCache.data) {
-    console.log(formCache.data)
     event = formCache.data as EventDTO
   }
+
+  useEffect(() => {
+    let formInitialValues = onReceiveAdapter(event)
+
+    formInitialValues = produce(formInitialValues, (draft) => {
+      if (draft) {
+        if (!draft['tags']) {
+          draft['tags'] = []
+        }
+        draft['tags'].push(...tagsFromQuery)
+      }
+    })
+
+    form.setFieldsValue(event)
+  }, [event])
 
   if (eventError) {
     //  todo: show error notification, redirect to the search result view
@@ -218,7 +232,6 @@ const EventForm: FC<EventFormProps> = (props) => {
   }
 
   // still loading
-  let formInitialValues = {}
   if (isEdit) {
     if (!event) {
       return (
@@ -230,24 +243,12 @@ const EventForm: FC<EventFormProps> = (props) => {
 
   }
 
-  formInitialValues = onReceiveAdapter(event)
-
-  formInitialValues = produce(formInitialValues, (draft) => {
-    if (draft) {
-      if (!draft['tags']) {
-        draft['tags'] = []
-      }
-      draft['tags'].push(...tagsFromQuery)
-    }
-  })
-
   return (
     <Form
       size='middle'
       style={{
         marginTop: 8,
       }}
-      initialValues={formInitialValues}
       onFinish={onFinish(
         router,
         dispatch,
