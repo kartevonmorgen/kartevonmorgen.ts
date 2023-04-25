@@ -223,7 +223,7 @@ const EventForm: FC<EventFormProps> = (props) => {
       }
     })
 
-    form.setFieldsValue(event)
+    form.setFieldsValue(formInitialValues)
   }, [event])
 
   if (eventError) {
