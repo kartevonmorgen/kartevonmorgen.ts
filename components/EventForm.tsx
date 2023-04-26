@@ -219,7 +219,11 @@ const EventForm: FC<EventFormProps> = (props) => {
         if (!draft['tags']) {
           draft['tags'] = []
         }
-        draft['tags'].push(...tagsFromQuery)
+        tagsFromQuery.forEach((tag) => {
+          if (!draft['tags'].includes(tag)) {
+            draft['tags'].push(tag)
+          }
+        })
       }
     })
 
