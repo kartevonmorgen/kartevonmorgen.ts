@@ -197,7 +197,9 @@ const MapMarker: FC<MapMarkerProps> = (props) => {
       ref.current.openTooltip()
     } else {
       setOpacity(VIEW.highlight.light)
-      ref.current.closeTooltip()
+      if (ref.current.isTooltipOpen()) {
+        ref.current.closeTooltip()
+      }
     }
   }, [highlightId, isSelected])
 
