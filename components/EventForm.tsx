@@ -164,7 +164,7 @@ const addTouchedAddressFieldName = (setTouchedAddressFields: Dispatch<any>, fiel
 
 interface EventFormProps {
   verb: SlugVerb.CREATE | SlugVerb.EDIT
-  eventId: EventID
+  eventId: EventID,
 }
 
 
@@ -262,7 +262,7 @@ const EventForm: FC<EventFormProps> = (props) => {
       onValuesChange={
         (_changedValue: any, formData: object) => {
           const event: EventDTO = onSendAdapter(formData)
-          dispatch(formActions.cacheFormData({category: Category.EVENT, data: event}))
+          dispatch(formActions.cacheFormData({ category: Category.EVENT, data: event }))
         }
       }
     >

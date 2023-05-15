@@ -28,7 +28,6 @@ const Company: FC<CompanyProps> = (props) => {
       return <EntityChooserForm
         verb={SlugVerb.EDIT}
         entityId={slugAction.id}
-        category={Category.COMPANY}
       />
     default:
       return null
