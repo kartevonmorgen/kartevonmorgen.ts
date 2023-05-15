@@ -1,5 +1,8 @@
 import { FC } from 'react'
-import { Tooltip as LeafletTooltip, TooltipProps as LeafletTooltipProps } from 'react-leaflet'
+import {
+  Tooltip as LeafletTooltip,
+  TooltipProps as LeafletTooltipProps,
+} from 'react-leaflet'
 import { Typography } from 'antd'
 import { Duration, formatDuration, isValidDuration } from '../utils/time'
 

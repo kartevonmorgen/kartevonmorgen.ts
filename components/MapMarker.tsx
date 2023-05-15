@@ -1,9 +1,9 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState, useRef } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { useSelector } from 'react-redux'
 import { highlightSelector } from '../selectors/view'
 import Category, { CategoryToNameMapper } from '../dtos/Categories'
-import { DivIcon, divIcon, Icon, IconOptions, Point } from 'leaflet'
+import { DivIcon, divIcon, Icon, IconOptions, Marker, Point } from 'leaflet'
 import { NextRouter, useRouter } from 'next/router'
 import { CompactEvent } from '../dtos/Event'
 import { createSlugPathFromQueryAndRemoveSlug, getRootSlugActionFromQuery } from '../utils/slug'
@@ -176,30 +176,37 @@ const MapMarker: FC<MapMarkerProps> = (props) => {
   const highlightId: HighlightIDOrNull = useSelector(
     (state: RootState) => (highlightSelector(state)),
   )
+  const isSelected = searchResultId === highlightId
 
   const [opacity, setOpacity] = useState<number>(VIEW.highlight.dark)
 
   const possibleColor = useTagMarkerColor(tags)
 
+  const ref = useRef<Marker>()
+
+  // performance
   useEffect(() => {
     if (!highlightId) {
       setOpacity(VIEW.highlight.dark)
-
+      ref.current.closeTooltip()
       return
     }
 
-    if (searchResultId === highlightId) {
+    if (isSelected) {
       setOpacity(VIEW.highlight.dark)
+      ref.current.openTooltip()
     } else {
       setOpacity(VIEW.highlight.light)
+      ref.current.closeTooltip()
     }
-  }, [highlightId])
+  }, [highlightId, isSelected])
 
 
   const possibleEvent = searchResult as CompactEvent
 
   return (
     <LeafletMarker
+      ref={ref}
       position={[searchResult.lat, searchResult.lng]}
       icon={getIcon(searchResult, possibleColor)}
       eventHandlers={{
@@ -214,6 +221,7 @@ const MapMarker: FC<MapMarkerProps> = (props) => {
           end: moment.unix(possibleEvent.end),
         }}
         direction="right"
+        permanent={isSelected}
       />
     </LeafletMarker>
   )
