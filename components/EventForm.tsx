@@ -187,7 +187,6 @@ const EventForm: FC<EventFormProps> = (props) => {
 
   const [form] = useForm<object>()
 
-  // useSetTagsFromRouterToForm(form)
 
   const newPoint = new Point().fromQuery(query)
 
@@ -390,7 +389,7 @@ const EventForm: FC<EventFormProps> = (props) => {
 
       <Divider orientation='left'>{t('entryForm.contact')}</Divider>
 
-      <Form.Item name='contact'>
+      <Form.Item name='organizer'>
         <Input
           placeholder={t('entryForm.contactPerson')}
           prefix={<FontAwesomeIcon icon='user' />}
@@ -459,13 +458,6 @@ const EventForm: FC<EventFormProps> = (props) => {
 
       <Form.Item name='created_by' hidden>
         <Input disabled />
-      </Form.Item>
-
-      <Form.Item name='organizer'>
-        <Input
-          placeholder={t('entryForm.contactPerson')}
-          prefix={<FontAwesomeIcon icon='user' />}
-        />
       </Form.Item>
 
       <Form.Item name='registration' hidden>
