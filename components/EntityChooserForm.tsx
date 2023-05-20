@@ -28,7 +28,7 @@ interface EntityChooserFormProps {
 }
 
 const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
-  const { verb, entityId } = props
+  const { verb, entityId, category: categoryProp } = props
 
   const router = useRouter()
   const { query } = router
@@ -53,15 +53,15 @@ const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
   }, [])
 
   useEffect(() => {
-    let newCategory = props.category
+    let newCategory = categoryProp
     if (categoryParam) {
-      const newCategory = CategoryNameToIdMapper[categoryParam]
+      newCategory = CategoryNameToIdMapper[categoryParam]
     }
     if (newCategory) {
       setCategory(newCategory)
     }
 
-  }, [categoryParam, props.category])
+  }, [categoryParam, categoryProp])
 
   return (
     <div style={{ paddingBottom: 60 }}>
