@@ -1,8 +1,8 @@
 import { Dispatch, FC, Fragment, useEffect, useState, SetStateAction, MutableRefObject } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
+import { useMount, useUnmount, useDeepCompareEffect } from 'ahooks'
 import produce from 'immer'
-import { AppDispatch } from '../store'
 import useTranslation from 'next-translate/useTranslation'
 import { validate as validateEmail } from 'isemail'
 import { isWebUri } from 'valid-url'
@@ -13,6 +13,7 @@ import isString from 'lodash/isString'
 import isArray from 'lodash/isArray'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { redirectToEntityDetailAndFlyToLocation } from '../utils/slug'
+import { AppDispatch } from '../store'
 import { AxiosInstance } from '../api'
 import useRequest from '../api/useRequest'
 import API_ENDPOINTS from '../api/endpoints'
@@ -37,7 +38,6 @@ import { ENTITY_DETAIL_DESCRIPTION_LIMIT } from '../consts/texts'
 import EntityTagsFormSection from './EntityTagsFormSection'
 import { FORM_STATUS } from '../slices/formSlice'
 import { formSelector } from '../selectors/form'
-import { useMount, useUnmount } from 'ahooks'
 
 
 const { useForm } = Form
@@ -272,14 +272,14 @@ const EntryForm: FC<EntryFormProps> = (props) => {
 
   const newPoint = new Point().fromQuery(query)
 
-  const effectDeps = [...newPoint.toArray()]
+  const [newPointCoordinateLat, newPointCoordinateLng] = newPoint.toArray()
 
   // set address information if the map marker/pin moves
   useEffect(() => {
     if (!newPoint.isEmpty()) {
       setAddressDetailsIfAddressFieldsAreNotTouched(form, newPoint, touchedAddressFields).then()
     }
-  }, effectDeps)
+  }, [newPointCoordinateLat, newPointCoordinateLng])
 
   useMount(() => {
     dispatch(viewActions.setHighlight(entryId))
@@ -303,17 +303,17 @@ const EntryForm: FC<EntryFormProps> = (props) => {
   })
 
   const foundEntry: boolean = isArray(entries) && entries.length !== 0
-  let entry: Entry = foundEntry ? {...entries[0]} : {} as Entry
+  let entry: Entry = foundEntry ? { ...entries[0] } : {} as Entry
 
   if (
     formCache.status === FORM_STATUS.READY &&
     EntryCategories.includes(formCache.category) &&
     formCache.data
   ) {
-    entry = {...formCache.data} as Entry
+    entry = { ...formCache.data } as Entry
   }
 
-  useEffect(() => {
+  useDeepCompareEffect(() => {
     const newFormInitialValues = produce(entry, (draft) => {
       if (draft) {
         if (!draft['tags']) {
@@ -483,7 +483,10 @@ const EntryForm: FC<EntryFormProps> = (props) => {
           width: '50%',
         }}
       >
-        <Input placeholder='Latitude' disabled />
+        <Input
+          disabled
+          placeholder='Latitude'
+        />
       </Form.Item>
 
       <Form.Item
@@ -493,7 +496,10 @@ const EntryForm: FC<EntryFormProps> = (props) => {
           width: '50%',
         }}
       >
-        <Input placeholder='Longitude' disabled />
+        <Input
+          disabled
+          placeholder='Longitude'
+        />
       </Form.Item>
 
       <Divider orientation='left'>{t('entryForm.contact')}</Divider>

@@ -2,6 +2,7 @@ import { Dispatch, FC, Fragment, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import useTranslation from 'next-translate/useTranslation'
 import produce from 'immer'
+import { useMount, useUnmount, useDeepCompareEffect } from 'ahooks'
 import { Button, Checkbox, DatePicker, Divider, Form, FormInstance, Input, Spin, Typography } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { validate as validateEmail } from 'isemail'
@@ -29,7 +30,6 @@ import { ENTITY_DETAIL_DESCRIPTION_LIMIT } from '../consts/texts'
 import EntityTagsFormSection from './EntityTagsFormSection'
 import { FORM_STATUS } from '../slices/formSlice'
 import { formSelector } from '../selectors/form'
-import { useMount, useUnmount } from 'ahooks'
 
 
 const { useForm } = Form
@@ -211,7 +211,7 @@ const EventForm: FC<EventFormProps> = (props) => {
     event = formCache.data as EventDTO
   }
 
-  useEffect(() => {
+  useDeepCompareEffect(() => {
     let formInitialValues = onReceiveAdapter(event)
 
     formInitialValues = produce(formInitialValues, (draft) => {
