@@ -16,7 +16,7 @@ import { SlugVerb } from '../utils/types'
 import Category from '../dtos/Categories'
 import { onReceiveAdapter, onSendAdapter } from '../adaptors/EventForm'
 import { AppDispatch } from '../store'
-import { eventsActions, formActions } from '../slices'
+import { eventsActions, formActions, viewActions } from '../slices'
 import Point from '../dtos/Point'
 import {
   ExtendedGeocodeAddress,
@@ -29,6 +29,7 @@ import { ENTITY_DETAIL_DESCRIPTION_LIMIT } from '../consts/texts'
 import EntityTagsFormSection from './EntityTagsFormSection'
 import { FORM_STATUS } from '../slices/formSlice'
 import { formSelector } from '../selectors/form'
+import { useMount, useUnmount } from 'ahooks'
 
 
 const { useForm } = Form
@@ -228,6 +229,14 @@ const EventForm: FC<EventFormProps> = (props) => {
 
     form.setFieldsValue(formInitialValues)
   }, [event])
+
+  useMount(() => {
+    dispatch(viewActions.setHighlight(eventId))
+  })
+
+  useUnmount(() => {
+    dispatch(viewActions.unsetHighlight())
+  })
 
   if (eventError) {
     //  todo: show error notification, redirect to the search result view

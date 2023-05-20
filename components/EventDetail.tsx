@@ -18,8 +18,8 @@ import { formatDuration } from '../utils/time'
 import { PartialLatLng } from '../utils/geolocation'
 import useFly from '../hooks/useFly'
 import EntityRouteLink from './EntityRouteLink'
-import { useUnmount } from 'ahooks'
-import { entityDetailActions } from '../slices'
+import { useMount, useUnmount } from 'ahooks'
+import { entityDetailActions, viewActions } from '../slices'
 
 const { Title, Text } = Typography
 
@@ -47,6 +47,14 @@ const EventDetail: FC<EventDetailProps> = (props) => {
   }
 
   useFly(partialEventLatLng)
+
+  useMount(() => {
+    dispatch(viewActions.setHighlight(eventId))
+  })
+
+  useUnmount(() => {
+    dispatch(viewActions.unsetHighlight())
+  })
 
   useUnmount(() => {
     dispatch(entityDetailActions.setFalseShouldChangeZoomOnEntrance())

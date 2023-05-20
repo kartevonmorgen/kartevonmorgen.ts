@@ -30,13 +30,14 @@ import {
   reverseGeocode,
 } from '../utils/geolocation'
 import Category, { EntryCategories, EntryCategoryTypes } from '../dtos/Categories'
-import { entriesActions, formActions } from '../slices'
+import { entriesActions, formActions, viewActions } from '../slices'
 import { renameProperties, setValuesToDefaultOrNull, transformObject } from '../utils/objects'
 import { convertQueryParamToArray, prependWebProtocol } from '../utils/utils'
 import { ENTITY_DETAIL_DESCRIPTION_LIMIT } from '../consts/texts'
 import EntityTagsFormSection from './EntityTagsFormSection'
 import { FORM_STATUS } from '../slices/formSlice'
 import { formSelector } from '../selectors/form'
+import { useMount, useUnmount } from 'ahooks'
 
 
 const { useForm } = Form
@@ -279,6 +280,14 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       setAddressDetailsIfAddressFieldsAreNotTouched(form, newPoint, touchedAddressFields).then()
     }
   }, effectDeps)
+
+  useMount(() => {
+    dispatch(viewActions.setHighlight(entryId))
+  })
+
+  useUnmount(() => {
+    dispatch(viewActions.unsetHighlight())
+  })
 
   const isEdit = verb === SlugVerb.EDIT
 

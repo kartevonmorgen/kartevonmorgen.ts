@@ -12,7 +12,9 @@ interface ViewSlice {
 
 const viewSlice = createSlice({
   name: 'view',
-  initialState: {} as ViewSlice,
+  initialState: {
+    highlight: null
+  } as ViewSlice,
   reducers: {
     setHighlight: (state, action: PayloadAction<HighlightID>) => {
       state.highlight = action.payload
