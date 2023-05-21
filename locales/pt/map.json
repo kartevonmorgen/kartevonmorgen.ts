@@ -280,7 +280,8 @@
     "selectCategory": "Selecione uma categoria",
     "openFilters": "Abrir filtros",
     "collapseFilters": "Fechar filtros",
-    "searchFor": "Pesquisar por"
+    "searchFor": "Pesquisar por",
+    "resultLimit": "Result Limit"
   },
   "resultlist": {
     "showMoreEntries": "mehr Einträge anzeigen...",
