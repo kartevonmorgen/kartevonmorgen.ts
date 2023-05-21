@@ -280,7 +280,8 @@
     "selectCategory": "Выбрать категорию",
     "openFilters": "Открытые фильтры",
     "collapseFilters": "Свернуть фильтры",
-    "searchFor": "Ищи"
+    "searchFor": "Ищи",
+    "resultLimit": "Result Limit"
   },
   "resultlist": {
     "showMoreEntries": "Паказаць больш запісаў...",
