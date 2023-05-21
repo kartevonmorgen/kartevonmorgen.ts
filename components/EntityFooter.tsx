@@ -1,11 +1,12 @@
 import { FC, Fragment, useEffect, useState } from 'react'
 import { Col, Divider, Layout, Row, Tooltip, Typography } from 'antd'
 import moment from 'moment'
+import { useSize } from 'ahooks'
+import { gold } from '@ant-design/colors'
+import useTranslation from 'next-translate/useTranslation'
 import { RootSlugEntity } from '../utils/types'
 import { mapEntityToOFDB } from '../api/endpoints'
 import createMailToHref from '../utils/mailto'
-import { gold } from '@ant-design/colors'
-import { useSize } from 'ahooks'
 
 
 const { Footer } = Layout
@@ -31,6 +32,8 @@ const EntityFooter: FC<EntityFooterProps> = (props) => {
     created_at,
     version,
   } = props
+
+  const { t } = useTranslation('map')
 
   const footerSize = useSize(document.getElementById('entity-footer'))
   const footerHeight = footerSize?.height
@@ -89,7 +92,7 @@ const EntityFooter: FC<EntityFooterProps> = (props) => {
               fontSize: '0.8em',
             }}
           >
-            Report this entity
+            {t('entryDetails.reportLink')}
           </Link>
         </Col>
 
@@ -100,7 +103,7 @@ const EntityFooter: FC<EntityFooterProps> = (props) => {
               fontSize: '0.8em',
             }}
           >
-            last edit {moment.unix(created_at).fromNow()}
+            {`${t('entryDetails.lastEdit')} ${moment.unix(created_at).fromNow()}`}
           </Text>
 
           {
@@ -122,7 +125,7 @@ const EntityFooter: FC<EntityFooterProps> = (props) => {
       </Row>
 
       <Tooltip
-        title='You will have to login again on openfairdb.org'
+        title={t('entryDetails.viewHistoryTooltip')}
         color={gold.primary}
       >
         <Link
@@ -133,7 +136,7 @@ const EntityFooter: FC<EntityFooterProps> = (props) => {
             fontSize: '0.8em',
           }}
         >
-          View history or archive this entity
+          {t('entryDetails.viewHistory')}
         </Link>
       </Tooltip>
     </Footer>
