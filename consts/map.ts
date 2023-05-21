@@ -1,7 +1,7 @@
 const MAP_CONSTANTS = {
   map: {
     default_zoom: 6.0,
-    close_zoom: 15.0,
+    close_zoom: 16.0,
     regional_zoom: 12.0
   },
   precisions: {

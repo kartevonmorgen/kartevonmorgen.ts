@@ -63,6 +63,8 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
       let zoom = initMapLocationProps.zoom
       if (zoomParam) {
         zoom = convertQueryParamToFloat(zoomParam)
+      } else if (isPossiblyRootOrEntitySlugActionLocatable) {
+        zoom = MAP_CONSTANTS.map.close_zoom
       } else {
         zoom = MAP_CONSTANTS.map.default_zoom
       }
