@@ -282,7 +282,8 @@
     "selectCategory": "Nach Stichwort filtern",
     "openFilters": "Filter anzeigen",
     "collapseFilters": "Filter verstecken",
-    "searchFor": "Suchen nach"
+    "searchFor": "Suchen nach",
+    "resultLimit": "Maximale Suchergebnisse"
   },
   "resultlist": {
     "showMoreEntries": "Mehr Einträge anzeigen...",

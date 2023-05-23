@@ -30,7 +30,6 @@ const Entry: FC<EntryProps> = (props) => {
       return <EntityChooserForm
         verb={SlugVerb.EDIT}
         entityId={slugAction.id}
-        category={Category.INITIATIVE}
       />
     default:
       // todo: redirect to the result page

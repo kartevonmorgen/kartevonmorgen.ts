@@ -1,9 +1,10 @@
 import { FC, useState } from 'react'
 import { useDebounce } from 'ahooks'
 import { AutoComplete, Input } from 'antd'
-import useRegionRecommender from '../hooks/useRegionRecommender'
 import { NextRouter, useRouter } from 'next/router'
-import { convertQueryParamToString, convertStringToFloat, updateRoutingQuery } from '../utils/utils'
+import useTranslation from 'next-translate/useTranslation'
+import { convertStringToFloat, updateRoutingQuery } from '../utils/utils'
+import useRegionRecommender from '../hooks/useRegionRecommender'
 import { GeoLocations } from '../dtos/GeoLocatoinResponse'
 import { AxiosInstance } from '../api'
 import API_ENDPOINTS from '../api/endpoints'
@@ -80,6 +81,8 @@ const SearchRegion: FC = () => {
 
   const regionsOptions = useRegionRecommender(debouncedNameRegionToSearch, project)
 
+  const { t } = useTranslation('map')
+
   return (
     <AutoComplete
       allowClear
@@ -95,7 +98,7 @@ const SearchRegion: FC = () => {
         setRegionNameToSearch(value)
         await changeLatAndLngFromRegionName(router, value)
       }}
-      placeholder="Search for a region"
+      placeholder={t('searchFilters.selectRegion')}
       style={{
         width: '100%',
       }}

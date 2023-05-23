@@ -2,6 +2,7 @@ import { Dispatch, FC, useEffect, useState } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import { Select } from 'antd'
 import toString from 'lodash/toString'
+import useTranslation from 'next-translate/useTranslation'
 import { convertUnknownToInt, removeRoutingQueryParams, updateRoutingQuery } from '../utils/utils'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 
@@ -49,6 +50,7 @@ const removeLimitFromRouterAndSetLimitToNull = (router: NextRouter, setLimit: Di
 const limits: number[] = [25, 50, 100, 200, 300, 500]
 
 const SearchLimitSelect: FC = () => {
+  const { t } = useTranslation('map')
 
   const router = useRouter()
   const { query } = router
@@ -69,7 +71,7 @@ const SearchLimitSelect: FC = () => {
       allowClear
       value={limit}
       style={{ width: '100%' }}
-      placeholder="Result limit"
+      placeholder={t('searchFilters.resultLimit')}
       onClear={removeLimitFromRouterAndSetLimitToNull(router, setLimit)}
       onSelect={setLimitToRouter(router)}
     >

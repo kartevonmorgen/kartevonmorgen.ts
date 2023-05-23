@@ -2,6 +2,7 @@ import { Dispatch, FC, Fragment, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import useTranslation from 'next-translate/useTranslation'
 import produce from 'immer'
+import { useMount, useUnmount, useDeepCompareEffect } from 'ahooks'
 import { Button, Checkbox, DatePicker, Divider, Form, FormInstance, Input, Spin, Typography } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { validate as validateEmail } from 'isemail'
@@ -16,7 +17,7 @@ import { SlugVerb } from '../utils/types'
 import Category from '../dtos/Categories'
 import { onReceiveAdapter, onSendAdapter } from '../adaptors/EventForm'
 import { AppDispatch } from '../store'
-import { eventsActions, formActions } from '../slices'
+import { eventsActions, formActions, viewActions } from '../slices'
 import Point from '../dtos/Point'
 import {
   ExtendedGeocodeAddress,
@@ -164,7 +165,7 @@ const addTouchedAddressFieldName = (setTouchedAddressFields: Dispatch<any>, fiel
 
 interface EventFormProps {
   verb: SlugVerb.CREATE | SlugVerb.EDIT
-  eventId: EventID
+  eventId: EventID,
 }
 
 
@@ -187,7 +188,6 @@ const EventForm: FC<EventFormProps> = (props) => {
 
   const [form] = useForm<object>()
 
-  // useSetTagsFromRouterToForm(form)
 
   const newPoint = new Point().fromQuery(query)
 
@@ -211,7 +211,7 @@ const EventForm: FC<EventFormProps> = (props) => {
     event = formCache.data as EventDTO
   }
 
-  useEffect(() => {
+  useDeepCompareEffect(() => {
     let formInitialValues = onReceiveAdapter(event)
 
     formInitialValues = produce(formInitialValues, (draft) => {
@@ -229,6 +229,14 @@ const EventForm: FC<EventFormProps> = (props) => {
 
     form.setFieldsValue(formInitialValues)
   }, [event])
+
+  useMount(() => {
+    dispatch(viewActions.setHighlight(eventId))
+  })
+
+  useUnmount(() => {
+    dispatch(viewActions.unsetHighlight())
+  })
 
   if (eventError) {
     //  todo: show error notification, redirect to the search result view
@@ -262,7 +270,7 @@ const EventForm: FC<EventFormProps> = (props) => {
       onValuesChange={
         (_changedValue: any, formData: object) => {
           const event: EventDTO = onSendAdapter(formData)
-          dispatch(formActions.cacheFormData({category: Category.EVENT, data: event}))
+          dispatch(formActions.cacheFormData({ category: Category.EVENT, data: event }))
         }
       }
     >
@@ -390,7 +398,7 @@ const EventForm: FC<EventFormProps> = (props) => {
 
       <Divider orientation='left'>{t('entryForm.contact')}</Divider>
 
-      <Form.Item name='contact'>
+      <Form.Item name='organizer'>
         <Input
           placeholder={t('entryForm.contactPerson')}
           prefix={<FontAwesomeIcon icon='user' />}
@@ -459,13 +467,6 @@ const EventForm: FC<EventFormProps> = (props) => {
 
       <Form.Item name='created_by' hidden>
         <Input disabled />
-      </Form.Item>
-
-      <Form.Item name='organizer'>
-        <Input
-          placeholder={t('entryForm.contactPerson')}
-          prefix={<FontAwesomeIcon icon='user' />}
-        />
       </Form.Item>
 
       <Form.Item name='registration' hidden>

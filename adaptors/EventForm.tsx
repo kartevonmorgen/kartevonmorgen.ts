@@ -54,6 +54,9 @@ export const onSendAdapter = (formValues: object): EventDTO => {
         if (!originalValue) {
           return undefined
         }
+        if (!originalValue[0]) {
+          return undefined
+        }
         return originalValue[0].unix()
       },
       originalPropertyName: 'duration',
@@ -61,6 +64,9 @@ export const onSendAdapter = (formValues: object): EventDTO => {
     end: {
       transformer: (originalValue?: [Moment, Moment]) => {
         if (!originalValue) {
+          return undefined
+        }
+        if (!originalValue[1]) {
           return undefined
         }
         return originalValue[1].unix()

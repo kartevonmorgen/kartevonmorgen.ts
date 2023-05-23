@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import isString from 'lodash/isString'
 import isArray from 'lodash/isArray'
 import { Divider, Spin, Typography } from 'antd'
-import { useUnmount } from 'ahooks'
+import { useUnmount, useMount } from 'ahooks'
 import useRequest from '../api/useRequest'
 import { EntryRequest } from '../dtos/EntryRequest'
 import { RootSlugEntity } from '../utils/types'
@@ -27,7 +27,7 @@ import EntityDescription from './EntityDescription'
 import { PartialLatLng } from '../utils/geolocation'
 import useFly from '../hooks/useFly'
 import EntityRouteLink from './EntityRouteLink'
-import { entityDetailActions } from '../slices'
+import { entityDetailActions, viewActions } from '../slices'
 
 
 const { Title } = Typography
@@ -71,6 +71,14 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
   }
 
   useFly(partialEntryLatLng)
+
+  useMount(() => {
+    dispatch(viewActions.setHighlight(entryId))
+  })
+
+  useUnmount(() => {
+    dispatch(viewActions.unsetHighlight())
+  })
 
   useUnmount(() => {
     dispatch(entityDetailActions.setFalseShouldChangeZoomOnEntrance())
