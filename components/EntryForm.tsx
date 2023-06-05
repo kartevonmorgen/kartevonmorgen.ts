@@ -6,7 +6,18 @@ import produce from 'immer'
 import useTranslation from 'next-translate/useTranslation'
 import { validate as validateEmail } from 'isemail'
 import { isWebUri } from 'valid-url'
-import { Button, Checkbox, Divider, Form, FormInstance, Input, Select, Spin, Typography } from 'antd'
+import {
+  Button,
+  Checkbox,
+  Divider,
+  Form,
+  FormInstance,
+  Input,
+  Select,
+  Spin,
+  Typography,
+  Alert,
+} from 'antd'
 import MinusCircleOutlined from '@ant-design/icons/lib/icons/MinusCircleOutlined'
 import PlusOutlined from '@ant-design/icons/lib/icons/PlusOutlined'
 import isString from 'lodash/isString'
@@ -38,6 +49,7 @@ import { ENTITY_DETAIL_DESCRIPTION_LIMIT } from '../consts/texts'
 import EntityTagsFormSection from './EntityTagsFormSection'
 import { FORM_STATUS } from '../slices/formSlice'
 import { formSelector } from '../selectors/form'
+import { AxiosError } from 'axios'
 
 
 const { useForm } = Form
@@ -222,8 +234,21 @@ const onFinish = (
   const entryWithDefaultValues = setFieldsToDefaultOrNull(entry)
   const adaptedEntry = transformFormFields(entryWithDefaultValues)
 
-  entryId = await createOrEditEntry(adaptedEntry, entryId, isEdit)
+  try {
+    entryId = await createOrEditEntry(adaptedEntry, entryId, isEdit)
+  } catch (e) {
+    const error = e as AxiosError
+    const errorMessage = error.response.data?.message
+    if (errorMessage) {
+      dispatch(viewActions.setErrorMessage(errorMessage))
+    } else {
+      console.error(e)
+      dispatch(viewActions.setErrorMessage('Submitting form failed!'))
+    }
+    return
+  }
 
+  dispatch(viewActions.setErrorMessage(null))
   dispatch(formActions.expireFormCache())
   addEntryToStateOnCreate(isEdit, entryId, adaptedEntry, dispatch)
   redirectToEntry(router, entryId, isEdit)
@@ -253,6 +278,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
   // for example: fetching the address
 
   const { category, setCategory, verb, entryId, isFormInitialized } = props
+
 
   const dispatch = useDispatch()
 

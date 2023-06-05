@@ -7,13 +7,15 @@ export type HighlightID = SearchEntryID | EventID
 export type HighlightIDOrNull = HighlightID | null
 
 interface ViewSlice {
-  highlight: HighlightIDOrNull
+  highlight: HighlightIDOrNull,
+  errorMessage: string | null,
 }
 
 const viewSlice = createSlice({
   name: 'view',
   initialState: {
-    highlight: null
+    highlight: null,
+    errorMessage: null,
   } as ViewSlice,
   reducers: {
     setHighlight: (state, action: PayloadAction<HighlightID>) => {
@@ -23,6 +25,10 @@ const viewSlice = createSlice({
     unsetHighlight: (state) => {
       state.highlight = null
     },
+
+    setErrorMessage: (state, action: PayloadAction<string | null>) => {
+      state.errorMessage = action.payload
+    }
   },
 })
 
@@ -30,6 +36,7 @@ const viewSlice = createSlice({
 export const {
   setHighlight,
   unsetHighlight,
+  setErrorMessage
 } = viewSlice.actions
 
 

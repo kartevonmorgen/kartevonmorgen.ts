@@ -1,6 +1,7 @@
 import { Dispatch, FC, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
+import { Alert } from 'antd'
 import { SlugVerb } from '../utils/types'
 import { convertQueryParamToString } from '../utils/utils'
 import Category, { CategoryNameToIdMapper } from '../dtos/Categories'
@@ -12,7 +13,8 @@ import { formSelector } from '../selectors/form'
 import { FORM_STATUS } from '../slices/formSlice'
 import EntityChooserFormSelects from './EntityChooserFormSelects'
 import { AppDispatch } from '../store'
-import { formActions } from '../slices'
+import { formActions, RootState } from '../slices'
+import { errorMessageSelector } from '../selectors/view'
 
 
 const changeCategory = (setCategory: Dispatch<Category>, dispatch: AppDispatch) => (category: Category) => {
@@ -29,6 +31,8 @@ interface EntityChooserFormProps {
 
 const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
   const { verb, entityId, category: categoryProp } = props
+
+  const errorMessage = useSelector((state: RootState) => errorMessageSelector(state))
 
   const router = useRouter()
   const { query } = router
@@ -68,6 +72,19 @@ const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
       <EntityFormHeader
         isEdit={shouldEditAnExistingEntity}
       />
+
+      {
+        errorMessage && (
+          <Alert
+            closable
+            message={errorMessage}
+            type="error"
+            style={{
+              marginBottom: '1rem'
+            }}
+          />
+        )
+      }
 
       <EntityChooserFormSelects
         onSelect={changeCategory(setCategory, dispatch)}
