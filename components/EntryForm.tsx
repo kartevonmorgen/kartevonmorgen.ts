@@ -399,6 +399,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       onValuesChange={
         (_changedValue: Partial<EntryFormType>, entryData: EntryFormType) => {
           dispatch(formActions.cacheFormData({ category, data: entryData }))
+          dispatch(viewActions.setErrorMessage(null))
         }
       }
       form={form}

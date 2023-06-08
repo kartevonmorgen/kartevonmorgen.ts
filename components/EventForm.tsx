@@ -285,6 +285,7 @@ const EventForm: FC<EventFormProps> = (props) => {
         (_changedValue: any, formData: object) => {
           const event: EventDTO = onSendAdapter(formData)
           dispatch(formActions.cacheFormData({ category: Category.EVENT, data: event }))
+          dispatch(viewActions.setErrorMessage(null))
         }
       }
     >
