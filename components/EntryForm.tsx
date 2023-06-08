@@ -466,9 +466,14 @@ const EntryForm: FC<EntryFormProps> = (props) => {
             <Input
               style={{ width: '50%' }}
               placeholder={t('entryForm.city')}
-              onBlur={() => {
+              onBlur={async () => {
                 addTouchedAddressFieldName(setTouchedAddressFields, 'city')
-                flyToFormAddressAndSetNewPin(router, form).then()
+                try {
+                  await flyToFormAddressAndSetNewPin(router, form)
+                } catch (e) {
+                  form.setFieldsValue({lat: null, lng: null})
+                  await form.validateFields()
+                }
               }}
             />
           </Form.Item>
@@ -480,9 +485,14 @@ const EntryForm: FC<EntryFormProps> = (props) => {
             <Input
               style={{ width: '50%' }}
               placeholder={t('entryForm.zip')}
-              onBlur={() => {
+              onBlur={async () => {
                 addTouchedAddressFieldName(setTouchedAddressFields, 'zip')
-                flyToFormAddressAndSetNewPin(router, form).then()
+                try {
+                  await flyToFormAddressAndSetNewPin(router, form).then()
+                } catch (e) {
+                  form.setFieldsValue({lat: null, lng: null})
+                  await form.validateFields()
+                }
               }}
             />
           </Form.Item>
@@ -496,9 +506,14 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       <Form.Item name='street'>
         <Input
           placeholder={t('entryForm.street')}
-          onBlur={() => {
+          onBlur={async () => {
             addTouchedAddressFieldName(setTouchedAddressFields, 'street')
-            flyToFormAddressAndSetNewPin(router, form).then()
+            try {
+              flyToFormAddressAndSetNewPin(router, form).then()
+            } catch (e) {
+              form.setFieldsValue({lat: null, lng: null})
+              await form.validateFields()
+            }
           }}
         />
       </Form.Item>
@@ -509,6 +524,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
           display: 'inline-block',
           width: '50%',
         }}
+        rules={[{required: true}]}
       >
         <Input
           disabled
@@ -522,6 +538,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
           display: 'inline-block',
           width: '50%',
         }}
+        rules={[{required: true}]}
       >
         <Input
           disabled
