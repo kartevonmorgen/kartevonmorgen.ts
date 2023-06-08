@@ -30,6 +30,7 @@ import { ENTITY_DETAIL_DESCRIPTION_LIMIT } from '../consts/texts'
 import EntityTagsFormSection from './EntityTagsFormSection'
 import { FORM_STATUS } from '../slices/formSlice'
 import { formSelector } from '../selectors/form'
+import { AxiosError } from 'axios'
 
 
 const { useForm } = Form
@@ -145,8 +146,21 @@ const onFinish = (
   // todo: if failed shoe a notification
 
   const adaptedFormValues = onSendAdapter(eventFormValues)
-  const eventId = await createOrEditEvent(adaptedFormValues, isEdit)
 
+  let eventId = adaptedFormValues.id
+  try {
+    eventId = await createOrEditEvent(adaptedFormValues, isEdit)
+  } catch (e) {
+  const error = e as AxiosError
+  const errorMessage = error.response.data?.message
+  if (errorMessage) {
+    dispatch(viewActions.setErrorMessage(errorMessage))
+  } else {
+    console.error(e)
+    dispatch(viewActions.setErrorMessage('Submitting form failed!'))
+  }
+  return
+}
   dispatch(formActions.expireFormCache())
   addEventToStateOnCreate(dispatch, adaptedFormValues, isEdit)
   redirectToEvent(router, eventId, isEdit)
