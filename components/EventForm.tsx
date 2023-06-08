@@ -355,9 +355,14 @@ const EventForm: FC<EventFormProps> = (props) => {
             <Input
               style={{ width: '50%' }}
               placeholder={t('entryForm.city')}
-              onBlur={() => {
+              onBlur={async () => {
                 addTouchedAddressFieldName(setTouchedAddressFields, 'city')
-                flyToFormAddressAndSetNewPin(router, form).then()
+                try {
+                  await flyToFormAddressAndSetNewPin(router, form).then()
+                } catch (e) {
+                  form.setFieldsValue({lat: null, lng: null})
+                  await form.validateFields()
+                }
               }}
             />
           </Form.Item>
@@ -368,9 +373,14 @@ const EventForm: FC<EventFormProps> = (props) => {
             <Input
               style={{ width: '50%' }}
               placeholder={t('entryForm.zip')}
-              onBlur={() => {
+              onBlur={async () => {
                 addTouchedAddressFieldName(setTouchedAddressFields, 'zip')
-                flyToFormAddressAndSetNewPin(router, form).then()
+                try {
+                  await flyToFormAddressAndSetNewPin(router, form).then()
+                } catch (e) {
+                  form.setFieldsValue({lat: null, lng: null})
+                  await form.validateFields()
+                }
               }}
             />
           </Form.Item>
@@ -384,9 +394,14 @@ const EventForm: FC<EventFormProps> = (props) => {
       <Form.Item name='street'>
         <Input
           placeholder={t('entryForm.street')}
-          onBlur={() => {
+          onBlur={async () => {
             addTouchedAddressFieldName(setTouchedAddressFields, 'street')
-            flyToFormAddressAndSetNewPin(router, form).then()
+            try {
+              await flyToFormAddressAndSetNewPin(router, form).then()
+            } catch (e) {
+              form.setFieldsValue({lat: null, lng: null})
+              await form.validateFields()
+            }
           }}
         />
       </Form.Item>
@@ -397,6 +412,7 @@ const EventForm: FC<EventFormProps> = (props) => {
           display: 'inline-block',
           width: '50%',
         }}
+        rules={[{required: true}]}
       >
         <Input placeholder='Latitude' disabled />
       </Form.Item>
@@ -407,6 +423,7 @@ const EventForm: FC<EventFormProps> = (props) => {
           display: 'inline-block',
           width: '50%',
         }}
+        rules={[{required: true}]}
       >
         <Input placeholder='Longitude' disabled />
       </Form.Item>
