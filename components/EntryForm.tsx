@@ -245,6 +245,7 @@ const onFinish = (
       console.error(e)
       dispatch(viewActions.setErrorMessage('Submitting form failed!'))
     }
+    document.getElementsByClassName('ant-drawer-body')[0].scrollTop = 0
     return
   }
 

@@ -159,7 +159,8 @@ const onFinish = (
     console.error(e)
     dispatch(viewActions.setErrorMessage('Submitting form failed!'))
   }
-  return
+    document.getElementsByClassName('ant-drawer-body')[0].scrollTop = 0
+    return
 }
   dispatch(formActions.expireFormCache())
   addEventToStateOnCreate(dispatch, adaptedFormValues, isEdit)

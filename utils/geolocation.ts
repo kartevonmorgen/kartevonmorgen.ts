@@ -133,11 +133,10 @@ export const flyToFormAddressAndSetNewPin = async (router: NextRouter, form: For
   try {
     locations = await geocode(geoLocationRequest)
   } catch (e) {
-    throw e
   }
 
   if (locations.length === 0) {
-    throw new Error('No location found')
+    return
   }
 
   const location = locations[0]

@@ -68,7 +68,9 @@ const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
   }, [categoryParam, categoryProp])
 
   return (
-    <div style={{ paddingBottom: 60 }}>
+    <div
+      style={{ paddingBottom: 60 }}
+    >
       <EntityFormHeader
         isEdit={shouldEditAnExistingEntity}
       />
