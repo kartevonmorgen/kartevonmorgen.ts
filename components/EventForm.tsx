@@ -360,8 +360,6 @@ const EventForm: FC<EventFormProps> = (props) => {
                 try {
                   await flyToFormAddressAndSetNewPin(router, form).then()
                 } catch (e) {
-                  form.setFieldsValue({lat: null, lng: null})
-                  await form.validateFields()
                 }
               }}
             />
@@ -378,8 +376,6 @@ const EventForm: FC<EventFormProps> = (props) => {
                 try {
                   await flyToFormAddressAndSetNewPin(router, form).then()
                 } catch (e) {
-                  form.setFieldsValue({lat: null, lng: null})
-                  await form.validateFields()
                 }
               }}
             />
@@ -399,8 +395,6 @@ const EventForm: FC<EventFormProps> = (props) => {
             try {
               await flyToFormAddressAndSetNewPin(router, form).then()
             } catch (e) {
-              form.setFieldsValue({lat: null, lng: null})
-              await form.validateFields()
             }
           }}
         />

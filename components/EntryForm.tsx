@@ -471,8 +471,6 @@ const EntryForm: FC<EntryFormProps> = (props) => {
                 try {
                   await flyToFormAddressAndSetNewPin(router, form)
                 } catch (e) {
-                  form.setFieldsValue({lat: null, lng: null})
-                  await form.validateFields()
                 }
               }}
             />
@@ -490,8 +488,6 @@ const EntryForm: FC<EntryFormProps> = (props) => {
                 try {
                   await flyToFormAddressAndSetNewPin(router, form).then()
                 } catch (e) {
-                  form.setFieldsValue({lat: null, lng: null})
-                  await form.validateFields()
                 }
               }}
             />
@@ -511,8 +507,6 @@ const EntryForm: FC<EntryFormProps> = (props) => {
             try {
               flyToFormAddressAndSetNewPin(router, form).then()
             } catch (e) {
-              form.setFieldsValue({lat: null, lng: null})
-              await form.validateFields()
             }
           }}
         />
