@@ -519,7 +519,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
           display: 'inline-block',
           width: '50%',
         }}
-        rules={[{required: true}]}
+        rules={[{required: true, message: t('entryForm.requiredField')}]}
       >
         <Input
           disabled
@@ -533,7 +533,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
           display: 'inline-block',
           width: '50%',
         }}
-        rules={[{required: true}]}
+        rules={[{required: true, message: t('entryForm.requiredField')}]}
       >
         <Input
           disabled

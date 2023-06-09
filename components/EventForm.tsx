@@ -407,7 +407,7 @@ const EventForm: FC<EventFormProps> = (props) => {
           display: 'inline-block',
           width: '50%',
         }}
-        rules={[{required: true}]}
+        rules={[{required: true, message: t('entryForm.requiredField')}]}
       >
         <Input placeholder='Latitude' disabled />
       </Form.Item>
@@ -418,7 +418,7 @@ const EventForm: FC<EventFormProps> = (props) => {
           display: 'inline-block',
           width: '50%',
         }}
-        rules={[{required: true}]}
+        rules={[{required: true, message: t('entryForm.requiredField')}]}
       >
         <Input placeholder='Longitude' disabled />
       </Form.Item>
