@@ -54,7 +54,7 @@ import { AxiosError } from 'axios'
 
 const { useForm } = Form
 const { TextArea } = Input
-const { Link } = Typography
+const { Link, Paragraph } = Typography
 
 
 // we declare both types NewEntryWithLicense for create, and NewEntryWithVersion for update
@@ -513,6 +513,8 @@ const EntryForm: FC<EntryFormProps> = (props) => {
         />
       </Form.Item>
 
+      <Paragraph>{t('entryForm.clickOnMap')}</Paragraph>
+
       <Form.Item
         name='lat'
         style={{
@@ -630,8 +632,10 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       >
         {(fields, { add, remove }) => (
           <Fragment>
-            {fields.map((field) => (
+            {fields.map((field, i) => (
               <Fragment>
+                <Paragraph>{`#${i+1}`}</Paragraph>
+
                 <Form.Item
                   {...field}
                   name={[field.name, 'url']}
@@ -651,7 +655,10 @@ const EntryForm: FC<EntryFormProps> = (props) => {
                     },
                   ]}
                 >
-                  <Input placeholder={t('entryForm.linkUrl')} />
+                  <Input
+                    placeholder={t('entryForm.linkUrl')}
+                    prefix={<FontAwesomeIcon icon='link' />}
+                  />
                 </Form.Item>
                 <Form.Item
                   {...field}
@@ -662,14 +669,20 @@ const EntryForm: FC<EntryFormProps> = (props) => {
                     { max: 50, message: t('entryForm.maxNumCharactersTitle') },
                   ]}
                 >
-                  <Input placeholder={t('entryForm.linkTitle')} />
+                  <Input
+                    placeholder={t('entryForm.linkTitle')}
+                    prefix={<FontAwesomeIcon icon='pen-fancy' />}
+                  />
                 </Form.Item>
                 <Form.Item
                   {...field}
                   name={[field.name, 'description']}
                   fieldKey={[field.fieldKey, 'description']}
                 >
-                  <Input placeholder={t('entryForm.linkDescription')} />
+                  <Input
+                    placeholder={t('entryForm.linkDescription')}
+                    prefix={<FontAwesomeIcon icon='align-justify' />}
+                  />
                 </Form.Item>
                 <Button
                   onClick={() => remove(field.name)}
