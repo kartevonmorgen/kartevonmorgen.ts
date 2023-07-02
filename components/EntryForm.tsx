@@ -238,7 +238,7 @@ const onFinish = (
     entryId = await createOrEditEntry(adaptedEntry, entryId, isEdit)
   } catch (e) {
     const error = e as AxiosError
-    const errorMessage = error.response.data?.message
+    const errorMessage = error.response?.data?.message
     if (errorMessage) {
       dispatch(viewActions.setErrorMessage(errorMessage))
     } else {
