@@ -63,6 +63,7 @@
     "styled-jsx": "^3.4.4",
     "swr": "^0.4.0",
     "title-case": "^3.0.3",
+    "typeface-rubik": "^1.1.13",
     "valid-url": "^1.0.9"
   },
   "devDependencies": {
