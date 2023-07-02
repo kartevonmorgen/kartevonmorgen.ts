@@ -31,7 +31,13 @@ const EntryRatingFlower: FC<EntryRatingFlowerProps> = (props) => {
   return (
     <Fragment>
 
-      <Divider>{t('ratings.rating-heading')}</Divider>
+      <Divider
+        style={{
+          fontWeight: 'bold'
+        }}
+      >
+        {t('ratings.rating-heading')}
+      </Divider>
 
       <div
         style={{
