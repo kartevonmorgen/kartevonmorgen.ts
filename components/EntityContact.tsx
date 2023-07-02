@@ -30,6 +30,7 @@ const EntityContact: FC<EntryContactProps> = (props) => {
     <address
       style={{
         margin: 0,
+        color: '#666',
       }}
     >
       {contact_name && (
