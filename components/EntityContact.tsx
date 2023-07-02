@@ -1,5 +1,7 @@
 import { FC } from 'react'
 import { Typography } from 'antd'
+import split from 'lodash/split'
+import last from 'lodash/last'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { EntryContact as EntryContactDTO, EntryContactKeys } from '../dtos/EntryContact'
@@ -99,7 +101,13 @@ const EntityContact: FC<EntryContactProps> = (props) => {
             <FontAwesomeIcon icon={propToIcon[EntryContactKeys.HOMEPAGE] as IconProp}/>
           </div>
 
-          <Link target="_blank" href={homepage} rel="noopener noreferrer">{homepage}</Link>
+          <Link
+            target="_blank"
+            href={homepage}
+            rel="noopener noreferrer"
+          >
+            {last(split(homepage, 'https://'))}
+          </Link>
         </div>
       )
       }
