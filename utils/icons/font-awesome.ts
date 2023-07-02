@@ -24,6 +24,8 @@ import {
   faUserFriends,
   faUsers,
   faUserShield,
+  faPenFancy,
+  faAlignJustify,
 } from '@fortawesome/free-solid-svg-icons'
 
 import { faCopy, faMap, faTimesCircle } from '@fortawesome/free-regular-svg-icons'
@@ -68,6 +70,8 @@ library.add(
   faCode,
   faChevronLeft,
   faChevronRight,
+  faPenFancy,
+  faAlignJustify,
 )
 
 // @fortawesome/free-regular-svg-icons

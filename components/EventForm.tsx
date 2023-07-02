@@ -36,7 +36,7 @@ import { AxiosError } from 'axios'
 const { useForm } = Form
 const { TextArea } = Input
 const { RangePicker } = DatePicker
-const { Link } = Typography
+const { Link, Paragraph } = Typography
 
 
 const setAddressDetailsIfAddressFieldsAreNotTouched = async (
@@ -401,6 +401,8 @@ const EventForm: FC<EventFormProps> = (props) => {
           }}
         />
       </Form.Item>
+
+      <Paragraph>{t('entryForm.clickOnMap')}</Paragraph>
 
       <Form.Item
         name='lat'
