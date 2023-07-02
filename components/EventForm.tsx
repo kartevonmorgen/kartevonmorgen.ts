@@ -312,6 +312,7 @@ const EventForm: FC<EventFormProps> = (props) => {
         ]}
       >
         <RangePicker
+          changeOnBlur
           showTime={{ format: 'HH:mm' }}
           format='YYYY-MM-DD HH:mm'
           style={{ width: '100%' }}
