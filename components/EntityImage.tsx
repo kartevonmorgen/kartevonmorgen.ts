@@ -14,15 +14,19 @@ const EntityImage: FC<EntityImageProps> = (props) => {
   }
 
   return (
-    <div className="entity-image-container">
+    <div
+      className="entity-image-container"
+    >
       <img
         src={src}
         alt={title}
         style={{
           width: 'auto',
           height: 'auto',
-          maxWidth: '100%',
+          maxWidth: 'calc(100% + 24px)',
           maxHeight: 285,
+          marginLeft: -12,
+          marginRight: -12,
         }}
       />
     </div>

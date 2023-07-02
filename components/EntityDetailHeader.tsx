@@ -57,6 +57,9 @@ const EntityDetailHeader = () => {
         paddingRight: 4,
         paddingTop: 0,
         paddingBottom: 4,
+        position: 'absolute',
+        right: 0,
+        left: 0,
       }}
       ghost={false}
       onBack={onBack(router)}

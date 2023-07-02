@@ -76,7 +76,12 @@ const EventDetail: FC<EventDetailProps> = (props) => {
 
 
   return (
-    <div id="entity-detail">
+    <div
+      id="entity-detail"
+      style={{
+        position: 'relative',
+      }}
+    >
 
       <EntityDetailHeader/>
 
