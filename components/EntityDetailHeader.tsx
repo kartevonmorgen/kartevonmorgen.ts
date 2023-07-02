@@ -1,6 +1,7 @@
 import { NextRouter, useRouter } from 'next/router'
 import produce from 'immer'
-import { Button, PageHeader } from 'antd'
+import { PageHeader } from '@ant-design/pro-layout';
+import { Button } from 'antd';
 import EditOutlined from '@ant-design/icons/lib/icons/EditOutlined'
 import { convertQueryParamToArray } from '../utils/utils'
 import { SlugVerb } from '../utils/types'

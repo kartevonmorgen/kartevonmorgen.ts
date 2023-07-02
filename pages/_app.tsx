@@ -5,7 +5,6 @@ import store from '../store'
 import '../utils/icons/font-awesome'
 import Layout from '../components/Layout'
 import GlobalLocale from '../components/GlobalLocale'
-import 'antd/dist/antd.min.css'
 import '../styles/globals.css'
 
 

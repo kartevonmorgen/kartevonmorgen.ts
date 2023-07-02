@@ -2,7 +2,9 @@ import { FC, Fragment, useEffect } from 'react'
 import { SearchEntryID } from '../dtos/SearchEntry'
 import { SlugVerb } from '../utils/types'
 import { NextRouter, useRouter } from 'next/router'
-import { Button, Comment, Divider, Form, Input, PageHeader, Radio, Space, Typography } from 'antd'
+import { Comment } from '@ant-design/compatible';
+import { PageHeader } from '@ant-design/pro-layout';
+import { Button, Divider, Form, Input, Radio, Space, Typography } from 'antd';
 import useTranslation from 'next-translate/useTranslation'
 import { Rating, RatingID } from '../dtos/Rating'
 import { NewRating } from '../dtos/NewRating'

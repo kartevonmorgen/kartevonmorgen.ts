@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 import produce from 'immer'
-import { PageHeader } from 'antd'
+import { PageHeader } from '@ant-design/pro-layout';
 import { Translate } from 'next-translate'
 import useTranslation from 'next-translate/useTranslation'
 import { formActions, viewActions } from '../slices'
