@@ -92,9 +92,10 @@ const EventDetail: FC<EventDetailProps> = (props) => {
       />
 
       <Title
-        level={2}
+        level={3}
         style={{
           marginBottom: 0,
+          marginTop: 12,
         }}
       >
         {event.title}

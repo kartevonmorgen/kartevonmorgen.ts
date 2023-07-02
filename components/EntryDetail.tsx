@@ -117,7 +117,14 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
         link={entry.image_link_url}
       />
 
-      <Title level={2} style={{marginBottom: 0}}>{entry.title}</Title>
+      <Title
+        level={3}
+        style={{
+          marginBottom: 0,
+          marginTop: 12,
+      }}>
+        {entry.title}
+      </Title>
 
       <TypeTag
         type={typeName}
