@@ -65,8 +65,8 @@ const EntityDetailHeader = () => {
       onBack={onBack(router)}
       extra={[
         <Button
-          key="1"
-          type="primary"
+          key="edit-icon-button"
+          type="default"
           size="small"
           icon={<EditOutlined/>}
           onClick={onEdit(router)}
