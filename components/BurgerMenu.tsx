@@ -109,7 +109,6 @@ const BurgerMenu: FC = () => {
     <Dropdown
       overlay={<Menu/>}
       placement="bottomRight"
-      open
     >
       <Button
         block
