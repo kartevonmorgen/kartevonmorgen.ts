@@ -1,12 +1,11 @@
 import { FC } from 'react'
 import { Select } from 'antd'
-import { SingleType } from 'rc-select/lib/interface/generator'
 import useTranslation from 'next-translate/useTranslation'
 import Category, { Categories, CategoryToNameMapper } from '../dtos/Categories'
 
 
 interface EntityChooserFormSelectsProps {
-  onSelect: (value: SingleType<Category>) => void,
+  onSelect: (value: any) => void,
   value: Category
   shouldCreateANewEntity: boolean
 }

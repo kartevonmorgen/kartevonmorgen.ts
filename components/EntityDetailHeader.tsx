@@ -53,8 +53,8 @@ const EntityDetailHeader = () => {
   return (
     <PageHeader
       style={{
-        paddingLeft: 4,
-        paddingRight: 4,
+        paddingLeft: 16,
+        paddingRight: 16,
         paddingTop: 0,
         paddingBottom: 4,
         position: 'absolute',
