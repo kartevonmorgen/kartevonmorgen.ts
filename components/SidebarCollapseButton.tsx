@@ -47,7 +47,7 @@ export const openSidebar = (router: NextRouter) => {
   setSidebarState(router, SidebarState.Open)
 }
 
-const toggleSidebarState = (router: NextRouter, isSidebarOpen: boolean) => () => {
+export const toggleSidebarState = (router: NextRouter, isSidebarOpen: boolean) => () => {
   if (!isRouterInitialized(router)) {
     return
   }
@@ -98,7 +98,9 @@ const SidebarCollapseButton: FC = () => {
         top: 52,
         transform: 'translateX(100%)',
         right: 0,
-        zIndex: 400
+        zIndex: 400,
+        visibility: 'visible',
+        display: 'block'
       }}
     />
   )

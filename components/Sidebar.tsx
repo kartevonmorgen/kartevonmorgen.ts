@@ -27,6 +27,10 @@ const Sidebar: FC = () => {
       open={isSidebarOpen}
       placement='left'
       closable={false}
+      contentWrapperStyle={{
+        display: 'block',
+        width: isSidebarOpen ? sidebarWidth : 0,
+      }}
       mask={false}
       bodyStyle={{
         padding: 0,
