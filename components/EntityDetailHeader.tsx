@@ -1,7 +1,9 @@
+import { FC } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import produce from 'immer'
-import { PageHeader } from '@ant-design/pro-layout';
-import { Button } from 'antd';
+import { PageHeader } from '@ant-design/pro-layout'
+import { Button } from 'antd'
+import ArrowLeftOutlined from '@ant-design/icons/lib/icons/ArrowLeftOutlined'
 import EditOutlined from '@ant-design/icons/lib/icons/EditOutlined'
 import { convertQueryParamToArray } from '../utils/utils'
 import { SlugVerb } from '../utils/types'
@@ -46,18 +48,37 @@ const onEdit = (router: NextRouter) => () => {
 }
 
 
-const EntityDetailHeader = () => {
+interface EntityDetailHeaderProps {
+  hasImage: boolean
+}
+
+const EntityDetailHeader: FC<EntityDetailHeaderProps> = (props) => {
+  const { hasImage } = props
+
   const router = useRouter()
 
 
   return (
     <PageHeader
+      backIcon={
+        <ArrowLeftOutlined
+          style={{
+            backgroundColor: 'white',
+            border: '1px solid #d9d9d9',
+            borderRadius: '4px',
+            boxShadow: '0 2px 0 rgba(0, 0, 0, 0.02)',
+            color: 'rgba(0, 0, 0, 0.88)',
+            cursor: 'pointer',
+            padding: '2px'
+          }}
+        />
+      }
       style={{
-        paddingLeft: 16,
-        paddingRight: 16,
+        paddingLeft: hasImage ? 16 : 0,
+        paddingRight: hasImage ? 16 : 0,
         paddingTop: 0,
         paddingBottom: 4,
-        position: 'absolute',
+        position: hasImage ? 'absolute' : 'relative',
         right: 0,
         left: 0,
       }}
@@ -65,10 +86,10 @@ const EntityDetailHeader = () => {
       onBack={onBack(router)}
       extra={[
         <Button
-          key="edit-icon-button"
-          type="default"
-          size="small"
-          icon={<EditOutlined/>}
+          key='edit-icon-button'
+          type='default'
+          size='small'
+          icon={<EditOutlined />}
           onClick={onEdit(router)}
         />,
       ]}

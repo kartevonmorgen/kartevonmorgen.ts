@@ -83,7 +83,7 @@ const EventDetail: FC<EventDetailProps> = (props) => {
       }}
     >
 
-      <EntityDetailHeader/>
+      <EntityDetailHeader hasImage={event.image_url !== undefined && event.image_url !== null}/>
 
       <EntityImageWithLink
         title={event.title}

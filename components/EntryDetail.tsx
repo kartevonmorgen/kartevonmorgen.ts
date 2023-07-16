@@ -107,9 +107,11 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
   const type: Category = entry.categories[0]
   const typeName: string = CategoryToNameMapper[type]
 
+  console.log(entry.image_url)
+
   return (
     <div id='entity-detail'>
-      <EntityDetailHeader />
+      <EntityDetailHeader hasImage={entry.image_url !== undefined && entry.image_url !== null}/>
 
       <EntityImageWithLink
         title={entry.title}
