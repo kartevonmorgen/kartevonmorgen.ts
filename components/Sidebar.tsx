@@ -36,7 +36,7 @@ const Sidebar: FC = () => {
         padding: 0,
         display: 'flex',
         flexDirection: 'column',
-        overflowX: 'clip',
+        width: '100%'
       }}
       width={sidebarWidth}
     >
