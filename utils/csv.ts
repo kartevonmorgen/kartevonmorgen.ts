@@ -1,10 +1,10 @@
 import { convertUnknownToBoolean, convertUnknownToInt } from './utils'
-import { OptionData, OptionGroupData } from 'rc-select/lib/interface'
+import type { DefaultOptionType } from 'rc-select/lib/Select'
 import { BucketsOfSelectOptions, SelectOption, SelectOptions } from '../dtos/SelectOption'
 
 
 export interface CSVToOptionDataResponse {
-  data: (OptionData | OptionGroupData)[]
+  data: DefaultOptionType[]
   hasData: boolean
 }
 
@@ -64,8 +64,8 @@ const groupRecordsByHeadlinesAndConvertToSelectOption = (
   return bucketsOfRecords
 }
 
-const convertSelectOptionToOptionData = (selectOption: SelectOption): OptionData => {
-  const optionData: OptionData = {
+const convertSelectOptionToOptionData = (selectOption: SelectOption): DefaultOptionType => {
+  const optionData: DefaultOptionType = {
     label: selectOption.label,
     value: selectOption.value,
     style: {
@@ -82,9 +82,9 @@ const convertSelectOptionToOptionData = (selectOption: SelectOption): OptionData
 
 const convertBucketsOfSelectOptionsToOptionDataOrOptionGroupData = (
   bucketsOfSelectOptions: BucketsOfSelectOptions,
-): (OptionData | OptionGroupData)[] => {
+): DefaultOptionType[] => {
 
-  let optionData: (OptionData | OptionGroupData)[] = []
+  let optionData: DefaultOptionType[] = []
 
   if (bucketsOfSelectOptions.length !== 0 && bucketsOfSelectOptions[0][0] === '') {
     optionData = bucketsOfSelectOptions[0][1].map(selectOption => convertSelectOptionToOptionData(selectOption))
@@ -104,7 +104,7 @@ const convertBucketsOfSelectOptionsToOptionDataOrOptionGroupData = (
 
 export const convertNotEmptyCSVRecordsToSelectOptionsAndGroupByHeader = (
   records: CSVRecords,
-): (OptionData | OptionGroupData)[] => {
+): DefaultOptionType[] => {
 
   const filteredRecords: CSVRecords = records.filter(record => record.label !== '')
 

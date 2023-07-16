@@ -1,4 +1,4 @@
-import { OptionData, OptionGroupData } from 'rc-select/lib/interface'
+import type { DefaultOptionType } from 'rc-select/lib/Select'
 import useRequest from '../api/useRequest'
 import API_ENDPOINTS from '../api/endpoints'
 import { CSVToOptionDataResponse } from '../utils/csv'
@@ -6,7 +6,7 @@ import { GeoLocations } from '../dtos/GeoLocatoinResponse'
 import { convertGeoLocationsToSelectOptions } from '../utils/selects'
 
 
-type ResultOptions = (OptionData | OptionGroupData)[]
+type ResultOptions = DefaultOptionType[]
 
 
 const useRegionRecommender = (

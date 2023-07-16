@@ -48,6 +48,7 @@
     "nominatim-browser": "^2.1.0",
     "opening_hours": "^3.6.0",
     "qs": "^6.9.6",
+    "rc-select": "^14.6.0-alpha.0",
     "react": "17.0.1",
     "react-copy-to-clipboard": "^5.0.4",
     "react-datepicker": "^4.12.0",
