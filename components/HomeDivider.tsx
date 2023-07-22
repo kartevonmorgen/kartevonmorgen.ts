@@ -8,6 +8,7 @@ const HomeDivider: FC = () => (
     orientation="center"
   >
     <Image
+      alt="divider"
       src="/assets/img/pincloud.webp"
       layout="fixed"
       width={85}

@@ -218,9 +218,9 @@ const EventForm: FC<EventFormProps> = (props) => {
 
   const isEdit = verb === SlugVerb.EDIT
 
-  const { data: eventResponse, error: eventError } = useRequest<EventDTO>(isEdit && {
+  const { data: eventResponse, error: eventError } = useRequest<EventDTO>(isEdit ? {
     url: `${API_ENDPOINTS.getEvent()}/${eventId}`,
-  })
+  } : null)
 
   let event = eventResponse
   if (formCache.status === FORM_STATUS.READY && formCache.category === Category.EVENT && formCache.data) {

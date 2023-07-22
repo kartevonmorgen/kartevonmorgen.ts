@@ -70,7 +70,7 @@ const MapPage: FC<MapPageProps> = (props) => {
 
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { slug } = ctx.params
+  const slug = ctx.params?.slug
   const path = convertQueryParamToArray(slug)
 
   // we expect to have path always not empty with the first element of project name

@@ -53,7 +53,7 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
   const currentUrl = window.location.href
 
   const { orgTag: optionalOrgTag } = query
-  const orgTag = optionalOrgTag && isString(optionalOrgTag) ? optionalOrgTag : null
+  const orgTag = optionalOrgTag && isString(optionalOrgTag) ? optionalOrgTag : undefined
   const entryRequest: EntryRequest = {
     org_tag: orgTag,
   }
@@ -64,7 +64,7 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
   })
 
   const foundEntry: boolean = isArray(entries) && entries.length !== 0
-  const entry: Entry = foundEntry ? entries[0] : null
+  const entry: Entry | null = foundEntry ? (entries as EntriesDTO)[0] : null
   const partialEntryLatLng: PartialLatLng = {
     lat: entry?.lat,
     lng: entry?.lng,
@@ -100,6 +100,10 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
 
   if (!foundEntry) {
     //  todo: show not found notification, redirect to the search view
+    return null
+  }
+
+  if (!entry) {
     return null
   }
 
@@ -181,7 +185,7 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
       <EntityRatings ratingsIds={entry.ratings} />
 
       <EntityFooter
-        entityId={entry.id}
+        entityId={entry.id as string}
         type={RootSlugEntity.ENTRY}
         title={entry.title}
         activeLink={currentUrl}

@@ -21,7 +21,7 @@ const Entry: FC<EntryProps> = (props) => {
 
   switch (slugAction.verb) {
     case SlugVerb.SHOW:
-      return <EntryDetail entryId={slugAction.id}/>
+      return <EntryDetail entryId={(slugAction.id as string)}/>
     case SlugVerb.CREATE:
       return <EntityChooserForm
         verb={SlugVerb.CREATE}
@@ -29,7 +29,7 @@ const Entry: FC<EntryProps> = (props) => {
     case SlugVerb.EDIT:
       return <EntityChooserForm
         verb={SlugVerb.EDIT}
-        entityId={slugAction.id}
+        entityId={(slugAction.id as string)}
       />
     default:
       // todo: redirect to the result page

@@ -41,7 +41,7 @@ const SearchEventsListener: FC = () => {
   } = query
 
   const { slug } = query
-  const lastSlugPart: string = slug[slug.length - 1]
+  const lastSlugPart: string = (slug as string[])[(slug as string[]).length - 1]
 
   const dispatch = useDispatch()
   const map = useMap()
@@ -115,7 +115,7 @@ const SearchEventsListener: FC = () => {
         limit: limit,
         start_min: mapTimes.startMin?.unix(),
         start_max: mapTimes.startMax?.unix(),
-        end_min: mapTimes.endMin.unix(),
+        end_min: mapTimes.endMin?.unix(),
       }
       dispatch(fetchEvents(searchEventsRequestDTO))
     } else {

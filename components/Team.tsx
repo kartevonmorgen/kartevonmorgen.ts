@@ -125,6 +125,7 @@ const Team: FC = () => {
                   }}
                 >
                   <Image
+                    alt={`teammate ${name}`}
                     src={`/assets/img/team/${src}`}
                     layout="intrinsic"
                     width={100}

@@ -29,7 +29,7 @@ const balloonIcons: Record<Category, Icon<IconOptions> | DivIcon | null> = {
   [Category.UNKNOWN]: null,
 }
 
-const getDefaultBalloonIcon = (typeId: Category): Icon<IconOptions> | DivIcon => {
+const getDefaultBalloonIcon = (typeId: Category): Icon<IconOptions> | DivIcon | null=> {
   const icon = balloonIcons[typeId]
 
   if (!icon) {
@@ -55,7 +55,7 @@ const getCustomColoredBalloonIcon = (color: string): DivIcon => (
 )
 
 // memoize icons to prevent object creations
-export const getBalloonIcon = (typeId: Category, color=''): Icon<IconOptions> | DivIcon => {
+export const getBalloonIcon = (typeId: Category, color=''): Icon<IconOptions> | DivIcon | null => {
   if (color) {
     return getCustomColoredBalloonIcon(color)
   }
@@ -94,7 +94,7 @@ const getCircleIcon = (typeId: Category, color: string): Icon<IconOptions> | Div
 }
 
 
-const getIcon = (entity: SearchResult, possibleColor: string): Icon<IconOptions> | DivIcon => {
+const getIcon = (entity: SearchResult, possibleColor: string): Icon<IconOptions> | DivIcon | null => {
   const { categories: types } = entity
 
   // the reason we define types as array is because backend sends us an array of categories
@@ -182,22 +182,22 @@ const MapMarker: FC<MapMarkerProps> = (props) => {
 
   const possibleColor = useTagMarkerColor(tags)
 
-  const ref = useRef<Marker>()
+  const ref = useRef<Marker<any>>(null)
 
   // performance
   useEffect(() => {
     if (!highlightId) {
       setOpacity(VIEW.highlight.dark)
-      ref.current.closeTooltip()
+      ref.current?.closeTooltip()
       return
     }
 
     if (isSelected) {
       setOpacity(VIEW.highlight.dark)
-      ref.current.openTooltip()
+      ref.current?.openTooltip()
     } else {
       setOpacity(VIEW.highlight.light)
-      if (ref.current.isTooltipOpen()) {
+      if (ref.current?.isTooltipOpen()) {
         ref.current.closeTooltip()
       }
     }
@@ -210,7 +210,7 @@ const MapMarker: FC<MapMarkerProps> = (props) => {
     <LeafletMarker
       ref={ref}
       position={[searchResult.lat, searchResult.lng]}
-      icon={getIcon(searchResult, possibleColor)}
+      icon={getIcon(searchResult, possibleColor) || undefined}
       eventHandlers={{
         click: onClickOnPin(router, searchResult),
       }}

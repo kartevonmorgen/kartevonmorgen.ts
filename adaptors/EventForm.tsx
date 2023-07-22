@@ -19,12 +19,12 @@ export const onReceiveAdapter = (event?: EventDTO): object => {
   const ruleSetsToAddNewProperties: TransformerWithNewNameRuleSet = {
     duration: {
       transformer: (originalValue, originalObject: EventDTO) => {
-        let start = moment.unix(originalObject.start)
+        let start: Moment | undefined = moment.unix(originalObject.start)
         if (!originalObject.start) {
           start = undefined
         }
 
-        let end = moment.unix(originalObject.end)
+        let end: Moment | undefined = moment.unix(originalObject.end)
         if (!originalObject.end) {
           end = undefined
         }
@@ -34,7 +34,7 @@ export const onReceiveAdapter = (event?: EventDTO): object => {
           end,
         ]
       },
-      originalPropertyName: null,
+      originalPropertyName: undefined,
     },
   }
 

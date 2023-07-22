@@ -113,7 +113,7 @@ const transformFormFields = (entry: EntryFormType): EntryFormType => {
 
       return licenseArray[0]
     },
-    email: (email: string | null | undefined): string | null => {
+    email: (email: string | null | undefined): string | null | undefined => {
       if (email === '') {
         return null
       }
@@ -309,7 +309,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
   }, [newPointCoordinateLat, newPointCoordinateLng])
 
   useMount(() => {
-    dispatch(viewActions.setHighlight(entryId))
+    dispatch(viewActions.setHighlight(entryId as string))
   })
 
   useUnmount(() => {
@@ -319,22 +319,22 @@ const EntryForm: FC<EntryFormProps> = (props) => {
   const isEdit = verb === SlugVerb.EDIT
 
   const { orgTag: optionalOrgTag } = query
-  const orgTag = optionalOrgTag && isString(optionalOrgTag) ? optionalOrgTag : null
+  const orgTag = optionalOrgTag && isString(optionalOrgTag) ? optionalOrgTag : undefined
   const entryRequest: EntryRequest = {
     org_tag: orgTag,
   }
 
-  const { data: entries, error: entriesError } = useRequest<EntriesDTO>(isEdit && {
+  const { data: entries, error: entriesError } = useRequest<EntriesDTO>(isEdit ? {
     url: `${API_ENDPOINTS.getEntries()}/${entryId}`,
     params: entryRequest,
-  })
+  } : null)
 
   const foundEntry: boolean = isArray(entries) && entries.length !== 0
-  let entry: Entry = foundEntry ? { ...entries[0] } : {} as Entry
+  let entry: Entry = foundEntry ? { ...(entries as EntriesDTO)[0] } : {} as Entry
 
   if (
     formCache.status === FORM_STATUS.READY &&
-    EntryCategories.includes(formCache.category) &&
+    EntryCategories.includes(formCache.category as Category) &&
     formCache.data
   ) {
     entry = { ...formCache.data } as Entry
@@ -396,7 +396,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       style={{
         marginTop: 8,
       }}
-      onFinish={onFinish(router, dispatch, isEdit, entryId)}
+      onFinish={onFinish(router, dispatch, isEdit, entryId as string)}
       onValuesChange={
         (_changedValue: Partial<EntryFormType>, entryData: EntryFormType) => {
           dispatch(formActions.cacheFormData({ category, data: entryData }))
@@ -639,7 +639,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
                 <Form.Item
                   {...field}
                   name={[field.name, 'url']}
-                  fieldKey={[field.fieldKey, 'url']}
+                  key={field.key}
                   rules={[
                     {
                       validator: (_, value) => {
@@ -663,7 +663,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
                 <Form.Item
                   {...field}
                   name={[field.name, 'title']}
-                  fieldKey={[field.fieldKey, 'title']}
+                  key={field.key}
                   rules={[
                     { min: 3, message: t('entryForm.minNumCharactersTitle') },
                     { max: 50, message: t('entryForm.maxNumCharactersTitle') },
@@ -677,7 +677,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
                 <Form.Item
                   {...field}
                   name={[field.name, 'description']}
-                  fieldKey={[field.fieldKey, 'description']}
+                  key={field.key}
                 >
                   <Input
                     placeholder={t('entryForm.linkDescription')}

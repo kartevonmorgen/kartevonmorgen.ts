@@ -20,13 +20,13 @@ const { Title } = Typography
 
 
 interface EntityCommentsProps {
-  ratingsIds: string[]
+  ratingsIds?: string[]
 }
 
 
 const EntityRatings: FC<EntityCommentsProps> = (props) => {
   const { ratingsIds } = props
-  const hasRatings = ratingsIds.length !== 0
+  const hasRatings = ratingsIds?.length !== 0
 
 
   const { t } = useTranslation('map')
@@ -38,10 +38,10 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
     ids: toString(ratingsIds),
   }
   const { data: ratings, error: ratingsError } = useRequest<Rating[]>(
-    hasRatings &&
+    hasRatings ?
     {
       url: `${API_ENDPOINTS.getRatings()}/${ratingsRequest.ids}`,
-    },
+    } : null
   )
 
   // has no comment at all

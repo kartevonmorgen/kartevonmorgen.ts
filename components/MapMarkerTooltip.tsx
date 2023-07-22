@@ -26,7 +26,7 @@ const MapMarkerTooltip: FC<MapMarkerTooltipProps> = (props) => {
 
       {
         isValidDuration(duration) && (
-          <Text strong> - {formatDuration(duration)}</Text>
+          <Text strong> - {formatDuration(duration as Duration)}</Text>
         )
       }
     </LeafletTooltip>

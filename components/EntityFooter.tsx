@@ -81,7 +81,7 @@ const EntityFooter: FC<EntityFooterProps> = (props) => {
           <Link
             href={
               createMailToHref(
-                process.env.NEXT_PUBLIC_KVM_REPORT_EMAIL,
+                process.env.NEXT_PUBLIC_KVM_REPORT_EMAIL as string,
                 `Report for ${title}`,
                 `This entry ${activeLink} is problematic because: `,
               )

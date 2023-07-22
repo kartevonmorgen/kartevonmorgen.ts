@@ -17,6 +17,10 @@ const LocaleContact: Record<string, string> = {
 }
 
 const getContactLink = (locale: string | undefined): string => {
+  if (!locale) {
+    return LocaleContact.en
+  }
+
   return LocaleContact[locale] ?? LocaleContact.en
 }
 
@@ -84,7 +88,7 @@ const HomeHeader: FC = () => {
               key="home-header-sub-menu-locales"
             >
               {
-                locales.map((locale) => (
+                locales?.map((locale) => (
                   <Menu.Item key={`locale-${locale}`}>
                     <Link href={'/'} locale={locale}>{locale}</Link>
                   </Menu.Item>

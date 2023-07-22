@@ -80,7 +80,7 @@ const Menu: FC = () => {
         align="middle"
       >
         {
-          locales.map((locale) => (
+          locales?.map((locale) => (
             <Col
               span={8}
               style={{

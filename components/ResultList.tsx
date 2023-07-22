@@ -58,6 +58,7 @@ const ResultList: FC<ResultListProps> = (_props) => {
       }
 
       <SidebarZoomOutButton
+        divisionFactor={2}
         visible={isSidebarZoomOutButtonVisible}
       />
     </List>
