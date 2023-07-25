@@ -2,6 +2,7 @@ import { FC } from 'react'
 import { AppProps } from 'next/app'
 import { Provider } from 'react-redux'
 import { ConfigProvider } from 'antd'
+import get from 'lodash/get'
 import store from '../store'
 import '../utils/icons/font-awesome'
 import Layout from '../components/Layout'
@@ -11,7 +12,7 @@ import 'typeface-rubik/index.css'
 
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => (
-  <Layout project={pageProps.project}>
+  <Layout project={get(pageProps, 'project', undefined)}>
     <GlobalLocale/>
 
     <Provider store={store}>

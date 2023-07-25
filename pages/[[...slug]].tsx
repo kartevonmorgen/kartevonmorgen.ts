@@ -15,7 +15,7 @@ import Footer from '../components/HomeFooter'
 const { Content } = Layout
 
 const Home: FC = () => (
-  <div>
+  <div className="App">
     <HomeEntityRedirector/>
 
     <Layout>

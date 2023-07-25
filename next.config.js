@@ -7,11 +7,9 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 module.exports = nextTranslate(
   withBundleAnalyzer({
-    future: {
-      webpack5: true,
-    },
-
     webpack: (config, _options) => {
+      config.resolve.fallback = { fs: false }
+
       config.plugins.push(
         new MomentLocalesPlugin({
           localesToKeep: [
@@ -94,7 +92,6 @@ module.exports = nextTranslate(
       defaultLocale: 'de',
     },
 
-    cssModules: true,
 
   }),
 )
