@@ -3,8 +3,6 @@ import { ORDERED_RESPONSIVE_KEYS, Size, VIEW } from '../consts/view'
 import { convertUnknownToInt } from '../utils/utils'
 import { useResponsive } from 'ahooks'
 
-export { useResponsive as default } from 'ahooks'
-
 
 const calculateSidebarSize = (size: Size): Size => {
   const { innerHeight, innerWidth } = window
@@ -43,3 +41,6 @@ export const useSidebar = (): Size => {
 
   return limitSidebarSize(calculateSidebarSize(sidebarSizes.default))
 }
+
+
+export default useResponsive

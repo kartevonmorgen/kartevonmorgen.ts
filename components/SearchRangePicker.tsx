@@ -1,8 +1,9 @@
 import { Dispatch, FC, useEffect, useState } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import useTranslation from 'next-translate/useTranslation'
-import { DatePicker } from 'antd'
 import moment, { Moment } from 'moment'
+import toString from 'lodash/toString'
+import DatePicker from './DatePicker'
 import { getEventTimeBoundariesFromRouter } from '../utils/router'
 import { removeRoutingQueryParams, updateRoutingQuery } from '../utils/utils'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
@@ -24,8 +25,8 @@ const setRangeToRouterAndState = (router: NextRouter, setRange: Dispatch<FilterD
 
   const { query } = router
 
-  let endMin = null
-  let startMax = null
+  let endMin: Moment | null = null
+  let startMax: Moment | null = null
   if (range !== null) {
     endMin = range[0]
     startMax = range[1]
@@ -35,13 +36,13 @@ const setRangeToRouterAndState = (router: NextRouter, setRange: Dispatch<FilterD
 
   let newQueryParams = query
   if (endMin) {
-    newQueryParams = updateRoutingQuery(newQueryParams, { end_min: endMin.unix() })
+    newQueryParams = updateRoutingQuery(newQueryParams, { end_min: toString(endMin.unix()) })
   } else {
     newQueryParams = removeRoutingQueryParams(newQueryParams, [TimeBoundariesParams.END_MIN])
   }
 
   if (startMax) {
-    newQueryParams = updateRoutingQuery(newQueryParams, { start_max: startMax.unix() })
+    newQueryParams = updateRoutingQuery(newQueryParams, { start_max: toString(startMax.unix()) })
   } else {
     newQueryParams = removeRoutingQueryParams(newQueryParams, [TimeBoundariesParams.START_MAX])
   }
@@ -70,7 +71,10 @@ const SearchRangePicker: FC = () => {
   useEffect(() => {
     const { endMin, startMax } = eventTimeBoundaries
 
-    setRange([endMin, startMax])
+    let newEndMin: Moment | null = endMin || null
+    let newStartMax: Moment | null = endMin || null
+
+    setRange([newEndMin, newStartMax])
   }, [])
 
   return (

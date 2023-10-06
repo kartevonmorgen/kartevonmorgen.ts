@@ -46,7 +46,7 @@ export const convertQueryParamToString = (
     return stringOrArrayOfStrings
   }
 
-  return stringOrArrayOfStrings[0]
+  return (stringOrArrayOfStrings as string[])[0]
 }
 
 export const convertStringToFloat = (str: string, digits: number | null = null): number => {
@@ -141,7 +141,7 @@ export const convertQueryParamToArray = (param: RouterQueryParam): string[] => {
   }
 
   // is array -> split and make it flat
-  const aggregatedSplitedParams: string[] = param
+  const aggregatedSplitedParams: string[] = (param as string[])
     .map(element => element.split(SEP))
     .reduce((aggregatedStrings, arrayOfSplittedStrings) => {
       return [

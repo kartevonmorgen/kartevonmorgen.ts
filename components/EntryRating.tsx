@@ -13,11 +13,7 @@ const EntryRating: FC<EntryRatingProps> = (props) => {
   const { slugAction } = props
   const { subSlugAction } = slugAction
 
-  const {
-    parentSlugAction: {
-      id: entryId,
-    },
-  } = slugAction
+  const entryId = (slugAction as SlugAction).parentSlugAction?.id as string
 
   if (subSlugAction !== null) {
     return (

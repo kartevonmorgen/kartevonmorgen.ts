@@ -12,7 +12,7 @@ import { getIconDir } from '../utils/tags'
 
 
 interface EntryLinksProps {
-  links: CustomLinkList
+  links?: CustomLinkList
 }
 
 // has both the custom links attributes and the data needed for visual component
@@ -74,6 +74,8 @@ const enrichedLinkDetailsSortFunc = (l1: EnrichedLinkDetail, l2: EnrichedLinkDet
   if (l1.title && l2.title) {
     return l1.title.length - l2.title.length
   }
+
+  return 1
 }
 
 const getTitle = (enrichedLink: EnrichedLinkDetail): string => {

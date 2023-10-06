@@ -42,7 +42,7 @@ const EntityRatingContent: FC<EntityRatingContentProps> = (props) => {
             <Divider type="vertical"/>
 
             {
-              isWebUri(source) ? (
+              isWebUri(source as string) ? (
                 <Link
                   href={source}
                   target="_blank"

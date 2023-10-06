@@ -1,8 +1,8 @@
 import { GeoLocation, GeoLocations } from '../dtos/GeoLocatoinResponse'
-import { OptionData, OptionGroupData } from 'rc-select/lib/interface'
+import type { DefaultOptionType } from 'rc-select/lib/Select'
 
 
-type SelectOptions = (OptionData | OptionGroupData)[]
+type SelectOptions = DefaultOptionType[]
 
 export const convertGeoLocationsToSelectOptions = (geoLocations: GeoLocations): SelectOptions => {
   return geoLocations.map((geoLocation: GeoLocation) => ({

@@ -6,7 +6,18 @@ import produce from 'immer'
 import useTranslation from 'next-translate/useTranslation'
 import { validate as validateEmail } from 'isemail'
 import { isWebUri } from 'valid-url'
-import { Button, Checkbox, Divider, Form, FormInstance, Input, Select, Spin, Typography } from 'antd'
+import {
+  Button,
+  Checkbox,
+  Divider,
+  Form,
+  FormInstance,
+  Input,
+  Select,
+  Spin,
+  Typography,
+  Alert,
+} from 'antd'
 import MinusCircleOutlined from '@ant-design/icons/lib/icons/MinusCircleOutlined'
 import PlusOutlined from '@ant-design/icons/lib/icons/PlusOutlined'
 import isString from 'lodash/isString'
@@ -38,11 +49,12 @@ import { ENTITY_DETAIL_DESCRIPTION_LIMIT } from '../consts/texts'
 import EntityTagsFormSection from './EntityTagsFormSection'
 import { FORM_STATUS } from '../slices/formSlice'
 import { formSelector } from '../selectors/form'
+import { AxiosError } from 'axios'
 
 
 const { useForm } = Form
 const { TextArea } = Input
-const { Link } = Typography
+const { Link, Paragraph } = Typography
 
 
 // we declare both types NewEntryWithLicense for create, and NewEntryWithVersion for update
@@ -101,7 +113,7 @@ const transformFormFields = (entry: EntryFormType): EntryFormType => {
 
       return licenseArray[0]
     },
-    email: (email: string | null | undefined): string | null => {
+    email: (email: string | null | undefined): string | null | undefined => {
       if (email === '') {
         return null
       }
@@ -222,8 +234,22 @@ const onFinish = (
   const entryWithDefaultValues = setFieldsToDefaultOrNull(entry)
   const adaptedEntry = transformFormFields(entryWithDefaultValues)
 
-  entryId = await createOrEditEntry(adaptedEntry, entryId, isEdit)
+  try {
+    entryId = await createOrEditEntry(adaptedEntry, entryId, isEdit)
+  } catch (e) {
+    const error = e as AxiosError
+    const errorMessage = error.response?.data?.message
+    if (errorMessage) {
+      dispatch(viewActions.setErrorMessage(errorMessage))
+    } else {
+      console.error(e)
+      dispatch(viewActions.setErrorMessage('Submitting form failed!'))
+    }
+    document.getElementsByClassName('ant-drawer-body')[0].scrollTop = 0
+    return
+  }
 
+  dispatch(viewActions.setErrorMessage(null))
   dispatch(formActions.expireFormCache())
   addEntryToStateOnCreate(isEdit, entryId, adaptedEntry, dispatch)
   redirectToEntry(router, entryId, isEdit)
@@ -254,6 +280,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
 
   const { category, setCategory, verb, entryId, isFormInitialized } = props
 
+
   const dispatch = useDispatch()
 
   const formCache = useSelector(formSelector)
@@ -282,7 +309,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
   }, [newPointCoordinateLat, newPointCoordinateLng])
 
   useMount(() => {
-    dispatch(viewActions.setHighlight(entryId))
+    dispatch(viewActions.setHighlight(entryId as string))
   })
 
   useUnmount(() => {
@@ -292,22 +319,22 @@ const EntryForm: FC<EntryFormProps> = (props) => {
   const isEdit = verb === SlugVerb.EDIT
 
   const { orgTag: optionalOrgTag } = query
-  const orgTag = optionalOrgTag && isString(optionalOrgTag) ? optionalOrgTag : null
+  const orgTag = optionalOrgTag && isString(optionalOrgTag) ? optionalOrgTag : undefined
   const entryRequest: EntryRequest = {
     org_tag: orgTag,
   }
 
-  const { data: entries, error: entriesError } = useRequest<EntriesDTO>(isEdit && {
+  const { data: entries, error: entriesError } = useRequest<EntriesDTO>(isEdit ? {
     url: `${API_ENDPOINTS.getEntries()}/${entryId}`,
     params: entryRequest,
-  })
+  } : null)
 
   const foundEntry: boolean = isArray(entries) && entries.length !== 0
-  let entry: Entry = foundEntry ? { ...entries[0] } : {} as Entry
+  let entry: Entry = foundEntry ? { ...(entries as EntriesDTO)[0] } : {} as Entry
 
   if (
     formCache.status === FORM_STATUS.READY &&
-    EntryCategories.includes(formCache.category) &&
+    EntryCategories.includes(formCache.category as Category) &&
     formCache.data
   ) {
     entry = { ...formCache.data } as Entry
@@ -369,10 +396,11 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       style={{
         marginTop: 8,
       }}
-      onFinish={onFinish(router, dispatch, isEdit, entryId)}
+      onFinish={onFinish(router, dispatch, isEdit, entryId as string)}
       onValuesChange={
         (_changedValue: Partial<EntryFormType>, entryData: EntryFormType) => {
           dispatch(formActions.cacheFormData({ category, data: entryData }))
+          dispatch(viewActions.setErrorMessage(null))
         }
       }
       form={form}
@@ -439,9 +467,12 @@ const EntryForm: FC<EntryFormProps> = (props) => {
             <Input
               style={{ width: '50%' }}
               placeholder={t('entryForm.city')}
-              onBlur={() => {
+              onBlur={async () => {
                 addTouchedAddressFieldName(setTouchedAddressFields, 'city')
-                flyToFormAddressAndSetNewPin(router, form).then()
+                try {
+                  await flyToFormAddressAndSetNewPin(router, form)
+                } catch (e) {
+                }
               }}
             />
           </Form.Item>
@@ -453,9 +484,12 @@ const EntryForm: FC<EntryFormProps> = (props) => {
             <Input
               style={{ width: '50%' }}
               placeholder={t('entryForm.zip')}
-              onBlur={() => {
+              onBlur={async () => {
                 addTouchedAddressFieldName(setTouchedAddressFields, 'zip')
-                flyToFormAddressAndSetNewPin(router, form).then()
+                try {
+                  await flyToFormAddressAndSetNewPin(router, form).then()
+                } catch (e) {
+                }
               }}
             />
           </Form.Item>
@@ -469,12 +503,17 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       <Form.Item name='street'>
         <Input
           placeholder={t('entryForm.street')}
-          onBlur={() => {
+          onBlur={async () => {
             addTouchedAddressFieldName(setTouchedAddressFields, 'street')
-            flyToFormAddressAndSetNewPin(router, form).then()
+            try {
+              flyToFormAddressAndSetNewPin(router, form).then()
+            } catch (e) {
+            }
           }}
         />
       </Form.Item>
+
+      <Paragraph>{t('entryForm.clickOnMap')}</Paragraph>
 
       <Form.Item
         name='lat'
@@ -482,6 +521,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
           display: 'inline-block',
           width: '50%',
         }}
+        rules={[{required: true, message: t('entryForm.requiredField')}]}
       >
         <Input
           disabled
@@ -495,6 +535,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
           display: 'inline-block',
           width: '50%',
         }}
+        rules={[{required: true, message: t('entryForm.requiredField')}]}
       >
         <Input
           disabled
@@ -591,12 +632,14 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       >
         {(fields, { add, remove }) => (
           <Fragment>
-            {fields.map((field) => (
+            {fields.map((field, i) => (
               <Fragment>
+                <Paragraph>{`#${i+1}`}</Paragraph>
+
                 <Form.Item
                   {...field}
                   name={[field.name, 'url']}
-                  fieldKey={[field.fieldKey, 'url']}
+                  key={field.key}
                   rules={[
                     {
                       validator: (_, value) => {
@@ -612,25 +655,34 @@ const EntryForm: FC<EntryFormProps> = (props) => {
                     },
                   ]}
                 >
-                  <Input placeholder={t('entryForm.linkUrl')} />
+                  <Input
+                    placeholder={t('entryForm.linkUrl')}
+                    prefix={<FontAwesomeIcon icon='link' />}
+                  />
                 </Form.Item>
                 <Form.Item
                   {...field}
                   name={[field.name, 'title']}
-                  fieldKey={[field.fieldKey, 'title']}
+                  key={field.key}
                   rules={[
                     { min: 3, message: t('entryForm.minNumCharactersTitle') },
                     { max: 50, message: t('entryForm.maxNumCharactersTitle') },
                   ]}
                 >
-                  <Input placeholder={t('entryForm.linkTitle')} />
+                  <Input
+                    placeholder={t('entryForm.linkTitle')}
+                    prefix={<FontAwesomeIcon icon='pen-fancy' />}
+                  />
                 </Form.Item>
                 <Form.Item
                   {...field}
                   name={[field.name, 'description']}
-                  fieldKey={[field.fieldKey, 'description']}
+                  key={field.key}
                 >
-                  <Input placeholder={t('entryForm.linkDescription')} />
+                  <Input
+                    placeholder={t('entryForm.linkDescription')}
+                    prefix={<FontAwesomeIcon icon='align-justify' />}
+                  />
                 </Form.Item>
                 <Button
                   onClick={() => remove(field.name)}

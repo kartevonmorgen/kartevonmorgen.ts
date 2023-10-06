@@ -73,7 +73,7 @@ const TypeChooser: FC = () => {
         return (
           <CheckableTag
             key={`category-chooser-${categoryName}`}
-            className={isChecked && `${categoryName}-checkable-tag`}
+            className={isChecked ? `${categoryName}-checkable-tag` : undefined}
             checked={isChecked}
             onChange={(checked) => handleChange(categoryName, checked, selectedTypes, router)}
             style={{

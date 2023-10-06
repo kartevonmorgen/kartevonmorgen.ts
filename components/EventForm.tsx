@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import useTranslation from 'next-translate/useTranslation'
 import produce from 'immer'
 import { useMount, useUnmount, useDeepCompareEffect } from 'ahooks'
-import { Button, Checkbox, DatePicker, Divider, Form, FormInstance, Input, Spin, Typography } from 'antd'
+import { Button, Checkbox, Divider, Form, FormInstance, Input, Spin, Typography } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { validate as validateEmail } from 'isemail'
 import { isWebUri } from 'valid-url'
+import DatePicker from './DatePicker'
 import EventDTO, { EventID } from '../dtos/Event'
 import { AxiosInstance } from '../api'
 import API_ENDPOINTS from '../api/endpoints'
@@ -30,12 +31,13 @@ import { ENTITY_DETAIL_DESCRIPTION_LIMIT } from '../consts/texts'
 import EntityTagsFormSection from './EntityTagsFormSection'
 import { FORM_STATUS } from '../slices/formSlice'
 import { formSelector } from '../selectors/form'
+import { AxiosError } from 'axios'
 
 
 const { useForm } = Form
 const { TextArea } = Input
 const { RangePicker } = DatePicker
-const { Link } = Typography
+const { Link, Paragraph } = Typography
 
 
 const setAddressDetailsIfAddressFieldsAreNotTouched = async (
@@ -145,8 +147,22 @@ const onFinish = (
   // todo: if failed shoe a notification
 
   const adaptedFormValues = onSendAdapter(eventFormValues)
-  const eventId = await createOrEditEvent(adaptedFormValues, isEdit)
 
+  let eventId = adaptedFormValues.id
+  try {
+    eventId = await createOrEditEvent(adaptedFormValues, isEdit)
+  } catch (e) {
+  const error = e as AxiosError
+  const errorMessage = error.response?.data?.message
+  if (errorMessage) {
+    dispatch(viewActions.setErrorMessage(errorMessage))
+  } else {
+    console.error(e)
+    dispatch(viewActions.setErrorMessage('Submitting form failed!'))
+  }
+    document.getElementsByClassName('ant-drawer-body')[0].scrollTop = 0
+    return
+}
   dispatch(formActions.expireFormCache())
   addEventToStateOnCreate(dispatch, adaptedFormValues, isEdit)
   redirectToEvent(router, eventId, isEdit)
@@ -202,9 +218,9 @@ const EventForm: FC<EventFormProps> = (props) => {
 
   const isEdit = verb === SlugVerb.EDIT
 
-  const { data: eventResponse, error: eventError } = useRequest<EventDTO>(isEdit && {
+  const { data: eventResponse, error: eventError } = useRequest<EventDTO>(isEdit ? {
     url: `${API_ENDPOINTS.getEvent()}/${eventId}`,
-  })
+  } : null)
 
   let event = eventResponse
   if (formCache.status === FORM_STATUS.READY && formCache.category === Category.EVENT && formCache.data) {
@@ -271,6 +287,7 @@ const EventForm: FC<EventFormProps> = (props) => {
         (_changedValue: any, formData: object) => {
           const event: EventDTO = onSendAdapter(formData)
           dispatch(formActions.cacheFormData({ category: Category.EVENT, data: event }))
+          dispatch(viewActions.setErrorMessage(null))
         }
       }
     >
@@ -296,6 +313,7 @@ const EventForm: FC<EventFormProps> = (props) => {
         ]}
       >
         <RangePicker
+          changeOnBlur
           showTime={{ format: 'HH:mm' }}
           format='YYYY-MM-DD HH:mm'
           style={{ width: '100%' }}
@@ -340,9 +358,12 @@ const EventForm: FC<EventFormProps> = (props) => {
             <Input
               style={{ width: '50%' }}
               placeholder={t('entryForm.city')}
-              onBlur={() => {
+              onBlur={async () => {
                 addTouchedAddressFieldName(setTouchedAddressFields, 'city')
-                flyToFormAddressAndSetNewPin(router, form).then()
+                try {
+                  await flyToFormAddressAndSetNewPin(router, form).then()
+                } catch (e) {
+                }
               }}
             />
           </Form.Item>
@@ -353,9 +374,12 @@ const EventForm: FC<EventFormProps> = (props) => {
             <Input
               style={{ width: '50%' }}
               placeholder={t('entryForm.zip')}
-              onBlur={() => {
+              onBlur={async () => {
                 addTouchedAddressFieldName(setTouchedAddressFields, 'zip')
-                flyToFormAddressAndSetNewPin(router, form).then()
+                try {
+                  await flyToFormAddressAndSetNewPin(router, form).then()
+                } catch (e) {
+                }
               }}
             />
           </Form.Item>
@@ -369,12 +393,17 @@ const EventForm: FC<EventFormProps> = (props) => {
       <Form.Item name='street'>
         <Input
           placeholder={t('entryForm.street')}
-          onBlur={() => {
+          onBlur={async () => {
             addTouchedAddressFieldName(setTouchedAddressFields, 'street')
-            flyToFormAddressAndSetNewPin(router, form).then()
+            try {
+              await flyToFormAddressAndSetNewPin(router, form).then()
+            } catch (e) {
+            }
           }}
         />
       </Form.Item>
+
+      <Paragraph>{t('entryForm.clickOnMap')}</Paragraph>
 
       <Form.Item
         name='lat'
@@ -382,6 +411,7 @@ const EventForm: FC<EventFormProps> = (props) => {
           display: 'inline-block',
           width: '50%',
         }}
+        rules={[{required: true, message: t('entryForm.requiredField')}]}
       >
         <Input placeholder='Latitude' disabled />
       </Form.Item>
@@ -392,6 +422,7 @@ const EventForm: FC<EventFormProps> = (props) => {
           display: 'inline-block',
           width: '50%',
         }}
+        rules={[{required: true, message: t('entryForm.requiredField')}]}
       >
         <Input placeholder='Longitude' disabled />
       </Form.Item>

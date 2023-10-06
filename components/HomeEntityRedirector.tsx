@@ -16,7 +16,7 @@ const extractTagsFromSearchQuery = (search: string): [string, string[]] => {
   }
 
   const tokens = search.split(' ')
-  const tags = []
+  const tags: string[] = []
   let newSearch = ''
   tokens.forEach(token => {
     if (token.startsWith('#')) {

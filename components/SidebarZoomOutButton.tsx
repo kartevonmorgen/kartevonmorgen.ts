@@ -24,7 +24,7 @@ const zoomOut = (divisionFactor: number, router: NextRouter) => () => {
 
 
 interface SidebarZoomOutButtonProps {
-  divisionFactor?: number
+  divisionFactor: number
   visible?: boolean
 }
 

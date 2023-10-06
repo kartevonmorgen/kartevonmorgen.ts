@@ -4,7 +4,7 @@ import { SearchEntryID } from './SearchEntry'
 
 
 export interface Entry extends NewEntryWithLicense, NewEntryWithVersion {
-  created?: number
+  created: number
   id?: SearchEntryID
   ratings?: string[]
 }

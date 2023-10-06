@@ -2,7 +2,8 @@ import { FC, useEffect } from 'react'
 import { SearchEntryID } from '../dtos/SearchEntry'
 import { SlugVerb } from '../utils/types'
 import { NextRouter, useRouter } from 'next/router'
-import { Button, Form, Input, PageHeader, Radio, Space, Typography } from 'antd'
+import { PageHeader } from '@ant-design/pro-layout';
+import { Button, Form, Input, Radio, Space, Typography } from 'antd';
 import useTranslation from 'next-translate/useTranslation'
 import { NewRating } from '../dtos/NewRating'
 import { AxiosInstance } from '../api'

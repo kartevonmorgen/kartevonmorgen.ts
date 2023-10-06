@@ -23,7 +23,7 @@ const EntityForm: FC<EntityFormProps> = (props) => {
     case Category.INITIATIVE:
       return (
         <InitiativeForm
-          initiativeId={entityId}
+          initiativeId={entityId as string}
           isFormInitialized={isFormInitialized}
           verb={verb}
           setCategory={setCategory}
@@ -41,7 +41,7 @@ const EntityForm: FC<EntityFormProps> = (props) => {
     case Category.EVENT:
       return (
         <EventForm
-          eventId={entityId}
+          eventId={entityId as string}
           verb={verb}
         />
       )

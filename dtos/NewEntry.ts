@@ -12,8 +12,8 @@ export interface NewEntry extends EntryContact, EntityAddress {
   lng: number
   opening_hours?: string
   founded_on?: string
-  categories?: Categories
-  tags?: TagArray
+  categories: Categories
+  tags: TagArray
   image_url?: string
   image_link_url?: string
   custom?: CustomLinkList

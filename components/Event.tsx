@@ -15,7 +15,7 @@ const Event: FC<EventProps> = (props) => {
 
   switch (slugAction.verb) {
     case SlugVerb.SHOW:
-      return <EventDetail eventId={slugAction.id}/>
+      return <EventDetail eventId={slugAction.id as string}/>
     case SlugVerb.CREATE:
       return <EntityChooserForm
         verb={SlugVerb.CREATE}
@@ -24,7 +24,7 @@ const Event: FC<EventProps> = (props) => {
       return <EntityChooserForm
         category={Category.EVENT}
         verb={SlugVerb.EDIT}
-        entityId={slugAction.id}
+        entityId={slugAction.id as string}
       />
     default:
       // redirect to the result page

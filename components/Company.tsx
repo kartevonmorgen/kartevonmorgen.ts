@@ -21,13 +21,13 @@ const Company: FC<CompanyProps> = (props) => {
 
   switch (slugAction.verb) {
     case SlugVerb.SHOW:
-      return <CompanyDetail companyId={slugAction.id} />
+      return <CompanyDetail companyId={(slugAction.id as string)} />
     case SlugVerb.CREATE:
       return <EntityChooserForm verb={SlugVerb.CREATE} />
     case SlugVerb.EDIT:
       return <EntityChooserForm
         verb={SlugVerb.EDIT}
-        entityId={slugAction.id}
+        entityId={(slugAction.id as string)}
       />
     default:
       return null

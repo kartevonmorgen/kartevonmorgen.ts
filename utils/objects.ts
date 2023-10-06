@@ -65,7 +65,7 @@ export const renameProperties = <T>(originalObject: T, propertiesToRename: Prope
 }
 
 
-export const collectProperties = <T>(originalObject: T, propertiesToKeep: propertyArray): Partial<T> => {
+export const collectProperties = <T extends object>(originalObject: T, propertiesToKeep: propertyArray): Partial<T> => {
   const propertiesToRemove = Object.keys(originalObject).filter(property => !includes(propertiesToKeep, property))
 
   return removeProperties(originalObject, propertiesToRemove)
@@ -89,7 +89,7 @@ export const addPropertiesWithNewName = <T>(
   })
 }
 
-export const setValuesToDefaultOrNull = <T>(originalObject: T, defaultValues: DefaultValues): T => {
+export const setValuesToDefaultOrNull = <T extends object>(originalObject: T, defaultValues: DefaultValues): T => {
   return update(originalObject, draft => {
     Object.keys(draft).forEach(k => {
       if (isUndefined(draft[k])) {

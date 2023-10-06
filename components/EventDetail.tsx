@@ -76,9 +76,14 @@ const EventDetail: FC<EventDetailProps> = (props) => {
 
 
   return (
-    <div id="entity-detail">
+    <div
+      id="entity-detail"
+      style={{
+        position: 'relative',
+      }}
+    >
 
-      <EntityDetailHeader/>
+      <EntityDetailHeader hasImage={event.image_url !== undefined && event.image_url !== null}/>
 
       <EntityImageWithLink
         title={event.title}
@@ -87,9 +92,10 @@ const EventDetail: FC<EventDetailProps> = (props) => {
       />
 
       <Title
-        level={2}
+        level={3}
         style={{
           marginBottom: 0,
+          marginTop: 12,
         }}
       >
         {event.title}

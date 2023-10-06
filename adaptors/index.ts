@@ -37,7 +37,7 @@ export const convertQueryToEventRequestAndSetTimeBoundaries = (query: ParsedUrlQ
     created_by: createdByParam ? convertQueryParamToString(createdByParam) : undefined,
     start_min: eventTimeBoundaries.startMin?.unix(),
     start_max: eventTimeBoundaries.startMax?.unix(),
-    end_min: eventTimeBoundaries.endMin.unix(),
+    end_min: eventTimeBoundaries.endMin?.unix(),
   }
 
   Object.keys(searchEventsRequest).forEach(key => {

@@ -22,26 +22,28 @@ const Sidebar: FC = () => {
 
 
   return (
-      <Drawer
-        autoFocus={false}
-        visible={isSidebarOpen}
-        placement='left'
-        closable={false}
-        mask={false}
-        bodyStyle={{
-          padding: 0,
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-        width={sidebarWidth}
-      >
-
-        <SidebarCollapseButton />
-
-        {isSidebarOpen && <SidebarContent />}
-
-      </Drawer>
-  )
+    (<Drawer
+      autoFocus={false}
+      open={isSidebarOpen}
+      placement='left'
+      closable={false}
+      contentWrapperStyle={{
+        display: 'block',
+        width: isSidebarOpen ? sidebarWidth : 0,
+      }}
+      mask={false}
+      bodyStyle={{
+        padding: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        overflowX: 'clip'
+      }}
+      width={sidebarWidth}
+    >
+      <SidebarCollapseButton />
+      {isSidebarOpen && <SidebarContent />}
+    </Drawer>)
+  );
 }
 
 

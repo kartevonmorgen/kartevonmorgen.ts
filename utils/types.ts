@@ -69,9 +69,9 @@ export type SlugId = EventID | SearchEntryID | null
 export interface SlugAction {
   verb: SlugVerb
   entity: string
-  id: string
-  subSlugAction: SlugAction
-  parentSlugAction: SlugAction
+  id: string | null
+  subSlugAction: SlugAction | null
+  parentSlugAction: SlugAction | null
 }
 
 export interface RootSlugAction extends SlugAction {

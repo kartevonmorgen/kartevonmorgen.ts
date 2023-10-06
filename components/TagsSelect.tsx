@@ -35,19 +35,27 @@ const TagsSelect: FC<SelectProps<any>> = (props) => {
       placeholder={placeholder}
       onSearch={(input) => {
         setTokenToMatchTagsWith(input)
-        onSearchCallback(input)
+        if (onSearchCallback) {
+          onSearchCallback(input)
+        }
       }}
       onSelect={(value, option) => {
         setTokenToMatchTagsWith('')
-        onSelectCallback(value, option)
+        if (onSelectCallback) {
+          onSelectCallback(value, option)
+        }
       }}
       onDeselect={(value, option) => {
         setTokenToMatchTagsWith('')
-        onDeselectCallback(value, option)
+        if (onDeselectCallback) {
+          onDeselectCallback(value, option)
+        }
       }}
       onClear={() => {
         setTokenToMatchTagsWith('')
-        onClearCallback()
+        if (onClearCallback) {
+          onClearCallback()
+        }
       }}
       options={options}
     />

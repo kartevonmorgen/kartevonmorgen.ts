@@ -11,7 +11,7 @@ const MapSharingModal: FC = () => {
   const [isModalVisible, { setTrue: showModal, setFalse: hideModal }] = useBoolean()
 
   return (
-    <Fragment>
+    (<Fragment>
       <Button
         type="link"
         style={{
@@ -21,9 +21,8 @@ const MapSharingModal: FC = () => {
       >
         {t('embed')}
       </Button>
-
       <Modal
-        visible={isModalVisible}
+        open={isModalVisible}
         closable={false}
         footer={null}
         onCancel={hideModal}
@@ -32,9 +31,8 @@ const MapSharingModal: FC = () => {
           hideModal={hideModal}
         />
       </Modal>
-
-    </Fragment>
-  )
+    </Fragment>)
+  );
 }
 
 export default MapSharingModal

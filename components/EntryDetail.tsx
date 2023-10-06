@@ -53,7 +53,7 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
   const currentUrl = window.location.href
 
   const { orgTag: optionalOrgTag } = query
-  const orgTag = optionalOrgTag && isString(optionalOrgTag) ? optionalOrgTag : null
+  const orgTag = optionalOrgTag && isString(optionalOrgTag) ? optionalOrgTag : undefined
   const entryRequest: EntryRequest = {
     org_tag: orgTag,
   }
@@ -64,7 +64,7 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
   })
 
   const foundEntry: boolean = isArray(entries) && entries.length !== 0
-  const entry: Entry = foundEntry ? entries[0] : null
+  const entry: Entry | null = foundEntry ? (entries as EntriesDTO)[0] : null
   const partialEntryLatLng: PartialLatLng = {
     lat: entry?.lat,
     lng: entry?.lng,
@@ -103,13 +103,19 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
     return null
   }
 
+  if (!entry) {
+    return null
+  }
+
 
   const type: Category = entry.categories[0]
   const typeName: string = CategoryToNameMapper[type]
 
+  console.log(entry.image_url)
+
   return (
     <div id='entity-detail'>
-      <EntityDetailHeader />
+      <EntityDetailHeader hasImage={entry.image_url !== undefined && entry.image_url !== null}/>
 
       <EntityImageWithLink
         title={entry.title}
@@ -117,7 +123,14 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
         link={entry.image_link_url}
       />
 
-      <Title level={2}>{entry.title}</Title>
+      <Title
+        level={3}
+        style={{
+          marginBottom: 0,
+          marginTop: 12,
+      }}>
+        {entry.title}
+      </Title>
 
       <TypeTag
         type={typeName}
@@ -172,7 +185,7 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
       <EntityRatings ratingsIds={entry.ratings} />
 
       <EntityFooter
-        entityId={entry.id}
+        entityId={entry.id as string}
         type={RootSlugEntity.ENTRY}
         title={entry.title}
         activeLink={currentUrl}

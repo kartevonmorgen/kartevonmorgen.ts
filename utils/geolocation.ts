@@ -133,7 +133,6 @@ export const flyToFormAddressAndSetNewPin = async (router: NextRouter, form: For
   try {
     locations = await geocode(geoLocationRequest)
   } catch (e) {
-    return
   }
 
   if (locations.length === 0) {
@@ -150,7 +149,7 @@ export const flyToFormAddressAndSetNewPin = async (router: NextRouter, form: For
 }
 
 export const getEntryLocation = async (entryId: SearchEntryID): Promise<LatLng | null> => {
-  let entry: Entry = null
+  let entry: Entry | null= null
   try {
     const entryResponse = await fetch(`${BASICS_ENDPOINTS.getEntries()}/${entryId}`)
     if (entryResponse.status !== StatusCodes.OK) {
@@ -167,6 +166,10 @@ export const getEntryLocation = async (entryId: SearchEntryID): Promise<LatLng |
     return null
   }
 
+  if (!entry) {
+    return null
+  }
+
   const latLng: LatLng = {
     lat: entry.lat,
     lng: entry.lng
@@ -176,7 +179,7 @@ export const getEntryLocation = async (entryId: SearchEntryID): Promise<LatLng |
 }
 
 export const getEventLocation = async (eventId: EventID): Promise<LatLng | null> => {
-  let event: Event = null
+  let event: Event | null = null
   try {
     const eventResponse = await fetch(`${BASICS_ENDPOINTS.getEvent()}/${eventId}`)
     if (eventResponse.status !== StatusCodes.OK) {
@@ -185,6 +188,10 @@ export const getEventLocation = async (eventId: EventID): Promise<LatLng | null>
 
     event = await eventResponse.json()
   } catch (e) {
+    return null
+  }
+
+  if (!event) {
     return null
   }
 

@@ -70,7 +70,7 @@ const LocateMe: FC<LocateMeProps> = (props) => {
     <Button
       {...buttonProps}
       icon={<AimOutlined/>}
-      onClick={setQueryParamsToCurrentLocation(shouldIncludeDefaultProjectName, router)}
+      onClick={setQueryParamsToCurrentLocation((shouldIncludeDefaultProjectName as boolean), router)}
     />
   )
 }

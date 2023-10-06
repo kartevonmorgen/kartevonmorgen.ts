@@ -2,10 +2,10 @@ import { FC } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 import produce from 'immer'
-import { PageHeader } from 'antd'
+import { PageHeader } from '@ant-design/pro-layout';
 import { Translate } from 'next-translate'
 import useTranslation from 'next-translate/useTranslation'
-import { formActions } from '../slices'
+import { formActions, viewActions } from '../slices'
 import { convertQueryParamToArray } from '../utils/utils'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 import { AppDispatch } from '../store'
@@ -40,6 +40,7 @@ const onBack = (router: NextRouter, dispatch: AppDispatch, isEdit: boolean) => (
 
   const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
 
+  dispatch(viewActions.setErrorMessage(null))
   dispatch(formActions.expireFormCache())
   router.replace(
     {

@@ -9,7 +9,7 @@ import {
   isPossiblyEntitySlugActionLocatable,
 } from '../utils/slug'
 import { convertLatLngToString, getOptionalEntityLocation, LatLng } from '../utils/geolocation'
-import { RootSlugEntity } from '../utils/types'
+import { RootSlugEntity, SlugAction } from '../utils/types'
 import MAP_CONSTANTS from '../consts/map'
 
 
@@ -35,8 +35,8 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
       if (isPossiblyRootOrEntitySlugActionLocatable) {
         const entrySlugAction = getOptionalEntrySlugActionFromRoot(rootSlugAction)
         optionalEntityLocation = await getOptionalEntityLocation(
-          entrySlugAction.id,
-          entrySlugAction.entity as RootSlugEntity,
+          (entrySlugAction as SlugAction).id as string,
+          (entrySlugAction as SlugAction).entity as RootSlugEntity,
         )
       }
 

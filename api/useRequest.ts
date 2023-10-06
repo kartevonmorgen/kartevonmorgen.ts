@@ -22,7 +22,7 @@ export default function useRequest<Data = unknown, Error = unknown>(
 ): Return<Data, Error> {
   const { data: response, error, isValidating, revalidate, mutate } = useSWR<AxiosResponse<Data>,
     AxiosError<Error>>(
-    request && JSON.stringify(request),
+    request && JSON.stringify(request as GetRequest),
     /**
      * NOTE: Typescript thinks `request` can be `null` here, but the fetcher
      * function is actually only called by `useSWR` when it isn't.

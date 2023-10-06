@@ -64,11 +64,11 @@ const HomeCitySearch: FC = () => {
     },
   })
 
-  const couldFetchGeoLocations: boolean = geoLocations && !geoLocationError
+  const couldFetchGeoLocations: boolean = !!(geoLocations && !geoLocationError)
 
-  let options = []
+  let options: Option[] = []
   if (couldFetchGeoLocations) {
-    options = convertGeoLocationsToOptions(geoLocations)
+    options = convertGeoLocationsToOptions(geoLocations as GeoLocations)
   }
 
   return (

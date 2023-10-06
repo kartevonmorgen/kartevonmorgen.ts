@@ -6,7 +6,11 @@ export interface Duration {
   end: Moment
 }
 
-export const isValidDuration = (duration: Duration) => {
+export const isValidDuration = (duration?: Duration) => {
+  if (!duration) {
+    return false
+  }
+
   const { start, end } = duration
 
   return start.isValid() && end.isValid()

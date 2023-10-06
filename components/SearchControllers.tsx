@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { useRouter } from 'next/router'
-import { useToggle } from 'ahooks'
+import { useToggle } from 'react-use'
 import { Button, Badge } from 'antd'
 import SearchFilters from './SearchFilters'
 import SearchInput from './SearchInput'
@@ -12,7 +12,7 @@ import TypeChooser from './TypeChooser'
 const onShowFilters = (toggleShowFilters) => () => (toggleShowFilters())
 
 const SearchControllers: FC = (_props) => {
-  const [showFilters, { toggle: toggleShowFilters }] = useToggle('0', '1')
+  const [showFilters, toggleShowFilters ] = useToggle(false)
 
   const router = useRouter()
 
@@ -45,7 +45,7 @@ const SearchControllers: FC = (_props) => {
       <TypeChooser/>
 
       <SearchFilters
-        showFilters={showFilters}
+        showFilters={showFilters ? '0' : '1'}
       />
     </div>
   )

@@ -76,6 +76,7 @@ const Partners: FC = () => {
                 key={`creator-${i}`}
               >
                 <Image
+                  alt={alt}
                   src={`/assets/img/partners/${src}`}
                   layout="intrinsic"
                   width={width}

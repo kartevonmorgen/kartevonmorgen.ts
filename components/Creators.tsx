@@ -75,6 +75,7 @@ const Creators: FC = () => {
                 key={`creator-${i}`}
               >
                 <Image
+                  alt={`creator ${i}`}
                   src={`/assets/img/creators/${src}`}
                   layout="intrinsic"
                   width={width}

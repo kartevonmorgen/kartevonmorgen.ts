@@ -58,7 +58,7 @@ export const getRootSlugActionFromQuery = (query: ParsedUrlQuery): SlugAction =>
     return rootAction
   }
 
-  const [_project, ...slugs] = slug
+  const [_project, ...slugs] = (slug as string[])
 
   let parentSlugAction = rootAction
 
@@ -250,7 +250,7 @@ export const convertMapQueryParamsToTableViewQueryParams = (
     bbox: convertBBoxToString(bbox),
     start_min: eventTimeBoundaries.startMin?.unix(),
     start_max: eventTimeBoundaries.startMax?.unix(),
-    end_min: eventTimeBoundaries.endMin.unix(),
+    end_min: eventTimeBoundaries.endMin?.unix(),
   }
 
   Object.keys(tableViewQueryParams).forEach(query => {
