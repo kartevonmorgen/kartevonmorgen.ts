@@ -1,6 +1,7 @@
 const cli = require('next/dist/cli/next-start')
 
 
+process.env.NODE_ENV = 'production'
 process.env.HOSTNAME = process.env.HOSTNAME || 'localhost'
 process.env.PORT = process.env.PORT || '3001'
 process.env.DB_NAME = process.env.DB_NAME || 'kartevonmorgen.development.sqlite'

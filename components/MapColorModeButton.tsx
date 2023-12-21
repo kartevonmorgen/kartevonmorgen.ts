@@ -45,7 +45,7 @@ const MapColorModeButton: FC = () => {
     return (
         <Switch
             checkedChildren="Gray"
-            unCheckedChildren="Normal"
+            unCheckedChildren="Colorful"
             onChange={(shouldSetToGrey: boolean) => toggleMapColorMode(router, shouldSetToGrey)}
         />
     )
