@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { useRouter, NextRouter } from 'next/router'
 import { Switch } from 'antd'
+import useTranslation from 'next-translate/useTranslation'
 import { MapColorModes } from './MapColorStyle'
 import { removeRoutingQueryParams, updateRoutingQuery } from '../utils/utils'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
@@ -42,10 +43,12 @@ const toggleMapColorMode = (router: NextRouter, shouldSetToGrey: boolean) => {
 const MapColorModeButton: FC = () => {
     const router = useRouter()
 
+    const { t } = useTranslation('map')
+
     return (
         <Switch
-            checkedChildren="Gray"
-            unCheckedChildren="Colorful"
+            checkedChildren={t('mapColorMode.grey')}
+            unCheckedChildren={t('mapColorMode.colorful')}
             onChange={(shouldSetToGrey: boolean) => toggleMapColorMode(router, shouldSetToGrey)}
         />
     )
