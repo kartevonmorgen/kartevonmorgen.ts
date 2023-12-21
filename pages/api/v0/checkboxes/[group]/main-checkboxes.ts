@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import { NextApiRequest, NextApiResponse } from 'next'
-import parseCSV from 'csv-parse/lib/sync'
+import { parse } from 'csv-parse/sync'
 
 
 export interface LabelValue {
@@ -44,7 +44,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
       'utf8',
     )
 
-    records = parseCSV(
+    records = parse(
       fileContent, {
         columns: true,
         skip_empty_lines: true,

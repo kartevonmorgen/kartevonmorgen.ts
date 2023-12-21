@@ -1,7 +1,7 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import fs from 'fs'
 import path from 'path'
-import parseCSV from 'csv-parse/lib/sync'
+import { parse } from 'csv-parse/sync'
 import { convertQueryParamToArray } from '../../../../../../../utils/utils'
 import { TagMarkerColor, TagMarkerColors } from '../../../../../../../dtos/TagMarkerColors'
 
@@ -64,7 +64,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       'utf8',
     )
 
-    const tagMarkerColor: TagMarkerColors = parseCSV(
+    const tagMarkerColor: TagMarkerColors = parse(
       fileContent, {
         columns: true,
         skip_empty_lines: true,

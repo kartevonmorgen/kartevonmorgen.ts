@@ -1,3 +1,4 @@
+import { NextApiRequest, NextApiResponse } from 'next'
 import fs from 'fs'
 import path from 'path'
 import { LinkWithIcon } from '../../../../../../dtos/LinkWithIcon'
@@ -7,7 +8,7 @@ const getPath = (project: string = 'main'): string => {
   return `./public/projects/${project}/burger-menu.json`
 }
 
-export default async (req, res) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   const {
     query: { project },
     method,

@@ -18,6 +18,7 @@ export enum RootSlugEntity {
   COMPANY = 'company',
   INITIATIVE = 'initiative',
   ENTRY = 'entry',
+  UNKNOWN = 'UNKNOWN'
 }
 
 export enum BriefRootSlugEntity {
@@ -25,7 +26,8 @@ export enum BriefRootSlugEntity {
   ENTRIES = 'e',
   RESULTS = 're',
   INITIATIVES = 'i',
-  COMPANIES = 'c'
+  COMPANIES = 'c',
+  UNKNOWN = 'unknown'
 }
 
 export enum EntrySlugEntity {
@@ -84,6 +86,7 @@ export const mapTypeIdToBriefEntityName = {
   [Category.INITIATIVE]: BriefRootSlugEntity.ENTRIES,
   [Category.COMPANY]: BriefRootSlugEntity.ENTRIES,
   [Category.EVENT]: BriefRootSlugEntity.EVENTS,
+  [Category.UNKNOWN]: BriefRootSlugEntity.UNKNOWN
 }
 
 export const mapBriefEntityNameToSingular: Record<BriefEntityName, SingularEntityName> = {
@@ -94,15 +97,16 @@ export const mapBriefEntityNameToSingular: Record<BriefEntityName, SingularEntit
   [BriefRootSlugEntity.COMPANIES]: RootSlugEntity.COMPANY,
   [BriefEntrySlugEntity.RATINGS]: EntrySlugEntity.RATING,
   [BriefRatingSlugEntity.COMMENTS]: RatingSlugEntity.COMMENT,
+  [BriefRootSlugEntity.UNKNOWN]: RootSlugEntity.UNKNOWN,
 }
 
-export const mapSingularEntityNameToBrief = Object
+export const mapSingularEntityNameToBrief: Record<SingularEntityName, BriefEntityName> = Object
   .keys(mapBriefEntityNameToSingular)
   .reduce(
     (mappedNames, briefEntityName) => {
-      mappedNames[mapBriefEntityNameToSingular[briefEntityName]] = briefEntityName
+      mappedNames[mapBriefEntityNameToSingular[briefEntityName as BriefEntityName] as SingularEntityName] = briefEntityName as BriefEntityName
 
       return mappedNames
     },
-    {},
+    {} as Record<SingularEntityName, BriefEntityName>,
   )

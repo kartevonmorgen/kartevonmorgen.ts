@@ -1,5 +1,4 @@
 import { configureStore, Action } from '@reduxjs/toolkit'
-import { ThunkAction } from 'redux-thunk'
 
 import rootReducer, { RootState } from './slices'
 
@@ -10,6 +9,8 @@ const store = configureStore({
 
 export type AppDispatch = typeof store.dispatch
 
-export type AppThunk = ThunkAction<void, RootState, unknown, Action<string>>
+export type SliceActions<T> = {
+  [K in keyof T]: T[K] extends (...args: any[]) => infer A ? A : never;
+}[keyof T]
 
 export default store

@@ -8,5 +8,8 @@
   },
   "popularTags": {
     "min_count": 50
+  },
+  "sidebar": {
+    "title": "Kartevonmorgen"
   }
 }

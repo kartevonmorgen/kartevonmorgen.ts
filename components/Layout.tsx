@@ -1,26 +1,27 @@
-import { FC } from 'react'
+import {FC, JSX, ReactNode} from 'react'
 import PropTypes from 'prop-types'
 import has from 'lodash/has'
 import isString from 'lodash/isString'
 import mainStyle from '../styles/main'
 
 
-const projectToStyleMapper = {
-  'main': mainStyle,
+const projectToStyleMapper: Record<string, JSX.Element> = {
+  main: mainStyle,
 }
 
 interface LayoutProps {
   project?: string | object
+  children?: ReactNode
 }
 
 const Layout: FC<LayoutProps> = (props) => {
-  let project = 'main'
+  let project: string = 'main'
   if (
     props.project &&
     isString(props.project) &&
     has(projectToStyleMapper, props.project)
   ) {
-    project = props.project
+    project = props.project as string
   }
 
   const globalStyle = projectToStyleMapper[project]

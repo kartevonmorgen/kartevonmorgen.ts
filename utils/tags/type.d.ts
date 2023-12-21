@@ -10,3 +10,9 @@ interface TagDetail {
 interface DomainToTagDetailMapper {
   [domain: string]: TagDetail
 }
+
+export const newTagDetail = (): TagDetail => ({
+  type: 'icon',
+  color: '',
+  name: '',
+})

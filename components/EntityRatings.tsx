@@ -1,8 +1,8 @@
 import { FC } from 'react'
 import toString from 'lodash/toString'
 import groupBy from 'lodash/groupBy'
-import { Comment } from '@ant-design/compatible';
-import { Divider, Typography } from 'antd';
+import { Comment } from '@ant-design/compatible'
+import { Divider, Typography } from 'antd'
 import useTranslation from 'next-translate/useTranslation'
 import { Rating } from '../dtos/Rating'
 import { RatingsRequest } from '../dtos/RatingsRequest'

@@ -9,7 +9,7 @@ import { isExtraSearchFiltersActivated } from '../utils/router'
 import TypeChooser from './TypeChooser'
 
 
-const onShowFilters = (toggleShowFilters) => () => (toggleShowFilters())
+const onShowFilters = (toggleShowFilters: ReturnType<typeof useToggle>[1]) => () => (toggleShowFilters())
 
 const SearchControllers: FC = (_props) => {
   const [showFilters, toggleShowFilters ] = useToggle(false)

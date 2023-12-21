@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic'
 import { useToggle } from 'ahooks'
 import { Layout, Spin } from 'antd'
 import { AxiosInstance } from '../../api'
-import MapPageConfigs from '../../dtos/MapPageConfigs'
+import MapPageConfigs, { SidebarConfigs } from '../../dtos/MapPageConfigs'
 import API_ENDPOINTS from '../../api/endpoints'
 import { convertQueryParamToArray } from '../../utils/utils'
 import RouterQueryInitializer from '../../components/RouterQueryInitializer'
@@ -12,17 +12,19 @@ import { MapLocationProps } from '../../components/Map'
 import { TagsCount } from '../../dtos/TagCount'
 import Sidebar from '../../components/Sidebar'
 
+
 const { Content } = Layout
 
 
 interface MapPageProps {
   popularTags: TagsCount
   mapLocationProps: MapLocationProps,
+  sidebarConfigs: SidebarConfigs
 }
 
 
 const MapPage: FC<MapPageProps> = (props) => {
-  const { mapLocationProps } = props
+  const { mapLocationProps, sidebarConfigs } = props
 
   const [
     isLoading,
@@ -51,9 +53,9 @@ const MapPage: FC<MapPageProps> = (props) => {
         initMapLocationProps={mapLocationProps}
       />
 
-      <Layout>
+      {/*<Layout>*/}
 
-        <Sidebar/>
+        <Sidebar {...sidebarConfigs}/>
 
         <Content>
           <Spin spinning={isLoading}>
@@ -63,7 +65,7 @@ const MapPage: FC<MapPageProps> = (props) => {
           </Spin>
         </Content>
 
-      </Layout>
+      {/*</Layout>*/}
     </Fragment>
   )
 }
@@ -82,13 +84,15 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   )
 
   const pageConfigs = AxiosInstance.GetSuccessData(pageConfigsReq)
-  const mapLocationProps = pageConfigs.map.location
 
+  const mapLocationProps = pageConfigs.map.location
+  const sidebarConfigs = pageConfigs.sidebar
 
   // todo: move the re-validate value to constants
   return {
     props: {
       mapLocationProps,
+      sidebarConfigs,
     },
   }
 }

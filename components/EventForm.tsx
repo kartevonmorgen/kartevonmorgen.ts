@@ -1,7 +1,7 @@
-import { Dispatch, FC, Fragment, useEffect, useState } from 'react'
+import {Dispatch, FC, Fragment, SetStateAction, useEffect, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import useTranslation from 'next-translate/useTranslation'
-import produce from 'immer'
+import { produce } from 'immer'
 import { useMount, useUnmount, useDeepCompareEffect } from 'ahooks'
 import { Button, Checkbox, Divider, Form, FormInstance, Input, Spin, Typography } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -40,10 +40,17 @@ const { RangePicker } = DatePicker
 const { Link, Paragraph } = Typography
 
 
+type TouchedAddressFieldName = 'lat' | 'lng' | 'country' | 'city' | 'state' | 'street' | 'zip'
+
+
+type CreateOrEditEventError = {
+  message?: null | string
+}
+
 const setAddressDetailsIfAddressFieldsAreNotTouched = async (
   form: FormInstance,
   newPoint: Point,
-  touchedAddressFieldNames: string[],
+  touchedAddressFieldNames: TouchedAddressFieldName[],
 ) => {
   const place = await reverseGeocode(newPoint.toJson())
   const address = place.address as ExtendedGeocodeAddress
@@ -152,7 +159,7 @@ const onFinish = (
   try {
     eventId = await createOrEditEvent(adaptedFormValues, isEdit)
   } catch (e) {
-  const error = e as AxiosError
+  const error = e as AxiosError<CreateOrEditEventError>
   const errorMessage = error.response?.data?.message
   if (errorMessage) {
     dispatch(viewActions.setErrorMessage(errorMessage))
@@ -170,7 +177,7 @@ const onFinish = (
 
 
 // todo: any is not a suitable type for dispatch, it should be string[]
-const addTouchedAddressFieldName = (setTouchedAddressFields: Dispatch<any>, fieldName: string) => {
+const addTouchedAddressFieldName = (setTouchedAddressFields: Dispatch<SetStateAction<string[]>>, fieldName: string) => {
   setTouchedAddressFields((prevTouchedAddressFields) =>
     produce(prevTouchedAddressFields, (draft) => {
       draft.push(fieldName)
@@ -212,7 +219,7 @@ const EventForm: FC<EventFormProps> = (props) => {
   // set address information if the map marker/pin moves
   useEffect(() => {
     if (!newPoint.isEmpty()) {
-      setAddressDetailsIfAddressFieldsAreNotTouched(form, newPoint, touchedAddressFields).then()
+      setAddressDetailsIfAddressFieldsAreNotTouched(form, newPoint, touchedAddressFields as TouchedAddressFieldName[]).then()
     }
   }, effectDeps)
 

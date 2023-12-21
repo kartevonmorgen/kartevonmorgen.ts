@@ -1,4 +1,3 @@
-import { config, library } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 
 import {
@@ -40,6 +39,8 @@ import {
   faWhatsapp,
   faYoutube,
 } from '@fortawesome/free-brands-svg-icons'
+
+const { config, library } = require('@fortawesome/fontawesome-svg-core')
 
 
 // See https://github.com/FortAwesome/react-fontawesome#integrating-with-other-tools-and-frameworks

@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
-import produce from 'immer'
+import { produce } from 'immer'
 import { PageHeader } from '@ant-design/pro-layout';
 import { Translate } from 'next-translate'
 import useTranslation from 'next-translate/useTranslation'

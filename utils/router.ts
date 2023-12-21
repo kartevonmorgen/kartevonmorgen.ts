@@ -15,7 +15,7 @@ import { knownCategoryNames } from '../dtos/Categories'
 import moment, { Moment } from 'moment'
 import { ParsedUrlQuery } from 'querystring'
 import { createSlugPathFromQueryAndRemoveSlug } from './slug'
-import produce from 'immer'
+import { produce } from 'immer'
 import Tag from '../dtos/Tag'
 
 

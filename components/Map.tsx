@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import { Switch } from 'antd'
 import { MapContainer, TileLayer, ZoomControl } from 'react-leaflet'
 import MapEventsListener from './MapEventsListener'
 import MapLocationInitializer from './MapLocationInitializer'
@@ -10,7 +11,10 @@ import LocateMe from './LocateMe'
 import MapSharingDropdown from './MapSharingDropdown'
 import MapMarkers from './MapMarkers'
 import NewMapMarker from './NewMapMarker'
+import MapColorStyle from './MapColorStyle'
+import SidebarCollapseButton from './SidebarCollapseButton'
 import 'leaflet/dist/leaflet.css'
+import MapColorModeButton from './MapColorModeButton'
 
 
 export interface MapLocationProps {
@@ -38,9 +42,13 @@ const Map: FC = () => {
 
       <SearchEventsListener/>
 
-      {/*<SidebarCollapseButton/>*/}
+      <MapColorStyle/>
+
+      <SidebarCollapseButton/>
 
       <div id="map-bottom-right-above-controller">
+        <MapColorModeButton/>
+
         <LocateMe/>
       </div>
 
@@ -54,13 +62,14 @@ const Map: FC = () => {
         <AddEntryButton
           shortTitle
         />
+
       </div>
 
       <ZoomControl position="bottomright"/>
 
       <TileLayer
-        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        url="https://a.tile.openstreetmap.de/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png"
       />
 
       <MapMarkers/>

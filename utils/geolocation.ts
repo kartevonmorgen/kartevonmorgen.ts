@@ -21,6 +21,7 @@ import { SearchEntryID } from '../dtos/SearchEntry'
 import { Entry } from '../dtos/Entry'
 import Event from '../dtos/Event'
 import { RootSlugEntity } from './types'
+import {NamePath} from 'rc-field-form/lib/interface'
 
 
 // it was not possible to use the latlng from leaflet
@@ -50,7 +51,7 @@ export interface ExtendedGeocodeAddress extends GeocodeAddress {
   road?: string
 }
 
-export const reverseGeocode = async (latLng): Promise<NominatimResponse> => {
+export const reverseGeocode = async (latLng: LatLng): Promise<NominatimResponse> => {
   return nominatimReverseGeocode({
     lat: toString(latLng.lat),
     lon: toString(latLng.lng),
@@ -59,7 +60,7 @@ export const reverseGeocode = async (latLng): Promise<NominatimResponse> => {
 }
 
 export const getCityFromAddress = (extendedAddress: ExtendedGeocodeAddress): string => {
-  const regionPriorities = [
+  const regionPriorities: (keyof ExtendedGeocodeAddress)[] = [
     'city',
     'town',
     'municipality',
@@ -73,7 +74,7 @@ export const getCityFromAddress = (extendedAddress: ExtendedGeocodeAddress): str
 
   for (const possibleRegion of regionPriorities) {
     if (!isUndefined(extendedAddress[possibleRegion])) {
-      return extendedAddress[possibleRegion]
+      return extendedAddress[possibleRegion] as string
     }
   }
 
@@ -111,7 +112,7 @@ const getStructuredAddressFromForm = (
   const structuredAddressExtractedFromForm: GeoLocationStructuredAddress = {}
 
   Object.keys(mapper).forEach((addressField: string) => {
-    structuredAddressExtractedFromForm[addressField] = form.getFieldValue(mapper[addressField])
+    structuredAddressExtractedFromForm[addressField as keyof GeoLocationStructuredAddress] = form.getFieldValue(mapper[addressField as keyof FormToAddressMapper] as NamePath)
   })
 
   return structuredAddressExtractedFromForm
