@@ -353,5 +353,9 @@
     "contact": "Contacto",
     "aboutUs": "Sobre nosotros",
     "privacy": "Declaración de privacidad"
+  },
+  "mapColorMode": {
+    "colorful": "Colorful",
+    "grey": "Grey"
   }
 }
