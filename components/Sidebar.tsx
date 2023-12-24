@@ -1,6 +1,7 @@
 import {FC, useEffect, useState} from 'react'
 import {useRouter} from 'next/router'
 import {Drawer} from 'antd'
+import { LeftOutlined } from '@ant-design/icons'
 import SidebarContent from './SidebarContent'
 import {convertQueryParamToString} from '../utils/utils'
 import {isSidebarStatusShown} from '../dtos/SidebarStatus'
@@ -39,6 +40,7 @@ const Sidebar: FC<SidebarProps> = (props) => {
     <Drawer
       autoFocus={false}
       open={isSidebarOpen}
+      closeIcon={<LeftOutlined/>}
       placement="left"
       mask={false}
       rootStyle={{

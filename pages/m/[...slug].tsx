@@ -11,6 +11,7 @@ import RouterQueryInitializer from '../../components/RouterQueryInitializer'
 import { MapLocationProps } from '../../components/Map'
 import { TagsCount } from '../../dtos/TagCount'
 import Sidebar from '../../components/Sidebar'
+import { MapColorModes } from '../../components/MapColorStyle'
 
 
 const { Content } = Layout
@@ -20,11 +21,12 @@ interface MapPageProps {
   popularTags: TagsCount
   mapLocationProps: MapLocationProps,
   sidebarConfigs: SidebarConfigs
+  initMapColorStyle: MapColorModes  
 }
 
 
 const MapPage: FC<MapPageProps> = (props) => {
-  const { mapLocationProps, sidebarConfigs } = props
+  const { mapLocationProps, sidebarConfigs, initMapColorStyle } = props
 
   const [
     isLoading,
@@ -51,21 +53,23 @@ const MapPage: FC<MapPageProps> = (props) => {
     <Fragment>
       <RouterQueryInitializer
         initMapLocationProps={mapLocationProps}
+        initMapColorStyle={initMapColorStyle}
       />
 
-      {/*<Layout>*/}
+      <Sidebar {...sidebarConfigs}/>
 
-        <Sidebar {...sidebarConfigs}/>
+      <Content>
+        <Spin spinning={isLoading}>
+          <div id="map">
+            <Map
+              lat={mapLocationProps.lat}
+              lng={mapLocationProps.lng}
+              zoom={mapLocationProps.zoom}
+            />
+          </div>
+        </Spin>
+      </Content>
 
-        <Content>
-          <Spin spinning={isLoading}>
-            <div id="map">
-              <Map/>
-            </div>
-          </Spin>
-        </Content>
-
-      {/*</Layout>*/}
     </Fragment>
   )
 }
@@ -87,12 +91,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   const mapLocationProps = pageConfigs.map.location
   const sidebarConfigs = pageConfigs.sidebar
+  const initMapColorStyle = pageConfigs.map.colorStyle
 
   // todo: move the re-validate value to constants
   return {
     props: {
       mapLocationProps,
       sidebarConfigs,
+      initMapColorStyle,
     },
   }
 }

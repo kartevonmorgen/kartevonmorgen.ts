@@ -1,13 +1,14 @@
 {
   "map": {
     "location": {
-      "lat": 50.826,
-      "lng": 10.92,
+      "lat": 50.8129,
+      "lng": 5.6030,
       "zoom": 6
-    }
+    },
+    "colorStyle": "gray"
   },
   "popularTags": {
-    "min_count": 50
+    "min_count": 2
   },
   "sidebar": {
     "title": "Kartevonmorgen"

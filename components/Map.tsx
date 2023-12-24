@@ -23,12 +23,14 @@ export interface MapLocationProps {
   zoom: number
 }
 
-const Map: FC = () => {
+const Map: FC<MapLocationProps> = (props) => {
+
+  const {lat, lng, zoom} = props
 
   return (
     <MapContainer
-      center={[50.826, 10.92]}
-      zoom={7}
+      center={[lat, lng]}
+      zoom={zoom}
       scrollWheelZoom={true}
       style={{ height: '100%', width: '100%' }}
       zoomControl={false}

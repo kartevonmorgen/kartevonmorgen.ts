@@ -1,9 +1,11 @@
 import { MapLocationProps } from '../components/Map'
+import { MapColorModes } from '../components/MapColorStyle'
 import PopularTagsRequest from './PopularTagsRequest'
 
 
 export interface MapConfigs {
   location: MapLocationProps
+  colorStyle: MapColorModes
 }
 
 export interface SidebarConfigs {
