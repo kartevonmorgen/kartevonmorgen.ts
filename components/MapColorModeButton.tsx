@@ -42,6 +42,10 @@ const toggleMapColorMode = (router: NextRouter, shouldSetToGrey: boolean) => {
 
 const MapColorModeButton: FC = () => {
     const router = useRouter()
+    const { query } = router
+    const { mapColorMode } = query
+
+    const isChecked = mapColorMode === MapColorModes.GRAY
 
     const { t } = useTranslation('map')
 
@@ -50,6 +54,7 @@ const MapColorModeButton: FC = () => {
             checkedChildren={t('mapColorMode.grey')}
             unCheckedChildren={t('mapColorMode.colorful')}
             onChange={(shouldSetToGrey: boolean) => toggleMapColorMode(router, shouldSetToGrey)}
+            checked={isChecked}
         />
     )
 }
