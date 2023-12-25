@@ -281,7 +281,7 @@
     "openFilters": "Filter anzeigen",
     "collapseFilters": "Filter verstecken",
     "searchFor": "Suchen nach",
-    "resultLimit": "Result Limit"
+    "resultLimit": "Maximale Pin-Anzahl auf der Karte"
   },
   "resultlist": {
     "showMoreEntries": "Mehr Einträge anzeigen...",
