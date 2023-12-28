@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import { NextApiRequest, NextApiResponse } from 'next'
-import parseCSV from 'csv-parse/lib/sync'
+import { parse } from 'csv-parse/sync'
 import {
   convertNotEmptyCSVRecordsToSelectOptionsAndGroupByHeader,
   CSVToOptionDataResponse,
@@ -39,7 +39,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
 
     response.hasData = true
 
-    const records = parseCSV(
+    const records = parse(
       fileContent, {
         columns: true,
         skip_empty_lines: true,

@@ -1,7 +1,10 @@
 import { ParsedUrlQuery } from 'querystring'
+import { NextRouter } from 'next/router'
 import isEmpty from 'lodash/isEmpty'
 import isString from 'lodash/isString'
+import toString from 'lodash/toString'
 import dropRight from 'lodash/dropRight'
+import { LatLngBounds } from 'leaflet'
 import {
   BriefEntityName, BriefRootSlugEntity,
   mapBriefEntityNameToSingular,
@@ -14,7 +17,6 @@ import {
 } from './types'
 import { SearchEntryID } from '../dtos/SearchEntry'
 import { EventID } from '../dtos/Event'
-import { NextRouter } from 'next/router'
 import {
   convertBBoxToString,
   convertQueryParamToArray,
@@ -23,9 +25,9 @@ import {
   updateRoutingQuery,
 } from './utils'
 import Category from '../dtos/Categories'
-import { LatLngBounds } from 'leaflet'
 import { TableViewQueryParams } from '../dtos/TableViewQueryParams'
 import { EventTimeBoundaries, getEventTimeBoundariesFromQueryOrDefaults } from './router'
+import {SearchEventsRequest} from '../dtos/SearchEventsRequest'
 
 
 export const getProjectNameFromQuery = (query: ParsedUrlQuery): string => {
@@ -228,7 +230,12 @@ export const convertMapURLToTableViewURL = (
   const tableViewURL = new URL(origin)
   tableViewURL.pathname = tableViewPathname
   Object.keys(tableViewQueryParams).forEach(query => {
-    tableViewURL.searchParams.append(query, tableViewQueryParams[query])
+    const queryValue = tableViewQueryParams[query as keyof SearchEventsRequest]
+    if (!queryValue) {
+      return
+    }
+
+    tableViewURL.searchParams.append(query, toString(queryValue))
   })
 
   return tableViewURL.toString()
@@ -254,8 +261,12 @@ export const convertMapQueryParamsToTableViewQueryParams = (
   }
 
   Object.keys(tableViewQueryParams).forEach(query => {
-    if (tableViewQueryParams[query] === undefined || tableViewQueryParams[query] === '') {
-      delete tableViewQueryParams[query]
+    const typedQuery = query as keyof typeof tableViewQueryParams
+    if (
+      tableViewQueryParams[typedQuery] === undefined ||
+      tableViewQueryParams[typedQuery] === ''
+    ) {
+      delete tableViewQueryParams[typedQuery]
     }
   })
 

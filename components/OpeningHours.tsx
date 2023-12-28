@@ -8,7 +8,7 @@ import { Col, Divider, List, Row, Typography } from 'antd'
 const { Text } = Typography
 
 
-type Interval = [Moment, Moment, boolean, string]
+type Interval = [Moment, Moment, boolean, string | undefined]
 type Intervals = Interval[]
 
 interface DayRecord {

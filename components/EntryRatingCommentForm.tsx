@@ -8,7 +8,7 @@ import { Button, Divider, Form, Input, Radio, Space, Typography } from 'antd';
 import useTranslation from 'next-translate/useTranslation'
 import { Rating, RatingID } from '../dtos/Rating'
 import { NewRating } from '../dtos/NewRating'
-import produce from 'immer'
+import { produce } from 'immer'
 import { convertQueryParamToArray } from '../utils/utils'
 import useRequest from '../api/useRequest'
 import API_ENDPOINTS from '../api/endpoints'

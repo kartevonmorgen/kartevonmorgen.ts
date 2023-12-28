@@ -1,5 +1,4 @@
 import { FC, Fragment, ReactElement } from 'react'
-import update from 'immer'
 import has from 'lodash/has'
 import { Divider, Space, Tag, Tooltip } from 'antd'
 import { CustomLink, CustomLinkList } from '../dtos/CustomLink'
@@ -9,6 +8,7 @@ import { titleCase } from 'title-case'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-svg-core'
 import { getIconDir } from '../utils/tags'
+import {TagDetail} from '../utils/tags/type'
 
 
 interface EntryLinksProps {
@@ -24,21 +24,22 @@ type EnrichedLinkDetails = EnrichedLinkDetail[]
 
 
 const addTagDetailsToCustomLinks = (links: CustomLinkList): EnrichedLinkDetails => {
-  const enrichedLinkDetails = links.map((link) => {
-    return update(link, (draft) => {
-      const domain = getDomainFromLink(draft.url)
-      let tagDetail: TagDetail = domainToTagDetailMapper.default
-      if (has(domainToTagDetailMapper, domain)) {
-        tagDetail = domainToTagDetailMapper[domain]
-      }
+  const enrichedLinkDetails: EnrichedLinkDetails = links.map((link) => {
+    const domain = getDomainFromLink(link.url)
+    let tagDetail: TagDetail = domainToTagDetailMapper.default
+    if (has(domainToTagDetailMapper, domain)) {
+      tagDetail = domainToTagDetailMapper[domain]
+    }
 
-      Object.keys(tagDetail).forEach((k) => {
-        draft[k] = tagDetail[k]
-      })
-    })
-  })
+    const enrichedLinkDetail: EnrichedLinkDetail = {
+      ...link,
+      ...tagDetail,
+    }
 
-  return enrichedLinkDetails as EnrichedLinkDetails
+    return enrichedLinkDetail
+  }) as EnrichedLinkDetails
+
+  return enrichedLinkDetails
 }
 
 const enrichedLinkDetailsSortFunc = (l1: EnrichedLinkDetail, l2: EnrichedLinkDetail): number => {

@@ -2,7 +2,7 @@ import { Dispatch, FC, Fragment, useEffect, useState, SetStateAction, MutableRef
 import { NextRouter, useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
 import { useMount, useUnmount, useDeepCompareEffect } from 'ahooks'
-import produce from 'immer'
+import { produce } from 'immer'
 import useTranslation from 'next-translate/useTranslation'
 import { validate as validateEmail } from 'isemail'
 import { isWebUri } from 'valid-url'
@@ -50,6 +50,7 @@ import EntityTagsFormSection from './EntityTagsFormSection'
 import { FORM_STATUS } from '../slices/formSlice'
 import { formSelector } from '../selectors/form'
 import { AxiosError } from 'axios'
+import {EntryContactKeys} from '../dtos/EntryContact'
 
 
 const { useForm } = Form
@@ -61,10 +62,16 @@ const { Link, Paragraph } = Typography
 export type EntryFormType = NewEntryWithLicense | NewEntryWithVersion
 
 
+type FieldNameToSetInForm = "lat" | "lng" | "country" | "city" | "state" | "street" | "zip"
+
+interface CreateOrEditError {
+  message?: null | string
+}
+
 const setAddressDetailsIfAddressFieldsAreNotTouched = async (
   form: FormInstance,
   newPoint: Point,
-  touchedAddressFieldNames: string[],
+  touchedAddressFieldNames: FieldNameToSetInForm[],
 ) => {
   const place = await reverseGeocode(newPoint.toJson())
   const address = place.address as ExtendedGeocodeAddress
@@ -129,7 +136,7 @@ const transformFormFields = (entry: EntryFormType): EntryFormType => {
   const transformedEntry = transformObject(entry, rules)
   const transformedEntryWithRenamedFields = renameProperties(transformedEntry, fieldsToRename)
 
-  const optionalFieldsToDelete: string[] = ['email']
+  const optionalFieldsToDelete: Array<keyof EntryFormType> = [EntryContactKeys.EMAIL]
   const transformedEntryWithRenamedAndDeletedOptionalFields = produce(
     transformedEntryWithRenamedFields,
     (draft) => {
@@ -237,7 +244,7 @@ const onFinish = (
   try {
     entryId = await createOrEditEntry(adaptedEntry, entryId, isEdit)
   } catch (e) {
-    const error = e as AxiosError
+    const error = e as AxiosError<CreateOrEditError>
     const errorMessage = error.response?.data?.message
     if (errorMessage) {
       dispatch(viewActions.setErrorMessage(errorMessage))
@@ -258,7 +265,7 @@ const onFinish = (
 
 // todo: any is not a suitable type for dispatch, it should be string[]
 const addTouchedAddressFieldName = (setTouchedAddressFields: Dispatch<any>, fieldName: string) => {
-  setTouchedAddressFields((prevTouchedAddressFields) =>
+  setTouchedAddressFields((prevTouchedAddressFields: string[]) =>
     produce(prevTouchedAddressFields, (draft) => {
       draft.push(fieldName)
     }),
@@ -304,7 +311,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
   // set address information if the map marker/pin moves
   useEffect(() => {
     if (!newPoint.isEmpty()) {
-      setAddressDetailsIfAddressFieldsAreNotTouched(form, newPoint, touchedAddressFields).then()
+      setAddressDetailsIfAddressFieldsAreNotTouched(form, newPoint, touchedAddressFields as FieldNameToSetInForm[]).then()
     }
   }, [newPointCoordinateLat, newPointCoordinateLng])
 

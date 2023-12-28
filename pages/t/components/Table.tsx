@@ -15,7 +15,7 @@ const columns = [
   {
     title: 'event',
     key: 'event',
-    render: (_, record: Event) => (
+    render: (_: any, record: Event) => (
       <Fragment key={`column-event-${record.id}`}>
         <Link
           strong
@@ -30,7 +30,7 @@ const columns = [
   {
     title: 'time',
     key: 'time',
-    render: (_, record: Event) => {
+    render: (_: any, record: Event) => {
       const start = moment.unix(record.start)
       const end = moment.unix(record.end)
 

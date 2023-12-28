@@ -3,6 +3,7 @@
 import { FC, useEffect } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import queryString, { ParsedUrlQuery } from 'querystring'
+import pickBy from 'lodash/pickBy'
 import { StatusCodes } from 'http-status-codes'
 import { BASICS_ENDPOINTS } from '../api/endpoints/BasicsEndpoints'
 import { BriefRootSlugEntity, SlugVerb } from '../utils/types'
@@ -62,14 +63,7 @@ const adaptParams = (query: ParsedUrlQuery): ParsedUrlQuery => {
     addentry,
   }
 
-  const adaptedParams = {}
-  Object.keys(optionalAdaptedParams).forEach(k => {
-    if (!optionalAdaptedParams[k]) {
-      return
-    }
-
-    adaptedParams[k] = optionalAdaptedParams[k]
-  })
+  const adaptedParams = pickBy(optionalAdaptedParams, (value) => !!value)
 
   return adaptedParams
 }

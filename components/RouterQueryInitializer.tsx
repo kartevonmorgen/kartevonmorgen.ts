@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import lodashToString from 'lodash/toString'
 import { convertQueryParamToFloat, convertQueryParamToString, updateRoutingQuery } from '../utils/utils'
 import { MapLocationProps } from './Map'
+import { MapColorModes } from './MapColorStyle'
 import {
   createSlugPathFromQueryAndRemoveSlug, getOptionalEntrySlugActionFromRoot,
   getRootSlugActionFromQuery,
@@ -15,11 +16,12 @@ import MAP_CONSTANTS from '../consts/map'
 
 interface RouterQueryInitializerProps {
   initMapLocationProps: MapLocationProps
+  initMapColorStyle: MapColorModes
 }
 
 // todo: this component should be eliminated and merged into getServerSideProps
 const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
-  const { initMapLocationProps } = props
+  const { initMapLocationProps, initMapColorStyle } = props
 
   const router = useRouter()
   const { query } = router
@@ -43,6 +45,7 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
       const {
         c: centerParam,
         z: zoomParam,
+        mapColorMode: mapColorModeParam
       } = query
 
 
@@ -69,9 +72,13 @@ const RouterQueryInitializer: FC<RouterQueryInitializerProps> = (props) => {
         zoom = MAP_CONSTANTS.map.default_zoom
       }
 
-      const paramsToUpdate = {
+      const paramsToUpdate: Record<string, string> = {
         c: center,
         z: lodashToString(zoom),
+      }
+
+      if (!mapColorModeParam && initMapColorStyle !== MapColorModes.STANDARD) {
+        paramsToUpdate['mapColorMode'] = initMapColorStyle
       }
 
       // filter query params out of all params including the dynamic ones

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Tooltip } from 'antd'
 
 
-const leafShape = ({ width, height }) => {
+const leafShape = ({ width, height }: {width: number, height: number}) => {
   const w = width
   const h = height
 
@@ -62,6 +62,10 @@ const FlowerLeaf: FC<FlowerLeafProps> = (props) => {
     transform,
   } = props
 
+  if (!width || !height) {
+    return null
+  }
+
   return (
     <Tooltip
       title={tooltip}
@@ -81,7 +85,7 @@ FlowerLeaf.propTypes = {
   color: PropTypes.string,
   height: PropTypes.number,
   width: PropTypes.number,
-  tooltip: PropTypes.object,
+  tooltip: PropTypes.node,
   transform: PropTypes.string,
 }
 

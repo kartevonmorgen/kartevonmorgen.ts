@@ -1,5 +1,6 @@
 // TODO: use debounce to prevent extra queries
 import { FC, useEffect } from 'react'
+import {ThunkDispatch} from "@reduxjs/toolkit"
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 import { useMap } from 'react-leaflet'
@@ -43,7 +44,7 @@ const SearchEventsListener: FC = () => {
   const { slug } = query
   const lastSlugPart: string = (slug as string[])[(slug as string[]).length - 1]
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>()
   const map = useMap()
 
   const bbox = convertBBoxToString(map.getBounds())

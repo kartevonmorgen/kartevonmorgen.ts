@@ -41,8 +41,8 @@ export const convertQueryToEventRequestAndSetTimeBoundaries = (query: ParsedUrlQ
   }
 
   Object.keys(searchEventsRequest).forEach(key => {
-    if (searchEventsRequest[key] === undefined) {
-      delete searchEventsRequest[key]
+    if (searchEventsRequest[key as keyof SearchEventsRequestDTO] === undefined) {
+      delete searchEventsRequest[key as keyof SearchEventsRequestDTO]
     }
   })
 

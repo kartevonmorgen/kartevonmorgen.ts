@@ -4,13 +4,15 @@ import dynamic from 'next/dynamic'
 import { useToggle } from 'ahooks'
 import { Layout, Spin } from 'antd'
 import { AxiosInstance } from '../../api'
-import MapPageConfigs from '../../dtos/MapPageConfigs'
+import MapPageConfigs, { SidebarConfigs } from '../../dtos/MapPageConfigs'
 import API_ENDPOINTS from '../../api/endpoints'
 import { convertQueryParamToArray } from '../../utils/utils'
 import RouterQueryInitializer from '../../components/RouterQueryInitializer'
 import { MapLocationProps } from '../../components/Map'
 import { TagsCount } from '../../dtos/TagCount'
 import Sidebar from '../../components/Sidebar'
+import { MapColorModes } from '../../components/MapColorStyle'
+
 
 const { Content } = Layout
 
@@ -18,11 +20,13 @@ const { Content } = Layout
 interface MapPageProps {
   popularTags: TagsCount
   mapLocationProps: MapLocationProps,
+  sidebarConfigs: SidebarConfigs
+  initMapColorStyle: MapColorModes  
 }
 
 
 const MapPage: FC<MapPageProps> = (props) => {
-  const { mapLocationProps } = props
+  const { mapLocationProps, sidebarConfigs, initMapColorStyle } = props
 
   const [
     isLoading,
@@ -49,21 +53,23 @@ const MapPage: FC<MapPageProps> = (props) => {
     <Fragment>
       <RouterQueryInitializer
         initMapLocationProps={mapLocationProps}
+        initMapColorStyle={initMapColorStyle}
       />
 
-      <Layout>
+      <Sidebar {...sidebarConfigs}/>
 
-        <Sidebar/>
+      <Content>
+        <Spin spinning={isLoading}>
+          <div id="map">
+            <Map
+              lat={mapLocationProps.lat}
+              lng={mapLocationProps.lng}
+              zoom={mapLocationProps.zoom}
+            />
+          </div>
+        </Spin>
+      </Content>
 
-        <Content>
-          <Spin spinning={isLoading}>
-            <div id="map">
-              <Map/>
-            </div>
-          </Spin>
-        </Content>
-
-      </Layout>
     </Fragment>
   )
 }
@@ -82,13 +88,17 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   )
 
   const pageConfigs = AxiosInstance.GetSuccessData(pageConfigsReq)
-  const mapLocationProps = pageConfigs.map.location
 
+  const mapLocationProps = pageConfigs.map.location
+  const sidebarConfigs = pageConfigs.sidebar
+  const initMapColorStyle = pageConfigs.map.colorStyle
 
   // todo: move the re-validate value to constants
   return {
     props: {
       mapLocationProps,
+      sidebarConfigs,
+      initMapColorStyle,
     },
   }
 }

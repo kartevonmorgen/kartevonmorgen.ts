@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import useTranslation from 'next-translate/useTranslation'
-import produce from 'immer'
+import { produce } from 'immer'
 import { convertQueryParamToArray } from '../utils/utils'
 import { EntrySlugEntity, mapSingularEntityNameToBrief, SlugVerb } from '../utils/types'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'

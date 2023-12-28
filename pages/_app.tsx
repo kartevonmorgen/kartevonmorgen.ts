@@ -1,33 +1,22 @@
-import { FC } from 'react'
-import { AppProps } from 'next/app'
-import { Provider } from 'react-redux'
-import { ConfigProvider } from 'antd'
+import '../styles/globals.css'
+import type {AppProps} from 'next/app'
+import {Provider} from 'react-redux'
 import get from 'lodash/get'
-import store from '../store'
-import '../utils/icons/font-awesome'
+import withTheme from '../theme'
 import Layout from '../components/Layout'
 import GlobalLocale from '../components/GlobalLocale'
-import '../styles/globals.css'
-import 'typeface-rubik/index.css'
+import store from '../store'
+import '../utils/icons/font-awesome'
 
 
-const MyApp: FC<AppProps> = ({ Component, pageProps }) => (
-  <Layout project={get(pageProps, 'project', undefined)}>
-    <GlobalLocale/>
+export default function App({Component, pageProps}: AppProps) {
+  return withTheme(
+    <Layout project={get(pageProps, 'project', undefined)}>
+      <GlobalLocale/>
 
-    <Provider store={store}>
-      <ConfigProvider
-        theme={{
-          token: {
-            fontFamily: '"Rubik", sans-serif',
-          }
-        }}
-      >
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+      <Provider store={store}>
         <Component {...pageProps} />
-      </ConfigProvider>
-    </Provider>
-  </Layout>
-)
-
-export default MyApp
+      </Provider>
+    </Layout>,
+  )
+}

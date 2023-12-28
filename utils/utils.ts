@@ -1,4 +1,4 @@
-import produce from 'immer'
+import { produce } from 'immer'
 import isString from 'lodash/isString'
 import isEmpty from 'lodash/isEmpty'
 import toString from 'lodash/toString'

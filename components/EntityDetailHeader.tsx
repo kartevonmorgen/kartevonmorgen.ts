@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { NextRouter, useRouter } from 'next/router'
-import produce from 'immer'
+import { produce } from 'immer'
 import { PageHeader } from '@ant-design/pro-layout'
 import { Button } from 'antd'
 import ArrowLeftOutlined from '@ant-design/icons/lib/icons/ArrowLeftOutlined'

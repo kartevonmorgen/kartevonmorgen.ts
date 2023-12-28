@@ -5,21 +5,21 @@ enum Category {
   UNKNOWN = 'UNKNOWN'
 }
 
-export const CategoryToNameMapper = {
+export const CategoryToNameMapper: Record<Category, string> = {
   [Category.INITIATIVE]: 'initiative',
   [Category.EVENT]: 'event',
   [Category.COMPANY]: 'company',
   [Category.UNKNOWN]: 'unknown',
 }
 
-export const CategoryNameToIdMapper = Object.keys(CategoryToNameMapper).reduce(
+export const CategoryNameToIdMapper: Record<string, Category> = Object.keys(CategoryToNameMapper).reduce(
   (mappedObjects, categoryId) => {
 
-    mappedObjects[CategoryToNameMapper[categoryId]] = categoryId
+    mappedObjects[CategoryToNameMapper[categoryId as Category]] = categoryId as Category
 
     return mappedObjects
   },
-  {})
+  {} as Record<string, Category>)
 
 export const knownCategories = Object.values(Category).filter(category => category !== Category.UNKNOWN)
 export const knownCategoryNames = Object.values(knownCategories).map(categoryId => CategoryToNameMapper[categoryId])

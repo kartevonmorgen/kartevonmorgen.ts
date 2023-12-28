@@ -352,5 +352,9 @@
     "contact": "Contact",
     "aboutUs": "About",
     "privacy": "Privacy"
+  },
+  "mapColorMode": {
+    "colorful": "Colorful",
+    "grey": "Grey"
   }
 }

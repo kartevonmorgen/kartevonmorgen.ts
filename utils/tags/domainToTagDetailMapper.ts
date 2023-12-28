@@ -1,3 +1,6 @@
+import {DomainToTagDetailMapper, TagDetail} from './type'
+
+
 const DEFAULT_ICON = 'link'
 
 const domainToTagDetailMapper: DomainToTagDetailMapper = {

@@ -10,9 +10,9 @@ import {FORMS as FORMS_CONSTANT} from '../consts/forms'
 
 
 // todo: should create a type for the form initialValue, any is not the best option
-export const onReceiveAdapter = (event?: EventDTO): object => {
+export const onReceiveAdapter = (event?: EventDTO): Record<string, any> | EventDTO => {
   if (!event) {
-    return {}
+    return {} as Record<string, any>
   }
 
   // the start and end should get converted

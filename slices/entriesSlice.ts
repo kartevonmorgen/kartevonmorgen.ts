@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-
-import { AppThunk } from '../store'
+import { ThunkAction } from 'redux-thunk'
 import { AxiosInstance } from '../api'
 import API_ENDPOINTS from '../api/endpoints'
 import SearchEntry, { SearchEntries } from '../dtos/SearchEntry'
 import SearchEntriesResponseDTO from '../dtos/SearchEntriesResponse'
 import { SearchEntriesRequest as SearchEntriesRequestDTO } from '../dtos/SearchEntriesRequest'
 import { BoundingBox } from '../dtos/BoundingBox'
+import {SliceActions} from '../store'
 
 
 const entriesSlice = createSlice({
@@ -33,11 +33,15 @@ const entriesSlice = createSlice({
 })
 
 
+type ThunkResult<R> = ThunkAction<R, SearchEntries, undefined, SliceActions<typeof entriesSlice.actions>>
+
+
 export const {
   setEntries,
   emptyEntries,
   prependEntry,
 } = entriesSlice.actions
+
 
 export const { actions } = entriesSlice
 
@@ -48,7 +52,7 @@ export const { actions } = entriesSlice
 
 export const fetchEntries = (
   searchEntriesRequestDTO: SearchEntriesRequestDTO,
-): AppThunk => async (dispatch) => {
+): ThunkResult<Promise<void>> => async (dispatch) => {
 
   const searchEntriesReq = await AxiosInstance.GetRequest<SearchEntriesResponseDTO>(
     API_ENDPOINTS.searchEntries(),
@@ -63,12 +67,11 @@ export const fetchEntries = (
 }
 
 
-export const fetchAllEntries = (bbox: BoundingBox): AppThunk => async (dispatch) => {
+export const fetchAllEntries = (bbox: BoundingBox): ThunkResult<Promise<void>> => async (dispatch) => {
 
   const searchEntriesRequestDTO: SearchEntriesRequestDTO = {
     bbox,
   }
-
 
   dispatch(fetchEntries(searchEntriesRequestDTO))
 }

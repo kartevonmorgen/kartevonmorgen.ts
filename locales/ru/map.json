@@ -354,5 +354,9 @@
     "contact": "Контакты",
     "aboutUs": "О проекте",
     "privacy": "Политика конфиденциальности"
+  },
+  "mapColorMode": {
+    "colorful": "Colorful",
+    "grey": "Grey"
   }
 }

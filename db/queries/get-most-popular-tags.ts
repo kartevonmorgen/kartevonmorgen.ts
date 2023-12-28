@@ -17,14 +17,14 @@ export default async (params: QueryMostPopularTagsParams): Promise<TagFrequency[
     db.all(
       query,
       queryParams,
-      (err, records) => {
+      (err, records?: TagFrequency[]) => {
         if (err) {
           reject(err)
 
           return
         }
 
-        resolve(records)
+        resolve(records as TagFrequency[])
       },
     )
   })
