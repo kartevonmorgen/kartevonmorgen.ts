@@ -1,5 +1,8 @@
 import { FC } from 'react'
-import { Tooltip as LeafletTooltip, TooltipProps as LeafletTooltipProps } from 'react-leaflet'
+import {
+  Tooltip as LeafletTooltip,
+  TooltipProps as LeafletTooltipProps,
+} from 'react-leaflet'
 import { Typography } from 'antd'
 import { Duration, formatDuration, isValidDuration } from '../utils/time'
 
@@ -23,7 +26,7 @@ const MapMarkerTooltip: FC<MapMarkerTooltipProps> = (props) => {
 
       {
         isValidDuration(duration) && (
-          <Text strong> - {formatDuration(duration)}</Text>
+          <Text strong> - {formatDuration(duration as Duration)}</Text>
         )
       }
     </LeafletTooltip>

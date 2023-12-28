@@ -1,16 +1,24 @@
-import { Dispatch, FC, useEffect, useState } from 'react'
+import { Dispatch, FC, useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
+import { Alert } from 'antd'
+import { SlugVerb } from '../utils/types'
+import { convertQueryParamToString } from '../utils/utils'
 import Category, { CategoryNameToIdMapper } from '../dtos/Categories'
 import EntityFormHeader from './EntryFormHeader'
-import { Select } from 'antd'
-import { SlugVerb } from '../utils/types'
 import EntityForm from './EntityForm'
 import { SearchEntryID } from '../dtos/SearchEntry'
 import { EventID } from '../dtos/Event'
-import { convertQueryParamToString } from '../utils/utils'
+import { formSelector } from '../selectors/form'
+import { FORM_STATUS } from '../slices/formSlice'
+import EntityChooserFormSelects from './EntityChooserFormSelects'
+import { AppDispatch } from '../store'
+import { formActions, RootState } from '../slices'
+import { errorMessageSelector } from '../selectors/view'
 
 
-const changeCategory = (setCategory: Dispatch<Category>) => (category: Category) => {
+const changeCategory = (setCategory: Dispatch<Category>, dispatch: AppDispatch) => (category: Category) => {
+  dispatch(formActions.setCategory(category))
   setCategory(category)
 }
 
@@ -22,12 +30,20 @@ interface EntityChooserFormProps {
 }
 
 const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
-  const { verb, entityId } = props
+  const { verb, entityId, category: categoryProp } = props
+
+  const errorMessage = useSelector((state: RootState) => errorMessageSelector(state))
 
   const router = useRouter()
   const { query } = router
   const { addentry: addEntryParam } = query
   const categoryParam = convertQueryParamToString(addEntryParam)
+
+  const isFormInitialized = useRef<boolean>(false)
+
+  const dispatch = useDispatch()
+
+  const formCache = useSelector(formSelector)
 
   const [category, setCategory] = useState<Category>(Category.INITIATIVE)
   const shouldCreateANewEntity = verb === SlugVerb.CREATE
@@ -35,48 +51,55 @@ const EntityChooserForm: FC<EntityChooserFormProps> = (props) => {
 
 
   useEffect(() => {
-    if (categoryParam) {
-      const categoryParamId = CategoryNameToIdMapper[categoryParam]
-
-      setCategory(categoryParamId)
+    if (formCache.status === FORM_STATUS.READY && formCache.category) {
+      setCategory(formCache.category)
     }
-  }, [categoryParam])
+  }, [])
 
   useEffect(() => {
-    if (props.category) {
-      setCategory(props.category)
+    let newCategory = categoryProp
+    if (categoryParam) {
+      newCategory = CategoryNameToIdMapper[categoryParam]
     }
-  }, [props.category])
+    if (newCategory) {
+      setCategory(newCategory)
+    }
+
+  }, [categoryParam, categoryProp])
 
   return (
-    <div style={{ paddingBottom: 60 }}>
+    <div
+      style={{ paddingBottom: 60 }}
+    >
       <EntityFormHeader
         isEdit={shouldEditAnExistingEntity}
       />
 
       {
-        shouldCreateANewEntity && (
-          <Select
-            placeholder="Category"
-            onSelect={changeCategory(setCategory)}
+        errorMessage && (
+          <Alert
+            closable
+            message={errorMessage}
+            type="error"
             style={{
-              width: '100%',
-              marginTop: 8,
-              marginBottom: 16,
+              marginBottom: '1rem'
             }}
-            value={category}
-          >
-            <Select.Option value={Category.INITIATIVE}>Initiative</Select.Option>
-            <Select.Option value={Category.COMPANY}>Company</Select.Option>
-            <Select.Option value={Category.EVENT}>Event</Select.Option>
-          </Select>
+          />
         )
       }
+
+      <EntityChooserFormSelects
+        onSelect={changeCategory(setCategory, dispatch)}
+        value={category}
+        shouldCreateANewEntity={shouldCreateANewEntity}
+      />
 
       <EntityForm
         category={category}
         verb={verb}
         entityId={entityId}
+        setCategory={setCategory}
+        isFormInitialized={isFormInitialized}
       />
 
     </div>

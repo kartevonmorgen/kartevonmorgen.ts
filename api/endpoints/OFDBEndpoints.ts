@@ -1,4 +1,4 @@
-export const OFDB_API_URL: string = process.env.NEXT_PUBLIC_OFDB_API
+export const OFDB_API_URL: string | undefined = process.env.NEXT_PUBLIC_OFDB_API
 
 
 export const OFDB_ENDPOINTS = {

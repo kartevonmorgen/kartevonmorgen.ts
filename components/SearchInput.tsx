@@ -1,6 +1,6 @@
 import { Dispatch, FC, useEffect, useState } from 'react'
 import { NextRouter, useRouter } from 'next/router'
-import produce from 'immer'
+import { produce } from 'immer'
 import { AutoComplete, Input } from 'antd'
 import { useDebounce } from 'ahooks'
 import useTranslation from 'next-translate/useTranslation'
@@ -71,12 +71,15 @@ const SearchInput: FC = () => {
 
   useEffect(() => {
     setSearchTerm(searchTermFromURL)
-  }, [])
+  }, [searchTermFromURL])
 
   const searchOptions = useSearchRecommender(debouncedTokenToSearch, categoryGroup)
 
   useEffect(() => {
     if (isRouterInitialized(router)) {
+      if (debouncedTokenToSearch === '') {
+        return
+      }
       onSearch(router, debouncedTokenToSearch)
     }
   }, [debouncedTokenToSearch])
@@ -95,6 +98,11 @@ const SearchInput: FC = () => {
         setSearchTerm(term)
       }}
       onSelect={onSelect(setSearchTerm)}
+      onChange={(value) => {
+        if (value === '') {
+          onSearch(router, '')
+        }
+      }}
     >
       <Input
         className="transparent-addon"

@@ -33,7 +33,11 @@ const Menu: FC = () => {
   }
 
   return (
-    <AntMenu>
+    <AntMenu
+      style={{
+        width: '16rem'
+      }}
+    >
       {
         linksWithIcon.map(
           (linkWithIcon) => (
@@ -71,19 +75,31 @@ const Menu: FC = () => {
       }
 
       {/* todo: we have a similiar component on the home, we could make it a component*/}
-      <Space>
+      <Row
+        justify="center"
+        align="middle"
+      >
         {
-          locales.map((locale) => (
-            <Button
-              key={`locale-${locale}`}
-              type="link"
-              onClick={() => changeLocale(locale, router)}
+          locales?.map((locale) => (
+            <Col
+              span={8}
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
             >
-              {locale}
-            </Button>
+              <Button
+                key={`locale-${locale}`}
+                type="link"
+                onClick={() => changeLocale(locale, router)}
+              >
+                {locale}
+              </Button>
+            </Col>
           ))
         }
-      </Space>
+      </Row>
     </AntMenu>
   )
 }

@@ -1,4 +1,4 @@
-import update from 'immer'
+import {Draft, produce} from 'immer'
 import cloneDeep from 'lodash/cloneDeep'
 import includes from 'lodash/includes'
 import isUndefined from 'lodash/isUndefined'
@@ -30,76 +30,78 @@ export interface TransformerWithNewNameRuleSet {
 
 export type propertyArray = string[]
 
-export const transformObject = <T>(
+export const transformObject = <T extends object>(
   originalObject: T,
   transformationRuleSet: TransformerRuleSet,
 ): T => {
-  return update(originalObject, draft => {
+  return produce(originalObject, draft => {
     Object.keys(transformationRuleSet).forEach(property => {
       const transformer = transformationRuleSet[property]
-      const originalValue = originalObject[property]
+      const originalValue = originalObject[property as keyof T]
 
-      draft[property] = transformer(originalValue, originalObject)
+      draft[property as keyof Draft<T>] = transformer(originalValue, originalObject)
     })
   })
 }
 
-export const removeProperties = <T>(originalObject: T, propertiesToRemove: propertyArray = []): T => {
-  return update(originalObject, draft => {
+export const removeProperties = <T extends object>(originalObject: T, propertiesToRemove: propertyArray = []): T => {
+  return produce(originalObject, draft => {
     propertiesToRemove.forEach(property => {
-      delete draft[property]
+      delete draft[property as keyof Draft<T>]
     })
   })
 }
 
 export const renameProperties = <T>(originalObject: T, propertiesToRename: PropertyMapper): T => {
-  return update(originalObject, draft => {
+  return produce(originalObject, draft => {
     Object.keys(propertiesToRename).forEach(oldPropertyName => {
-      const value = originalObject[oldPropertyName]
+      const value = originalObject[oldPropertyName as keyof T]
       const newPropertyName = propertiesToRename[oldPropertyName]
 
+      // @ts-ignore
       draft[newPropertyName] = cloneDeep(value)
-      delete draft[oldPropertyName]
+      delete draft[oldPropertyName as keyof Draft<T>]
     })
   })
 }
 
 
-export const collectProperties = <T>(originalObject: T, propertiesToKeep: propertyArray): Partial<T> => {
+export const collectProperties = <T extends object>(originalObject: T, propertiesToKeep: propertyArray): Partial<T> => {
   const propertiesToRemove = Object.keys(originalObject).filter(property => !includes(propertiesToKeep, property))
 
   return removeProperties(originalObject, propertiesToRemove)
 }
 
-export const addPropertiesWithNewName = <T>(
+export const addPropertiesWithNewName = <T extends object>(
   originalObject: T,
   transformerWithNewNameRuleSet: TransformerWithNewNameRuleSet,
 ): T => {
-  return update(originalObject, draft => {
+  return produce(originalObject, draft => {
     Object.keys(transformerWithNewNameRuleSet).forEach(newPropertyName => {
       const { transformer, originalPropertyName } = transformerWithNewNameRuleSet[newPropertyName]
       let originalValue = null
       if (originalPropertyName) {
-        originalValue = originalObject[originalPropertyName]
+        originalValue = originalObject[originalPropertyName as keyof T]
       }
 
       // the mutable objects are always headaches, we clone anyway to prevent unpredictability
-      draft[newPropertyName] = transformer(cloneDeep(originalValue), originalObject)
+      draft[newPropertyName as keyof Draft<T>] = transformer(cloneDeep(originalValue), originalObject)
     })
   })
 }
 
-export const setValuesToDefaultOrNull = <T>(originalObject: T, defaultValues: DefaultValues): T => {
-  return update(originalObject, draft => {
+export const setValuesToDefaultOrNull = <T extends object>(originalObject: T, defaultValues: DefaultValues): T => {
+  return produce(originalObject, draft => {
     Object.keys(draft).forEach(k => {
-      if (isUndefined(draft[k])) {
+      if (isUndefined(draft[k as keyof Draft<T>])) {
         if (has(defaultValues, k)) {
-          draft[k] = cloneDeep(defaultValues[k])
+          draft[k as keyof Draft<T>] = cloneDeep(defaultValues[k])
 
           return
         }
 
-        draft[k] = null
+        // @ts-ignore
+        draft[k as keyof Draft<T>] = null
       }
     })
   })

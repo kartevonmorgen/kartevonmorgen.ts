@@ -1,6 +1,7 @@
 import { FC, Fragment } from 'react'
 import { RatingComment } from '../dtos/RatingComment'
-import { Comment, Typography } from 'antd'
+import { Comment } from '@ant-design/compatible';
+import { Typography } from 'antd';
 
 
 const { Text } = Typography

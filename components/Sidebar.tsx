@@ -1,14 +1,24 @@
-import { FC } from 'react'
-import { useRouter } from 'next/router'
-import { Drawer } from 'antd'
+import {FC, useEffect, useState} from 'react'
+import {useRouter} from 'next/router'
+import {Drawer} from 'antd'
+import { LeftOutlined } from '@ant-design/icons'
 import SidebarContent from './SidebarContent'
-import { convertQueryParamToString } from '../utils/utils'
-import { isSidebarStatusShown } from '../dtos/SidebarStatus'
-import { useSidebar } from '../hooks/useResponsive'
-import SidebarCollapseButton from './SidebarCollapseButton'
+import {convertQueryParamToString} from '../utils/utils'
+import {isSidebarStatusShown} from '../dtos/SidebarStatus'
+import {useSidebar} from '../hooks/useResponsive'
+import { closeSidebar } from './SidebarCollapseButton'
 
 
-const Sidebar: FC = () => {
+
+interface SidebarProps {
+  title: String
+}
+
+
+const Sidebar: FC<SidebarProps> = (props) => {
+  const { title } = props
+
+
   const router = useRouter()
   const {
     query: {
@@ -16,30 +26,48 @@ const Sidebar: FC = () => {
     },
   } = router
 
-  const isSidebarOpen = isSidebarStatusShown(convertQueryParamToString(sidebarParam))
+  const shouldOpenSidebar = isSidebarStatusShown(convertQueryParamToString(sidebarParam))
 
-  const { width: sidebarWidth } = useSidebar()
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false)
 
+  const {width: sidebarWidth} = useSidebar()
+
+  useEffect(() => {
+    setIsSidebarOpen(shouldOpenSidebar)
+  }, [shouldOpenSidebar])
 
   return (
-      <Drawer
-        visible={isSidebarOpen}
-        placement='left'
-        closable={false}
-        mask={false}
-        bodyStyle={{
-          padding: 0,
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-        width={sidebarWidth}
-      >
-
-        <SidebarCollapseButton />
-
-        {isSidebarOpen && <SidebarContent />}
-
-      </Drawer>
+    <Drawer
+      autoFocus={false}
+      open={isSidebarOpen}
+      closeIcon={<LeftOutlined/>}
+      placement="left"
+      mask={false}
+      rootStyle={{
+        height: '100vh',
+        padding: 0,
+        display: 'flex',
+        overflowX: 'clip',
+        overflowY: 'scroll',
+        position: 'absolute',
+      }}
+      getContainer={false}
+      width={isSidebarOpen ? sidebarWidth : 0}
+      styles={{
+        body: {
+          padding: 0
+        },
+        header: {
+          padding: 6,
+        }
+      }}
+      title={title}
+      onClose={() => closeSidebar(router)}
+    >
+      {isSidebarOpen && (
+        <SidebarContent/>
+      )}
+    </Drawer>
   )
 }
 

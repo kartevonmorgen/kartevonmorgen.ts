@@ -47,7 +47,7 @@ export const openSidebar = (router: NextRouter) => {
   setSidebarState(router, SidebarState.Open)
 }
 
-const toggleSidebarState = (router: NextRouter, isSidebarOpen: boolean) => () => {
+export const toggleSidebarState = (router: NextRouter, isSidebarOpen: boolean) => () => {
   if (!isRouterInitialized(router)) {
     return
   }
@@ -78,27 +78,23 @@ const SidebarCollapseButtonIcon: FC<CollapseSidebarButtonIcon> = (props) => {
 
 const SidebarCollapseButton: FC = () => {
   const router = useRouter()
-  const { query } = router
-  const { sidebar: sidebarParam } = query
-  const isSidebarOpen = isSidebarStatusShown(convertQueryParamToString(sidebarParam))
-
-  const { width: sidebarWidth } = useSidebar()
-
+  
   return (
     <Button
       icon={
-        <SidebarCollapseButtonIcon showOpenIcon={!isSidebarOpen} />
+        <SidebarCollapseButtonIcon showOpenIcon />
       }
-      onClick={toggleSidebarState(router, isSidebarOpen)}
+      onClick={toggleSidebarState(router, false)}
       size='middle'
       style={{
         height: 68,
         width: 36,
-        position: 'absolute',
+        position: 'fixed',
         top: 52,
-        transform: 'translateX(100%)',
-        right: 0,
-        zIndex: 400
+        left: 0,
+        zIndex: 500,
+        visibility: 'visible',
+        display: 'block'
       }}
     />
   )

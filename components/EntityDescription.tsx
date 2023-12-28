@@ -41,7 +41,12 @@ const EntityDescription: FC<EntityDescriptionProps> = (props) => {
   }, [text])
 
   return (
-    <Paragraph>
+    <Paragraph
+      style={{
+        color: '#666',
+        whiteSpace: 'pre-line'
+      }}
+    >
       {description}
       {
         showReadMoreButton &&

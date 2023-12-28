@@ -1,4 +1,4 @@
-import { OptionData, OptionGroupData } from 'rc-select/lib/interface'
+import type { DefaultOptionType } from 'rc-select/lib/Select'
 import useTagMatcher from './useTagMatcher'
 import { MostPopularTagsParams } from '../pages/api/v0/entries/most-popular-tags'
 import { TagFrequency } from '../dtos/TagFrequency'
@@ -7,7 +7,7 @@ import API_ENDPOINTS from '../api/endpoints'
 import { CSVToOptionDataResponse } from '../utils/csv'
 
 
-type ResultOptions = (OptionData | OptionGroupData)[]
+type ResultOptions = DefaultOptionType[]
 
 const convertTagFrequenciesToResultOptions = (tagFrequencies: TagFrequency[]): ResultOptions => {
   return tagFrequencies.map((tagFrequency) => ({

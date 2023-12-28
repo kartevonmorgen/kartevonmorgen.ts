@@ -1,5 +1,6 @@
 import { ParsedUrlQuery } from 'querystring'
 import { convertQueryParamToLatLng } from '../utils/router'
+import { LatLng } from '../utils/geolocation'
 
 
 class Point {
@@ -23,7 +24,7 @@ class Point {
     return [this.lat, this.lng]
   }
 
-  toJson(): any {
+  toJson(): LatLng {
     return {
       lat: this.lat,
       lng: this.lng,

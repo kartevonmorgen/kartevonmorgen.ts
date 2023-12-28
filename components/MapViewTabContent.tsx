@@ -1,5 +1,7 @@
 import { FC } from 'react'
+// @ts-ignore
 import Lowlight from 'react-lowlight'
+// @ts-ignore
 import xmlSyntax from 'highlight.js/lib/languages/xml'
 import 'highlight.js/styles/github.css'
 import MapSharingModalFooter from './MapSharingModalFooter'

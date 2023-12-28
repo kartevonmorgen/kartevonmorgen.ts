@@ -1,4 +1,3 @@
-import { config, library } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 
 import {
@@ -24,6 +23,8 @@ import {
   faUserFriends,
   faUsers,
   faUserShield,
+  faPenFancy,
+  faAlignJustify,
 } from '@fortawesome/free-solid-svg-icons'
 
 import { faCopy, faMap, faTimesCircle } from '@fortawesome/free-regular-svg-icons'
@@ -38,6 +39,8 @@ import {
   faWhatsapp,
   faYoutube,
 } from '@fortawesome/free-brands-svg-icons'
+
+const { config, library } = require('@fortawesome/fontawesome-svg-core')
 
 
 // See https://github.com/FortAwesome/react-fontawesome#integrating-with-other-tools-and-frameworks
@@ -68,6 +71,8 @@ library.add(
   faCode,
   faChevronLeft,
   faChevronRight,
+  faPenFancy,
+  faAlignJustify,
 )
 
 // @fortawesome/free-regular-svg-icons

@@ -1,5 +1,6 @@
 // TODO: use debounce to prevent extra queries
 import { FC, useEffect } from 'react'
+import {ThunkDispatch} from "@reduxjs/toolkit"
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 import { useMap } from 'react-leaflet'
@@ -8,6 +9,7 @@ import toNumber from 'lodash/toNumber'
 import { emptyEntries, fetchAllEntries, fetchEntries } from '../slices/entriesSlice'
 import { emptyEvents, fetchAllEvents, fetchEvents } from '../slices/eventsSlice'
 import {
+  concatTagsWithSearchTerm,
   convertBBoxToString,
   convertQueryParamToArray,
   convertQueryParamToInt,
@@ -34,16 +36,15 @@ const SearchEventsListener: FC = () => {
     limit: limitParam,
     tag: tagsParam,
     fixedTags: fixedTagsParam,
-    orgTag: orgTagParam,
     start_min: startMinParam,
     start_max: startMaxParam,
     end_min: endMinParam,
   } = query
 
   const { slug } = query
-  const lastSlugPart: string = slug[slug.length - 1]
+  const lastSlugPart: string = (slug as string[])[(slug as string[]).length - 1]
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>()
   const map = useMap()
 
   const bbox = convertBBoxToString(map.getBounds())
@@ -86,6 +87,9 @@ const SearchEventsListener: FC = () => {
 
     const fixedTags: string[] = convertQueryParamToArray(fixedTagsParam)
     const tags: string[] = convertQueryParamToArray(tagsParam)
+    const compoundTags = [...fixedTags, ...tags]
+
+    const searchTextWithTags = concatTagsWithSearchTerm(searchTerm, compoundTags)
 
     // search entries
     // if no entry category is there, we should set the entries state to an empty array
@@ -93,11 +97,9 @@ const SearchEventsListener: FC = () => {
     if (entryCategories.length !== 0) {
       const searchEntriesRequestDTO: SearchEntriesRequestDTO = {
         bbox: bbox,
-        text: searchTerm.length !== 0 ? searchTerm : undefined,
+        text: searchTextWithTags,
         categories: toString(entryCategories),
         limit: limit,
-        tags: toString([...fixedTags, ...tags]),
-        org_tag: orgTagParam ? convertQueryParamToString(orgTagParam) : undefined
       }
       dispatch(fetchEntries(searchEntriesRequestDTO))
     } else {
@@ -110,12 +112,11 @@ const SearchEventsListener: FC = () => {
 
       const searchEventsRequestDTO: SearchEventsRequestDTO = {
         bbox: bbox,
-        text: searchTerm.length !== 0 ? searchTerm : undefined,
+        text: searchTextWithTags,
         limit: limit,
-        tag: toString([...fixedTags, ...tags]),
         start_min: mapTimes.startMin?.unix(),
         start_max: mapTimes.startMax?.unix(),
-        end_min: mapTimes.endMin.unix(),
+        end_min: mapTimes.endMin?.unix(),
       }
       dispatch(fetchEvents(searchEventsRequestDTO))
     } else {

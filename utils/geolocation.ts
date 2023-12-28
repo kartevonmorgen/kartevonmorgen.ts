@@ -14,6 +14,14 @@ import { FormInstance } from 'antd'
 import { NextRouter } from 'next/router'
 import { setCenterAndZoomAndNewPin } from './map'
 import MAP_CONSTANTS from '../consts/map'
+import { EventID } from '../dtos/Event'
+import { BASICS_ENDPOINTS } from '../api/endpoints/BasicsEndpoints'
+import { StatusCodes } from 'http-status-codes'
+import { SearchEntryID } from '../dtos/SearchEntry'
+import { Entry } from '../dtos/Entry'
+import Event from '../dtos/Event'
+import { RootSlugEntity } from './types'
+import {NamePath} from 'rc-field-form/lib/interface'
 
 
 // it was not possible to use the latlng from leaflet
@@ -43,7 +51,7 @@ export interface ExtendedGeocodeAddress extends GeocodeAddress {
   road?: string
 }
 
-export const reverseGeocode = async (latLng): Promise<NominatimResponse> => {
+export const reverseGeocode = async (latLng: LatLng): Promise<NominatimResponse> => {
   return nominatimReverseGeocode({
     lat: toString(latLng.lat),
     lon: toString(latLng.lng),
@@ -52,7 +60,7 @@ export const reverseGeocode = async (latLng): Promise<NominatimResponse> => {
 }
 
 export const getCityFromAddress = (extendedAddress: ExtendedGeocodeAddress): string => {
-  const regionPriorities = [
+  const regionPriorities: (keyof ExtendedGeocodeAddress)[] = [
     'city',
     'town',
     'municipality',
@@ -66,7 +74,7 @@ export const getCityFromAddress = (extendedAddress: ExtendedGeocodeAddress): str
 
   for (const possibleRegion of regionPriorities) {
     if (!isUndefined(extendedAddress[possibleRegion])) {
-      return extendedAddress[possibleRegion]
+      return extendedAddress[possibleRegion] as string
     }
   }
 
@@ -104,7 +112,7 @@ const getStructuredAddressFromForm = (
   const structuredAddressExtractedFromForm: GeoLocationStructuredAddress = {}
 
   Object.keys(mapper).forEach((addressField: string) => {
-    structuredAddressExtractedFromForm[addressField] = form.getFieldValue(mapper[addressField])
+    structuredAddressExtractedFromForm[addressField as keyof GeoLocationStructuredAddress] = form.getFieldValue(mapper[addressField as keyof FormToAddressMapper] as NamePath)
   })
 
   return structuredAddressExtractedFromForm
@@ -126,7 +134,6 @@ export const flyToFormAddressAndSetNewPin = async (router: NextRouter, form: For
   try {
     locations = await geocode(geoLocationRequest)
   } catch (e) {
-    return
   }
 
   if (locations.length === 0) {
@@ -140,4 +147,81 @@ export const flyToFormAddressAndSetNewPin = async (router: NextRouter, form: For
   }
 
   setCenterAndZoomAndNewPin(router, newCenter, MAP_CONSTANTS.map.close_zoom)
+}
+
+export const getEntryLocation = async (entryId: SearchEntryID): Promise<LatLng | null> => {
+  let entry: Entry | null= null
+  try {
+    const entryResponse = await fetch(`${BASICS_ENDPOINTS.getEntries()}/${entryId}`)
+    if (entryResponse.status !== StatusCodes.OK) {
+      return null
+    }
+
+    const entryResponseJson = await entryResponse.json()
+    if (entryResponseJson.length === 0) {
+      return null
+    }
+
+    entry = entryResponseJson[0]
+  } catch (e) {
+    return null
+  }
+
+  if (!entry) {
+    return null
+  }
+
+  const latLng: LatLng = {
+    lat: entry.lat,
+    lng: entry.lng
+  }
+
+  return latLng
+}
+
+export const getEventLocation = async (eventId: EventID): Promise<LatLng | null> => {
+  let event: Event | null = null
+  try {
+    const eventResponse = await fetch(`${BASICS_ENDPOINTS.getEvent()}/${eventId}`)
+    if (eventResponse.status !== StatusCodes.OK) {
+      return null
+    }
+
+    event = await eventResponse.json()
+  } catch (e) {
+    return null
+  }
+
+  if (!event) {
+    return null
+  }
+
+  const latLng: LatLng = {
+    lat: event.lat,
+    lng: event.lng
+  }
+
+  return latLng
+}
+
+export const getOptionalEntityLocation = async (entityId: SearchEntryID, entityType: RootSlugEntity): Promise<LatLng | null> => {
+  let optionalLatLng: LatLng | null = null
+  switch (entityType){
+    case RootSlugEntity.RESULT:
+      return optionalLatLng
+    case RootSlugEntity.EVENT:
+      optionalLatLng = await getEventLocation(entityId)
+      return optionalLatLng
+    case RootSlugEntity.COMPANY:
+      optionalLatLng = await getEntryLocation(entityId)
+      return optionalLatLng
+    case RootSlugEntity.INITIATIVE:
+      optionalLatLng = await getEntryLocation(entityId)
+      return optionalLatLng
+    case RootSlugEntity.ENTRY:
+      optionalLatLng = await getEntryLocation(entityId)
+      return optionalLatLng
+    default:
+      return optionalLatLng
+  }
 }

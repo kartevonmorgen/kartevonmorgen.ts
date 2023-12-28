@@ -4,10 +4,10 @@ import { useDispatch } from 'react-redux'
 import isString from 'lodash/isString'
 import isArray from 'lodash/isArray'
 import { Divider, Spin, Typography } from 'antd'
-import { useUnmount } from 'ahooks'
+import { useUnmount, useMount } from 'ahooks'
 import useRequest from '../api/useRequest'
 import { EntryRequest } from '../dtos/EntryRequest'
-import { RootSlugEntity, RouterQueryParam } from '../utils/types'
+import { RootSlugEntity } from '../utils/types'
 import { SearchEntryID } from '../dtos/SearchEntry'
 import { Entries as EntriesDTO, Entry } from '../dtos/Entry'
 import API_ENDPOINTS from '../api/endpoints'
@@ -27,7 +27,7 @@ import EntityDescription from './EntityDescription'
 import { PartialLatLng } from '../utils/geolocation'
 import useFly from '../hooks/useFly'
 import EntityRouteLink from './EntityRouteLink'
-import { entityDetailActions } from '../slices'
+import { entityDetailActions, viewActions } from '../slices'
 
 
 const { Title } = Typography
@@ -48,10 +48,12 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
 
   // todo: duplicate code also for editing an entry, make it a higher order hook
   const router = useRouter()
-  const { query, pathname } = router
+  const { query } = router
+
+  const currentUrl = window.location.href
 
   const { orgTag: optionalOrgTag } = query
-  const orgTag = optionalOrgTag && isString(optionalOrgTag) ? optionalOrgTag : null
+  const orgTag = optionalOrgTag && isString(optionalOrgTag) ? optionalOrgTag : undefined
   const entryRequest: EntryRequest = {
     org_tag: orgTag,
   }
@@ -62,13 +64,21 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
   })
 
   const foundEntry: boolean = isArray(entries) && entries.length !== 0
-  const entry: Entry = foundEntry ? entries[0] : null
+  const entry: Entry | null = foundEntry ? (entries as EntriesDTO)[0] : null
   const partialEntryLatLng: PartialLatLng = {
     lat: entry?.lat,
     lng: entry?.lng,
   }
 
   useFly(partialEntryLatLng)
+
+  useMount(() => {
+    dispatch(viewActions.setHighlight(entryId))
+  })
+
+  useUnmount(() => {
+    dispatch(viewActions.unsetHighlight())
+  })
 
   useUnmount(() => {
     dispatch(entityDetailActions.setFalseShouldChangeZoomOnEntrance())
@@ -93,13 +103,19 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
     return null
   }
 
+  if (!entry) {
+    return null
+  }
+
 
   const type: Category = entry.categories[0]
   const typeName: string = CategoryToNameMapper[type]
 
+  console.log(entry.image_url)
+
   return (
     <div id='entity-detail'>
-      <EntityDetailHeader />
+      <EntityDetailHeader hasImage={entry.image_url !== undefined && entry.image_url !== null}/>
 
       <EntityImageWithLink
         title={entry.title}
@@ -107,7 +123,14 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
         link={entry.image_link_url}
       />
 
-      <Title level={2}>{entry.title}</Title>
+      <Title
+        level={3}
+        style={{
+          marginBottom: 0,
+          marginTop: 12,
+      }}>
+        {entry.title}
+      </Title>
 
       <TypeTag
         type={typeName}
@@ -162,10 +185,10 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
       <EntityRatings ratingsIds={entry.ratings} />
 
       <EntityFooter
-        entityId={entry.id}
+        entityId={entry.id as string}
         type={RootSlugEntity.ENTRY}
         title={entry.title}
-        activeLink={pathname}
+        activeLink={currentUrl}
         created_at={entry.created}
         version={entry.version}
       />

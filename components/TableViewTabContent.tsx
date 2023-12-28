@@ -1,7 +1,9 @@
 import { FC } from 'react'
 import { useRouter } from 'next/router'
 import { useMap } from 'react-leaflet'
+// @ts-ignore
 import Lowlight from 'react-lowlight'
+// @ts-ignore
 import xmlSyntax from 'highlight.js/lib/languages/xml'
 import 'highlight.js/styles/github.css'
 import { convertMapURLToTableViewURL } from '../utils/slug'

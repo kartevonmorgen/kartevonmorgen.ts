@@ -7,6 +7,8 @@ import MapMarker from './MapMarker'
 
 
 const MapMarkers: FC = () => {
+  // useCacheTagPinColors()
+
   const searchResults: SearchResults = useSelector(
     (state: RootState) => searchResultSelector(state),
   )

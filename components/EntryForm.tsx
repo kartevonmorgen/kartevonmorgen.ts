@@ -1,18 +1,30 @@
-import { Dispatch, FC, Fragment, useEffect, useState } from 'react'
+import { Dispatch, FC, Fragment, useEffect, useState, SetStateAction, MutableRefObject } from 'react'
 import { NextRouter, useRouter } from 'next/router'
-import { useDispatch } from 'react-redux'
-import produce from 'immer'
-import { AppDispatch } from '../store'
+import { useDispatch, useSelector } from 'react-redux'
+import { useMount, useUnmount, useDeepCompareEffect } from 'ahooks'
+import { produce } from 'immer'
 import useTranslation from 'next-translate/useTranslation'
 import { validate as validateEmail } from 'isemail'
 import { isWebUri } from 'valid-url'
-import { Button, Checkbox, Divider, Form, FormInstance, Input, Select, Spin, Typography } from 'antd'
+import {
+  Button,
+  Checkbox,
+  Divider,
+  Form,
+  FormInstance,
+  Input,
+  Select,
+  Spin,
+  Typography,
+  Alert,
+} from 'antd'
 import MinusCircleOutlined from '@ant-design/icons/lib/icons/MinusCircleOutlined'
 import PlusOutlined from '@ant-design/icons/lib/icons/PlusOutlined'
 import isString from 'lodash/isString'
 import isArray from 'lodash/isArray'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { redirectToEntityDetailAndFlyToLocation } from '../utils/slug'
+import { AppDispatch } from '../store'
 import { AxiosInstance } from '../api'
 import useRequest from '../api/useRequest'
 import API_ENDPOINTS from '../api/endpoints'
@@ -22,34 +34,44 @@ import { NewEntryWithVersion } from '../dtos/NewEntryWithVersion'
 import { Entries as EntriesDTO, Entry } from '../dtos/Entry'
 import { convertNewEntryToSearchEntry, SearchEntryID } from '../dtos/SearchEntry'
 import Point from '../dtos/Point'
-import { RouterQueryParam, SlugVerb } from '../utils/types'
+import { SlugVerb } from '../utils/types'
 import {
   ExtendedGeocodeAddress,
   flyToFormAddressAndSetNewPin,
   getCityFromAddress,
   reverseGeocode,
 } from '../utils/geolocation'
-import Category from '../dtos/Categories'
-import { entriesActions } from '../slices'
+import Category, { EntryCategories, EntryCategoryTypes } from '../dtos/Categories'
+import { entriesActions, formActions, viewActions } from '../slices'
 import { renameProperties, setValuesToDefaultOrNull, transformObject } from '../utils/objects'
 import { convertQueryParamToArray, prependWebProtocol } from '../utils/utils'
 import { ENTITY_DETAIL_DESCRIPTION_LIMIT } from '../consts/texts'
 import EntityTagsFormSection from './EntityTagsFormSection'
+import { FORM_STATUS } from '../slices/formSlice'
+import { formSelector } from '../selectors/form'
+import { AxiosError } from 'axios'
+import {EntryContactKeys} from '../dtos/EntryContact'
 
 
 const { useForm } = Form
 const { TextArea } = Input
-const { Link } = Typography
+const { Link, Paragraph } = Typography
 
 
 // we declare both types NewEntryWithLicense for create, and NewEntryWithVersion for update
-type EntryFormType = NewEntryWithLicense | NewEntryWithVersion
+export type EntryFormType = NewEntryWithLicense | NewEntryWithVersion
 
+
+type FieldNameToSetInForm = "lat" | "lng" | "country" | "city" | "state" | "street" | "zip"
+
+interface CreateOrEditError {
+  message?: null | string
+}
 
 const setAddressDetailsIfAddressFieldsAreNotTouched = async (
   form: FormInstance,
   newPoint: Point,
-  touchedAddressFieldNames: string[],
+  touchedAddressFieldNames: FieldNameToSetInForm[],
 ) => {
   const place = await reverseGeocode(newPoint.toJson())
   const address = place.address as ExtendedGeocodeAddress
@@ -98,7 +120,7 @@ const transformFormFields = (entry: EntryFormType): EntryFormType => {
 
       return licenseArray[0]
     },
-    email: (email: string | null | undefined): string | null => {
+    email: (email: string | null | undefined): string | null | undefined => {
       if (email === '') {
         return null
       }
@@ -114,7 +136,7 @@ const transformFormFields = (entry: EntryFormType): EntryFormType => {
   const transformedEntry = transformObject(entry, rules)
   const transformedEntryWithRenamedFields = renameProperties(transformedEntry, fieldsToRename)
 
-  const optionalFieldsToDelete: string[] = ['email']
+  const optionalFieldsToDelete: Array<keyof EntryFormType> = [EntryContactKeys.EMAIL]
   const transformedEntryWithRenamedAndDeletedOptionalFields = produce(
     transformedEntryWithRenamedFields,
     (draft) => {
@@ -219,8 +241,23 @@ const onFinish = (
   const entryWithDefaultValues = setFieldsToDefaultOrNull(entry)
   const adaptedEntry = transformFormFields(entryWithDefaultValues)
 
-  entryId = await createOrEditEntry(adaptedEntry, entryId, isEdit)
+  try {
+    entryId = await createOrEditEntry(adaptedEntry, entryId, isEdit)
+  } catch (e) {
+    const error = e as AxiosError<CreateOrEditError>
+    const errorMessage = error.response?.data?.message
+    if (errorMessage) {
+      dispatch(viewActions.setErrorMessage(errorMessage))
+    } else {
+      console.error(e)
+      dispatch(viewActions.setErrorMessage('Submitting form failed!'))
+    }
+    document.getElementsByClassName('ant-drawer-body')[0].scrollTop = 0
+    return
+  }
 
+  dispatch(viewActions.setErrorMessage(null))
+  dispatch(formActions.expireFormCache())
   addEntryToStateOnCreate(isEdit, entryId, adaptedEntry, dispatch)
   redirectToEntry(router, entryId, isEdit)
 }
@@ -228,7 +265,7 @@ const onFinish = (
 
 // todo: any is not a suitable type for dispatch, it should be string[]
 const addTouchedAddressFieldName = (setTouchedAddressFields: Dispatch<any>, fieldName: string) => {
-  setTouchedAddressFields((prevTouchedAddressFields) =>
+  setTouchedAddressFields((prevTouchedAddressFields: string[]) =>
     produce(prevTouchedAddressFields, (draft) => {
       draft.push(fieldName)
     }),
@@ -236,21 +273,24 @@ const addTouchedAddressFieldName = (setTouchedAddressFields: Dispatch<any>, fiel
 }
 
 
-type EntryCategories = Category.COMPANY | Category.INITIATIVE
-
 interface EntryFormProps {
-  category: EntryCategories
+  category: EntryCategoryTypes
   verb: SlugVerb.EDIT | SlugVerb.CREATE
   entryId?: SearchEntryID
+  setCategory: Dispatch<SetStateAction<Category>>
+  isFormInitialized: MutableRefObject<boolean>
 }
 
 const EntryForm: FC<EntryFormProps> = (props) => {
   // todo: for a better experience show spinner with the corresponding message when the form is loading
   // for example: fetching the address
 
-  const { category, verb, entryId } = props
+  const { category, setCategory, verb, entryId, isFormInitialized } = props
+
 
   const dispatch = useDispatch()
+
+  const formCache = useSelector(formSelector)
 
   const { t } = useTranslation('map')
 
@@ -264,39 +304,77 @@ const EntryForm: FC<EntryFormProps> = (props) => {
 
   const [form] = useForm<EntryFormType>()
 
-
   const newPoint = new Point().fromQuery(query)
 
-  const effectDeps = [...newPoint.toArray()]
+  const [newPointCoordinateLat, newPointCoordinateLng] = newPoint.toArray()
 
   // set address information if the map marker/pin moves
   useEffect(() => {
     if (!newPoint.isEmpty()) {
-      setAddressDetailsIfAddressFieldsAreNotTouched(form, newPoint, touchedAddressFields).then()
+      setAddressDetailsIfAddressFieldsAreNotTouched(form, newPoint, touchedAddressFields as FieldNameToSetInForm[]).then()
     }
-  }, effectDeps)
+  }, [newPointCoordinateLat, newPointCoordinateLng])
+
+  useMount(() => {
+    dispatch(viewActions.setHighlight(entryId as string))
+  })
+
+  useUnmount(() => {
+    dispatch(viewActions.unsetHighlight())
+  })
 
   const isEdit = verb === SlugVerb.EDIT
 
   const { orgTag: optionalOrgTag } = query
-  const orgTag = optionalOrgTag && isString(optionalOrgTag) ? optionalOrgTag : null
+  const orgTag = optionalOrgTag && isString(optionalOrgTag) ? optionalOrgTag : undefined
   const entryRequest: EntryRequest = {
     org_tag: orgTag,
   }
 
-  const { data: entries, error: entriesError } = useRequest<EntriesDTO>(isEdit && {
+  const { data: entries, error: entriesError } = useRequest<EntriesDTO>(isEdit ? {
     url: `${API_ENDPOINTS.getEntries()}/${entryId}`,
     params: entryRequest,
-  })
-
+  } : null)
 
   const foundEntry: boolean = isArray(entries) && entries.length !== 0
-  const entry: Entry = foundEntry ? entries[0] : {} as Entry
-  // it's an overwrite to be sure it's not empty for the new entries
-  if (!entry.categories) {
-    entry.categories = [category]
+  let entry: Entry = foundEntry ? { ...(entries as EntriesDTO)[0] } : {} as Entry
+
+  if (
+    formCache.status === FORM_STATUS.READY &&
+    EntryCategories.includes(formCache.category as Category) &&
+    formCache.data
+  ) {
+    entry = { ...formCache.data } as Entry
   }
 
+  useDeepCompareEffect(() => {
+    const newFormInitialValues = produce(entry, (draft) => {
+      if (draft) {
+        if (!draft['tags']) {
+          draft['tags'] = []
+        }
+        tagsFromQuery.forEach((tag) => {
+          if (!draft['tags'].includes(tag)) {
+            draft['tags'].push(tag)
+          }
+        })
+        draft.categories = [category]
+      }
+    })
+
+    form.setFieldsValue(newFormInitialValues)
+  }, [entry, category])
+
+
+  useEffect(() => {
+    if (entry.categories && entry.categories.length && setCategory && !isFormInitialized.current) {
+      setCategory(entry.categories[0] as Category)
+    }
+
+    if (isFormInitialized) {
+      isFormInitialized.current = true
+    }
+  }, [])
 
   if (entriesError) {
     //  todo: show error notification, redirect to the search result view
@@ -307,7 +385,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
   if (!entries && isEdit) {
     return (
       <div className='center'>
-        <Spin size="large"/>
+        <Spin size='large' />
       </div>
     )
   }
@@ -317,53 +395,50 @@ const EntryForm: FC<EntryFormProps> = (props) => {
     return null
   }
 
-  const formInitialValues = produce(entry, (draft) => {
-    if (draft) {
-      if (!draft['tags']) {
-        draft['tags'] = []
-      }
-      draft['tags'].push(...tagsFromQuery)
-    }
-  })
 
   return (
     <Form
-      layout="vertical"
-      size="middle"
+      layout='vertical'
+      size='middle'
       style={{
         marginTop: 8,
       }}
-      initialValues={formInitialValues}
-      onFinish={onFinish(router, dispatch, isEdit, entryId)}
+      onFinish={onFinish(router, dispatch, isEdit, entryId as string)}
+      onValuesChange={
+        (_changedValue: Partial<EntryFormType>, entryData: EntryFormType) => {
+          dispatch(formActions.cacheFormData({ category, data: entryData }))
+          dispatch(viewActions.setErrorMessage(null))
+        }
+      }
       form={form}
     >
 
-      <Form.Item name="id" hidden>
-        <Input disabled/>
+      <Form.Item name='id' hidden>
+        <Input disabled />
       </Form.Item>
 
       {/* the backend accepts an array that's because it's named plural*/}
       {/* but in reality it contains only one category*/}
       {/* and the value is initialized by the parent not the api in the edit mode*/}
-      <Form.Item name="categories" hidden>
+      <Form.Item name='categories' hidden>
         <Select
-          mode="multiple"
+          mode='multiple'
           disabled
         />
       </Form.Item>
 
       <Form.Item
-        name="title"
+        name='title'
         rules={[
           { required: true, message: t('entryForm.requiredField') },
           { min: 3, message: t('entryForm.titleTooShort') },
         ]}
       >
-        <Input placeholder={t('entryForm.title')}/>
+        <Input placeholder={t('entryForm.title')} />
       </Form.Item>
 
       <Form.Item
-        name="description"
+        name='description'
         rules={[
           {
             required: true,
@@ -386,9 +461,9 @@ const EntryForm: FC<EntryFormProps> = (props) => {
         />
       </Form.Item>
 
-      <EntityTagsFormSection form={form}/>
+      <EntityTagsFormSection form={form} />
 
-      <Divider orientation="left">{t('entryForm.location')}</Divider>
+      <Divider orientation='left'>{t('entryForm.location')}</Divider>
 
       <Form.Item>
         <Input.Group compact>
@@ -399,9 +474,12 @@ const EntryForm: FC<EntryFormProps> = (props) => {
             <Input
               style={{ width: '50%' }}
               placeholder={t('entryForm.city')}
-              onBlur={() => {
+              onBlur={async () => {
                 addTouchedAddressFieldName(setTouchedAddressFields, 'city')
-                flyToFormAddressAndSetNewPin(router, form).then()
+                try {
+                  await flyToFormAddressAndSetNewPin(router, form)
+                } catch (e) {
+                }
               }}
             />
           </Form.Item>
@@ -413,67 +491,83 @@ const EntryForm: FC<EntryFormProps> = (props) => {
             <Input
               style={{ width: '50%' }}
               placeholder={t('entryForm.zip')}
-              onBlur={() => {
+              onBlur={async () => {
                 addTouchedAddressFieldName(setTouchedAddressFields, 'zip')
-                flyToFormAddressAndSetNewPin(router, form).then()
+                try {
+                  await flyToFormAddressAndSetNewPin(router, form).then()
+                } catch (e) {
+                }
               }}
             />
           </Form.Item>
         </Input.Group>
       </Form.Item>
 
-      <Form.Item name="country" hidden/>
+      <Form.Item name='country' hidden />
 
-      <Form.Item name="state" hidden/>
+      <Form.Item name='state' hidden />
 
-      <Form.Item name="street">
+      <Form.Item name='street'>
         <Input
           placeholder={t('entryForm.street')}
-          onBlur={() => {
+          onBlur={async () => {
             addTouchedAddressFieldName(setTouchedAddressFields, 'street')
-            flyToFormAddressAndSetNewPin(router, form).then()
+            try {
+              flyToFormAddressAndSetNewPin(router, form).then()
+            } catch (e) {
+            }
           }}
         />
       </Form.Item>
 
+      <Paragraph>{t('entryForm.clickOnMap')}</Paragraph>
+
       <Form.Item
-        name="lat"
+        name='lat'
         style={{
           display: 'inline-block',
           width: '50%',
         }}
+        rules={[{required: true, message: t('entryForm.requiredField')}]}
       >
-        <Input placeholder="Latitude" disabled/>
+        <Input
+          disabled
+          placeholder='Latitude'
+        />
       </Form.Item>
 
       <Form.Item
-        name="lng"
+        name='lng'
         style={{
           display: 'inline-block',
           width: '50%',
         }}
+        rules={[{required: true, message: t('entryForm.requiredField')}]}
       >
-        <Input placeholder="Longitude" disabled/>
+        <Input
+          disabled
+          placeholder='Longitude'
+        />
       </Form.Item>
 
-      <Divider orientation="left">{t('entryForm.contact')}</Divider>
+      <Divider orientation='left'>{t('entryForm.contact')}</Divider>
 
-      <Form.Item name="contact_name">
+      <Form.Item name='contact_name'>
         <Input
           placeholder={t('entryForm.contactPerson')}
-          prefix={<FontAwesomeIcon icon="user"/>}
+          prefix={<FontAwesomeIcon icon='user' />}
         />
       </Form.Item>
 
-      <Form.Item name="telephone">
+      <Form.Item name='telephone'>
         <Input
           placeholder={t('entryForm.phone')}
-          prefix={<FontAwesomeIcon icon="phone"/>}
+          prefix={<FontAwesomeIcon icon='phone' />}
         />
       </Form.Item>
 
       <Form.Item
-        name="email"
+        name='email'
         rules={[
           {
             validator: (_, value) => {
@@ -494,12 +588,12 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       >
         <Input
           placeholder={t('entryForm.email')}
-          prefix={<FontAwesomeIcon icon="envelope"/>}
+          prefix={<FontAwesomeIcon icon='envelope' />}
         />
       </Form.Item>
 
       <Form.Item
-        name="homepage"
+        name='homepage'
         rules={[
           {
             validator: (_, value) => {
@@ -521,36 +615,38 @@ const EntryForm: FC<EntryFormProps> = (props) => {
       >
         <Input
           placeholder={t('entryForm.homepage')}
-          prefix={<FontAwesomeIcon icon="globe"/>}
+          prefix={<FontAwesomeIcon icon='globe' />}
         />
       </Form.Item>
 
-      <Form.Item name="opening_hours">
-        <Input placeholder={t('entryForm.openingHours')} prefix={<FontAwesomeIcon icon="clock"/>}/>
+      <Form.Item name='opening_hours'>
+        <Input placeholder={t('entryForm.openingHours')} prefix={<FontAwesomeIcon icon='clock' />} />
       </Form.Item>
 
       <div style={{ width: '100%', textAlign: 'center' }}>
         <Link
           href={process.env.NEXT_PUBLIC_OPENING_HOURS}
-          target="_blank"
+          target='_blank'
         >
           {t('entryForm.generateHours')}
         </Link>
       </div>
 
-      <Divider orientation="left">{t('entryForm.links')}</Divider>
+      <Divider orientation='left'>{t('entryForm.links')}</Divider>
 
       <Form.List
-        name="custom"
+        name='custom'
       >
         {(fields, { add, remove }) => (
           <Fragment>
-            {fields.map((field) => (
+            {fields.map((field, i) => (
               <Fragment>
+                <Paragraph>{`#${i+1}`}</Paragraph>
+
                 <Form.Item
                   {...field}
                   name={[field.name, 'url']}
-                  fieldKey={[field.fieldKey, 'url']}
+                  key={field.key}
                   rules={[
                     {
                       validator: (_, value) => {
@@ -566,35 +662,44 @@ const EntryForm: FC<EntryFormProps> = (props) => {
                     },
                   ]}
                 >
-                  <Input placeholder={t('entryForm.linkUrl')}/>
+                  <Input
+                    placeholder={t('entryForm.linkUrl')}
+                    prefix={<FontAwesomeIcon icon='link' />}
+                  />
                 </Form.Item>
                 <Form.Item
                   {...field}
                   name={[field.name, 'title']}
-                  fieldKey={[field.fieldKey, 'title']}
+                  key={field.key}
                   rules={[
                     { min: 3, message: t('entryForm.minNumCharactersTitle') },
                     { max: 50, message: t('entryForm.maxNumCharactersTitle') },
                   ]}
                 >
-                  <Input placeholder={t('entryForm.linkTitle')}/>
+                  <Input
+                    placeholder={t('entryForm.linkTitle')}
+                    prefix={<FontAwesomeIcon icon='pen-fancy' />}
+                  />
                 </Form.Item>
                 <Form.Item
                   {...field}
                   name={[field.name, 'description']}
-                  fieldKey={[field.fieldKey, 'description']}
+                  key={field.key}
                 >
-                  <Input placeholder={t('entryForm.linkDescription')}/>
+                  <Input
+                    placeholder={t('entryForm.linkDescription')}
+                    prefix={<FontAwesomeIcon icon='align-justify' />}
+                  />
                 </Form.Item>
                 <Button
                   onClick={() => remove(field.name)}
                   block
-                  icon={<MinusCircleOutlined/>}
+                  icon={<MinusCircleOutlined />}
                 >
                   Remove
                 </Button>
 
-                <Divider dashed/>
+                <Divider dashed />
 
               </Fragment>
             ))}
@@ -602,7 +707,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
               <Button
                 onClick={() => add()}
                 block
-                icon={<PlusOutlined/>}
+                icon={<PlusOutlined />}
               >
                 Add field
               </Button>
@@ -611,30 +716,30 @@ const EntryForm: FC<EntryFormProps> = (props) => {
         )}
       </Form.List>
 
-      <Divider orientation="left">{t('entryForm.entryImage')}</Divider>
+      <Divider orientation='left'>{t('entryForm.entryImage')}</Divider>
 
-      <Form.Item name="image_url">
+      <Form.Item name='image_url'>
         <Input
           placeholder={t('entryForm.imageUrl')}
-          prefix={<FontAwesomeIcon icon="camera"/>}
+          prefix={<FontAwesomeIcon icon='camera' />}
         />
       </Form.Item>
 
-      <Form.Item name="image_link_url">
+      <Form.Item name='image_link_url'>
         <Input
           placeholder={t('entryForm.imageLink')}
-          prefix={<FontAwesomeIcon icon="link"/>}
+          prefix={<FontAwesomeIcon icon='link' />}
         />
       </Form.Item>
 
-      <Divider orientation="left">{t('entryForm.license')}</Divider>
+      <Divider orientation='left'>{t('entryForm.license')}</Divider>
 
       <Form.Item
-        name="license"
+        name='license'
         rules={[
           { required: true, message: t('entryForm.requiredField') },
         ]}
-        valuePropName="value"
+        valuePropName='value'
       >
         {/* it's necessary to catch the value of the checkbox, but the out come will be a list*/}
         {/* so we should grab the first element*/}
@@ -645,7 +750,7 @@ const EntryForm: FC<EntryFormProps> = (props) => {
                 {t('entryForm.iHaveRead')}&nbsp;
                 <Link
                   href={process.env.NEXT_PUBLIC_CC_LINK}
-                  target="_blank"
+                  target='_blank'
                 >
                   {t('entryForm.creativeCommonsLicense')}&nbsp;
                 </Link>
@@ -657,13 +762,13 @@ const EntryForm: FC<EntryFormProps> = (props) => {
         />
       </Form.Item>
 
-      <Form.Item name="version" hidden>
-        <Input disabled/>
+      <Form.Item name='version' hidden>
+        <Input disabled />
       </Form.Item>
 
       <Button
-        type="primary"
-        htmlType="submit"
+        type='primary'
+        htmlType='submit'
         style={{
           width: '100%',
         }}

@@ -10,9 +10,24 @@ import GlobalOutlined from '@ant-design/icons/lib/icons/GlobalOutlined'
 const { Header } = Layout
 
 
+const LocaleContact: Record<string, string> = {
+  en: 'https://blog.vonmorgen.org/en/contact/',
+  es: 'https://blog.vonmorgen.org/es/contact/',
+  de: 'https://blog.vonmorgen.org/kontakt/',
+}
+
+const getContactLink = (locale: string | undefined): string => {
+  if (!locale) {
+    return LocaleContact.en
+  }
+
+  return LocaleContact[locale] ?? LocaleContact.en
+}
+
+
 const HomeHeader: FC = () => {
   const router = useRouter()
-  const { locales } = router
+  const { locales, locale } = router
   const { t } = useTranslation('home')
 
   return (
@@ -60,15 +75,11 @@ const HomeHeader: FC = () => {
             </Menu.Item>
 
             <Menu.Item key="home-header-menu-item-contact">
-              <Link href={'/contact'}>{t('landingPage.menu.contact')}</Link>
+              <Link href={getContactLink(locale)}>{t('landingPage.menu.contact')}</Link>
             </Menu.Item>
 
             <Menu.Item key="home-header-menu-item-donate">
               <Link href="https://blog.vonmorgen.org/spenden">{t('landingPage.menu.donate')}</Link>
-            </Menu.Item>
-
-            <Menu.Item key="home-header-menu-item-login">
-              <Link href={'/login'}>{t('landingPage.menu.login')}</Link>
             </Menu.Item>
 
             <Menu.SubMenu
@@ -77,7 +88,7 @@ const HomeHeader: FC = () => {
               key="home-header-sub-menu-locales"
             >
               {
-                locales.map((locale) => (
+                locales?.map((locale) => (
                   <Menu.Item key={`locale-${locale}`}>
                     <Link href={'/'} locale={locale}>{locale}</Link>
                   </Menu.Item>

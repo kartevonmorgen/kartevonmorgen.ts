@@ -5,7 +5,7 @@ import { TagList } from './TagList'
 
 // todo: check created by is an email or not
 export interface SearchEventsRequest {
-  bbox: BoundingBox
+  bbox?: BoundingBox
   limit?: PaginationLimit
   tag?: TagList
   start_min?: number

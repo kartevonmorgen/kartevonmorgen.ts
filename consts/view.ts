@@ -39,7 +39,7 @@ export interface ViewConst {
 
 export const VIEW: ViewConst = {
   highlight: {
-    light: 0.4,
+    light: 0.35,
     dark: 1,
   },
   sidebar: {

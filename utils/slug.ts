@@ -1,11 +1,14 @@
 import { ParsedUrlQuery } from 'querystring'
+import { NextRouter } from 'next/router'
 import isEmpty from 'lodash/isEmpty'
 import isString from 'lodash/isString'
+import toString from 'lodash/toString'
 import dropRight from 'lodash/dropRight'
+import { LatLngBounds } from 'leaflet'
 import {
-  BriefEntityName,
+  BriefEntityName, BriefRootSlugEntity,
   mapBriefEntityNameToSingular,
-  mapTypeIdToBriefEntityName,
+  mapTypeIdToBriefEntityName, RootSlugEntities,
   RootSlugEntity,
   SingularEntityName,
   SlugAction,
@@ -14,7 +17,6 @@ import {
 } from './types'
 import { SearchEntryID } from '../dtos/SearchEntry'
 import { EventID } from '../dtos/Event'
-import { NextRouter } from 'next/router'
 import {
   convertBBoxToString,
   convertQueryParamToArray,
@@ -23,9 +25,9 @@ import {
   updateRoutingQuery,
 } from './utils'
 import Category from '../dtos/Categories'
-import { LatLngBounds } from 'leaflet'
 import { TableViewQueryParams } from '../dtos/TableViewQueryParams'
 import { EventTimeBoundaries, getEventTimeBoundariesFromQueryOrDefaults } from './router'
+import {SearchEventsRequest} from '../dtos/SearchEventsRequest'
 
 
 export const getProjectNameFromQuery = (query: ParsedUrlQuery): string => {
@@ -58,7 +60,7 @@ export const getRootSlugActionFromQuery = (query: ParsedUrlQuery): SlugAction =>
     return rootAction
   }
 
-  const [_project, ...slugs] = slug
+  const [_project, ...slugs] = (slug as string[])
 
   let parentSlugAction = rootAction
 
@@ -141,6 +143,25 @@ export const getRootSlugActionFromQuery = (query: ParsedUrlQuery): SlugAction =>
   return rootAction
 }
 
+
+export const isPossiblyEntitySlugActionLocatable = (rootSlugAction: SlugAction): boolean => {
+  // the second part of slug is reprensetitve of entry.
+  const optionalEntrySlugAction = getOptionalEntrySlugActionFromRoot(rootSlugAction)
+  if (!optionalEntrySlugAction) {
+    return false
+  }
+
+  if (!optionalEntrySlugAction.id) {
+    return false
+  }
+
+  return true
+}
+
+export const getOptionalEntrySlugActionFromRoot = (rootSlugAction: SlugAction): null | SlugAction => {
+  return rootSlugAction.subSlugAction
+}
+
 export const redirectToEntityDetailAndFlyToLocation = (
   router: NextRouter,
   id: SearchEntryID | EventID,
@@ -209,7 +230,12 @@ export const convertMapURLToTableViewURL = (
   const tableViewURL = new URL(origin)
   tableViewURL.pathname = tableViewPathname
   Object.keys(tableViewQueryParams).forEach(query => {
-    tableViewURL.searchParams.append(query, tableViewQueryParams[query])
+    const queryValue = tableViewQueryParams[query as keyof SearchEventsRequest]
+    if (!queryValue) {
+      return
+    }
+
+    tableViewURL.searchParams.append(query, toString(queryValue))
   })
 
   return tableViewURL.toString()
@@ -231,12 +257,16 @@ export const convertMapQueryParamsToTableViewQueryParams = (
     bbox: convertBBoxToString(bbox),
     start_min: eventTimeBoundaries.startMin?.unix(),
     start_max: eventTimeBoundaries.startMax?.unix(),
-    end_min: eventTimeBoundaries.endMin.unix(),
+    end_min: eventTimeBoundaries.endMin?.unix(),
   }
 
   Object.keys(tableViewQueryParams).forEach(query => {
-    if (tableViewQueryParams[query] === undefined || tableViewQueryParams[query] === '') {
-      delete tableViewQueryParams[query]
+    const typedQuery = query as keyof typeof tableViewQueryParams
+    if (
+      tableViewQueryParams[typedQuery] === undefined ||
+      tableViewQueryParams[typedQuery] === ''
+    ) {
+      delete tableViewQueryParams[typedQuery]
     }
   })
 

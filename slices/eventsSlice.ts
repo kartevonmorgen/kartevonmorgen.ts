@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import {ThunkAction} from 'redux-thunk'
 import Event, { Events } from '../dtos/Event'
 import { SearchEventsRequest as SearchEventsRequestDTO } from '../dtos/SearchEventsRequest'
-import { AppThunk } from '../store'
+import { SliceActions} from '../store'
 import { AxiosInstance } from '../api'
 import API_ENDPOINTS from '../api/endpoints'
 import { BoundingBox } from '../dtos/BoundingBox'
@@ -28,6 +29,8 @@ const eventsSlice = createSlice({
   },
 })
 
+type ThunkResult<R> = ThunkAction<R, Events, undefined, SliceActions<typeof eventsSlice.actions>>
+
 
 export const {
   setEvents,
@@ -44,7 +47,7 @@ export const { actions } = eventsSlice
 
 export const fetchEvents = (
   searchEventsRequestDTO: SearchEventsRequestDTO,
-): AppThunk => async dispatch => {
+): ThunkResult<Promise<void>> => async (dispatch) => {
 
   const searchEventsReq = await AxiosInstance.GetRequest<Events>(
     API_ENDPOINTS.searchEvents(),
@@ -58,7 +61,7 @@ export const fetchEvents = (
   dispatch(setEvents(searchEvents))
 }
 
-export const fetchAllEvents = (bbox: BoundingBox): AppThunk => async (dispatch) => {
+export const fetchAllEvents = (bbox: BoundingBox): ThunkResult<Promise<void>> => async (dispatch) => {
 
   const searchEventsRequestDTO: SearchEventsRequestDTO = {
     bbox: bbox,

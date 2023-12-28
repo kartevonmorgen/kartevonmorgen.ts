@@ -1,11 +1,14 @@
 import { FC } from 'react'
 import { NextRouter, useRouter } from 'next/router'
-import produce from 'immer'
-import { PageHeader } from 'antd'
-import { convertQueryParamToArray } from '../utils/utils'
+import { useDispatch } from 'react-redux'
+import { produce } from 'immer'
+import { PageHeader } from '@ant-design/pro-layout';
 import { Translate } from 'next-translate'
 import useTranslation from 'next-translate/useTranslation'
+import { formActions, viewActions } from '../slices'
+import { convertQueryParamToArray } from '../utils/utils'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
+import { AppDispatch } from '../store'
 
 
 const calculateLevelsToBack = (isEdit: boolean): number => {
@@ -16,7 +19,7 @@ const calculateLevelsToBack = (isEdit: boolean): number => {
   return 1
 }
 
-const onBack = (router: NextRouter, isEdit: boolean) => () => {
+const onBack = (router: NextRouter, dispatch: AppDispatch, isEdit: boolean) => () => {
   const { query } = router
 
   const paramsToRemove = ['pinCenter']
@@ -37,6 +40,8 @@ const onBack = (router: NextRouter, isEdit: boolean) => () => {
 
   const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
 
+  dispatch(viewActions.setErrorMessage(null))
+  dispatch(formActions.expireFormCache())
   router.replace(
     {
       pathname: `/m/${newPath}`,
@@ -67,6 +72,8 @@ const EntityFormHeader: FC<EntityFormHeaderProps> = (props) => {
   const router = useRouter()
   const { t } = useTranslation('map')
 
+  const dispatch = useDispatch()
+
   return (
     <PageHeader
       style={{
@@ -77,7 +84,7 @@ const EntityFormHeader: FC<EntityFormHeaderProps> = (props) => {
       }}
       title={getHeaderTranslation(t, isEdit)}
       ghost={false}
-      onBack={onBack(router, isEdit)}
+      onBack={onBack(router, dispatch, isEdit)}
     />
   )
 }

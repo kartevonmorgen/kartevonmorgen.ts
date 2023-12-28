@@ -1,4 +1,4 @@
-import produce from 'immer'
+import { produce } from 'immer'
 import isString from 'lodash/isString'
 import isEmpty from 'lodash/isEmpty'
 import toString from 'lodash/toString'
@@ -46,7 +46,7 @@ export const convertQueryParamToString = (
     return stringOrArrayOfStrings
   }
 
-  return stringOrArrayOfStrings[0]
+  return (stringOrArrayOfStrings as string[])[0]
 }
 
 export const convertStringToFloat = (str: string, digits: number | null = null): number => {
@@ -141,7 +141,7 @@ export const convertQueryParamToArray = (param: RouterQueryParam): string[] => {
   }
 
   // is array -> split and make it flat
-  const aggregatedSplitedParams: string[] = param
+  const aggregatedSplitedParams: string[] = (param as string[])
     .map(element => element.split(SEP))
     .reduce((aggregatedStrings, arrayOfSplittedStrings) => {
       return [
@@ -207,4 +207,22 @@ export const prependWebProtocol = (value: string): string => {
   }
 
   return `${WEB_PROTOCOLS[0]}://${value}`
+}
+
+export const concatTagsWithSearchTerm = (searchTerm: string, tags: string[]): string | undefined => {
+  if (!searchTerm && tags.length === 0) {
+    return undefined
+  }
+
+  if (tags.length !== 0) {
+    const textifiedTags = tags.map((tag) => (`#${tag}`)).join(' ')
+
+    if (searchTerm) {
+      return `${searchTerm} ${textifiedTags}`
+    }
+
+    return textifiedTags
+  }
+
+  return searchTerm
 }
