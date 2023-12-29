@@ -251,12 +251,10 @@
       "3": "Du kennst ein Unternehmen, das nachhaltig wirtschaftet?",
       "4": "Auf unserer Website kannst du andere darauf aufmerksam machen – und dich so für einen von Menschen gestalteten Ort einsetzen, der dir persönlich am Herzen liegt.",
       "5": "Wir sind auf der Suche nach vielfältigen Ideen, Initiativen und Unternehmen, die den aktuellen sozialen, ökologischen und ökonomischen Umbrüchen alternativ entgegen wirken. Diese möchten wir vernetzten und ihnen möchten wir einen gemeinsamen Online-Auftritt und damit eine erhöhte Aufmerksamkeit ermöglichen.",
-      "6": "Nach dem Wiki-Prinzip können alle Nutzer*innen, Initiativen und Unternehmen sich und andere auf der Karte eintragen und so ihre Mitmenschen erreichen. Doch von morgen ist mehr als eine Onlineplattform: Regionalpilot*innen sichern vor Ort die Qualität der Karteneinträge und haben neben einer redaktionellen Funktion die Aufgabe durch Bildungsveranstaltungen und Aktionen den regionalen Austausch zwischen Bürger*innen, Initiativen und Unternehmen zu stärken.",
-      "7": "von morgen fragt nach Werten, die unsere Gesellschaft fundieren und bewegen. Wir zeigen Menschen, die Gutes tun, wo es Gutes gibt."
+      "6": "Nach dem Wiki-Prinzip können alle Nutzer*innen, Initiativen und Unternehmen sich und andere auf der Karte eintragen und so ihre Mitmenschen erreichen. Doch von morgen ist mehr als eine Onlineplattform: Regionalpilot*innen sichern vor Ort die Qualität der Karteneinträge und haben neben einer redaktionellen Funktion die Aufgabe durch Bildungsveranstaltungen und Aktionen den regionalen Austausch zwischen Bürger*innen, Initiativen und Unternehmen zu stärken."
     },
     "heading2": "Hintergründe und Visionen",
     "text2": {
-      "goalLink": "Was will die Karte von morgen?",
       "ratingsLink": "Was sind die Positivfaktoren?",
       "regionalpilotLink": "Was sind Regionalpilot*innen bzw. Themenpilot*innen?",
       "embedMapLink": "Wie kann ich die Karte auf meiner Homepage einbetten?",
@@ -278,12 +276,12 @@
     "placeholder": "Wonach suchst du? (# für Tags)"
   },
   "searchFilters": {
-    "selectRegion": "Region auswählen oder suchen",
-    "selectCategory": "Nach Stichwort filtern",
+    "selectRegion": "Region auswählen",
+    "selectCategory": "Kategorie auswählen",
     "openFilters": "Filter anzeigen",
     "collapseFilters": "Filter verstecken",
     "searchFor": "Suchen nach",
-    "resultLimit": "Maximale Suchergebnisse"
+    "resultLimit": "Maximale Pin-Anzahl auf der Karte"
   },
   "resultlist": {
     "showMoreEntries": "Mehr Einträge anzeigen...",
@@ -357,7 +355,7 @@
     "privacy": "Datenschutzerklärung"
   },
   "mapColorMode": {
-    "colorful": "Colorful",
-    "grey": "Grey"
+    "colorful": "Farbig",
+    "grey": "Grau"
   }
 }
