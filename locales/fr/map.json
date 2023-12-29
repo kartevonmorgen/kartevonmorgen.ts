@@ -280,7 +280,8 @@
     "selectCategory": "Select a category",
     "openFilters": "Open filters",
     "collapseFilters": "Collapse filters",
-    "searchFor": "Search for"
+    "searchFor": "Search for",
+    "resultLimit": "Result Limit"
   },
   "resultlist": {
     "showMoreEntries": "Show more entries...",
@@ -354,7 +355,7 @@
     "privacy": "Privacy"
   },
   "mapColorMode": {
-    "colorful": "Colorful",
-    "grey": "Grey"
+    "colorful": "Colorée",
+    "grey": "Gris"
   }
 }
