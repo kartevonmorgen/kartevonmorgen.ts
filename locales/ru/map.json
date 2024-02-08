@@ -352,7 +352,8 @@
     "loginForPilots": "Войти",
     "contact": "Контакты",
     "aboutUs": "О проекте",
-    "privacy": "Политика конфиденциальности"
+    "privacy": "Политика конфиденциальности",
+    "UnsubscribeMailnotification": "Unsubscirbe Mailnotification"
   },
   "mapColorMode": {
     "colorful": "Colorful",
