@@ -352,7 +352,8 @@
     "loginForPilots": "Login für Piloten",
     "contact": "Kontakt",
     "aboutUs": "Über uns",
-    "privacy": "Datenschutzerklärung"
+    "privacy": "Datenschutzerklärung",
+    "UnsubscribeMailnotification": "Unsubscirbe Mailnotification"
   },
   "mapColorMode": {
     "colorful": "Farbig",
