@@ -16,7 +16,7 @@
       "show-map": "Показати мапу..."
     },
     "subscribeToBbox": {
-      "message": "You are logged in. I you like you can",
+      "message": "You are logged in. If you like you can",
       "new-link": "stay informed about changes in your city",
       "edit-link": "change or unsubscribe your subscribed map section"
     },

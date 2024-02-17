@@ -352,7 +352,8 @@
     "loginForPilots": "Iniciar sesión para pilotos",
     "contact": "Contacto",
     "aboutUs": "Sobre nosotros",
-    "privacy": "Declaración de privacidad"
+    "privacy": "Declaración de privacidad",
+    "UnsubscribeMailnotification": "Unsubscirbe Mailnotification"
   },
   "mapColorMode": {
     "colorful": "Colorido",
