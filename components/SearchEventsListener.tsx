@@ -39,6 +39,7 @@ const SearchEventsListener: FC = () => {
     start_min: startMinParam,
     start_max: startMaxParam,
     end_min: endMinParam,
+    org_tag: orgTagParam,
   } = query
 
   const { slug } = query
@@ -84,7 +85,8 @@ const SearchEventsListener: FC = () => {
     limit = limit !== 0 ? limit : undefined
 
     const typeNames = getTypeNamesFromRouterOrKnownCategoryNamesIfEmpty(router)
-
+    
+    const orgTag: string = convertQueryParamToString(orgTagParam)
     const fixedTags: string[] = convertQueryParamToArray(fixedTagsParam)
     const tags: string[] = convertQueryParamToArray(tagsParam)
     const compoundTags = [...fixedTags, ...tags]
@@ -101,6 +103,11 @@ const SearchEventsListener: FC = () => {
         categories: toString(entryCategories),
         limit: limit,
       }
+
+      if (orgTag !== '') {
+        searchEntriesRequestDTO.org_tag = orgTag
+      }
+
       dispatch(fetchEntries(searchEntriesRequestDTO))
     } else {
       dispatch(emptyEntries())
