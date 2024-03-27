@@ -39,7 +39,7 @@ const SearchEventsListener: FC = () => {
     start_min: startMinParam,
     start_max: startMaxParam,
     end_min: endMinParam,
-    org_tag: orgTagParam,
+    orgTag: orgTagParam,
   } = query
 
   const { slug } = query
