@@ -85,6 +85,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   // set configs
   const pageConfigsReq = await AxiosInstance.GetRequest<MapPageConfigs>(
     API_ENDPOINTS.getMapPageConfigs(project),
+    {
+      timeout: 120000,
+    }
   )
 
   const pageConfigs = AxiosInstance.GetSuccessData(pageConfigsReq)
