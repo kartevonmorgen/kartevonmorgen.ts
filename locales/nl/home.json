@@ -1,19 +1,19 @@
 {
   "landingPage": {
     "menu": {
-      "map": "Map",
-      "infos": "About us",
+      "map": "Kaart",
+      "infos": "Over ons",
       "contact": "Contact",
-      "donate": "Donate",
-      "login": "Login",
-      "logout": "Logout"
+      "donate": "Doneren",
+      "login": "Inloggen",
+      "logout": "Uitloggen"
     },
     "slogan": "Mapping for Good",
     "city-search": {
-      "placeholder": "Which place would you like to discover?",
-      "error": "Error while searching for cities.",
-      "no-results": "Could not find any city with that name.",
-      "show-map": "Show map..."
+      "placeholder": "Welke plaats wilt u ontdekken?",
+      "error": "Fout tijdens het zoeken naar steden.",
+      "no-results": "Geen enkele stad gevonden met die naam.",
+      "show-map": "Toon kaart..."
     },
     "subscribeToBbox": {
       "message": "You are logged in. If you like you can",
@@ -51,7 +51,7 @@
         "text3": "an email."
       },
       "confirming-email-address": {
-        "text": "Your email-address is being confirmed."
+        "text": "Uw e-mailadres wordt bevestigd."
       },
       "confirm-email-error": {
         "message": "Ops! There was an error confirming your email address. Please try again with a new email address to",
@@ -59,21 +59,21 @@
       },
       "email-confirmed": {
         "text1": "Your email address has been confirmed.",
-        "text2": "You can now ",
-        "link": "log in."
+        "text2": "U kunt nu ",
+        "link": "inloggen."
       },
-      "logged-out": "You're logged out."
+      "logged-out": "U bent uitgelogd."
     },
     "join": {
-      "heading": "Become a part of our team",
+      "heading": "Maak deel uit van ons team",
       "paragraph1": "We are a team across Germany and are always looking for new team members! You can find our current openings here:",
       "paragraph2": "We are looking for local scouts, that are experts to their regions or are familiar with topics of the sustainable conversation: as our direct contact locally, you will ensure the quality of the map entries, organize events and workshops and show your city from its best side!",
       "paragraph3": "Do you have any questions or did we spark your interest? We look forward to hear from you:"
     },
     "footer": {
-      "heading": "Tomorrow starts today.",
+      "heading": "Morgen begint vandaag.",
       "contact": "Contact: ",
-      "social-media": "Social Media: ",
+      "social-media": "Sociale Media: ",
       "open-source": "Open Source: ",
       "imprint": "Imprint",
       "privacyStatement": "Privacy"
@@ -81,17 +81,17 @@
   },
   "landingExplain": {
     "chapter1": {
-      "heading": "The world is full of explorers, and full of things to be explored.",
+      "heading": "De wereld is vol verkenners en vol zaken die moeten worden verkend.",
       "paragraph1": {
         "heading": "Discover places from an inspiring point of view.",
         "text": "Our map invites you to explore forward-thinking projects, companies and soon to come events in your area."
       },
       "paragraph2": {
-        "heading": "Be a part of it! ",
+        "heading": "Maak er deel van uit! ",
         "text": "Find all the information you need to get in touch with projects you want to engage with. Stop by to say Hello! "
       },
       "paragraph3": {
-        "heading": "Let’s create a world for tomorrow.",
+        "heading": "Laten we een wereld maken voor morgen.",
         "text": "Together, we want to show and embrace the positive change in our society."
       }
     },
@@ -99,7 +99,7 @@
       "heading": "How to use the von morgen map"
     },
     "chapter3": {
-      "heading": "We have a vision",
+      "heading": "We hebben een visie",
       "text": {
         "1": "von morgen supports creativity, sustainability and joint action.",
         "2": "We believe in a modern society in wich we all can embrace a self-determined, content and environmental-friendly life. Our goal: a benevolent future."
@@ -108,37 +108,37 @@
     "chapter4": {
       "heading": "Are you with us?",
       "text": {
-        "1": "Support our project",
+        "1": "Steun ons project",
         "2": "Become a local scout",
-        "3": "Join our team"
+        "3": "Sluit u aan bij ons team"
       },
-      "learnMore": "more"
+      "learnMore": "meer"
     },
     "chapter5": {
-      "heading": "Our team",
-      "new-members": "We are always looking for new members!",
-      "graphic-design": "Graphic Design",
-      "software-development": "Software Development",
-      "business-finance": "Project Development",
+      "heading": "Ons team",
+      "new-members": "We zijn altijd op zoek naar nieuwe leden!",
+      "graphic-design": "Grafische vormgeving",
+      "software-development": "Softwareontwikkeling",
+      "business-finance": "Projectontwikkeling",
       "pr-marketing": "PR & Marketing",
-      "communication-marketing": "Communication & Marketing",
-      "thao": "Content & Communication",
-      "project-development": "Project Development",
+      "communication-marketing": "Communicatie & Marketing",
+      "thao": "Content & Communicatie",
+      "project-development": "Projectontwikkeling",
       "chair": "Chair Ideen³ e.V.",
       "lisa1": "Political Scientist",
-      "lisa2": "Strategy & Impact",
+      "lisa2": "Strategie & Impact",
       "marten": "Mindfulness and Change Psychology",
-      "florian": "Software Development",
-      "louisa": "Social Worker",
-      "anja": "Designer",
+      "florian": "Softwareontwikkeling",
+      "louisa": "Sociaal werker",
+      "anja": "Ontwerper",
       "xueqian": "Consultant",
-      "linus": "Global Sociology"
+      "linus": "Globale Sociologie"
     },
     "chapter6": {
-      "heading": "A project by"
+      "heading": "Een project van"
     },
     "chapter7": {
-      "heading": "Our partners",
+      "heading": "Onze partners",
       "boell-foundation": "In its pilot phase this project has been supported by the Heinrich-Böll-Foundation."
     }
   }
