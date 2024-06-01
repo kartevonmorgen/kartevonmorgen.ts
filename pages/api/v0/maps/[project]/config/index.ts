@@ -53,7 +53,7 @@ export const parseConfigFile = (project: string = 'main'): MapPageConfigs => {
   try {
     mapPageConfigs = JSON.parse(fileContent.toString())
   } catch(e) {
-    console.error('api map config: failed to parse config file')
+    console.error('api map config: failed to parse config file for project: ', project)
     console.error(e)
   }
   
