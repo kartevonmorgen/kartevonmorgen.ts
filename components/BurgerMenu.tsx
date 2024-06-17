@@ -22,6 +22,12 @@ const Menu: FC = () => {
   const { t } = useTranslation('map')
 
 
+  const { data: versionResponse, error: _versionError } = useRequest<{ version: string }>({
+    url: API_ENDPOINTS.getVersion(),
+  })
+  
+  const version = versionResponse?.version ?? ''
+
   const { data: linksWithIcon, error } = useRequest<LinkWithIcon[]>({
     url: API_ENDPOINTS.getBurgerMenuLinks(projectName),
   })
@@ -100,6 +106,17 @@ const Menu: FC = () => {
           ))
         }
       </Row>
+
+      <div
+        style={{
+          display: version ? 'block' : 'none',
+          textAlign: 'center',
+          marginTop: 4,
+          marginBottom: 4,
+        }}
+      >
+        {version}
+      </div>
     </AntMenu>
   )
 }

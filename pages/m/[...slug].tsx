@@ -12,6 +12,7 @@ import { MapLocationProps } from '../../components/Map'
 import { TagsCount } from '../../dtos/TagCount'
 import Sidebar from '../../components/Sidebar'
 import { MapColorModes } from '../../components/MapColorStyle'
+import { parseConfigFile } from '../api/v0/maps/[project]/config'
 
 
 const { Content } = Layout
@@ -81,16 +82,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   // we expect to have path always not empty with the first element of project name
   const project = path[0]
-
-  // set configs
-  const pageConfigsReq = await AxiosInstance.GetRequest<MapPageConfigs>(
-    API_ENDPOINTS.getMapPageConfigs(project),
-    {
-      timeout: 120000,
-    }
-  )
-
-  const pageConfigs = AxiosInstance.GetSuccessData(pageConfigsReq)
+  
+  const pageConfigs = parseConfigFile(project as string)
 
   const mapLocationProps = pageConfigs.map.location
   const sidebarConfigs = pageConfigs.sidebar

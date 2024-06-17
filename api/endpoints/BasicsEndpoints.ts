@@ -1,4 +1,6 @@
 // todo: should eliminate self_api because it causes troubles with the hosting domain
+
+
 // todo: use SWR instead
 export const BASICS_API_URL: string | undefined = process.env.NEXT_PUBLIC_BASICS_API
 export const SELF_API_URL: string | undefined= process.env.NEXT_PUBLIC_SELF_API
@@ -20,4 +22,6 @@ export const BASICS_ENDPOINTS = {
   postEntryRating: (): string => `${BASICS_API_URL}/ratings`,
   getMainCheckboxes: (group: string): string => `${SELF_API_URL}/checkboxes/${group}/main-checkboxes`,
   getTagMarkerColors: (project: string): string => `${SELF_API_URL}/maps/${project}/tags/markers/colors`,
+  postSubscription: (): string => `${BASICS_API_URL}/subscribe`,
+  getVersion: (): string => `${SELF_API_URL}/version`,
 }
