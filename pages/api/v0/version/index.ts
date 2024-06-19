@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import version from 'consts/version'
+import version from '../../../../consts/version'
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
