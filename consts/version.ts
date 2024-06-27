@@ -1,4 +1,4 @@
-const version = 'v1.2.4'
+const version = 'v1.2.5'
 
 
 export default version
