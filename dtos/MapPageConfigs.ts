@@ -1,20 +1,31 @@
-import { MapLocationProps } from '../components/Map'
-import { MapColorModes } from '../components/MapColorStyle'
-import PopularTagsRequest from './PopularTagsRequest'
+import z from 'zod'
+import { MapLocationProps, MapLocationPropsSchema } from '../components/Map'
+import { MapColorModes, MapColorModesEnums } from '../components/MapColorStyle'
+import PopularTagsRequest, { PopularTagsRequestSchema } from './PopularTagsRequest'
 
 
-export interface MapConfigs {
-  location: MapLocationProps
-  colorStyle: MapColorModes
-}
+export const MapConfigsSchema = z.object({
+  location: MapLocationPropsSchema,
+  colorStyle: MapColorModesEnums,
+})
 
-export interface SidebarConfigs {
-  title: string
-}
+export type MapConfigs = z.infer<typeof MapConfigsSchema>
+
+
+export const SidebarConfigsSchema = z.object({
+  title: z.string(),
+})
+
+export type SidebarConfigs = z.infer<typeof SidebarConfigsSchema>
+
+
+export const MapPageConfigsSchema = z.object({
+  map: MapConfigsSchema,
+  popularTags: PopularTagsRequestSchema,
+  sidebar: SidebarConfigsSchema,
+})
 
 // it's the same from the /public/[project]/config.json
-export default interface MapPageConfigs {
-  map: MapConfigs
-  popularTags: PopularTagsRequest
-  sidebar: SidebarConfigs
-}
+type MapPageConfigs = z.infer<typeof MapPageConfigsSchema>
+
+export default MapPageConfigs

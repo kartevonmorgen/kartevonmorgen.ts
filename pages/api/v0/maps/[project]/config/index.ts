@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import MapPageConfigs from '../../../../../../dtos/MapPageConfigs'
+import MapPageConfigs, { MapPageConfigsSchema } from '../../../../../../dtos/MapPageConfigs'
 import { MapColorModes } from '../../../../../../components/MapColorStyle'
 
 
@@ -45,19 +45,18 @@ export const parseConfigFile = (project: string = 'main'): MapPageConfigs => {
       'utf8',
       )
     } catch (e) {
-      console.error('api map config: failed to read default config file')
+      console.error('api map config: failed to read default config file for project: ', project)
       console.error(e)
     }
   }
 
   try {
-    mapPageConfigs = JSON.parse(fileContent.toString())
+    mapPageConfigs = MapPageConfigsSchema.parse(JSON.parse(fileContent.toString()))
   } catch(e) {
     console.error('api map config: failed to parse config file for project: ', project)
     console.error(e)
   }
   
-  console.log(mapPageConfigs)
   return mapPageConfigs
 }
 

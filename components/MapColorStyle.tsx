@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import { useRouter } from 'next/router'
+import z from 'zod'
 import { convertQueryParamToString } from '../utils/utils'
 
 
@@ -7,6 +8,8 @@ export enum MapColorModes {
     STANDARD = 'standard',
     GRAY = 'gray'
 }
+
+export const MapColorModesEnums = z.nativeEnum(MapColorModes)
 
 
 const MapColorStyle: FC = () => {
