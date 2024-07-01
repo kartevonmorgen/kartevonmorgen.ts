@@ -7,15 +7,16 @@ import SidebarCollapseButton from './SidebarCollapseButton'
 import {convertQueryParamToString} from '../utils/utils'
 import {isSidebarStatusShown} from '../dtos/SidebarStatus'
 import {useSidebar} from '../hooks/useResponsive'
-import { closeSidebar } from './SidebarCollapseButton'
 
 
 interface SidebarProps {
-  title: String
+  title: string
 }
 
 
 const Sidebar: FC<SidebarProps> = (props) => {
+  const { title } = props
+
   const ClientDrawer = useMemo(() => dynamic(
     () => Promise.resolve(Drawer),
     {
@@ -65,6 +66,7 @@ const Sidebar: FC<SidebarProps> = (props) => {
           display: 'block'
         }
       }}
+      title={title.length !== 0 ? title : undefined}
     >
       <SidebarCollapseButton />
       {isSidebarOpen && (
