@@ -2,7 +2,6 @@ import { FC, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import lodashToString from 'lodash/toString'
 import { convertQueryParamToFloat, convertQueryParamToString, updateRoutingQuery } from '../utils/utils'
-import { MapLocationProps } from './Map'
 import { MapColorModes } from './MapColorStyle'
 import {
   createSlugPathFromQueryAndRemoveSlug, getOptionalEntrySlugActionFromRoot,
@@ -12,6 +11,7 @@ import {
 import { convertLatLngToString, getOptionalEntityLocation, LatLng } from '../utils/geolocation'
 import { RootSlugEntity, SlugAction } from '../utils/types'
 import MAP_CONSTANTS from '../consts/map'
+import MapLocationProps from '../dtos/MapLocationProps'
 
 
 interface RouterQueryInitializerProps {

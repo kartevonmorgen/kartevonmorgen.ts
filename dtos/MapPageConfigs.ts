@@ -1,7 +1,7 @@
 import z from 'zod'
-import { MapLocationProps, MapLocationPropsSchema } from '../components/Map'
-import { MapColorModes, MapColorModesEnums } from '../components/MapColorStyle'
-import PopularTagsRequest, { PopularTagsRequestSchema } from './PopularTagsRequest'
+import { MapColorModesEnums } from '../components/MapColorStyle'
+import { PopularTagsRequestSchema } from './PopularTagsRequest'
+import { MapLocationPropsSchema } from './MapLocationProps'
 
 
 export const MapConfigsSchema = z.object({
