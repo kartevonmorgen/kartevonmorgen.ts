@@ -3,16 +3,14 @@ import { GetServerSideProps } from 'next'
 import dynamic from 'next/dynamic'
 import { useToggle } from 'ahooks'
 import { Layout, Spin } from 'antd'
-import { AxiosInstance } from '../../api'
-import MapPageConfigs, { SidebarConfigs } from '../../dtos/MapPageConfigs'
-import API_ENDPOINTS from '../../api/endpoints'
+import { SidebarConfigs } from '../../dtos/MapPageConfigs'
 import { convertQueryParamToArray } from '../../utils/utils'
 import RouterQueryInitializer from '../../components/RouterQueryInitializer'
-import { MapLocationProps } from '../../components/Map'
 import { TagsCount } from '../../dtos/TagCount'
 import Sidebar from '../../components/Sidebar'
 import { MapColorModes } from '../../components/MapColorStyle'
 import { parseConfigFile } from '../api/v0/maps/[project]/config'
+import MapLocationProps from '../../dtos/MapLocationProps'
 
 
 const { Content } = Layout
@@ -89,13 +87,15 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const sidebarConfigs = pageConfigs.sidebar
   const initMapColorStyle = pageConfigs.map.colorStyle
 
+  const props = {
+    mapLocationProps,
+    sidebarConfigs,
+    initMapColorStyle,
+  }
+
   // todo: move the re-validate value to constants
   return {
-    props: {
-      mapLocationProps,
-      sidebarConfigs,
-      initMapColorStyle,
-    },
+    props,
   }
 }
 
