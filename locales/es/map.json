@@ -85,7 +85,10 @@
       "telephone": "Registro por teléfono",
       "homepage": "Registro en línea"
     },
-    "route": "Ruta"
+    "route": "Ruta",
+    "notFound": "Entry not found or needs approval",
+    "approvalRequired": "The approval is required for the organizational tags",
+    "entryIsInvisibleBeforeApprovement": "The entry remains invisible before approvement"
   },
   "login": {
     "requiredField": "información requerida",
@@ -357,5 +360,6 @@
   "mapColorMode": {
     "colorful": "Colorido",
     "grey": "Gris"
-  }
+  },
+  "backToSearch": "Back to the search results"
 }

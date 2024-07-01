@@ -85,7 +85,10 @@
       "telephone": "Register by phone",
       "homepage": "Register online"
     },
-    "route": "Route"
+    "route": "Route",
+    "notFound": "Entry not found or needs approval",
+    "approvalRequired": "The approval is required for the organizational tags",
+    "entryIsInvisibleBeforeApprovement": "The entry remains invisible before approvement"
   },
   "login": {
     "requiredField": "required field",
@@ -357,5 +360,6 @@
   "mapColorMode": {
     "colorful": "Барвистість",
     "grey": "Сірий"
-  }
+  },
+  "backToSearch": "Back to the search results"
 }

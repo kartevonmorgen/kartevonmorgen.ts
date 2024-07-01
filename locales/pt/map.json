@@ -85,7 +85,10 @@
       "telephone": "Registrar por telefone",
       "homepage": "Registo online"
     },
-    "route": "Rota"
+    "route": "Rota",
+    "notFound": "Entry not found or needs approval",
+    "approvalRequired": "The approval is required for the organizational tags",
+    "entryIsInvisibleBeforeApprovement": "The entry remains invisible before approvement"
   },
   "login": {
     "requiredField": "Campo obrigatório",
@@ -357,5 +360,6 @@
   "mapColorMode": {
     "colorful": "Colorido",
     "grey": "Cinza"
-  }
+  },
+  "backToSearch": "Back to the search results"
 }

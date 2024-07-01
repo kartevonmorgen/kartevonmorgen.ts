@@ -85,7 +85,10 @@
       "telephone": "Зарегистрируйтесь по телефону",
       "homepage": "Зарегистрируйтесь онлайн"
     },
-    "route": "Маршрут"
+    "route": "Маршрут",
+    "notFound": "Entry not found or needs approval",
+    "approvalRequired": "The approval is required for the organizational tags",
+    "entryIsInvisibleBeforeApprovement": "The entry remains invisible before approvement"
   },
   "login": {
     "requiredField": "Обязательное поле",
@@ -357,5 +360,6 @@
   "mapColorMode": {
     "colorful": "Colorful",
     "grey": "Grey"
-  }
+  },
+  "backToSearch": "Back to the search results"
 }
