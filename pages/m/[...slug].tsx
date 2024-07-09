@@ -9,44 +9,37 @@ import RouterQueryInitializer from '../../components/RouterQueryInitializer'
 import { TagsCount } from '../../dtos/TagCount'
 import Sidebar from '../../components/Sidebar'
 import { MapColorModes } from '../../components/MapColorStyle'
-import { parseConfigFile } from '../api/v0/maps/[project]/config'
+import { getConfigFile } from '../api/v0/maps/[project]/config'
 import MapLocationProps from '../../dtos/MapLocationProps'
-
 
 const { Content } = Layout
 
-
 interface MapPageProps {
   popularTags: TagsCount
-  mapLocationProps: MapLocationProps,
+  mapLocationProps: MapLocationProps
   sidebarConfigs: SidebarConfigs
-  initMapColorStyle: MapColorModes  
+  initMapColorStyle: MapColorModes
 }
-
 
 const MapPage: FC<MapPageProps> = (props) => {
   const { mapLocationProps, sidebarConfigs, initMapColorStyle } = props
 
-  const [
-    isLoading,
-    {
-      setRight: setNotLoading,
-    },
-  ] = useToggle(true)
+  const [isLoading, { setRight: setNotLoading }] = useToggle(true)
 
-
-  const Map = useMemo(() => dynamic(
-    () => import('../../components/Map').then(
-      (mod) => {
-        setNotLoading()
-        return mod.default
-      },
-    ),
-    {
-      ssr: false,
-    },
-  ), [])
-
+  const Map = useMemo(
+    () =>
+      dynamic(
+        () =>
+          import('../../components/Map').then((mod) => {
+            setNotLoading()
+            return mod.default
+          }),
+        {
+          ssr: false,
+        },
+      ),
+    [],
+  )
 
   return (
     <Fragment>
@@ -55,7 +48,7 @@ const MapPage: FC<MapPageProps> = (props) => {
         initMapColorStyle={initMapColorStyle}
       />
 
-      <Sidebar {...sidebarConfigs}/>
+      <Sidebar {...sidebarConfigs} />
 
       <Content>
         <Spin spinning={isLoading}>
@@ -68,11 +61,9 @@ const MapPage: FC<MapPageProps> = (props) => {
           </div>
         </Spin>
       </Content>
-
     </Fragment>
   )
 }
-
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const slug = ctx.params?.slug
@@ -80,8 +71,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   // we expect to have path always not empty with the first element of project name
   const project = path[0]
-  
-  const pageConfigs = parseConfigFile(project as string)
+
+  const pageConfigs = getConfigFile(project as string)
 
   const mapLocationProps = pageConfigs.map.location
   const sidebarConfigs = pageConfigs.sidebar

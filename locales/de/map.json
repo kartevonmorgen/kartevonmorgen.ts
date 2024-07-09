@@ -85,7 +85,10 @@
       "telephone": "Anmeldung telefonisch",
       "homepage": "Anmeldung online"
     },
-    "route": "Route"
+    "route": "Route",
+    "notFound": "Entry not found or needs approval",
+    "approvalRequired": "The approval is required for the organizational tags",
+    "entryIsInvisibleBeforeApprovement": "The entry remains invisible before approvement"
   },
   "login": {
     "requiredField": "Pflichtangabe",
@@ -208,7 +211,19 @@
     "edit": "ändern",
     "unsubscribe": "Abonnement abbestellen",
     "back": "abbrechen",
-    "subscribe": "abonnieren"
+    "subscribe": "abonnieren",
+    "frequencies": {
+      "frequency": "Frequency",
+      "hour": "Hour",
+      "day": "Day",
+      "week": "Week"
+    },
+    "changeType": {
+      "type": "Type",
+      "new": "New",
+      "all": "All"
+    },
+    "subscriptionName": "Subscription Name"
   },
   "search-results": {
     "cities": "Städte",
@@ -357,5 +372,6 @@
   "mapColorMode": {
     "colorful": "Farbig",
     "grey": "Grau"
-  }
+  },
+  "backToSearch": "Back to the search results"
 }

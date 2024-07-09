@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 import isString from 'lodash/isString'
 import isArray from 'lodash/isArray'
-import { Divider, Spin, Typography } from 'antd'
+import { Divider, Spin, Typography, Button } from 'antd'
 import { useUnmount, useMount } from 'ahooks'
 import useRequest from '../api/useRequest'
 import { EntryRequest } from '../dtos/EntryRequest'
@@ -28,9 +28,10 @@ import { PartialLatLng } from '../utils/geolocation'
 import useFly from '../hooks/useFly'
 import EntityRouteLink from './EntityRouteLink'
 import { entityDetailActions, viewActions } from '../slices'
+import useTranslation from 'next-translate/useTranslation'
 
 
-const { Title } = Typography
+const { Title, Paragraph, Text } = Typography
 
 
 interface EntryDetailProps {
@@ -49,6 +50,8 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
   // todo: duplicate code also for editing an entry, make it a higher order hook
   const router = useRouter()
   const { query } = router
+
+  const { t } = useTranslation('map')
 
   const currentUrl = window.location.href
 
@@ -100,7 +103,29 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
 
   if (!foundEntry) {
     //  todo: show not found notification, redirect to the search view
-    return null
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+          flexDirection: 'column',
+          textAlign: 'center',
+
+        }}
+      >
+        <Paragraph>{t('entryDetails.notFound')}</Paragraph>
+
+        <Paragraph>
+          <Text>{t('entryDetails.approvalRequired')}</Text>
+          <br />
+          <Text>{t('entryDetails.entryIsInvisibleBeforeApprovement')}</Text>
+        </Paragraph>
+
+        <Button type="primary">{t('backToSearch')}</Button>
+      </div>
+    )
   }
 
   if (!entry) {
@@ -110,8 +135,6 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
 
   const type: Category = entry.categories[0]
   const typeName: string = CategoryToNameMapper[type]
-
-  console.log(entry.image_url)
 
   return (
     <div id='entity-detail'>

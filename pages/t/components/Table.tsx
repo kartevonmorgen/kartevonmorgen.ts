@@ -19,7 +19,7 @@ const columns = [
       <Fragment key={`column-event-${record.id}`}>
         <Link
           strong
-          href={`https://kartevonmorgen.org/#/?entry=${record.id}`}
+          href={`/m/main/ev/${record.id}`}
           target="_blank"
         >
           {record.title}
