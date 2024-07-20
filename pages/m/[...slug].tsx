@@ -3,6 +3,7 @@ import { GetServerSideProps } from 'next'
 import dynamic from 'next/dynamic'
 import { useToggle } from 'ahooks'
 import { Layout, Spin } from 'antd'
+import { MapMarkerTagsIcons, MapMarkerTagsIconsContext } from '../../contexts'
 import { SidebarConfigs } from '../../dtos/MapPageConfigs'
 import { convertQueryParamToArray } from '../../utils/utils'
 import RouterQueryInitializer from '../../components/RouterQueryInitializer'
@@ -11,6 +12,8 @@ import Sidebar from '../../components/Sidebar'
 import { MapColorModes } from '../../components/MapColorStyle'
 import { getConfigFile } from '../api/v0/maps/[project]/config'
 import MapLocationProps from '../../dtos/MapLocationProps'
+import getTagsIcons from '../../utils/icons'
+
 
 const { Content } = Layout
 
@@ -19,10 +22,11 @@ interface MapPageProps {
   mapLocationProps: MapLocationProps
   sidebarConfigs: SidebarConfigs
   initMapColorStyle: MapColorModes
+  mapMarkerTagsIcons: MapMarkerTagsIcons
 }
 
 const MapPage: FC<MapPageProps> = (props) => {
-  const { mapLocationProps, sidebarConfigs, initMapColorStyle } = props
+  const { mapLocationProps, sidebarConfigs, initMapColorStyle, mapMarkerTagsIcons } = props
 
   const [isLoading, { setRight: setNotLoading }] = useToggle(true)
 
@@ -53,11 +57,13 @@ const MapPage: FC<MapPageProps> = (props) => {
       <Content>
         <Spin spinning={isLoading}>
           <div id="map">
-            <Map
-              lat={mapLocationProps.lat}
-              lng={mapLocationProps.lng}
-              zoom={mapLocationProps.zoom}
-            />
+            <MapMarkerTagsIconsContext.Provider value={mapMarkerTagsIcons}>
+              <Map
+                lat={mapLocationProps.lat}
+                lng={mapLocationProps.lng}
+                zoom={mapLocationProps.zoom}
+              />
+            </MapMarkerTagsIconsContext.Provider>
           </div>
         </Spin>
       </Content>
@@ -77,11 +83,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const mapLocationProps = pageConfigs.map.location
   const sidebarConfigs = pageConfigs.sidebar
   const initMapColorStyle = pageConfigs.map.colorStyle
+  const mapMarkerTagsIcons = getTagsIcons(project)
 
   const props = {
     mapLocationProps,
     sidebarConfigs,
     initMapColorStyle,
+    mapMarkerTagsIcons,
   }
 
   // todo: move the re-validate value to constants
