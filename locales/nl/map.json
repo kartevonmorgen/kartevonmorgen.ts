@@ -9,7 +9,7 @@
     "location": "Locatie",
     "clickMap": "(klik op de kaart)",
     "iHaveRead": "Ik heb de voorwaarden gelezen en accepteer deze ",
-    "creativeCommonsLicense": "Creative-Commons License CC0",
+    "creativeCommonsLicense": "Creative-Commons licentie CC0",
     "openDatabaseLicense": "OpenDatabase licentie",
     "licenseAccepted": ".",
     "license": "Licentie",
@@ -38,10 +38,10 @@
     "imageLink": "Link (when clicking on the image, optional)",
     "cancel": "annuleren",
     "save": "opslaan",
-    "editEntryHeading": "Edit entry",
-    "newEntryHeading": "New entry",
-    "savingError": "Error while trying to save the entry...",
-    "valueError": "Something is missing, please check below.",
+    "editEntryHeading": "Invoer bewerken",
+    "newEntryHeading": "Nieuwe invoer",
+    "savingError": "Fout tijdens het opslaan van de invoer...",
+    "valueError": "Er ontbreekt iets, gelieve hieronder te controleren.",
     "requiredField": "verplicht veld",
     "titleTooLong": "Titel is te lang",
     "titleTooShort": "Titel is te kort",
@@ -68,13 +68,13 @@
     "linkDescription": "Link beschrijving (optioneel)"
   },
   "entryDetails": {
-    "loadingEntry": "loading entry...",
+    "loadingEntry": "invoer wordt geladen...",
     "back": "terug",
     "homepagePlaceholder": "Website",
     "viewHistory": "View history or archive this entry",
     "viewHistoryTooltip": "You will have to login again on openfairdb.org",
-    "reportLink": "Report this entry",
-    "reportSubject": "Report entry",
+    "reportLink": "Invoer melden",
+    "reportSubject": "Invoer melden",
     "reportBody": "This entry {link} is problematic because:",
     "readMore": "Lees meer...",
     "lastEdit": "laatste bewerking",
@@ -127,9 +127,9 @@
     "rating-heading": "Beoordeling",
     "ratings": "beoordelingen",
     "heading": "Sustainability Ratings",
-    "noRatingsYet": "There are no ratings for this entry yet.",
-    "giveFirstRating": "be the first to rate this entry",
-    "newRating": "rate this entry",
+    "noRatingsYet": "Er zijn nog geen beoordelingen voor deze invoer.",
+    "giveFirstRating": "wees de eerste om deze invoer te beoordelen",
+    "newRating": "beoordeel deze invoer",
     "newComment": "commentaar geven",
     "sourceWebsite": "bron",
     "contextName": {
@@ -149,9 +149,9 @@
       "solidarity": "Cooperative working, sustainable and ethical financing and investments, in consideration of all consumer budgets, etc."
     },
     "valueName": {
-      "minusOne": "so yesterday",
+      "minusOne": "dus gisteren",
       "zero": "standaard",
-      "one": "of tomorrow",
+      "one": "van morgen",
       "two": "visionary"
     },
     "valueNameExplanation": {
@@ -162,7 +162,7 @@
     }
   },
   "ratingForm": {
-    "newRatingFor": "New rating for",
+    "newRatingFor": "Nieuwe waardering voor",
     "newRating": "Nieuw beoordeling",
     "introText": "Our ratings make sustainable entries more visible than less sustainable entries. Well rated entries are higher ranked within the von morgen map and its search results.",
     "moreInfoLink": "meer informatie",
@@ -180,7 +180,7 @@
     "titleTooShort": "Titel is te kort",
     "maxNumCharactersTitle": "van de max. 40 tekens",
     "minNumCharactersTitle": "karakters, minimum: 3",
-    "invalidRatingContext": "Invalid Rating Context",
+    "invalidRatingContext": "Ongeldige Beoordelingscontext",
     "invalidRating": "Ongeldige beoordeling",
     "commentTooLong": "Reactie te lang",
     "commentTooShort": "Reactie te kort",
@@ -189,7 +189,7 @@
   },
   "commentForm": {
     "chooseContext": "Add your rating to the following sustainability criterion of this entry",
-    "newCommentFor": "New comment for",
+    "newCommentFor": "Nieuwe opmerking voor",
     "newComment": "Nieuwe reactie",
     "save": "reactie"
   },
@@ -200,7 +200,7 @@
       "text2": "If you want to change the subscribed map section, navigate to the map section you are interested in and then click on \"change\"."
     },
     "newSubscription": {
-      "heading": "Subscribe to map section",
+      "heading": "Abonneren op de kaartsectie",
       "text1": "Navigate to the map section you are interested in and click on \"subscribe\". You will then be kept up to date with new entries and changes within this region by email.",
       "text2": "You can unsubscribe or change your subscription at any time here."
     },
@@ -281,13 +281,13 @@
     "openFilters": "Filters openen",
     "collapseFilters": "Filters samenvouwen",
     "searchFor": "Zoeken naar",
-    "resultLimit": "Result Limit"
+    "resultLimit": "Resultaat limiet"
   },
   "resultlist": {
     "showMoreEntries": "Show more entries...",
-    "entriesLoading": "Entries are loaded...",
-    "noEntriesFound": "No entries found.",
-    "addEntry": "Add a new entry"
+    "entriesLoading": "Invoer wordt geladen...",
+    "noEntriesFound": "Geen invoer gevonden.",
+    "addEntry": "Voeg een nieuwe invoer toe"
   },
   "growler": {
     "INFO FOR TRANSLATORS": "Growler is the green or red bar that appears at the top of the screen for example when saving an entry",
@@ -295,7 +295,7 @@
     "subscriptionChanged": "Uw abonnement is gewijzigd.",
     "subscriptionAdded": "You subscribed to a map section.",
     "unsubscribingSuccessfull": "You unsubscribed from the map section.",
-    "entrySaved": "Entry has been saved.",
+    "entrySaved": "Invoer is opgeslagen.",
     "ratingSaved": "De waardering is opgeslagen.",
     "linkCopied": "Link succesvol gekopieerd naar klembord!"
   },
@@ -306,7 +306,7 @@
   },
   "imprint": {
     "contact": "Contact",
-    "imprint": "Imprint",
+    "imprint": "Colofon",
     "heading1": "Legal entity in the sense of non-profit status",
     "representedByChair": "Represented by the Chair of Directors",
     "heading2": "Concept",
@@ -330,7 +330,7 @@
     "locate": {
       "inProgress": "We are looking for your current location...",
       "cancel": "Annuleren",
-      "failed": "Your location cannot be determined. Location tracking is disabled in the browser or system settings, or GPS has no reception.",
+      "failed": "Uw locatie kan niet worden bepaald. Locatie bijhouden is uitgeschakeld in de browser of systeem instellingen of GPS heeft geen ontvangst.",
       "close": "Sluiten",
       "tryAgain": "Opnieuw proberen."
     },
@@ -345,7 +345,7 @@
   },
   "share": "Delen",
   "copy": "Kopiëren",
-  "embed": "Embed",
+  "embed": "Insluiten",
   "burgerMenu": {
     "home": "Startscherm",
     "join": "Deelnemen",
