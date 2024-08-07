@@ -17,7 +17,7 @@
     },
     "subscribeToBbox": {
       "message": "You are logged in. If you like you can",
-      "new-link": "stay informed about changes in your city",
+      "new-link": "blijf op de hoogte van veranderingen in je stad",
       "edit-link": "change or unsubscribe your subscribed map section"
     },
     "donate": {
@@ -48,17 +48,17 @@
       "register-success": {
         "text1": "You have successfully registered. Please confirm your email-address. You can then",
         "text2": "log yourself in. For this, we've just send you",
-        "text3": "an email."
+        "text3": "een e-mail."
       },
       "confirming-email-address": {
         "text": "Uw e-mailadres wordt bevestigd."
       },
       "confirm-email-error": {
         "message": "Ops! There was an error confirming your email address. Please try again with a new email address to",
-        "link": "sign up."
+        "link": "aanmelden."
       },
       "email-confirmed": {
-        "text1": "Your email address has been confirmed.",
+        "text1": "Uw e-mailadres is bevestigd.",
         "text2": "U kunt nu ",
         "link": "inloggen."
       },
@@ -75,7 +75,7 @@
       "contact": "Contact: ",
       "social-media": "Sociale Media: ",
       "open-source": "Open Source: ",
-      "imprint": "Imprint",
+      "imprint": "Colofon",
       "privacyStatement": "Privacy"
     }
   },
@@ -125,7 +125,7 @@
       "thao": "Content & Communicatie",
       "project-development": "Projectontwikkeling",
       "chair": "Chair Ideen³ e.V.",
-      "lisa1": "Political Scientist",
+      "lisa1": "Politicoloog",
       "lisa2": "Strategie & Impact",
       "marten": "Mindfulness and Change Psychology",
       "florian": "Softwareontwikkeling",
