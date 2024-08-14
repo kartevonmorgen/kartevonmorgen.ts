@@ -4,14 +4,13 @@ import { Button, Modal } from 'antd'
 import { useBoolean } from 'ahooks'
 import SharingModalTabs from './SharingModalTabs'
 
-
 const MapSharingModal: FC = () => {
   const { t } = useTranslation('map')
 
   const [isModalVisible, { setTrue: showModal, setFalse: hideModal }] = useBoolean()
 
   return (
-    (<Fragment>
+    <Fragment>
       <Button
         type="link"
         style={{
@@ -21,18 +20,11 @@ const MapSharingModal: FC = () => {
       >
         {t('embed')}
       </Button>
-      <Modal
-        open={isModalVisible}
-        closable={false}
-        footer={null}
-        onCancel={hideModal}
-      >
-        <SharingModalTabs
-          hideModal={hideModal}
-        />
+      <Modal open={isModalVisible} closable={false} footer={null} onCancel={hideModal}>
+        <SharingModalTabs hideModal={hideModal} />
       </Modal>
-    </Fragment>)
-  );
+    </Fragment>
+  )
 }
 
 export default MapSharingModal
