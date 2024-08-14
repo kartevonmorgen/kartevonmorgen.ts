@@ -48,7 +48,6 @@ interface MapMarkerBalloonProps {
 const MapMarkerBalloon: FC<MapMarkerBalloonProps> = (props) => {
   const { color, icon } = props
 
-  console.log(icon)
 
   const [h, s, _l, a] = parseToHsla(color)
   const mapMarkerBalloonId = `map-marker-balloon-${color}`
@@ -93,7 +92,7 @@ const MapMarkerBalloon: FC<MapMarkerBalloonProps> = (props) => {
               }}
             >
               <MapMarkerIcon icon={icon} style={{ color: 'white', width: '100%', height: '100%' }} />
-             </div>
+            </div>
           </foreignObject>
         )
       }
