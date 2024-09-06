@@ -3,8 +3,8 @@ import useTranslation from 'next-translate/useTranslation'
 import { Button, Dropdown, Menu } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import CopyURLToClipboardButton from './CopyURLToClipboardButton'
-// import MapSharingModal from './MapSharingModal'
-import SubscriptionModal from './SubscriptionModal'
+import MapSharingModal from './MapSharingModal'
+// import SubscriptionModal from './SubscriptionModal'
 
 
 const { Item } = Menu
@@ -16,7 +16,7 @@ const menu = (
       right: 40,
     }}
   >
-    <Item
+    {/* <Item
       icon={
         <FontAwesomeIcon
           icon={["fas", "bell"]}
@@ -24,7 +24,7 @@ const menu = (
       }
     >
       <SubscriptionModal/>
-    </Item>
+    </Item> */}
 
     <Item
       icon={
@@ -35,7 +35,7 @@ const menu = (
       <CopyURLToClipboardButton/>
     </Item>
 
-    {/* <Item
+    <Item
       icon={
         <FontAwesomeIcon
           icon="code"
@@ -43,7 +43,7 @@ const menu = (
       }
     >
       <MapSharingModal/>
-    </Item> */}
+    </Item>
   </Menu>
 )
 

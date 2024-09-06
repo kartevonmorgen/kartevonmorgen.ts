@@ -11,7 +11,7 @@ import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
 import { deleteSlugLevelsFromRouter } from '../utils/router'
 
 
-const onBack = (router: NextRouter) => () => {
+export const onBack = (router: NextRouter) => () => {
   const newQueryParams = deleteSlugLevelsFromRouter(2, router)
   const [newPath, newQueryWithoutSlug] = createSlugPathFromQueryAndRemoveSlug(newQueryParams)
 

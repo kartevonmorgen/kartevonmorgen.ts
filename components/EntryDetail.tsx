@@ -16,7 +16,7 @@ import EntityAddress from './EntityAddress'
 import EntityTags from './EntityTags'
 import EntityRatings from './EntityRatings'
 import EntityFooter from './EntityFooter'
-import EntityDetailHeader from './EntityDetailHeader'
+import EntityDetailHeader, { onBack } from './EntityDetailHeader'
 import OpeningHours from './OpeningHours'
 import EntryLinks from './EntryLinks'
 import TypeTag from './TypeTag'
@@ -123,7 +123,12 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
           <Text>{t('entryDetails.entryIsInvisibleBeforeApprovement')}</Text>
         </Paragraph>
 
-        <Button type="primary">{t('backToSearch')}</Button>
+        <Button
+          onClick={onBack(router)}
+          type="primary"
+        >
+          {t('backToSearch')}
+        </Button>
       </div>
     )
   }
