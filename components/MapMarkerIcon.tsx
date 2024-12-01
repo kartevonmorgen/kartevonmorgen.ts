@@ -2,6 +2,8 @@ import { FC } from 'react'
 
 import { FaFutbol } from '@react-icons/all-files/fa/FaFutbol'
 import { FaLock } from '@react-icons/all-files/fa/FaLock'
+import { IoMdFootball } from '@react-icons/all-files/io/IoMdFootball'
+import { IoIosFootball } from '@react-icons/all-files/io/IoIosFootball'
 import { IconBaseProps, IconType } from 'react-icons'
 
 
@@ -19,6 +21,12 @@ const MapMarkerIcon: FC<MapMarkerIconProps> = (props) => {
       break
     case 'FaLock':
       Icon = FaLock
+      break
+    case 'IoMdFootball':
+      Icon = IoMdFootball
+      break
+    case 'IoIosFootball':
+      Icon = IoIosFootball
       break
     default:
       break
