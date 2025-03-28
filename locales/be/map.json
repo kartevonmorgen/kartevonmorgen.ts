@@ -211,7 +211,13 @@
     "edit": "змяніць",
     "unsubscribe": "адпісацца",
     "back": "скасаваць",
-    "subscribe": "падпісацца"
+    "subscribe": "падпісацца",
+    "frequencies": {
+      "frequency": "Frequency",
+      "day": "Daily",
+      "week": "Weekly",
+      "month": "Monthly"
+    }
   },
   "search-results": {
     "cities": "гарады",
@@ -300,7 +306,8 @@
     "unsubscribingSuccessfull": "Вы адпісаліся ад раздзела мапы.",
     "entrySaved": "Запіс захаваны.",
     "ratingSaved": "Адзнака захавана.",
-    "linkCopied": "Ссылка успешно скопирована в буфер обмена!"
+    "linkCopied": "Ссылка успешно скопирована в буфер обмена!",
+    "similarSubscriptionExists": "Вы ўжо падпісаны на гэты раздзел мапы."
   },
   "contact": {
     "heading": "Кантакт",

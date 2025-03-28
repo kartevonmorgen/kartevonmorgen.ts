@@ -214,9 +214,9 @@
     "subscribe": "Subscribe",
     "frequencies": {
       "frequency": "Frequency",
-      "hour": "Hour",
-      "day": "Day",
-      "week": "Week"
+      "day": "Daily",
+      "week": "Weekly",
+      "month": "Monthly"
     },
     "changeType": {
       "type": "Type",
@@ -312,7 +312,8 @@
     "unsubscribingSuccessfull": "You unsubscribed from the map section.",
     "entrySaved": "Entry has been saved.",
     "ratingSaved": "Rating has been saved.",
-    "linkCopied": "Link copied to clipboard successfully!"
+    "linkCopied": "Link copied to clipboard successfully!",
+    "similarSubscriptionExists": "Similar subscription already exists."
   },
   "contact": {
     "heading": "Contact",

@@ -211,7 +211,13 @@
     "edit": "редактировать",
     "unsubscribe": "отказаться от подписки",
     "back": "отменить",
-    "subscribe": "подписаться"
+    "subscribe": "подписаться",
+    "frequencies": {
+      "frequency": "Frequency",
+      "day": "Daily",
+      "week": "Weekly",
+      "month": "Monthly"
+    }
   },
   "search-results": {
     "cities": "города",
@@ -300,7 +306,8 @@
     "unsubscribingSuccessfull": "Вы отписались от раздела карты.",
     "entrySaved": "Запись сохранена.",
     "ratingSaved": "Рейтинг сохранен.",
-    "linkCopied": "Ссылка успешно скопирована в буфер обмена!"
+    "linkCopied": "Ссылка успешно скопирована в буфер обмена!",
+    "similarSubscriptionExists": "Подписка на этот раздел карты уже существует."
   },
   "contact": {
     "heading": "Контакт",

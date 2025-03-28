@@ -1,6 +1,6 @@
 import { FC, Fragment } from 'react'
 import { useRouter } from 'next/router'
-import axios, { AxiosError } from 'axios'
+import axios from 'axios'
 import { Modal, Button, Typography, Form, Input, Radio, Divider, message } from 'antd'
 import { MessageInstance } from 'antd/es/message/interface'
 import { useBoolean } from 'ahooks'
@@ -22,32 +22,29 @@ const onSubscribe = async (
   t: Translate,
   messageApi: MessageInstance,
   values: any,
-  lang: string,
+  language: string,
   bbox: [number, number, number, number],
   tags: string[],
-  ) => {
-    const {
-      title,
-      changeType,
-      frequency,
-      email
-    } = values
+) => {
+  const {
+    title,
+    // changeType,
+    interval,
+    email
+  } = values
 
-    const [lat1, lng1, lat2, lng2] = bbox
+  const [lat_min, lon_min, lat_max, lon_max] = bbox
 
   const req: SubscriptionRequest = {
     title,
-      changeType,
-      frequency,
-      bbox: {
-        lat1,
-        lng1,
-        lat2,
-        lng2
-      },
-      tags,
-      email,
-      lang,
+    lat_min,
+    lon_min,
+    lat_max,
+    lon_max,
+    interval,
+    subscription_type: 'creates',
+    email,
+    language: 'de',
   }
 
   try {
@@ -57,8 +54,8 @@ const onSubscribe = async (
     )
   } catch (e) {
     if (axios.isAxiosError(e)) {
-      if (e.status === 422) {
-        messageApi.error(e.response?.data?.message)
+      if (e.response?.status === 409) {
+        messageApi.error(t('growler.similarSubscriptionExists'))
         return
       }
 
@@ -87,7 +84,7 @@ const SubscriptionModal: FC = () => {
   const [messageApi, contextHolder] = message.useMessage()
 
   const tagsFromURL: string[] = convertQueryParamToArray(tagQueryParam)
-  const language  = locale || 'en'
+  const language = locale || 'de'
 
   const map = useMap()
   const bbox = map.getBounds()
@@ -171,17 +168,18 @@ const SubscriptionModal: FC = () => {
           </Form.Item>
 
           <Form.Item
-            name="frequency"
+            name="interval"
             label={t("subscribeToBbox.frequencies.frequency")}
+            required
           >
             <Radio.Group defaultValue="week">
-              <Radio value="hour">{t("subscribeToBbox.frequencies.hour")}</Radio>
-              <Radio value="day">{t("subscribeToBbox.frequencies.day")}</Radio>
-              <Radio value="week">{t("subscribeToBbox.frequencies.week")}</Radio>
+              <Radio value="daily">{t("subscribeToBbox.frequencies.day")}</Radio>
+              <Radio value="weekly">{t("subscribeToBbox.frequencies.week")}</Radio>
+              <Radio value="monthly">{t("subscribeToBbox.frequencies.month")}</Radio>
             </Radio.Group>
           </Form.Item>
 
-          <Form.Item
+          {/* <Form.Item
             name="type"
             label={t("subscribeToBbox.changeType.type")}
           >
@@ -189,7 +187,7 @@ const SubscriptionModal: FC = () => {
               <Radio value="new">{t("subscribeToBbox.changeType.new")}</Radio>
               <Radio value="all">{t("subscribeToBbox.changeType.all")}</Radio>
             </Radio.Group>
-          </Form.Item>
+          </Form.Item> */}
         </Form>
       </Modal>
     </Fragment>

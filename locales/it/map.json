@@ -211,7 +211,13 @@
     "edit": "edit",
     "unsubscribe": "unsubscribe",
     "back": "cancel",
-    "subscribe": "subscribe"
+    "subscribe": "subscribe",
+    "frequencies": {
+      "frequency": "Frequency",
+      "day": "Daily",
+      "week": "Weekly",
+      "month": "Monthly"
+    }
   },
   "search-results": {
     "cities": "cities",
@@ -300,7 +306,8 @@
     "unsubscribingSuccessfull": "You unsubscribed from the map section.",
     "entrySaved": "Entry has been saved.",
     "ratingSaved": "Rating has been saved.",
-    "linkCopied": "Link copied to clipboard successfully!"
+    "linkCopied": "Link copied to clipboard successfully!",
+    "similarSubscriptionExists": "A similar subscription already exists."
   },
   "contact": {
     "heading": "Contact",

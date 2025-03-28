@@ -214,9 +214,9 @@
     "subscribe": "abonnieren",
     "frequencies": {
       "frequency": "Frequency",
-      "hour": "Hour",
-      "day": "Day",
-      "week": "Week"
+      "day": "Daily",
+      "week": "Weekly",
+      "Monthly": "Monthly"
     },
     "changeType": {
       "type": "Type",
@@ -312,7 +312,8 @@
     "unsubscribingSuccessfull": "Abonnement wurde abbestellt.",
     "entrySaved": "Eintrag wurde gespeichert.",
     "ratingSaved": "Bewertung wurde gespeichert.",
-    "linkCopied": "Link erfolgreich in die Zwischenablage kopiert!"
+    "linkCopied": "Link erfolgreich in die Zwischenablage kopiert!",
+    "similarSubscriptionExists": "Ein ähnliches Abonnement existiert bereits."
   },
   "contact": {
     "heading": "Kontakt",
