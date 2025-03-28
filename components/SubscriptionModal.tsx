@@ -47,6 +47,7 @@ const onSubscribe = async (
     language: 'de',
   }
 
+
   try {
     const res = await AxiosInstance.PostRequest(
       API_ENDPOINTS.postSubscription(),
@@ -172,7 +173,7 @@ const SubscriptionModal: FC = () => {
             label={t("subscribeToBbox.frequencies.frequency")}
             required
           >
-            <Radio.Group defaultValue="week">
+            <Radio.Group>
               <Radio value="daily">{t("subscribeToBbox.frequencies.day")}</Radio>
               <Radio value="weekly">{t("subscribeToBbox.frequencies.week")}</Radio>
               <Radio value="monthly">{t("subscribeToBbox.frequencies.month")}</Radio>
