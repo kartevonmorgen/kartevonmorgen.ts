@@ -214,6 +214,7 @@
     "subscribe": "подписаться",
     "frequencies": {
       "frequency": "Frequency",
+      "hour": "Hourly",
       "day": "Daily",
       "week": "Weekly",
       "month": "Monthly"
