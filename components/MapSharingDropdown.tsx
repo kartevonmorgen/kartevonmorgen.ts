@@ -17,6 +17,7 @@ const menu = (
     }}
   >
     <Item
+      key="subscription"
       icon={
         <FontAwesomeIcon
           icon={["fas", "bell"]}
@@ -27,6 +28,7 @@ const menu = (
     </Item>
 
     <Item
+      key="copy"
       icon={
         <FontAwesomeIcon
           icon={['far', 'copy']}
@@ -36,6 +38,7 @@ const menu = (
     </Item>
 
     <Item
+      key="share"
       icon={
         <FontAwesomeIcon
           icon="code"
