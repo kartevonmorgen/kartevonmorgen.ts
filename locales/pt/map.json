@@ -210,15 +210,21 @@
     "cancel": "abbrechen",
     "edit": "ändern",
     "unsubscribe": "Abonnement abbestellen",
-    "back": "abbrechen",
-    "subscribe": "abonnieren",
+    "back": "Cancel",
+    "subscribe": "Subscribe",
     "frequencies": {
       "frequency": "Frequency",
       "hour": "Hourly",
       "day": "Daily",
       "week": "Weekly",
       "month": "Monthly"
-    }
+    },
+    "changeType": {
+      "type": "Type",
+      "new": "New",
+      "all": "All"
+    },
+    "subscriptionName": "Subscription Name"
   },
   "search-results": {
     "cities": "Städte",
@@ -308,7 +314,7 @@
     "entrySaved": "Eintrag wurde gespeichert.",
     "ratingSaved": "Bewertung wurde gespeichert.",
     "linkCopied": "Copiado para a área de transferência com sucesso!",
-    "similarSubscriptionExists": "Ein ähnliches Abonnement existiert bereits."
+    "similarSubscriptionExists": "Similar subscription already exists."
   },
   "contact": {
     "heading": "Kontakt",
