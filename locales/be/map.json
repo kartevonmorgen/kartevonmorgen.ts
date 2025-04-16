@@ -210,15 +210,21 @@
     "cancel": "скасаваць",
     "edit": "змяніць",
     "unsubscribe": "адпісацца",
-    "back": "скасаваць",
-    "subscribe": "падпісацца",
+    "back": "Cancel",
+    "subscribe": "Subscribe",
     "frequencies": {
       "frequency": "Frequency",
       "hour": "Hourly",
       "day": "Daily",
       "week": "Weekly",
       "month": "Monthly"
-    }
+    },
+    "changeType": {
+      "type": "Type",
+      "new": "New",
+      "all": "All"
+    },
+    "subscriptionName": "Subscription Name"
   },
   "search-results": {
     "cities": "гарады",
@@ -308,7 +314,7 @@
     "entrySaved": "Запіс захаваны.",
     "ratingSaved": "Адзнака захавана.",
     "linkCopied": "Ссылка успешно скопирована в буфер обмена!",
-    "similarSubscriptionExists": "Вы ўжо падпісаны на гэты раздзел мапы."
+    "similarSubscriptionExists": "Similar subscription already exists."
   },
   "contact": {
     "heading": "Кантакт",
