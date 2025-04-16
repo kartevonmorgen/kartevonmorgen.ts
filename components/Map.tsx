@@ -1,5 +1,4 @@
 import { FC } from 'react'
-import { Switch } from 'antd'
 import { MapContainer, TileLayer, ZoomControl } from 'react-leaflet'
 import MapEventsListener from './MapEventsListener'
 import MapLocationInitializer from './MapLocationInitializer'
@@ -15,13 +14,9 @@ import MapColorStyle from './MapColorStyle'
 import SidebarCollapseButton from './SidebarCollapseButton'
 import 'leaflet/dist/leaflet.css'
 import MapColorModeButton from './MapColorModeButton'
+import MapLocationProps from '../dtos/MapLocationProps'
 
 
-export interface MapLocationProps {
-  lat: number
-  lng: number
-  zoom: number
-}
 
 const Map: FC<MapLocationProps> = (props) => {
 

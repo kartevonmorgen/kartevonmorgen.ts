@@ -1,23 +1,28 @@
-import {FC, useEffect, useState} from 'react'
+import {FC, useEffect, useState, useMemo } from 'react'
+import dynamic from 'next/dynamic'
 import {useRouter} from 'next/router'
-import {Drawer} from 'antd'
-import { LeftOutlined } from '@ant-design/icons'
+import { Drawer } from 'antd'
 import SidebarContent from './SidebarContent'
+import SidebarCollapseButton from './SidebarCollapseButton'
 import {convertQueryParamToString} from '../utils/utils'
 import {isSidebarStatusShown} from '../dtos/SidebarStatus'
 import {useSidebar} from '../hooks/useResponsive'
-import { closeSidebar } from './SidebarCollapseButton'
-
 
 
 interface SidebarProps {
-  title: String
+  title: string
 }
 
 
 const Sidebar: FC<SidebarProps> = (props) => {
   const { title } = props
 
+  const ClientDrawer = useMemo(() => dynamic(
+    () => Promise.resolve(Drawer),
+    {
+      ssr: false,
+    },
+  ), [])
 
   const router = useRouter()
   const {
@@ -37,10 +42,11 @@ const Sidebar: FC<SidebarProps> = (props) => {
   }, [shouldOpenSidebar])
 
   return (
-    <Drawer
+    <ClientDrawer
       autoFocus={false}
+      closable={false}
+      forceRender
       open={isSidebarOpen}
-      closeIcon={<LeftOutlined/>}
       placement="left"
       mask={false}
       rootStyle={{
@@ -49,7 +55,6 @@ const Sidebar: FC<SidebarProps> = (props) => {
         display: 'flex',
         overflowX: 'clip',
         overflowY: 'scroll',
-        position: 'absolute',
       }}
       getContainer={false}
       width={isSidebarOpen ? sidebarWidth : 0}
@@ -57,17 +62,17 @@ const Sidebar: FC<SidebarProps> = (props) => {
         body: {
           padding: 0
         },
-        header: {
-          padding: 6,
+        wrapper: {
+          display: 'block'
         }
       }}
-      title={title}
-      onClose={() => closeSidebar(router)}
+      title={title.length !== 0 ? title : undefined}
     >
+      <SidebarCollapseButton />
       {isSidebarOpen && (
         <SidebarContent/>
       )}
-    </Drawer>
+    </ClientDrawer>
   )
 }
 

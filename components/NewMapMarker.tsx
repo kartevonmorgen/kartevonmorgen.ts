@@ -20,7 +20,7 @@ const NewMapMarker: FC = () => {
   return (
     <LeafletMarker
       position={markedPinLatLng}
-      icon={getBalloonIcon(Category.UNKNOWN) || undefined}
+      icon={getBalloonIcon(Category.UNKNOWN, undefined, null) || undefined}
     />
   )
 }

@@ -85,7 +85,10 @@
       "telephone": "Register by phone",
       "homepage": "Register online"
     },
-    "route": "Route"
+    "route": "Route",
+    "notFound": "Entry not found or needs approval",
+    "approvalRequired": "The approval is required for the organizational tags",
+    "entryIsInvisibleBeforeApprovement": "The entry remains invisible before approvement"
   },
   "login": {
     "requiredField": "required field",
@@ -208,7 +211,14 @@
     "edit": "edit",
     "unsubscribe": "unsubscribe",
     "back": "cancel",
-    "subscribe": "subscribe"
+    "subscribe": "subscribe",
+    "frequencies": {
+      "frequency": "Frequency",
+      "hour": "Hourly",
+      "day": "Daily",
+      "week": "Weekly",
+      "month": "Monthly"
+    }
   },
   "search-results": {
     "cities": "cities",
@@ -297,7 +307,8 @@
     "unsubscribingSuccessfull": "You unsubscribed from the map section.",
     "entrySaved": "Entry has been saved.",
     "ratingSaved": "Rating has been saved.",
-    "linkCopied": "Link copied to clipboard successfully!"
+    "linkCopied": "Link copied to clipboard successfully!",
+    "similarSubscriptionExists": "A similar subscription already exists."
   },
   "contact": {
     "heading": "Contact",
@@ -358,5 +369,6 @@
   "mapColorMode": {
     "colorful": "Барвистість",
     "grey": "Сірий"
-  }
+  },
+  "backToSearch": "Back to the search results"
 }

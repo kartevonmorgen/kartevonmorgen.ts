@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import Image from 'next/image'
 import useTranslation from 'next-translate/useTranslation'
-import { Typography } from 'antd'
+import { Typography, Flex } from 'antd'
 
 
 const { Title, Paragraph } = Typography
@@ -42,13 +42,18 @@ const Vision: FC = (_props) => {
         {t('landingExplain.chapter3.text.2')}
       </Paragraph>
 
-      <Image
-        src="/assets/img/postkarte.webp"
-        layout="intrinsic"
-        width={1000}
-        height={450}
-        alt="post card"
-      />
+      <Flex
+        align='center'
+        justify='center'
+      >
+        <Image
+          src="/assets/img/postkarte.webp"
+          layout="intrinsic"
+          width={1000}
+          height={450}
+          alt="post card"
+        />
+      </Flex>
     </div>
   )
 }

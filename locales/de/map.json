@@ -85,7 +85,10 @@
       "telephone": "Anmeldung telefonisch",
       "homepage": "Anmeldung online"
     },
-    "route": "Route"
+    "route": "Route",
+    "notFound": "Entry not found or needs approval",
+    "approvalRequired": "The approval is required for the organizational tags",
+    "entryIsInvisibleBeforeApprovement": "The entry remains invisible before approvement"
   },
   "login": {
     "requiredField": "Pflichtangabe",
@@ -208,7 +211,20 @@
     "edit": "ändern",
     "unsubscribe": "Abonnement abbestellen",
     "back": "abbrechen",
-    "subscribe": "abonnieren"
+    "subscribe": "abonnieren",
+    "frequencies": {
+      "frequency": "Frequency",
+      "hour": "Hourly",
+      "day": "Daily",
+      "week": "Weekly",
+      "Monthly": "Monthly"
+    },
+    "changeType": {
+      "type": "Type",
+      "new": "New",
+      "all": "All"
+    },
+    "subscriptionName": "Subscription Name"
   },
   "search-results": {
     "cities": "Städte",
@@ -297,7 +313,8 @@
     "unsubscribingSuccessfull": "Abonnement wurde abbestellt.",
     "entrySaved": "Eintrag wurde gespeichert.",
     "ratingSaved": "Bewertung wurde gespeichert.",
-    "linkCopied": "Link erfolgreich in die Zwischenablage kopiert!"
+    "linkCopied": "Link erfolgreich in die Zwischenablage kopiert!",
+    "similarSubscriptionExists": "Ein ähnliches Abonnement existiert bereits."
   },
   "contact": {
     "heading": "Kontakt",
@@ -358,5 +375,6 @@
   "mapColorMode": {
     "colorful": "Farbig",
     "grey": "Grau"
-  }
+  },
+  "backToSearch": "Back to the search results"
 }

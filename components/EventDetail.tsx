@@ -76,12 +76,7 @@ const EventDetail: FC<EventDetailProps> = (props) => {
 
 
   return (
-    <div
-      id="entity-detail"
-      style={{
-        position: 'relative',
-      }}
-    >
+    <div id="entity-detail">
 
       <EntityDetailHeader hasImage={event.image_url !== undefined && event.image_url !== null}/>
 

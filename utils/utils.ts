@@ -117,16 +117,22 @@ export const updateRoutingQueryWithoutDynamicParams = (
   )
 }
 
-export const convertBBoxToString = (bbox: LatLngBounds): string => {
+export const convertBBoxToCoords = (bbox: LatLngBounds): [number, number, number, number] => {
   const sw = bbox.getSouthWest()
   const ne = bbox.getNorthEast()
 
-  const bboxCoords = [
+  const bboxCoords: [number, number, number, number] = [
     sw.lat,
     sw.lng,
     ne.lat,
     ne.lng,
   ]
+
+  return bboxCoords
+}
+
+export const convertBBoxToString = (bbox: LatLngBounds): string => {
+  const bboxCoords = convertBBoxToCoords(bbox)
 
   return toString(bboxCoords)
 }

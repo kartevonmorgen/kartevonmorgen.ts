@@ -85,7 +85,10 @@
       "telephone": "Registrar por telefone",
       "homepage": "Registo online"
     },
-    "route": "Rota"
+    "route": "Rota",
+    "notFound": "Entry not found or needs approval",
+    "approvalRequired": "The approval is required for the organizational tags",
+    "entryIsInvisibleBeforeApprovement": "The entry remains invisible before approvement"
   },
   "login": {
     "requiredField": "Campo obrigatório",
@@ -208,7 +211,14 @@
     "edit": "ändern",
     "unsubscribe": "Abonnement abbestellen",
     "back": "abbrechen",
-    "subscribe": "abonnieren"
+    "subscribe": "abonnieren",
+    "frequencies": {
+      "frequency": "Frequency",
+      "hour": "Hourly",
+      "day": "Daily",
+      "week": "Weekly",
+      "month": "Monthly"
+    }
   },
   "search-results": {
     "cities": "Städte",
@@ -297,7 +307,8 @@
     "unsubscribingSuccessfull": "Abonnement wurde abbestellt",
     "entrySaved": "Eintrag wurde gespeichert.",
     "ratingSaved": "Bewertung wurde gespeichert.",
-    "linkCopied": "Copiado para a área de transferência com sucesso!"
+    "linkCopied": "Copiado para a área de transferência com sucesso!",
+    "similarSubscriptionExists": "Ein ähnliches Abonnement existiert bereits."
   },
   "contact": {
     "heading": "Kontakt",
@@ -358,5 +369,6 @@
   "mapColorMode": {
     "colorful": "Colorido",
     "grey": "Cinza"
-  }
+  },
+  "backToSearch": "Back to the search results"
 }

@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import { parseToHsla, toHex, hsla } from 'color2k'
+import MapMarkerIcon from './MapMarkerIcon'
 
 
 interface GradientProp {
@@ -41,43 +42,61 @@ const gradientProps: GradientProp[] = [
 
 interface MapMarkerBalloonProps {
   color: string
+  icon: string | null
 }
 
 const MapMarkerBalloon: FC<MapMarkerBalloonProps> = (props) => {
-  const { color } = props
+  const { color, icon } = props
+
 
   const [h, s, _l, a] = parseToHsla(color)
   const mapMarkerBalloonId = `map-marker-balloon-${color}`
 
   return (
-    <>
-      <svg
-        version='1.1'
-        xmlns='http://www.w3.org/2000/svg'
-        x='0px'
-        y='0px'
-        viewBox='0 0 141.7 141.7'
-      >
-        <linearGradient id={mapMarkerBalloonId} gradientUnits="userSpaceOnUse" x1="75.26" y1="27.88" x2="75.26" y2="112.21">
-          {
-            gradientProps.map(({ lightness: l, offset }) => {
-              const stopColor = toHex(hsla(h, s, l, a))
-              return (
-                <stop key={`stop-color-${color}-${l}`} stopColor={stopColor} offset={offset} />
-              )
-            })
-          }
-        </linearGradient>
-        <path
-          d='M103.6,55.6c0-15.3-12.7-27.7-28.3-27.7S46.9,40.3,46.9,55.6c0,4.4,1,8.5,2.9,12.2
-	                  c-0.1,1.3,25.8,44.5,25.8,44.5S96.1,76.5,100.1,69C102.3,65,103.6,60.4,103.6,55.6z'
-          style={{
-            fill: `url(#${mapMarkerBalloonId})`,
-          }}
-        />
-      </svg>
-      )
-    </>
+    <svg
+      version='1.1'
+      xmlns='http://www.w3.org/2000/svg'
+      x='0px'
+      y='0px'
+      viewBox='0 0 141.7 141.7'
+      width={50}
+      height={50}
+    >
+      <linearGradient id={mapMarkerBalloonId} gradientUnits="userSpaceOnUse" x1="75.26" y1="27.88" x2="75.26" y2="112.21">
+        {
+          gradientProps.map(({ lightness: l, offset }) => {
+            const stopColor = toHex(hsla(h, s, l, a))
+            return (
+              <stop key={`stop-color-${color}-${l}`} stopColor={stopColor} offset={offset} />
+            )
+          })
+        }
+      </linearGradient>
+      <path
+        d='M103.6,55.6c0-15.3-12.7-27.7-28.3-27.7S46.9,40.3,46.9,55.6c0,4.4,1,8.5,2.9,12.2
+                  c-0.1,1.3,25.8,44.5,25.8,44.5S96.1,76.5,100.1,69C102.3,65,103.6,60.4,103.6,55.6z'
+        style={{
+          fill: `url(#${mapMarkerBalloonId})`,
+        }}
+      />
+
+      { icon !== null && (
+          <foreignObject x={60} y={40} width="30" height="30">
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100%',
+                width: '100%',
+              }}
+            >
+              <MapMarkerIcon icon={icon} style={{ color: 'white', width: '100%', height: '100%' }} />
+            </div>
+          </foreignObject>
+        )
+      }
+    </svg>
   )
 }
 

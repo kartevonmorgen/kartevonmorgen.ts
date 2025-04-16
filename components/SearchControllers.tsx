@@ -45,7 +45,7 @@ const SearchControllers: FC = (_props) => {
       <TypeChooser/>
 
       <SearchFilters
-        showFilters={showFilters ? '0' : '1'}
+        showFilters={showFilters ? '1' : '0'}
       />
     </div>
   )

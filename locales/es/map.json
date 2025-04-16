@@ -85,7 +85,10 @@
       "telephone": "Registro por teléfono",
       "homepage": "Registro en línea"
     },
-    "route": "Ruta"
+    "route": "Ruta",
+    "notFound": "Entry not found or needs approval",
+    "approvalRequired": "The approval is required for the organizational tags",
+    "entryIsInvisibleBeforeApprovement": "The entry remains invisible before approvement"
   },
   "login": {
     "requiredField": "información requerida",
@@ -208,7 +211,14 @@
     "edit": "cambiar",
     "unsubscribe": "anular suscripción",
     "back": "volver",
-    "subscribe": "suscribir"
+    "subscribe": "suscribir",
+    "frequencies": {
+      "frequency": "Frequency",
+      "hour": "Hourly",
+      "day": "Daily",
+      "week": "Weekly",
+      "month": "Monthly"
+    }
   },
   "search-results": {
     "cities": "ciudades",
@@ -297,7 +307,8 @@
     "unsubscribingSuccessfull": "Se ha cancelado la suscripción.",
     "entrySaved": "Se ha guardado la entrada.",
     "ratingSaved": "Se ha guardado la valoración.",
-    "linkCopied": "¡El enlace se ha copiado en el portapapeles!"
+    "linkCopied": "¡El enlace se ha copiado en el portapapeles!",
+    "similarSubscriptionExists": "Ya estás suscrito/a a esta sección."
   },
   "contact": {
     "heading": "Contacto",
@@ -358,5 +369,6 @@
   "mapColorMode": {
     "colorful": "Colorido",
     "grey": "Gris"
-  }
+  },
+  "backToSearch": "Back to the search results"
 }

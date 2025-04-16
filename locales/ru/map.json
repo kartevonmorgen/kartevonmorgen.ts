@@ -85,7 +85,10 @@
       "telephone": "Зарегистрируйтесь по телефону",
       "homepage": "Зарегистрируйтесь онлайн"
     },
-    "route": "Маршрут"
+    "route": "Маршрут",
+    "notFound": "Entry not found or needs approval",
+    "approvalRequired": "The approval is required for the organizational tags",
+    "entryIsInvisibleBeforeApprovement": "The entry remains invisible before approvement"
   },
   "login": {
     "requiredField": "Обязательное поле",
@@ -208,7 +211,14 @@
     "edit": "редактировать",
     "unsubscribe": "отказаться от подписки",
     "back": "отменить",
-    "subscribe": "подписаться"
+    "subscribe": "подписаться",
+    "frequencies": {
+      "frequency": "Frequency",
+      "hour": "Hourly",
+      "day": "Daily",
+      "week": "Weekly",
+      "month": "Monthly"
+    }
   },
   "search-results": {
     "cities": "города",
@@ -297,7 +307,8 @@
     "unsubscribingSuccessfull": "Вы отписались от раздела карты.",
     "entrySaved": "Запись сохранена.",
     "ratingSaved": "Рейтинг сохранен.",
-    "linkCopied": "Ссылка успешно скопирована в буфер обмена!"
+    "linkCopied": "Ссылка успешно скопирована в буфер обмена!",
+    "similarSubscriptionExists": "Подписка на этот раздел карты уже существует."
   },
   "contact": {
     "heading": "Контакт",
@@ -358,5 +369,6 @@
   "mapColorMode": {
     "colorful": "Colorful",
     "grey": "Grey"
-  }
+  },
+  "backToSearch": "Back to the search results"
 }

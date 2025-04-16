@@ -76,28 +76,43 @@ const SidebarCollapseButtonIcon: FC<CollapseSidebarButtonIcon> = (props) => {
   return <FontAwesomeIcon icon='chevron-left' />
 }
 
-const SidebarCollapseButton: FC = () => {
+interface SidebarCollapseButtonProps {
+  isOnMap?: boolean
+}
+
+const SidebarCollapseButton: FC<SidebarCollapseButtonProps> = (props) => {
+  const {isOnMap} = props
+
   const router = useRouter()
+  const { query } = router
+  const { sidebar: sidebarParam } = query
+  const isSidebarOpen = isSidebarStatusShown(convertQueryParamToString(sidebarParam))
   
   return (
     <Button
       icon={
-        <SidebarCollapseButtonIcon showOpenIcon />
+        <SidebarCollapseButtonIcon showOpenIcon={!isSidebarOpen} />
       }
-      onClick={toggleSidebarState(router, false)}
+      onClick={toggleSidebarState(router, isSidebarOpen)}
       size='middle'
       style={{
         height: 68,
         width: 36,
-        position: 'fixed',
+        position: 'absolute',
         top: 52,
-        left: 0,
-        zIndex: 500,
+        transform: 'translateX(100%)',
+        right: 0,
+        zIndex: 400,
         visibility: 'visible',
         display: 'block'
       }}
     />
   )
+}
+
+
+SidebarCollapseButton.defaultProps = {
+  isOnMap: false
 }
 
 

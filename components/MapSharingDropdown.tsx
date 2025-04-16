@@ -4,6 +4,7 @@ import { Button, Dropdown, Menu } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import CopyURLToClipboardButton from './CopyURLToClipboardButton'
 import MapSharingModal from './MapSharingModal'
+import SubscriptionModal from './SubscriptionModal'
 
 
 const { Item } = Menu
@@ -16,6 +17,18 @@ const menu = (
     }}
   >
     <Item
+      key="subscription"
+      icon={
+        <FontAwesomeIcon
+          icon={["fas", "bell"]}
+        />
+      }
+    >
+      <SubscriptionModal/>
+    </Item>
+
+    <Item
+      key="copy"
       icon={
         <FontAwesomeIcon
           icon={['far', 'copy']}
@@ -25,6 +38,7 @@ const menu = (
     </Item>
 
     <Item
+      key="share"
       icon={
         <FontAwesomeIcon
           icon="code"

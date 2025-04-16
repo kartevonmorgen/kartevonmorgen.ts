@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import toString from 'lodash/toString'
+import isEmpty from 'lodash/isEmpty'
 import groupBy from 'lodash/groupBy'
 import { Comment } from '@ant-design/compatible'
 import { Divider, Typography } from 'antd'
@@ -93,6 +94,11 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
 
               {
                 contextRatings.map((contextRating: Rating) => {
+                  
+                  if (isEmpty(contextRating.comments)) {
+                    return null
+                  }
+
                   const [rootComment, ...comments] = contextRating.comments
 
                   return (
