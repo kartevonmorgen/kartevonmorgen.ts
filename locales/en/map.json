@@ -85,10 +85,7 @@
       "telephone": "Register by phone",
       "homepage": "Register online"
     },
-    "route": "Route",
-    "notFound": "Entry not found or needs approval",
-    "approvalRequired": "The approval is required for the organizational tags",
-    "entryIsInvisibleBeforeApprovement": "The entry remains invisible before approvement"
+    "route": "Route"
   },
   "login": {
     "requiredField": "required field",
@@ -210,21 +207,8 @@
     "cancel": "cancel",
     "edit": "edit",
     "unsubscribe": "unsubscribe",
-    "back": "Cancel",
-    "subscribe": "Subscribe",
-    "frequencies": {
-      "frequency": "Frequency",
-      "hour": "Hourly",
-      "day": "Daily",
-      "week": "Weekly",
-      "month": "Monthly"
-    },
-    "changeType": {
-      "type": "Type",
-      "new": "New",
-      "all": "All"
-    },
-    "subscriptionName": "Subscription Name"
+    "back": "cancel",
+    "subscribe": "subscribe"
   },
   "search-results": {
     "cities": "cities",
@@ -313,8 +297,7 @@
     "unsubscribingSuccessfull": "You unsubscribed from the map section.",
     "entrySaved": "Entry has been saved.",
     "ratingSaved": "Rating has been saved.",
-    "linkCopied": "Link copied to clipboard successfully!",
-    "similarSubscriptionExists": "Similar subscription already exists."
+    "linkCopied": "Link copied to clipboard successfully!"
   },
   "contact": {
     "heading": "Contact",
@@ -375,6 +358,5 @@
   "mapColorMode": {
     "colorful": "Colorful",
     "grey": "Grey"
-  },
-  "backToSearch": "Back to the search results"
+  }
 }
