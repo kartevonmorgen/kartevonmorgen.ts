@@ -210,15 +210,21 @@
     "cancel": "cancel",
     "edit": "edit",
     "unsubscribe": "unsubscribe",
-    "back": "cancel",
-    "subscribe": "subscribe",
+    "back": "Cancel",
+    "subscribe": "Subscribe",
     "frequencies": {
       "frequency": "Frequency",
       "hour": "Hourly",
       "day": "Daily",
       "week": "Weekly",
       "month": "Monthly"
-    }
+    },
+    "changeType": {
+      "type": "Type",
+      "new": "New",
+      "all": "All"
+    },
+    "subscriptionName": "Subscription Name"
   },
   "search-results": {
     "cities": "cities",
@@ -308,7 +314,7 @@
     "entrySaved": "Entry has been saved.",
     "ratingSaved": "Rating has been saved.",
     "linkCopied": "Link copied to clipboard successfully!",
-    "similarSubscriptionExists": "A similar subscription already exists."
+    "similarSubscriptionExists": "Similar subscription already exists."
   },
   "contact": {
     "heading": "Contact",
