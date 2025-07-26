@@ -207,19 +207,24 @@
       "text1": "Navigate to the map section you are interested in and click on \"subscribe\". You will then be kept up to date with new entries and changes within this region by email.",
       "text2": "You can unsubscribe or change your subscription at any time here."
     },
-
     "cancel": "annuleren",
     "edit": "bewerken",
     "unsubscribe": "uitschrijven",
-    "back": "annuleren",
-    "subscribe": "abonneren"
+    "back": "Cancel",
+    "subscribe": "Subscribe",
     "frequencies": {
       "frequency": "Frequency",
       "hour": "Hourly",
       "day": "Daily",
       "week": "Weekly",
       "month": "Monthly"
-    }
+    },
+    "changeType": {
+      "type": "Type",
+      "new": "New",
+      "all": "All"
+    },
+    "subscriptionName": "Subscription Name"
   },
   "search-results": {
     "cities": "steden",
@@ -308,8 +313,8 @@
     "unsubscribingSuccessfull": "You unsubscribed from the map section.",
     "entrySaved": "Invoer is opgeslagen.",
     "ratingSaved": "De waardering is opgeslagen.",
-    "linkCopied": "Link succesvol gekopieerd naar klembord!"
-    "similarSubscriptionExists": "A similar subscription already exists."
+    "linkCopied": "Link succesvol gekopieerd naar klembord!",
+    "similarSubscriptionExists": "Similar subscription already exists."
   },
   "contact": {
     "heading": "Contact",
@@ -365,13 +370,11 @@
     "contact": "Contact",
     "aboutUs": "Over",
     "privacy": "Privacy",
-    "UnsubscribeMailnotification": "Unsubscirbe Mailmelding"
+    "UnsubscribeMailnotification": "Unsubscirbe Mailnotification"
   },
   "mapColorMode": {
     "colorful": "Kleurrijk",
     "grey": "Grijs"
-  }
-
   },
   "backToSearch": "Back to the search results"
 }
