@@ -42,9 +42,6 @@ const MapMarkerIcon: FC<MapMarkerIconProps> = (props) => {
     case 'IoFootball':
       Icon = IoFootball
       break
-    case 'IoMdFootball':
-      Icon = IoMdFootball
-      break
     case 'IoFootballOutline':
       Icon = IoFootballOutline
       break
