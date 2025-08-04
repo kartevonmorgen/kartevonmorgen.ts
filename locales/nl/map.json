@@ -212,7 +212,7 @@
     "edit": "bewerken",
     "unsubscribe": "uitschrijven",
     "back": "annuleren",
-    "subscribe": "abonneren"
+    "subscribe": "abonneren",
     "frequencies": {
       "frequency": "Frequency",
       "hour": "Hourly",
@@ -308,7 +308,7 @@
     "unsubscribingSuccessfull": "You unsubscribed from the map section.",
     "entrySaved": "Invoer is opgeslagen.",
     "ratingSaved": "De waardering is opgeslagen.",
-    "linkCopied": "Link succesvol gekopieerd naar klembord!"
+    "linkCopied": "Link succesvol gekopieerd naar klembord!",
     "similarSubscriptionExists": "A similar subscription already exists."
   },
   "contact": {
@@ -370,8 +370,6 @@
   "mapColorMode": {
     "colorful": "Kleurrijk",
     "grey": "Grijs"
-  }
-
   },
-  "backToSearch": "Back to the search results"
+  "backToSearch": "Terug naar de zoekresultaten"
 }
