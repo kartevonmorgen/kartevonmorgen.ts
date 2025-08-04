@@ -210,15 +210,21 @@
     "cancel": "cancelar",
     "edit": "cambiar",
     "unsubscribe": "anular suscripción",
-    "back": "volver",
-    "subscribe": "suscribir",
+    "back": "Cancel",
+    "subscribe": "Subscribe",
     "frequencies": {
       "frequency": "Frequency",
       "hour": "Hourly",
       "day": "Daily",
       "week": "Weekly",
       "month": "Monthly"
-    }
+    },
+    "changeType": {
+      "type": "Type",
+      "new": "New",
+      "all": "All"
+    },
+    "subscriptionName": "Subscription Name"
   },
   "search-results": {
     "cities": "ciudades",
@@ -308,7 +314,7 @@
     "entrySaved": "Se ha guardado la entrada.",
     "ratingSaved": "Se ha guardado la valoración.",
     "linkCopied": "¡El enlace se ha copiado en el portapapeles!",
-    "similarSubscriptionExists": "Ya estás suscrito/a a esta sección."
+    "similarSubscriptionExists": "Similar subscription already exists."
   },
   "contact": {
     "heading": "Contacto",
