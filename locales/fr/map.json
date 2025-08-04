@@ -222,6 +222,7 @@
     "changeType": {
       "type": "Type",
       "new": "New",
+      "update": "Update",
       "all": "All"
     },
     "subscriptionName": "Subscription Name"
