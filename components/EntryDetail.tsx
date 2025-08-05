@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
+import Head from 'next/head'
 import isString from 'lodash/isString'
 import isArray from 'lodash/isArray'
 import { Divider, Spin, Typography, Button } from 'antd'
@@ -141,8 +142,50 @@ const EntryDetail: FC<EntryDetailProps> = (props) => {
   const type: Category = entry.categories[0]
   const typeName: string = CategoryToNameMapper[type]
 
+  // Generate Open Graph description
+  const ogDescription = entry.description 
+    ? entry.description.length > 160 
+      ? `${entry.description.substring(0, 157)}...`
+      : entry.description
+    : `${typeName} in ${entry.city}${entry.country ? `, ${entry.country}` : ''}`
+
+  const ogTitle = `${entry.title} - ${typeName}`
+  const ogUrl = currentUrl
+
   return (
     <div id='entity-detail'>
+      <Head>
+        <title>{ogTitle}</title>
+        <meta name="description" content={ogDescription} />
+        
+        {/* Open Graph tags */}
+        <meta property="og:title" content={ogTitle} />
+        <meta property="og:description" content={ogDescription} />
+        <meta property="og:url" content={ogUrl} />
+        <meta property="og:type" content="place" />
+        
+        {/* Add image if available */}
+        {entry.image_url && (
+          <meta property="og:image" content={entry.image_url} />
+        )}
+        
+        {/* Location-specific Open Graph tags */}
+        {entry.lat && entry.lng && (
+          <>
+            <meta property="place:location:latitude" content={entry.lat.toString()} />
+            <meta property="place:location:longitude" content={entry.lng.toString()} />
+          </>
+        )}
+        
+        {/* Twitter Card tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={ogTitle} />
+        <meta name="twitter:description" content={ogDescription} />
+        {entry.image_url && (
+          <meta name="twitter:image" content={entry.image_url} />
+        )}
+      </Head>
+
       <EntityDetailHeader hasImage={entry.image_url !== undefined && entry.image_url !== null}/>
 
       <EntityImageWithLink
