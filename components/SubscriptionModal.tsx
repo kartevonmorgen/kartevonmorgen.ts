@@ -28,7 +28,7 @@ const onSubscribe = async (
 ) => {
   const {
     title,
-    // changeType,
+    changeType,
     interval,
     email
   } = values
@@ -42,11 +42,16 @@ const onSubscribe = async (
     lat_max,
     lon_max,
     interval,
-    subscription_type: 'creates',
+    subscription_type: changeType,
     email,
     language: 'de',
   }
 
+  console.log('Subscription request:', req)
+
+  if (changeType === 'all') {
+    req.subscription_type = 'updates'
+  }
 
   try {
     const res = await AxiosInstance.PostRequest(
@@ -130,6 +135,10 @@ const SubscriptionModal: FC = () => {
           }}
           form={form}
           onFinish={(values) => onSubscribe(t, messageApi, values, language, coords, tagsFromURL)}
+          initialValues={{
+            changeType: 'creates',
+            interval: 'daily',
+          }}
         >
           <Form.Item
             name="title"
@@ -173,23 +182,26 @@ const SubscriptionModal: FC = () => {
             label={t("subscribeToBbox.frequencies.frequency")}
             required
           >
-            <Radio.Group>
-              <Radio value="hourly">{t("subscribeToBbox.frequencies.hour")}</Radio>
+            <Radio.Group
+              defaultValue="daily"
+            >
               <Radio value="daily">{t("subscribeToBbox.frequencies.day")}</Radio>
               <Radio value="weekly">{t("subscribeToBbox.frequencies.week")}</Radio>
               <Radio value="monthly">{t("subscribeToBbox.frequencies.month")}</Radio>
             </Radio.Group>
           </Form.Item>
 
-          {/* <Form.Item
-            name="type"
+          <Form.Item
+            name="changeType"
             label={t("subscribeToBbox.changeType.type")}
+            required
           >
-            <Radio.Group defaultValue="new">
-              <Radio value="new">{t("subscribeToBbox.changeType.new")}</Radio>
+            <Radio.Group defaultValue="create">
+              <Radio value="creates">{t("subscribeToBbox.changeType.new")}</Radio>
+              <Radio value="updates">{t("subscribeToBbox.changeType.update")}</Radio>
               <Radio value="all">{t("subscribeToBbox.changeType.all")}</Radio>
             </Radio.Group>
-          </Form.Item> */}
+          </Form.Item>
         </Form>
       </Modal>
     </Fragment>
