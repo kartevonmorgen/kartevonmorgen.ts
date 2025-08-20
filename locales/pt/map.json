@@ -213,19 +213,19 @@
     "back": "Cancel",
     "subscribe": "Subscribe",
     "frequencies": {
-      "frequency": "Frequency",
-      "hour": "Hourly",
-      "day": "Daily",
-      "week": "Weekly",
-      "month": "Monthly"
+      "frequency": "Frequência",
+      "hour": "De hora em hora",
+      "day": "Diariamente",
+      "week": "Semanalmente",
+      "month": "Mensalmente"
     },
     "changeType": {
-      "type": "Type",
-      "new": "New",
-      "update": "Update",
-      "all": "All"
+      "type": "Tipo",
+      "new": "Novo",
+      "update": "Atualização",
+      "all": "Todos"
     },
-    "subscriptionName": "Subscription Name"
+    "subscriptionName": "Nome da assinatura"
   },
   "search-results": {
     "cities": "Städte",

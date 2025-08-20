@@ -213,19 +213,19 @@
     "back": "Cancel",
     "subscribe": "Subscribe",
     "frequencies": {
-      "frequency": "Frequency",
-      "hour": "Hourly",
-      "day": "Daily",
-      "week": "Weekly",
-      "month": "Monthly"
+      "frequency": "Частота",
+      "hour": "Ежечасно",
+      "day": "Ежедневно",
+      "week": "Еженедельно",
+      "month": "Ежемесячно"
     },
     "changeType": {
-      "type": "Type",
-      "new": "New",
-      "update": "Update",
-      "all": "All"
+      "type": "Тип",
+      "new": "Новый",
+      "update": "Обновление",
+      "all": "Все"
     },
-    "subscriptionName": "Subscription Name"
+    "subscriptionName": "Название подписки"
   },
   "search-results": {
     "cities": "города",

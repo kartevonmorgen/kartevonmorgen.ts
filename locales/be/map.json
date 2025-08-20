@@ -213,19 +213,19 @@
     "back": "Cancel",
     "subscribe": "Subscribe",
     "frequencies": {
-      "frequency": "Frequency",
-      "hour": "Hourly",
-      "day": "Daily",
-      "week": "Weekly",
-      "month": "Monthly"
+      "frequency": "Частата",
+      "hour": "Штогадзіну",
+      "day": "Штодня",
+      "week": "Штотыдзень",
+      "month": "Штомесяц"
     },
     "changeType": {
-      "type": "Type",
-      "new": "New",
-      "update": "Update",
-      "all": "All"
+      "type": "Тып",
+      "new": "Новы",
+      "update": "Абнаўленне",
+      "all": "Усе"
     },
-    "subscriptionName": "Subscription Name"
+    "subscriptionName": "Назва падпіскі"
   },
   "search-results": {
     "cities": "гарады",

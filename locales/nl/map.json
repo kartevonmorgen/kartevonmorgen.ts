@@ -213,19 +213,19 @@
     "back": "Cancel",
     "subscribe": "Subscribe",
     "frequencies": {
-      "frequency": "Frequency",
-      "hour": "Hourly",
-      "day": "Daily",
-      "week": "Weekly",
-      "month": "Monthly"
+      "frequency": "Frequentie",
+      "hour": "Elk uur",
+      "day": "Dagelijks",
+      "week": "Wekelijks",
+      "month": "Maandelijks"
     },
     "changeType": {
       "type": "Type",
-      "new": "New",
+      "new": "Nieuw",
       "update": "Update",
-      "all": "All"
+      "all": "Allemaal"
     },
-    "subscriptionName": "Subscription Name"
+    "subscriptionName": "Abonnementsnaam"
   },
   "search-results": {
     "cities": "steden",
