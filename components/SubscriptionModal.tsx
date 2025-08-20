@@ -185,6 +185,7 @@ const SubscriptionModal: FC = () => {
             <Radio.Group
               defaultValue="daily"
             >
+              <Radio value="hourly">{t("subscribeToBbox.frequencies.hour")}</Radio>
               <Radio value="daily">{t("subscribeToBbox.frequencies.day")}</Radio>
               <Radio value="weekly">{t("subscribeToBbox.frequencies.week")}</Radio>
               <Radio value="monthly">{t("subscribeToBbox.frequencies.month")}</Radio>
