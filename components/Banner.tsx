@@ -15,7 +15,8 @@ const Banner: FC = (_props) => {
       <div
         id="main-cover"
         style={{
-          height: 'calc(100vh - 68px)',
+          height: 'calc(calc(var(--vh, 1vh) * 100) - 68px)',
+          minHeight: 'calc(100vh - 68px)',
           width: '100%',
           backgroundColor: 'indianRed',
           display: 'flex',

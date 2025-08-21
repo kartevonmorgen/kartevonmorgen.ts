@@ -27,7 +27,7 @@ const Layout: FC<LayoutProps> = (props) => {
   const globalStyle = projectToStyleMapper[project]
 
   return (
-    <div className="page-layout">
+    <div className="page-layout" style={{ overflowX: 'hidden', minHeight: '100vh' }}>
       {props.children}
 
       <style jsx global>
