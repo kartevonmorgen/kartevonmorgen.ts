@@ -28,7 +28,7 @@ const onSubscribe = async (
 ) => {
   const {
     title,
-    changeType,
+    // changeType,
     interval,
     email
   } = values
@@ -42,16 +42,11 @@ const onSubscribe = async (
     lat_max,
     lon_max,
     interval,
-    subscription_type: changeType,
+    subscription_type: 'creates',
     email,
     language: 'de',
   }
 
-  console.log('Subscription request:', req)
-
-  if (changeType === 'all') {
-    req.subscription_type = 'updates'
-  }
 
   try {
     const res = await AxiosInstance.PostRequest(
@@ -135,10 +130,6 @@ const SubscriptionModal: FC = () => {
           }}
           form={form}
           onFinish={(values) => onSubscribe(t, messageApi, values, language, coords, tagsFromURL)}
-          initialValues={{
-            changeType: 'creates',
-            interval: 'daily',
-          }}
         >
           <Form.Item
             name="title"
@@ -192,17 +183,15 @@ const SubscriptionModal: FC = () => {
             </Radio.Group>
           </Form.Item>
 
-          <Form.Item
-            name="changeType"
+          {/* <Form.Item
+            name="type"
             label={t("subscribeToBbox.changeType.type")}
-            required
           >
-            <Radio.Group defaultValue="create">
-              <Radio value="creates">{t("subscribeToBbox.changeType.new")}</Radio>
-              <Radio value="updates">{t("subscribeToBbox.changeType.update")}</Radio>
+            <Radio.Group defaultValue="new">
+              <Radio value="new">{t("subscribeToBbox.changeType.new")}</Radio>
               <Radio value="all">{t("subscribeToBbox.changeType.all")}</Radio>
             </Radio.Group>
-          </Form.Item>
+          </Form.Item> */}
         </Form>
       </Modal>
     </Fragment>
