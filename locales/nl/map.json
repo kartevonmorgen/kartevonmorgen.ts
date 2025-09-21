@@ -210,8 +210,8 @@
     "cancel": "annuleren",
     "edit": "bewerken",
     "unsubscribe": "uitschrijven",
-    "back": "Cancel",
-    "subscribe": "Subscribe",
+    "back": "annuleren",
+    "subscribe": "abonneren",
     "frequencies": {
       "frequency": "Frequentie",
       "hour": "Elk uur",
@@ -377,5 +377,5 @@
     "colorful": "Kleurrijk",
     "grey": "Grijs"
   },
-  "backToSearch": "Back to the search results"
+  "backToSearch": "Terug naar de zoekresultaten"
 }
