@@ -5,6 +5,8 @@ import SearchRegion from './SearchRegion'
 import SearchCheckboxGroup from './SearchCheckboxGroup'
 import SearchLimitSelect from './SearchLimitSelect'
 import SearchRangePicker from './SearchRangePicker'
+import TypeChooser from './TypeChooser'
+import { TypeChooserVisibility } from '../utils/router'
 
 
 const { Panel } = Collapse
@@ -12,11 +14,12 @@ const { Panel } = Collapse
 
 export interface FiltersProps {
   showFilters: string
+  typeChooserVisibility: TypeChooserVisibility
 }
 
 const SearchFilters: FC<FiltersProps> = (props) => {
 
-  const { showFilters } = props
+  const { showFilters, typeChooserVisibility } = props
 
   return (
     <Collapse
@@ -40,6 +43,8 @@ const SearchFilters: FC<FiltersProps> = (props) => {
             width: '100%',
           }}
         >
+          {typeChooserVisibility === 'hide' && <TypeChooser/>}
+
           <SearchCheckboxGroup/>
 
           <SearchTags/>

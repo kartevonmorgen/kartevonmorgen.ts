@@ -98,6 +98,22 @@ export const getTypeNamesFromRouterOrKnownCategoryNamesIfEmpty = (router: NextRo
   return typeNameFromRouter
 }
 
+export type TypeChooserVisibility = 'show' | 'hide' | 'no'
+
+export const getTypeChooserVisibilityFromRouter = (router: NextRouter): TypeChooserVisibility => {
+  const { query } = router
+  const { typechooser: typeChooserParam } = query
+
+  const typeChooserValue = convertQueryParamToString(typeChooserParam, 'show')
+
+  // Validate the value and return 'show' as default if invalid
+  if (typeChooserValue === 'hide' || typeChooserValue === 'no') {
+    return typeChooserValue
+  }
+
+  return 'show'
+}
+
 export interface EventTimeBoundaries {
   startMin?: Moment
   startMax?: Moment
