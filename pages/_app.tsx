@@ -10,8 +10,13 @@ import '../utils/icons/font-awesome'
 
 
 export default function App({Component, pageProps}: AppProps) {
+  const categoryColors = get(pageProps, 'categoryColors', null)
+  
   return withTheme(
-    <Layout project={get(pageProps, 'project', undefined)}>
+    <Layout 
+      project={get(pageProps, 'project', undefined)}
+      categoryColors={categoryColors || undefined}
+    >
       <GlobalLocale/>
 
       <Provider store={store}>

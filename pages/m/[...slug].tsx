@@ -84,12 +84,17 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const sidebarConfigs = pageConfigs.sidebar
   const initMapColorStyle = pageConfigs.map.colorStyle
   const mapMarkerTagsIcons = getTagsIcons(project)
+  
+  // Extract theme colors if available, will use defaults in main.js if not present
+  // Use null instead of undefined for Next.js serialization
+  const categoryColors = pageConfigs.theme?.categoryColors || null
 
   const props = {
     mapLocationProps,
     sidebarConfigs,
     initMapColorStyle,
     mapMarkerTagsIcons,
+    categoryColors,
   }
 
   // todo: move the re-validate value to constants
