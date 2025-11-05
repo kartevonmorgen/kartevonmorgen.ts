@@ -3,7 +3,7 @@ import { GetServerSideProps } from 'next'
 import dynamic from 'next/dynamic'
 import { useToggle } from 'ahooks'
 import { Layout, Spin } from 'antd'
-import { MapMarkerTagsIcons, MapMarkerTagsIconsContext } from '../../contexts'
+import { MapMarkerTagsIcons, MapMarkerTagsIconsContext, TagMarkerColorsContext } from '../../contexts'
 import { SidebarConfigs } from '../../dtos/MapPageConfigs'
 import { convertQueryParamToArray } from '../../utils/utils'
 import RouterQueryInitializer from '../../components/RouterQueryInitializer'
@@ -13,6 +13,7 @@ import { MapColorModes } from '../../components/MapColorStyle'
 import { getConfigFile } from '../api/v0/maps/[project]/config'
 import MapLocationProps from '../../dtos/MapLocationProps'
 import getTagsIcons from '../../utils/icons'
+import useAllTagMarkerColors from '../../hooks/useAllTagMarkerColors'
 
 
 const { Content } = Layout
@@ -29,6 +30,9 @@ const MapPage: FC<MapPageProps> = (props) => {
   const { mapLocationProps, sidebarConfigs, initMapColorStyle, mapMarkerTagsIcons } = props
 
   const [isLoading, { setRight: setNotLoading }] = useToggle(true)
+
+  // Fetch all tag marker colors once at the parent level
+  const allTagMarkerColors = useAllTagMarkerColors()
 
   const Map = useMemo(
     () =>
@@ -57,13 +61,15 @@ const MapPage: FC<MapPageProps> = (props) => {
       <Content>
         <Spin spinning={isLoading}>
           <div id="map">
-            <MapMarkerTagsIconsContext.Provider value={mapMarkerTagsIcons}>
-              <Map
-                lat={mapLocationProps.lat}
-                lng={mapLocationProps.lng}
-                zoom={mapLocationProps.zoom}
-              />
-            </MapMarkerTagsIconsContext.Provider>
+            <TagMarkerColorsContext.Provider value={allTagMarkerColors}>
+              <MapMarkerTagsIconsContext.Provider value={mapMarkerTagsIcons}>
+                <Map
+                  lat={mapLocationProps.lat}
+                  lng={mapLocationProps.lng}
+                  zoom={mapLocationProps.zoom}
+                />
+              </MapMarkerTagsIconsContext.Provider>
+            </TagMarkerColorsContext.Provider>
           </div>
         </Spin>
       </Content>
