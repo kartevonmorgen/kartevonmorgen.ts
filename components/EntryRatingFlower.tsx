@@ -4,6 +4,7 @@ import { Divider } from 'antd'
 import useTranslation from 'next-translate/useTranslation'
 import SearchEntry, { SearchEntryID } from '../dtos/SearchEntry'
 import useEntrySearcher from '../hooks/useEntrySearcher'
+import useRatingsVisibility from '../hooks/useRatingsVisibility'
 
 
 interface EntryRatingFlowerProps {
@@ -15,7 +16,14 @@ const EntryRatingFlower: FC<EntryRatingFlowerProps> = (props) => {
 
   const { t } = useTranslation('map')
 
+  const shouldShowRatings = useRatingsVisibility()
+
   const [searchEntry, error] = useEntrySearcher(entryId)
+
+  // Don't render if ratings should be hidden
+  if (!shouldShowRatings) {
+    return null
+  }
 
   // todo: catch error
   if (error) {
