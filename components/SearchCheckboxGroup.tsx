@@ -24,7 +24,7 @@ const addOrRemoveTagsFromQuery = (router: NextRouter) => (event: CheckboxChangeE
 
   const tagsFromCheckbox: string[] = value
 
-  const searchTokens = search.split(' ')
+  const searchTokens = search ? search.split(' ').filter(token => token.trim() !== '') : []
 
   let newSearchParam: string = ''
   if (isCheckboxChecked) {
@@ -64,7 +64,7 @@ const SearchCheckboxGroup: FC = () => {
   const { query } = router
   const { search: searchParam } = query
   const search = convertQueryParamToString(searchParam)
-  const searchTokens = search.split( ' ')
+  const searchTokens = search ? search.split(' ').filter(token => token.trim() !== '') : []
 
 
   return (
