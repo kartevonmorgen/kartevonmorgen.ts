@@ -4,13 +4,13 @@ Lebensmittel,"bio,Lebensmittel,vegan,weltladen",
 Handwerk,handwerk,
 Einzelhandel,einzelhandel,
 Café,"café,kaffee",Gastronomie
-Restaurant,"restaurant,essen",Gastronomie
-Bar,"bar,getränke",Gastronomie
+Restaurant,"restaurant,essen",
+Bar,"bar,getränke",
 Yoga,yoga,Wellness & Gesundheit
-Massage,massage,Wellness & Gesundheit
-Fitness,fitness,Wellness & Gesundheit
+Massage,massage,
+Fitness,fitness,
 Buchhandlung,bücher,Bildung & Kultur
-Museum,museum,Bildung & Kultur
-Theater,theater,Bildung & Kultur
+Museum,museum,
+Theater,theater,
 Werkstatt,werkstatt,
 Second Hand,secondhand,
