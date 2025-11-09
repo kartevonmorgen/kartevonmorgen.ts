@@ -12,5 +12,12 @@
   },
   "sidebar": {
     "title": ""
+  },
+  "theme": {
+    "categoryColors": {
+      "initiative": "#a4c93e",
+      "company": "#31a1b6",
+      "event": "#eb80a9"
+    }
   }
 }

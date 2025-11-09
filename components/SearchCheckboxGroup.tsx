@@ -8,6 +8,7 @@ import {
   updateRoutingQuery,
 } from '../utils/utils'
 import { createSlugPathFromQueryAndRemoveSlug } from '../utils/slug'
+import { shouldShowBoxesOnSearchPage } from '../utils/router'
 
 
 const addOrRemoveTagsFromQuery = (router: NextRouter) => (event: CheckboxChangeEvent) => {
@@ -24,7 +25,7 @@ const addOrRemoveTagsFromQuery = (router: NextRouter) => (event: CheckboxChangeE
 
   const tagsFromCheckbox: string[] = value
 
-  const searchTokens = search.split(' ')
+  const searchTokens = search ? search.split(' ').filter(token => token.trim() !== '') : []
 
   let newSearchParam: string = ''
   if (isCheckboxChecked) {
@@ -64,8 +65,12 @@ const SearchCheckboxGroup: FC = () => {
   const { query } = router
   const { search: searchParam } = query
   const search = convertQueryParamToString(searchParam)
-  const searchTokens = search.split( ' ')
+  const searchTokens = search ? search.split(' ').filter(token => token.trim() !== '') : []
 
+  // Check if boxes should be shown on search page
+  if (!shouldShowBoxesOnSearchPage(router)) {
+    return null
+  }
 
   return (
     <TagsCheckboxGroup

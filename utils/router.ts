@@ -98,6 +98,54 @@ export const getTypeNamesFromRouterOrKnownCategoryNamesIfEmpty = (router: NextRo
   return typeNameFromRouter
 }
 
+export type TypeChooserVisibility = 'show' | 'hide' | 'no'
+
+export const getTypeChooserVisibilityFromRouter = (router: NextRouter): TypeChooserVisibility => {
+  const { query } = router
+  const { typechooser: typeChooserParam } = query
+
+  const typeChooserValue = convertQueryParamToString(typeChooserParam, 'show')
+
+  // Validate the value and return 'show' as default if invalid
+  if (typeChooserValue === 'hide' || typeChooserValue === 'no') {
+    return typeChooserValue
+  }
+
+  return 'show'
+}
+
+export type BoxesVisibility = 'show' | 'search' | 'mapping' | 'hide'
+
+export const getBoxesVisibilityFromRouter = (router: NextRouter): BoxesVisibility => {
+  const { query } = router
+  const { boxes: boxesParam } = query
+
+  const boxesValue = convertQueryParamToString(boxesParam, 'show')
+
+  // Validate the value and return 'show' as default if invalid
+  if (boxesValue === 'search' || boxesValue === 'mapping' || boxesValue === 'hide') {
+    return boxesValue
+  }
+
+  return 'show'
+}
+
+export const shouldShowBoxesOnSearchPage = (router: NextRouter): boolean => {
+  const boxesVisibility = getBoxesVisibilityFromRouter(router)
+  
+  // Show on search page when: 'show' or 'search'
+  // Hide when: 'hide' or 'mapping'
+  return boxesVisibility === 'show' || boxesVisibility === 'search'
+}
+
+export const shouldShowBoxesOnMappingPage = (router: NextRouter): boolean => {
+  const boxesVisibility = getBoxesVisibilityFromRouter(router)
+  
+  // Show on mapping (entity form) page when: 'show' or 'mapping'
+  // Hide when: 'hide' or 'search'
+  return boxesVisibility === 'show' || boxesVisibility === 'mapping'
+}
+
 export interface EventTimeBoundaries {
   startMin?: Moment
   startMax?: Moment

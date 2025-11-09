@@ -5,7 +5,7 @@ import { Button, Badge } from 'antd'
 import SearchFilters from './SearchFilters'
 import SearchInput from './SearchInput'
 import FilterOutlined from '@ant-design/icons/lib/icons/FilterOutlined'
-import { isExtraSearchFiltersActivated } from '../utils/router'
+import { isExtraSearchFiltersActivated, getTypeChooserVisibilityFromRouter } from '../utils/router'
 import TypeChooser from './TypeChooser'
 
 
@@ -15,6 +15,7 @@ const SearchControllers: FC = (_props) => {
   const [showFilters, toggleShowFilters ] = useToggle(false)
 
   const router = useRouter()
+  const typeChooserVisibility = getTypeChooserVisibilityFromRouter(router)
 
   return (
     <div>
@@ -42,10 +43,11 @@ const SearchControllers: FC = (_props) => {
         </Badge>
       </div>
 
-      <TypeChooser/>
+      {typeChooserVisibility === 'show' && <TypeChooser/>}
 
       <SearchFilters
         showFilters={showFilters ? '1' : '0'}
+        typeChooserVisibility={typeChooserVisibility}
       />
     </div>
   )

@@ -8,21 +8,16 @@ import Layout from '../components/Layout'
 import GlobalLocale from '../components/GlobalLocale'
 import store from '../store'
 import '../utils/icons/font-awesome'
-import { initViewportHeight, cleanupViewportHeight } from '../utils/viewport'
 
 
 export default function App({Component, pageProps}: AppProps) {
-  useEffect(() => {
-    // Initialize viewport height fix for mobile browsers
-    initViewportHeight()
-    
-    return () => {
-      cleanupViewportHeight()
-    }
-  }, [])
-
+  const categoryColors = get(pageProps, 'categoryColors', null)
+  
   return withTheme(
-    <Layout project={get(pageProps, 'project', undefined)}>
+    <Layout 
+      project={get(pageProps, 'project', undefined)}
+      categoryColors={categoryColors || undefined}
+    >
       <GlobalLocale/>
 
       <Provider store={store}>

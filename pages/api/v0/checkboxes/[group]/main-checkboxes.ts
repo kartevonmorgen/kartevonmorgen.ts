@@ -7,6 +7,7 @@ import { parse } from 'csv-parse/sync'
 export interface LabelValue {
   label: string
   value: string
+  headline?: string
 }
 
 export interface MainCheckboxesResponse {
