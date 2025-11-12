@@ -1,5 +1,6 @@
-import { Entry } from '../../../../dtos/Entry'
+import { Entry } from '../../../../../../dtos/Entry'
 import { Metadata } from 'next'
+import { BASICS_ENDPOINTS } from '../../../../../../api/endpoints/BasicsEndpoints'
 
 // Default Open Graph image when entry has no image
 const DEFAULT_OG_IMAGE = 'https://bildung.vonmorgen.org/wp-content/uploads/2018/08/Ideen%C2%B3Header-quadrat.png'
@@ -7,7 +8,7 @@ const DEFAULT_OG_IMAGE = 'https://bildung.vonmorgen.org/wp-content/uploads/2018/
 // Fetch entry data from API
 async function fetchEntry(id: string): Promise<Entry | null> {
   try {
-    const response = await fetch(`https://dev.ofdb.io/v0/entries/${id}`, {
+    const response = await fetch(`${BASICS_ENDPOINTS.getEntries()}/${id}`, {
       next: { revalidate: 60 } // Revalidate every 60 seconds
     })
     
@@ -128,7 +129,7 @@ export default async function ServerComponentPage({
   params,
   searchParams 
 }: { 
-  params: { id: string }
+  params: { locale: string; project: string; id: string }
   searchParams: { [key: string]: string | string[] | undefined }
 }) {
   // Fetch entry data
@@ -146,7 +147,7 @@ export default async function ServerComponentPage({
   
   // Build query string from incoming search params
   const queryString = new URLSearchParams(searchParams as Record<string, string>).toString()
-  const redirectUrl = `http://localhost:3000/en/m/main/e/${params.id}${queryString ? `?${queryString}` : ''}`
+  const redirectUrl = `/${params.locale}/m/${params.project}/e/${params.id}${queryString ? `?${queryString}` : ''}`
   
   // Return HTML with meta refresh and client-side redirect
   return (
