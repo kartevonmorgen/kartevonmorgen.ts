@@ -13,13 +13,14 @@ const CopyURLToClipboardButton: FC<CopyURLToClipboardButtonProps> = (props) => {
   const { icon } = props
 
   const router = useRouter()
-  const { asPath: path } = router
+  const { asPath: path, locale } = router
+  const ogPath = `${process.env.NEXT_PUBLIC_SELF_DOMAIN}/${locale}${path}`.replace('/m/', '/s/')
 
   const { t } = useTranslation('map')
 
   return (
     <CopyToClipboard
-      text={`${process.env.NEXT_PUBLIC_SELF_DOMAIN}${path}`}
+      text={ogPath}
       onCopy={() => message.success('URL copied to clipboard', 3)}
     >
       <Button
