@@ -1,6 +1,9 @@
 import { Entry } from '../../../../dtos/Entry'
 import { Metadata } from 'next'
 
+// Default Open Graph image when entry has no image
+const DEFAULT_OG_IMAGE = 'https://bildung.vonmorgen.org/wp-content/uploads/2018/08/Ideen%C2%B3Header-quadrat.png'
+
 // Fetch entry data from API
 async function fetchEntry(id: string): Promise<Entry | null> {
   try {
@@ -50,7 +53,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
       siteName: 'Karte von morgen',
       images: [
         {
-          url: entry.image_url || 'https://kartevonmorgen.org/default-og-image.jpg',
+          url: entry.image_url || DEFAULT_OG_IMAGE,
           width: 1200,
           height: 630,
           alt: entry.title || 'Entry',
@@ -64,7 +67,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
       card: 'summary_large_image',
       title: entry.title || 'Entry',
       description: entry.description || '',
-      images: [entry.image_url || 'https://kartevonmorgen.org/default-og-image.jpg'],
+      images: [entry.image_url || DEFAULT_OG_IMAGE],
     },
     // Additional metadata for location and business info (Telegram will also read these)
     other: {
@@ -121,7 +124,13 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
  * </head>
  */
 
-export default async function ServerComponentPage({ params }: { params: { id: string } }) {
+export default async function ServerComponentPage({ 
+  params,
+  searchParams 
+}: { 
+  params: { id: string }
+  searchParams: { [key: string]: string | string[] | undefined }
+}) {
   // Fetch entry data
   const entry = await fetchEntry(params.id)
   
@@ -135,7 +144,9 @@ export default async function ServerComponentPage({ params }: { params: { id: st
     )
   }
   
-  const redirectUrl = `http://localhost:3000/en/m/main/e/${params.id}?c=49.8640%2C8.6570&z=13.77&mapColorMode=gray`
+  // Build query string from incoming search params
+  const queryString = new URLSearchParams(searchParams as Record<string, string>).toString()
+  const redirectUrl = `http://localhost:3000/en/m/main/e/${params.id}${queryString ? `?${queryString}` : ''}`
   
   // Return HTML with meta refresh and client-side redirect
   return (
