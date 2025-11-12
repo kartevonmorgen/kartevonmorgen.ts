@@ -155,11 +155,70 @@ export default async function ServerComponentPage({
     )
   }
   
-  // Return HTML with meta refresh and client-side redirect
   return (
     <html>
-      <body>
-        <p>Redirecting...</p>
+      <body style={{ fontFamily: 'sans-serif', padding: '20px', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6' }}>
+        {entry.image_url && (
+          <img src={entry.image_url} alt={entry.title} style={{ maxWidth: '100%', height: 'auto', marginBottom: '20px' }} />
+        )}
+        
+        <h1>{entry.title}</h1>
+        
+        {entry.description && (
+          <div style={{ marginBottom: '20px' }}>
+            <p>{entry.description}</p>
+          </div>
+        )}
+        
+        {(entry.street || entry.city || entry.zip || entry.state || entry.country) && (
+          <div style={{ marginBottom: '20px' }}>
+            <strong>Address:</strong>
+            <p style={{ margin: '5px 0' }}>
+              {entry.street && <>{entry.street}<br /></>}
+              {(entry.zip || entry.city) && <>{entry.zip} {entry.city}<br /></>}
+              {entry.state && <>{entry.state}<br /></>}
+              {entry.country}
+            </p>
+          </div>
+        )}
+        
+        {(entry.lat && entry.lng) && (
+          <div style={{ marginBottom: '20px' }}>
+            <strong>Location:</strong>
+            <p style={{ margin: '5px 0' }}>Latitude: {entry.lat}, Longitude: {entry.lng}</p>
+          </div>
+        )}
+        
+        {(entry.email || entry.telephone || entry.homepage) && (
+          <div style={{ marginBottom: '20px' }}>
+            <strong>Contact:</strong>
+            <p style={{ margin: '5px 0' }}>
+              {entry.email && <><a href={`mailto:${entry.email}`}>{entry.email}</a><br /></>}
+              {entry.telephone && <><a href={`tel:${entry.telephone}`}>{entry.telephone}</a><br /></>}
+              {entry.homepage && <><a href={entry.homepage} target="_blank" rel="noopener noreferrer">{entry.homepage}</a><br /></>}
+            </p>
+          </div>
+        )}
+        
+        {entry.tags && entry.tags.length > 0 && (
+          <div style={{ marginBottom: '20px' }}>
+            <strong>Tags:</strong>
+            <p style={{ margin: '5px 0' }}>
+              {entry.tags.map((tag, index) => (
+                <span key={index} style={{ display: 'inline-block', background: '#e0e0e0', padding: '3px 8px', margin: '2px', borderRadius: '3px', fontSize: '0.9em' }}>
+                  {tag}
+                </span>
+              ))}
+            </p>
+          </div>
+        )}
+        
+        {entry.categories && entry.categories.length > 0 && (
+          <div style={{ marginBottom: '20px' }}>
+            <strong>Categories:</strong>
+            <p style={{ margin: '5px 0' }}>{entry.categories.join(', ')}</p>
+          </div>
+        )}
       </body>
     </html>
   )
