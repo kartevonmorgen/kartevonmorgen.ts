@@ -155,19 +155,9 @@ export default async function ServerComponentPage({
     )
   }
   
-  // Build query string from incoming search params
-  const queryString = new URLSearchParams(searchParams as Record<string, string>).toString()
-  const redirectUrl = `/${params.locale}/m/${params.project}/e/${params.id}${queryString ? `?${queryString}` : ''}`
-  
   // Return HTML with meta refresh and client-side redirect
   return (
     <html>
-      <head>
-        <meta httpEquiv="refresh" content={`0;url=${redirectUrl}`} />
-        <script dangerouslySetInnerHTML={{
-          __html: `window.location.href = '${redirectUrl}';`
-        }} />
-      </head>
       <body>
         <p>Redirecting...</p>
       </body>
