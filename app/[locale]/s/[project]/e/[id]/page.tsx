@@ -31,7 +31,13 @@ async function fetchEntry(id: string): Promise<Entry | null> {
 
 // Generate Open Graph metadata from Entry
 // Next.js will automatically inject these as <meta> tags in the <head>
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+export async function generateMetadata({ 
+  params,
+  searchParams 
+}: { 
+  params: { locale: string; project: string; id: string }
+  searchParams: { [key: string]: string | string[] | undefined }
+}): Promise<Metadata> {
   // Fetch entry by params.id
   const entry = await fetchEntry(params.id)
   
@@ -43,6 +49,10 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     }
   }
   
+  // Build the canonical URL that matches the redirect destination
+  const queryString = new URLSearchParams(searchParams as Record<string, string>).toString()
+  const canonicalUrl = `${process.env.NEXT_PUBLIC_SELF_DOMAIN}/${params.locale}/m/${params.project}/e/${params.id}${queryString ? `?${queryString}` : ''}`
+  
   return {
     title: entry.title || 'Entry',
     description: entry.description || '',
@@ -50,7 +60,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     openGraph: {
       title: entry.title || 'Entry',
       description: entry.description || '',
-      url: `https://kartevonmorgen.org/s/e/${entry.id}`,
+      url: canonicalUrl,
       siteName: 'Karte von morgen',
       images: [
         {
@@ -60,7 +70,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
           alt: entry.title || 'Entry',
         },
       ],
-      locale: 'de_DE',
+      locale: params.locale,
       type: 'website',
     },
     // Twitter Card tags for Twitter/X
