@@ -61,6 +61,7 @@
     "highlight.js": "^11.10.0",
     "http-status-codes": "^2.3.0",
     "immer": "^10.1.1",
+    "isbot": "^5.1.32",
     "isemail": "^3.2.0",
     "leaflet": "^1.9.4",
     "lodash": "^4.17.21",

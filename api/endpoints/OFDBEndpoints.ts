@@ -1,7 +1,7 @@
-export const OFDB_API_URL: string | undefined = process.env.NEXT_PUBLIC_OFDB_API
+import { BASICS_API_URL } from './BasicsEndpoints'
 
 
 export const OFDB_ENDPOINTS = {
-  getOFDBEntry: (): string => (`${OFDB_API_URL}/entries`),
-  getOFDBEvent: (): string => (`${OFDB_API_URL}/events`),
+  getOFDBEntry: (): string => (`${BASICS_API_URL}/entries`),
+  getOFDBEvent: (): string => (`${BASICS_API_URL}/events`),
 }

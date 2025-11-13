@@ -1,7 +1,6 @@
 import { FC } from 'react'
 import {useDispatch} from 'react-redux'
 import { useRouter } from 'next/router'
-import Head from 'next/head'
 import moment from 'moment'
 import { Divider, Spin, Tag, Typography } from 'antd'
 import Event, { EventID } from '../dtos/Event'
@@ -93,42 +92,6 @@ const EventDetail: FC<EventDetailProps> = (props) => {
 
   return (
     <div id="entity-detail">
-      <Head>
-        <title>{ogTitle}</title>
-        <meta name="description" content={ogDescription} />
-        
-        {/* Open Graph tags */}
-        <meta property="og:title" content={ogTitle} />
-        <meta property="og:description" content={ogDescription} />
-        <meta property="og:url" content={currentUrl} />
-        <meta property="og:type" content="event" />
-        
-        {/* Event-specific Open Graph tags */}
-        <meta property="event:start_time" content={moment.unix(event.start).toISOString()} />
-        <meta property="event:end_time" content={moment.unix(event.end).toISOString()} />
-        
-        {/* Add image if available */}
-        {event.image_url && (
-          <meta property="og:image" content={event.image_url} />
-        )}
-        
-        {/* Location-specific Open Graph tags */}
-        {event.lat && event.lng && (
-          <>
-            <meta property="place:location:latitude" content={event.lat.toString()} />
-            <meta property="place:location:longitude" content={event.lng.toString()} />
-          </>
-        )}
-        
-        {/* Twitter Card tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={ogTitle} />
-        <meta name="twitter:description" content={ogDescription} />
-        {event.image_url && (
-          <meta name="twitter:image" content={event.image_url} />
-        )}
-      </Head>
-
       <EntityDetailHeader hasImage={event.image_url !== undefined && event.image_url !== null}/>
 
       <EntityImageWithLink
