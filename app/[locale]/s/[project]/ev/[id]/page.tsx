@@ -56,9 +56,6 @@ function isSocialMediaCrawler(userAgent: string, headers: Headers): boolean {
   return false
 }
 
-// Default Open Graph image when event has no image
-const DEFAULT_OG_IMAGE = 'https://bildung.vonmorgen.org/wp-content/uploads/2018/08/Ideen%C2%B3Header-quadrat.png'
-
 // Fetch event data from API
 async function fetchEvent(id: string): Promise<Event | null> {
   try {
@@ -123,14 +120,16 @@ export async function generateMetadata({
       description: event.description || '',
       url: canonicalUrl,
       siteName: 'Karte von morgen',
-      images: [
-        {
-          url: event.image_url || DEFAULT_OG_IMAGE,
-          width: 1200,
-          height: 630,
-          alt: event.title || 'Event',
-        },
-      ],
+      ...(event.image_url ? {
+        images: [
+          {
+            url: event.image_url,
+            width: 1200,
+            height: 630,
+            alt: event.title || 'Event',
+          },
+        ],
+      } : {}),
       locale: params.locale,
       type: 'website',
     },
@@ -139,7 +138,7 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title: event.title || 'Event',
       description: event.description || '',
-      images: [event.image_url || DEFAULT_OG_IMAGE],
+      ...(event.image_url ? { images: [event.image_url] } : {}),
     },
     // Event-specific metadata and additional information
     other: {

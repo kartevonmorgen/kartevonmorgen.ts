@@ -56,9 +56,6 @@ function isSocialMediaCrawler(userAgent: string, headers: Headers): boolean {
   return false
 }
 
-// Default Open Graph image when entry has no image
-const DEFAULT_OG_IMAGE = 'https://bildung.vonmorgen.org/wp-content/uploads/2018/08/Ideen%C2%B3Header-quadrat.png'
-
 // Fetch entry data from API
 async function fetchEntry(id: string): Promise<Entry | null> {
   try {
@@ -116,14 +113,16 @@ export async function generateMetadata({
       description: entry.description || '',
       url: canonicalUrl,
       siteName: 'Karte von morgen',
-      images: [
-        {
-          url: entry.image_url || DEFAULT_OG_IMAGE,
-          width: 1200,
-          height: 630,
-          alt: entry.title || 'Entry',
-        },
-      ],
+      ...(entry.image_url ? {
+        images: [
+          {
+            url: entry.image_url,
+            width: 1200,
+            height: 630,
+            alt: entry.title || 'Entry',
+          },
+        ],
+      } : {}),
       locale: params.locale,
       type: 'website',
     },
@@ -132,7 +131,7 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title: entry.title || 'Entry',
       description: entry.description || '',
-      images: [entry.image_url || DEFAULT_OG_IMAGE],
+      ...(entry.image_url ? { images: [entry.image_url] } : {}),
     },
     // Additional metadata for location and business info (Telegram will also read these)
     other: {
