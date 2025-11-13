@@ -5,6 +5,57 @@ import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { isbot } from 'isbot'
 
+// Additional bot detection for social media crawlers
+// Telegram doesn't identify itself as a bot, so we need to check other factors
+function isSocialMediaCrawler(userAgent: string, headers: Headers): boolean {
+  const ua = userAgent.toLowerCase()
+  
+  // Explicit bot user agents
+  const botPatterns = [
+    'telegrambot',
+    'whatsapp',
+    'facebookexternalhit',
+    'facebookcatalog',
+    'twitterbot',
+    'linkedinbot',
+    'slackbot',
+    'discordbot',
+    'pinterest',
+    'tumblr',
+    'reddit',
+    'skype',
+    'viber',
+    'line',
+    'kakaotalk',
+    'wechat',
+  ]
+  
+  if (botPatterns.some(pattern => ua.includes(pattern))) {
+    return true
+  }
+  
+  // Check for headless browsers often used by social media crawlers
+  if (ua.includes('headless') || ua.includes('phantomjs') || ua.includes('prerender')) {
+    return true
+  }
+  
+  // Check for missing Accept-Language header (common for bots)
+  const acceptLanguage = headers.get('accept-language')
+  if (!acceptLanguage && ua.includes('mozilla')) {
+    // Real browsers almost always send Accept-Language
+    return true
+  }
+  
+  // Check for Purpose header (used by link preview services)
+  const purpose = headers.get('purpose')
+  const xPurpose = headers.get('x-purpose')
+  if (purpose === 'preview' || xPurpose === 'preview') {
+    return true
+  }
+  
+  return false
+}
+
 // Default Open Graph image when entry has no image
 const DEFAULT_OG_IMAGE = 'https://bildung.vonmorgen.org/wp-content/uploads/2018/08/Ideen%C2%B3Header-quadrat.png'
 
@@ -161,7 +212,9 @@ export default async function ServerComponentPage({
   // Check if the request is from a bot
   const headersList = headers()
   const userAgent = headersList.get('user-agent') || ''
-  const isRequestFromBot = isbot(userAgent)
+  
+  // Use comprehensive bot detection
+  const isRequestFromBot = isbot(userAgent) || isSocialMediaCrawler(userAgent, headersList)
   
   // If not a bot, redirect to the main entry page
   if (!isRequestFromBot) {
