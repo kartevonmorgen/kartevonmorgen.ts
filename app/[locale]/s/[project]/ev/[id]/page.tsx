@@ -1,6 +1,60 @@
 import Event from '../../../../../../dtos/Event'
 import { Metadata } from 'next'
 import { BASICS_ENDPOINTS } from '../../../../../../api/endpoints/BasicsEndpoints'
+import { headers } from 'next/headers'
+import { redirect } from 'next/navigation'
+import { isbot } from 'isbot'
+
+// Additional bot detection for social media crawlers
+// Telegram doesn't identify itself as a bot, so we need to check other factors
+function isSocialMediaCrawler(userAgent: string, headers: Headers): boolean {
+  const ua = userAgent.toLowerCase()
+  
+  // Explicit bot user agents
+  const botPatterns = [
+    'telegrambot',
+    'whatsapp',
+    'facebookexternalhit',
+    'facebookcatalog',
+    'twitterbot',
+    'linkedinbot',
+    'slackbot',
+    'discordbot',
+    'pinterest',
+    'tumblr',
+    'reddit',
+    'skype',
+    'viber',
+    'line',
+    'kakaotalk',
+    'wechat',
+  ]
+  
+  if (botPatterns.some(pattern => ua.includes(pattern))) {
+    return true
+  }
+  
+  // Check for headless browsers often used by social media crawlers
+  if (ua.includes('headless') || ua.includes('phantomjs') || ua.includes('prerender')) {
+    return true
+  }
+  
+  // Check for missing Accept-Language header (common for bots)
+  const acceptLanguage = headers.get('accept-language')
+  if (!acceptLanguage && ua.includes('mozilla')) {
+    // Real browsers almost always send Accept-Language
+    return true
+  }
+  
+  // Check for Purpose header (used by link preview services)
+  const purpose = headers.get('purpose')
+  const xPurpose = headers.get('x-purpose')
+  if (purpose === 'preview' || xPurpose === 'preview') {
+    return true
+  }
+  
+  return false
+}
 
 // Default Open Graph image when event has no image
 const DEFAULT_OG_IMAGE = 'https://bildung.vonmorgen.org/wp-content/uploads/2018/08/Ideen%C2%B3Header-quadrat.png'
@@ -173,11 +227,97 @@ export default async function ServerComponentPage({
     )
   }
   
-  // Return HTML with meta refresh and client-side redirect
+  // Check if the request is from a bot
+  const headersList = headers()
+  const userAgent = headersList.get('user-agent') || ''
+  
+  // Use comprehensive bot detection
+  const isRequestFromBot = isbot(userAgent) || isSocialMediaCrawler(userAgent, headersList)
+  
+  // If not a bot, redirect to the main event page
+  if (!isRequestFromBot) {
+    // Build query string from incoming search params
+    const queryString = new URLSearchParams(searchParams as Record<string, string>).toString()
+    const redirectUrl = `/${params.locale}/m/${params.project}/ev/${params.id}${queryString ? `?${queryString}` : ''}`
+    
+    redirect(redirectUrl)
+  }
+  
+  // For bots, show the static content with all metadata
   return (
     <html>
-      <body>
-        <p>Redirecting...</p>
+      <body style={{ fontFamily: 'sans-serif', padding: '20px', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6' }}>
+        {event.image_url && (
+          <img src={event.image_url} alt={event.title} style={{ maxWidth: '100%', height: 'auto', marginBottom: '20px' }} />
+        )}
+        
+        <h1>{event.title}</h1>
+        
+        {event.description && (
+          <div style={{ marginBottom: '20px' }}>
+            <p>{event.description}</p>
+          </div>
+        )}
+        
+        {(event.start || event.end) && (
+          <div style={{ marginBottom: '20px' }}>
+            <strong>Event Time:</strong>
+            <p style={{ margin: '5px 0' }}>
+              {event.start && <>Start: {new Date(event.start * 1000).toLocaleString()}<br /></>}
+              {event.end && <>End: {new Date(event.end * 1000).toLocaleString()}<br /></>}
+            </p>
+          </div>
+        )}
+        
+        {event.organizer && (
+          <div style={{ marginBottom: '20px' }}>
+            <strong>Organizer:</strong>
+            <p style={{ margin: '5px 0' }}>{event.organizer}</p>
+          </div>
+        )}
+        
+        {(event.street || event.city || event.zip || event.state || event.country) && (
+          <div style={{ marginBottom: '20px' }}>
+            <strong>Address:</strong>
+            <p style={{ margin: '5px 0' }}>
+              {event.street && <>{event.street}<br /></>}
+              {(event.zip || event.city) && <>{event.zip} {event.city}<br /></>}
+              {event.state && <>{event.state}<br /></>}
+              {event.country}
+            </p>
+          </div>
+        )}
+        
+        {(event.lat && event.lng) && (
+          <div style={{ marginBottom: '20px' }}>
+            <strong>Location:</strong>
+            <p style={{ margin: '5px 0' }}>Latitude: {event.lat}, Longitude: {event.lng}</p>
+          </div>
+        )}
+        
+        {(event.email || event.telephone || event.homepage) && (
+          <div style={{ marginBottom: '20px' }}>
+            <strong>Contact:</strong>
+            <p style={{ margin: '5px 0' }}>
+              {event.email && <><a href={`mailto:${event.email}`}>{event.email}</a><br /></>}
+              {event.telephone && <><a href={`tel:${event.telephone}`}>{event.telephone}</a><br /></>}
+              {event.homepage && <><a href={event.homepage} target="_blank" rel="noopener noreferrer">{event.homepage}</a><br /></>}
+            </p>
+          </div>
+        )}
+        
+        {event.tags && event.tags.length > 0 && (
+          <div style={{ marginBottom: '20px' }}>
+            <strong>Tags:</strong>
+            <p style={{ margin: '5px 0' }}>
+              {event.tags.map((tag, index) => (
+                <span key={index} style={{ display: 'inline-block', background: '#e0e0e0', padding: '3px 8px', margin: '2px', borderRadius: '3px', fontSize: '0.9em' }}>
+                  {tag}
+                </span>
+              ))}
+            </p>
+          </div>
+        )}
       </body>
     </html>
   )
