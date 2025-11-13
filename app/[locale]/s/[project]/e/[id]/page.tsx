@@ -1,6 +1,9 @@
 import { Entry } from '../../../../../../dtos/Entry'
 import { Metadata } from 'next'
 import { BASICS_ENDPOINTS } from '../../../../../../api/endpoints/BasicsEndpoints'
+import { headers } from 'next/headers'
+import { redirect } from 'next/navigation'
+import { isbot } from 'isbot'
 
 // Default Open Graph image when entry has no image
 const DEFAULT_OG_IMAGE = 'https://bildung.vonmorgen.org/wp-content/uploads/2018/08/Ideen%C2%B3Header-quadrat.png'
@@ -155,6 +158,21 @@ export default async function ServerComponentPage({
     )
   }
   
+  // Check if the request is from a bot
+  const headersList = headers()
+  const userAgent = headersList.get('user-agent') || ''
+  const isRequestFromBot = isbot(userAgent)
+  
+  // If not a bot, redirect to the main entry page
+  if (!isRequestFromBot) {
+    // Build query string from incoming search params
+    const queryString = new URLSearchParams(searchParams as Record<string, string>).toString()
+    const redirectUrl = `/${params.locale}/m/${params.project}/e/${params.id}${queryString ? `?${queryString}` : ''}`
+    
+    redirect(redirectUrl)
+  }
+  
+  // For bots, show the static content with all metadata
   return (
     <html>
       <body style={{ fontFamily: 'sans-serif', padding: '20px', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6' }}>
