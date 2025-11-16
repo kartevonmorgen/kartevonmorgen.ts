@@ -1,8 +1,8 @@
 {
   "entryForm": {
     "category": {
-      "initiative": "Initiative (Engagement, Inspiration & Veränderung)",
-      "event": "Event",
+      "initiative": "Initiative (Engagement, Inspiration & Änderung)",
+      "event": "Veranstaltungen",
       "company": "Unternehmen (Läden, Dienstleistungen & Bedürfnisse)"
     },
     "chooseCategory": "Kategorie auswählen",
@@ -86,9 +86,9 @@
       "homepage": "Anmeldung online"
     },
     "route": "Route",
-    "notFound": "Entry not found or needs approval",
-    "approvalRequired": "The approval is required for the organizational tags",
-    "entryIsInvisibleBeforeApprovement": "The entry remains invisible before approvement"
+    "notFound": "Eintrag nicht gefunden oder muss genehmigt werden",
+    "approvalRequired": "Für die Bearbeitung von Einträgen mit Organisations-Tags ist eine Bestätigung erforderlich, bevor sie sichtbar werden",
+    "entryIsInvisibleBeforeApprovement": "Der Eintrag bleibt vor der Freigabe unsichtbar"
   },
   "login": {
     "requiredField": "Pflichtangabe",
@@ -210,22 +210,22 @@
     "cancel": "abbrechen",
     "edit": "ändern",
     "unsubscribe": "Abonnement abbestellen",
-    "back": "Cancel",
-    "subscribe": "Subscribe",
+    "back": "abbrechen",
+    "subscribe": "Abonnieren",
     "frequencies": {
-      "frequency": "Frequency",
-      "hour": "Hourly",
-      "day": "Daily",
-      "week": "Weekly",
-      "month": "Monthly"
+      "frequency": "Häufigkeit",
+      "hour": "Stündlich",
+      "day": "Täglich",
+      "week": "Wöchentlich",
+      "month": "Monatlich"
     },
     "changeType": {
-      "type": "Type",
-      "new": "New",
-      "update": "Update",
-      "all": "All"
+      "type": "Typ",
+      "new": "Neue",
+      "update": "Aktualisierung",
+      "all": "Alle"
     },
-    "subscriptionName": "Subscription Name"
+    "subscriptionName": "Name des Abonnements"
   },
   "search-results": {
     "cities": "Städte",
@@ -286,7 +286,7 @@
   },
   "category": {
     "initiative": "Initiative",
-    "event": "Event",
+    "event": "Veranstaltung",
     "company": "Unternehmen"
   },
   "searchbar": {
@@ -315,7 +315,7 @@
     "entrySaved": "Eintrag wurde gespeichert.",
     "ratingSaved": "Bewertung wurde gespeichert.",
     "linkCopied": "Link erfolgreich in die Zwischenablage kopiert!",
-    "similarSubscriptionExists": "Similar subscription already exists."
+    "similarSubscriptionExists": "Ähnliches Abonnement existiert bereits."
   },
   "contact": {
     "heading": "Kontakt",
@@ -377,5 +377,5 @@
     "colorful": "Farbig",
     "grey": "Grau"
   },
-  "backToSearch": "Back to the search results"
+  "backToSearch": "Zurück zu den Suchergebnissen"
 }
