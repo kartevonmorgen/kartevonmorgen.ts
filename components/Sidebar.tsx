@@ -50,7 +50,8 @@ const Sidebar: FC<SidebarProps> = (props) => {
       placement="left"
       mask={false}
       rootStyle={{
-        height: '100vh',
+        height: 'calc(var(--vh, 1vh) * 100)',
+        maxHeight: '100vh',
         padding: 0,
         display: 'flex',
         overflowX: 'clip',

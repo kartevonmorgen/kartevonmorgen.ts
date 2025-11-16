@@ -74,10 +74,24 @@ const EventDetail: FC<EventDetailProps> = (props) => {
     )
   }
 
+  const currentUrl = window.location.href
+
+  // Generate Open Graph description
+  const ogDescription = event.description 
+    ? event.description.length > 160 
+      ? `${event.description.substring(0, 157)}...`
+      : event.description
+    : `Event in ${event.city}${event.country ? `, ${event.country}` : ''}`
+
+  const eventDuration = formatDuration({
+    start: moment.unix(event.start),
+    end: moment.unix(event.end),
+  })
+
+  const ogTitle = `${event.title} - Event`
 
   return (
     <div id="entity-detail">
-
       <EntityDetailHeader hasImage={event.image_url !== undefined && event.image_url !== null}/>
 
       <EntityImageWithLink

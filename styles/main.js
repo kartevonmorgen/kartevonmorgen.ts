@@ -2,9 +2,10 @@ import css from 'styled-jsx/css'
 import { RatingFactor } from '../dtos/RatingFactor'
 
 
-export const INITIATIVE_COLOR = '#a4c93e'
-export const COMPANY_COLOR = '#31a1b6'
-export const EVENT_COLOR = '#eb80a9'
+// Default category colors - used as fallback when config.json doesn't have theme section
+export const DEFAULT_INITIATIVE_COLOR = '#a4c93e'
+export const DEFAULT_COMPANY_COLOR = '#31a1b6'
+export const DEFAULT_EVENT_COLOR = '#eb80a9'
 export const UNKNOWN_COLOR = 'rgb(221,221,221)'
 
 
@@ -34,7 +35,14 @@ export const RatingFactorColors = {
 }
 
 
-export default css.global`
+// Function to create category styles with custom or default colors
+export const createCategoryStyles = (customColors) => {
+  // Use custom colors if provided, otherwise fall back to defaults
+  const INITIATIVE_COLOR = (customColors && customColors.initiative) || DEFAULT_INITIATIVE_COLOR
+  const COMPANY_COLOR = (customColors && customColors.company) || DEFAULT_COMPANY_COLOR
+  const EVENT_COLOR = (customColors && customColors.event) || DEFAULT_EVENT_COLOR
+
+  return css.global`
 .ant-btn-primary {
   background-color: rgb(26, 26, 26);
 }
@@ -97,3 +105,7 @@ export default css.global`
 }
 
 `
+}
+
+// Export default styles with default colors for backward compatibility
+export default createCategoryStyles()

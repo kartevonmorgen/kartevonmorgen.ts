@@ -46,8 +46,18 @@ const getDefaultBalloonIcon = (
       html: renderToStaticMarkup(
         <svg height="40" width="40">
           <image href={`/projects/main/pins/balloon_${typeName}.svg`} height={50} width={50} />
-          <foreignObject x={20} y={13} width="12" height="12">
-              <MapMarkerIcon icon={iconName} style={{ color: 'white' }} />
+          <foreignObject x={17} y={10} width="20" height="20">
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100%',
+                width: '100%',
+              }}
+            >
+              <MapMarkerIcon icon={iconName} style={{ color: 'white', fontSize: '16px' }} />
+            </div>
           </foreignObject>
         </svg>,
       ),
@@ -125,7 +135,7 @@ const getCircleIcon = (
                 width: '100%',
               }}
             >
-              <MapMarkerIcon icon={iconName} style={{ color: 'white' }} />
+              <MapMarkerIcon icon={iconName} style={{ color: 'white', fontSize: '20px' }} />
             </div>
           </foreignObject>
         )}

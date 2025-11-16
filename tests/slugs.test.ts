@@ -404,11 +404,3 @@ const cases: Case[] = [
 ]
 
 
-describe('convert query slugs to slug actions', () => {
-  // todo: the test is broken since the slug actions are now a doubled linked list and parents should has values
-  // test.each(cases)(
-  //   '$path',
-  //   ({ path, input, output }) => {
-  //     expect(getRootSlugActionFromQuery({ slug: input })).toEqual(output)
-  //   })
-})

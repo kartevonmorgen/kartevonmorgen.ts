@@ -1,8 +1,10 @@
 import { Dispatch, FC, useEffect, useState } from 'react'
 import { FormInstance } from 'antd'
 import { CheckboxChangeEvent } from 'antd/lib/checkbox'
+import { useRouter } from 'next/router'
 import lodashUnion from 'lodash/union'
 import TagsCheckboxGroup from './TagsCheckboxGroup'
+import { shouldShowBoxesOnMappingPage } from '../utils/router'
 
 
 interface EntityTagsCheckboxGroupProps {
@@ -28,12 +30,17 @@ const addOrRemoveTagsFromTagsSelect = (form: FormInstance, setSelectedValues: Di
 const EntityTagsCheckboxGroup: FC<EntityTagsCheckboxGroupProps> = (props) => {
   const { form, selectedValues: selectedValuesFromForm } = props
 
+  const router = useRouter()
   const [selectedValues, setSelectedValues] = useState<string[]>([])
 
   useEffect(() => {
     setSelectedValues(selectedValuesFromForm)
   }, [selectedValuesFromForm])
 
+  // Check if boxes should be shown on mapping (entity form) page
+  if (!shouldShowBoxesOnMappingPage(router)) {
+    return null
+  }
 
   return (
     <TagsCheckboxGroup

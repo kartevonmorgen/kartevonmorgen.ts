@@ -15,6 +15,7 @@ import AddEntityRatingButton from './AddEntityRatingButton'
 import AddEntityRatingCommentButton from './AddEntityRatingCommentButton'
 import EntityRatingContent from './EntityRatingContent'
 import EntityRatingComments from './EntityRatingComments'
+import useRatingsVisibility from '../hooks/useRatingsVisibility'
 
 
 const { Title } = Typography
@@ -32,6 +33,8 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
 
   const { t } = useTranslation('map')
 
+  const shouldShowRatings = useRatingsVisibility()
+
   // the hooks should be at the top level before any kind of returns
   // so we have to make have the useRequest any way, but we'll make it conditional
   // to prevent unnecessary calls
@@ -44,6 +47,11 @@ const EntityRatings: FC<EntityCommentsProps> = (props) => {
       url: `${API_ENDPOINTS.getRatings()}/${ratingsRequest.ids}`,
     } : null
   )
+
+  // Don't render if ratings should be hidden
+  if (!shouldShowRatings) {
+    return null
+  }
 
   // has no comment at all
   if (!hasRatings) {

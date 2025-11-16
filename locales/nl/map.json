@@ -210,22 +210,22 @@
     "cancel": "annuleren",
     "edit": "bewerken",
     "unsubscribe": "uitschrijven",
-    "back": "Cancel",
-    "subscribe": "Subscribe",
+    "back": "annuleren",
+    "subscribe": "abonneren",
     "frequencies": {
-      "frequency": "Frequency",
-      "hour": "Hourly",
-      "day": "Daily",
-      "week": "Weekly",
-      "month": "Monthly"
+      "frequency": "Frequentie",
+      "hour": "Elk uur",
+      "day": "Dagelijks",
+      "week": "Wekelijks",
+      "month": "Maandelijks"
     },
     "changeType": {
       "type": "Type",
-      "new": "New",
+      "new": "Nieuw",
       "update": "Update",
-      "all": "All"
+      "all": "Allemaal"
     },
-    "subscriptionName": "Subscription Name"
+    "subscriptionName": "Abonnementsnaam"
   },
   "search-results": {
     "cities": "steden",
@@ -377,5 +377,5 @@
     "colorful": "Kleurrijk",
     "grey": "Grijs"
   },
-  "backToSearch": "Back to the search results"
+  "backToSearch": "Terug naar de zoekresultaten"
 }

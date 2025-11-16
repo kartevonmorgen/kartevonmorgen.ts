@@ -19,10 +19,27 @@ export const SidebarConfigsSchema = z.object({
 export type SidebarConfigs = z.infer<typeof SidebarConfigsSchema>
 
 
+export const CategoryColorsSchema = z.object({
+  initiative: z.string().default('#a4c93e'),
+  company: z.string().default('#31a1b6'),
+  event: z.string().default('#eb80a9'),
+})
+
+export type CategoryColors = z.infer<typeof CategoryColorsSchema>
+
+
+export const ThemeConfigsSchema = z.object({
+  categoryColors: CategoryColorsSchema,
+})
+
+export type ThemeConfigs = z.infer<typeof ThemeConfigsSchema>
+
+
 export const MapPageConfigsSchema = z.object({
   map: MapConfigsSchema,
   popularTags: PopularTagsRequestSchema,
   sidebar: SidebarConfigsSchema,
+  theme: ThemeConfigsSchema.optional(),
 })
 
 // it's the same from the /public/[project]/config.json

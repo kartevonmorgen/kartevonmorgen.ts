@@ -1,3 +1,16 @@
-label,value
-regionale Einkaufsführer,einkaufsführer
-Lebensmittel,"bio,Lebensmittel,vegan,weltladen"
+label,value,headline
+regionale Einkaufsführer,einkaufsführer,
+Lebensmittel,"bio,Lebensmittel,vegan,weltladen",
+Handwerk,handwerk,
+Einzelhandel,einzelhandel,
+Café,"café,kaffee",Gastronomie
+Restaurant,"restaurant,essen",
+Bar,"bar,getränke",
+Yoga,yoga,Wellness & Gesundheit
+Massage,massage,
+Fitness,fitness,
+Buchhandlung,bücher,Bildung & Kultur
+Museum,museum,
+Theater,theater,
+Werkstatt,werkstatt,
+Second Hand,secondhand,

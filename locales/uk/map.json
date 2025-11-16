@@ -213,19 +213,19 @@
     "back": "Cancel",
     "subscribe": "Subscribe",
     "frequencies": {
-      "frequency": "Frequency",
-      "hour": "Hourly",
-      "day": "Daily",
-      "week": "Weekly",
-      "month": "Monthly"
+      "frequency": "Частота",
+      "hour": "Щогодини",
+      "day": "Щодня",
+      "week": "Щотижня",
+      "month": "Щомісяця"
     },
     "changeType": {
-      "type": "Type",
-      "new": "New",
-      "update": "Update",
-      "all": "All"
+      "type": "Тип",
+      "new": "Новий",
+      "update": "Оновлення",
+      "all": "Усі"
     },
-    "subscriptionName": "Subscription Name"
+    "subscriptionName": "Назва підписки"
   },
   "search-results": {
     "cities": "cities",

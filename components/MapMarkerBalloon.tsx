@@ -81,7 +81,7 @@ const MapMarkerBalloon: FC<MapMarkerBalloonProps> = (props) => {
       />
 
       { icon !== null && (
-          <foreignObject x={60} y={40} width="30" height="30">
+          <foreignObject x={57} y={35} width="40" height="40">
             <div
               style={{
                 display: 'flex',
@@ -91,7 +91,7 @@ const MapMarkerBalloon: FC<MapMarkerBalloonProps> = (props) => {
                 width: '100%',
               }}
             >
-              <MapMarkerIcon icon={icon} style={{ color: 'white', width: '100%', height: '100%' }} />
+              <MapMarkerIcon icon={icon} style={{ color: 'white', fontSize: '24px' }} />
             </div>
           </foreignObject>
         )
