@@ -8,8 +8,6 @@ import useRatingsVisibility from '../hooks/useRatingsVisibility'
 
 
 const MapMarkers: FC = () => {
-  // useCacheTagPinColors()
-
   const searchResults: SearchResults = useSelector(
     (state: RootState) => searchResultSelector(state),
   )

@@ -11,6 +11,7 @@ import Category, { CategoryToNameMapper } from '../dtos/Categories'
 import { formatDuration } from '../utils/time'
 import moment from 'moment'
 import { viewActions, entityDetailActions } from '../slices'
+import { getTypeChooserVisibilityFromRouter } from '../utils/router'
 
 
 const { Item } = List
@@ -75,12 +76,17 @@ const ResultCard: FC<ResultCardProps> = (props) => {
   const typeName: string = CategoryToNameMapper[type]
 
   const router = useRouter()
+  const typeChooserVisibility = getTypeChooserVisibilityFromRouter(router)
 
+  // Hide color borders when typechooser=no, otherwise show them
+  const cardClassName = typeChooserVisibility === 'no' 
+    ? 'result-card' 
+    : `${typeName}-result-card result-card`
 
   // todo: bug maybe here is the place we should touch to have the cells measures correctly
   return (
     <Item
-      className={`${typeName}-result-card result-card`}
+      className={cardClassName}
       onClick={onResultClick(router, dispatch, type, id)}
       onMouseEnter={() => {
         dispatch(viewActions.setHighlight(id))
