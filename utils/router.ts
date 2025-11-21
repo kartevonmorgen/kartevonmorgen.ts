@@ -98,6 +98,10 @@ export const getTypeNamesFromRouterOrKnownCategoryNamesIfEmpty = (router: NextRo
   return typeNameFromRouter
 }
 
+// TypeChooser visibility options:
+// 'show' - TypeChooser UI is visible with colored borders on result cards
+// 'hide' - TypeChooser UI is moved behind the filter collapse but colored borders remain on result cards
+// 'no' - TypeChooser UI is hidden AND colored borders are removed from result cards
 export type TypeChooserVisibility = 'show' | 'hide' | 'no'
 
 export const getTypeChooserVisibilityFromRouter = (router: NextRouter): TypeChooserVisibility => {

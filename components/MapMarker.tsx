@@ -148,12 +148,18 @@ const getIcon = (
   entity: SearchResult,
   possibleColor: string,
   iconName: string | null,
+  forceDots: boolean = false,
 ): Icon<IconOptions> | DivIcon | null => {
   const { categories: types } = entity
 
   // the reason we define types as array is because backend sends us an array of categories
   // and we won't ever know if in the feature we'll need to use the whole array or not
   const typeId = types[0]
+
+  // If ratings are hidden via query param, always show dots (circles)
+  if (forceDots) {
+    return getCircleIcon(typeId, possibleColor, iconName)
+  }
 
   const hasRatings: boolean = !!(entity as SearchEntry).ratings
   if (hasRatings) {
@@ -217,10 +223,11 @@ const onClickOnPin = (router: NextRouter, searchResult: SearchResult) => () => {
 
 export interface MapMarkerProps {
   searchResult: SearchResult
+  forceDots?: boolean
 }
 
 const MapMarker: FC<MapMarkerProps> = (props) => {
-  const { searchResult } = props
+  const { searchResult, forceDots = false } = props
   const { tags } = searchResult
   const { id: searchResultId } = searchResult
 
@@ -273,7 +280,7 @@ const MapMarker: FC<MapMarkerProps> = (props) => {
     <LeafletMarker
       ref={ref}
       position={[searchResult.lat, searchResult.lng]}
-      icon={getIcon(searchResult, possibleColor, iconName) || undefined}
+      icon={getIcon(searchResult, possibleColor, iconName, forceDots) || undefined}
       eventHandlers={{
         click: onClickOnPin(router, searchResult),
       }}
