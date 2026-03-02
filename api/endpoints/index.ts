@@ -9,6 +9,11 @@ export const mapEntityToOFDB = {
   [RootSlugEntity.EVENT]: OFDB_ENDPOINTS.getOFDBEvent,
 }
 
+export const mapEntityToOFDBArchive = {
+  [RootSlugEntity.ENTRY]: OFDB_ENDPOINTS.getOFDBEntryArchive,
+  [RootSlugEntity.EVENT]: OFDB_ENDPOINTS.getOFDBEventArchive,
+}
+
 export const API_ENDPOINTS = {
   ...BASICS_ENDPOINTS,
   ...OFDB_ENDPOINTS,

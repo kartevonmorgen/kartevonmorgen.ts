@@ -5,7 +5,7 @@ import { useSize } from 'ahooks'
 import { gold } from '@ant-design/colors'
 import useTranslation from 'next-translate/useTranslation'
 import { RootSlugEntity } from '../utils/types'
-import { mapEntityToOFDB } from '../api/endpoints'
+import { mapEntityToOFDBArchive } from '../api/endpoints'
 import createMailToHref from '../utils/mailto'
 
 
@@ -129,7 +129,7 @@ const EntityFooter: FC<EntityFooterProps> = (props) => {
         color={gold.primary}
       >
         <Link
-          href={`${mapEntityToOFDB[type]()}/${entityId}`}
+          href={`${mapEntityToOFDBArchive[type]()}/${entityId}`}
           target="_blank"
           rel="noreferrer noopener"
           style={{

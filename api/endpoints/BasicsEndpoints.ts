@@ -5,6 +5,8 @@
 export const BASICS_API_URL: string | undefined = process.env.NEXT_PUBLIC_BASICS_API
 export const SELF_API_URL: string | undefined= process.env.NEXT_PUBLIC_SELF_API
 export const SELF_DOMAIN: string | undefined = process.env.NEXT_PUBLIC_WORKFLOW_API
+export const OFDB_ENTRY_ARCHIVE_URL: string | undefined = process.env.NEXT_PUBLIC_OFDB_ENTRY_ARCHIVE_URL
+export const OFDB_EVENT_ARCHIVE_URL: string | undefined = process.env.NEXT_PUBLIC_OFDB_EVENT_ARCHIVE_URL
 
 
 export const BASICS_ENDPOINTS = {
