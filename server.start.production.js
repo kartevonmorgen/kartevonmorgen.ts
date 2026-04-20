@@ -1,7 +1,13 @@
 const cli = require('next/dist/cli/next-start')
-
+const dotenv = require('dotenv')
 
 process.env.NODE_ENV = 'production'
+// Load .env.production first so its values take precedence over the
+// hardcoded `||` fallbacks below (dotenv never overwrites existing vars).
+// Then load .env as a general fallback.
+dotenv.config({ path: '.env.production' })
+dotenv.config()
+
 process.env.HOSTNAME = process.env.HOSTNAME || 'localhost'
 process.env.PORT = process.env.PORT || '3000'
 process.env.DB_NAME = process.env.DB_NAME || 'kartevonmorgen.sqlite'
