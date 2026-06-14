@@ -1,10 +1,17 @@
 import { FC } from 'react'
 
+// Icons Football EU
 import { FaFutbol, FaLock, FaMapPin, FaSeedling, FaTractor, FaTruckLoading, FaTint, FaLaptopCode } from 'react-icons/fa'
 import { FaTruckArrowRight } from 'react-icons/fa6'
-import { IoMdFootball } from 'react-icons/io'
-import { IoIosFootball } from 'react-icons/io'
+import { IoMdFootball, IoIosFootball } from 'react-icons/io'
 import { IoFootball, IoFootballOutline, IoStorefrontSharp } from 'react-icons/io5'
+// Icons refill
+import { IoIosWater, IoMdWater } from 'react-icons/io'
+import { FaHandHoldingWater } from 'react-icons/fa'
+import { IoWater, IoWaterOutline } from 'react-icons/io5'
+import { FaGlassWater, FaBottleWater, FaGlassWaterDroplet, FaWater } from 'react-icons/fa6'
+import { MdOutlineWaterDrop, MdWaterDrop } from 'react-icons/md'
+import { GiWaterDrop } from 'react-icons/gi'
 import { RiHomeOfficeFill } from 'react-icons/ri'
 import { TbMapPinDown, TbDropletStar } from 'react-icons/tb'
 import { PiPlant, PiFarm } from 'react-icons/pi'
@@ -38,7 +45,44 @@ const MapMarkerIcon: FC<MapMarkerIconProps> = (props) => {
     case 'IoFootballOutline':
       Icon = IoFootballOutline
       break
-      // Teikei Icons: 
+    // refill
+    case 'IoIosWater':
+      Icon = IoIosWater
+      break
+    case 'IoMdWater':
+      Icon = IoMdWater
+      break
+    case 'IoWater':
+      Icon = IoWater
+      break
+    case 'IoWaterOutline':
+      Icon = IoWaterOutline
+      break
+    case 'FaGlassWater':
+      Icon = FaGlassWater
+      break
+    case 'FaGlassWaterDroplet':
+      Icon = FaGlassWaterDroplet
+      break
+    case 'FaBottleWater':
+      Icon = FaBottleWater
+      break
+    case 'FaWater':
+      Icon = FaWater
+      break
+    case 'FaHandHoldingWater':
+      Icon = FaHandHoldingWater
+      break
+    case 'MdOutlineWaterDrop':
+      Icon = MdOutlineWaterDrop
+      break
+    case 'MdWaterDrop':
+      Icon = MdWaterDrop
+      break
+    case 'GiWaterDrop':
+      Icon = GiWaterDrop
+      break
+    // Teikei Icons:
     case 'TbMapPinDown':
       Icon = TbMapPinDown
       break
